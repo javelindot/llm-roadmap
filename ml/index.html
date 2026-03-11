@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机器学习 - AI大模型学习路线</title>
+    <style>
+    /* 全局样式 */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f5f5f5;
+    }
+    
+    /* 容器样式 */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    /* 头部样式 */
+    header {
+        background-color: #2c3e50;
+        color: white;
+        padding: 20px 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+    
+    /* 导航样式 */
+    nav {
+        background-color: #34495e;
+        padding: 10px 0;
+    }
+    
+    .nav-menu {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .nav-menu li {
+        margin: 0 15px;
+    }
+    
+    .nav-menu a {
+        color: white;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .nav-menu a:hover {
+        background-color: rgba(255,255,255,0.1);
+    }
+    
+    /* 主内容样式 */
+    main {
+        padding: 40px 0;
+    }
+    
+    .content-section {
+        background-color: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 40px;
+    }
+    
+    .content-section h1 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid #3498db;
+    }
+    
+    .content-section h2 {
+        color: #2c3e50;
+        margin: 30px 0 20px 0;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #3498db;
+    }
+    
+    .content-section p {
+        margin-bottom: 20px;
+    }
+    
+    .chapter-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .chapter-list li {
+        margin-bottom: 15px;
+    }
+    
+    .chapter-list a {
+        display: block;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        color: #3498db;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border-left: 4px solid #3498db;
+    }
+    
+    .chapter-list a:hover {
+        background-color: #e3f2fd;
+        transform: translateX(5px);
+    }
+    
+    /* 页脚样式 */
+    footer {
+        background-color: #2c3e50;
+        color: white;
+        padding: 30px 0;
+        text-align: center;
+    }
+    
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .footer-links {
+        margin: 20px 0;
+    }
+    
+    .footer-links a {
+        color: white;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+    
+    .footer-links a:hover {
+        text-decoration: underline;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .header-content {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .logo {
+            margin-bottom: 15px;
+        }
+        
+        .nav-menu {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .nav-menu li {
+            margin: 5px 0;
+        }
+        
+        .content-section {
+            padding: 20px;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">AI大模型学习路线</div>
+            <div class="header-info">
+                <p>机器学习模块</p>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 导航栏 -->
+    <nav>
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="/llm-roadmap/">首页</a></li>
+                <li><a href="/llm-roadmap/base/">数学基础</a></li>
+                <li><a href="/llm-roadmap/ml/">机器学习</a></li>
+                <li><a href="/llm-roadmap/nlp/">自然语言处理</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 主内容 -->
+    <main>
+        <div class="container">
+            <section class="content-section">
+                <h1>机器学习</h1>
+                <p>机器学习是AI大模型的基础，掌握传统机器学习算法和深度学习基础对于理解大模型至关重要。本模块涵盖了机器学习的核心概念、算法和实践应用。</p>
+                
+                <h2>章节列表</h2>
+                <ul class="chapter-list">
+                    <li><a href="/llm-roadmap/ml/readme.html">机器学习基础</a></li>
+                </ul>
+                
+                <h2>学习建议</h2>
+                <ul>
+                    <li>先掌握传统机器学习算法的基本原理</li>
+                    <li>理解深度学习的核心概念和架构</li>
+                    <li>实践模型训练和评估方法</li>
+                    <li>了解常见的深度学习框架和工具</li>
+                    <li>通过实际项目巩固所学知识</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="/llm-roadmap/">首页</a>
+                <a href="/llm-roadmap/base/">数学基础</a>
+                <a href="/llm-roadmap/ml/">机器学习</a>
+                <a href="/llm-roadmap/nlp/">自然语言处理</a>
+            </div>
+            <p>&copy; 2026 AI大模型学习路线指南. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
