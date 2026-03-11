@@ -80,6 +80,8 @@
             repo: 'https://github.com/javelindot/llm-roadmap',
             loadSidebar: true,
             subMaxLevel: 3,
+            auto2top: true,
+            homepage: 'README.md',
             search: {
                 maxAge: 86400000,
                 paths: 'auto',
@@ -91,39 +93,20 @@
                 previousText: '上一章',
                 nextText: '下一章',
                 crossChapter: true,
-                crossChapterText: true,
+                crossChapterText: true
             },
             copyCode: {
                 buttonText: '复制',
                 errorText: '错误',
                 successText: '复制成功'
-            },
-            count: {
-                countable: true,
-                fontsize: '0.9em',
-                color: 'rgb(90,90,90)',
-                language: 'chinese'
-            },
-            plugins: [
-                function(hook, vm) {
-                    hook.beforeEach(function(content) {
-                        return content
-                            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, function(match, text, url) {
-                                if (url.startsWith('./') || url.startsWith('../')) {
-                                    return `[${text}](${url})`;
-                                }
-                                return match;
-                            });
-                    });
-                }
-            ]
+            }
         }
     </script>
-    <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
     <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/zoom-image.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/emoji.min.js"></script>
 </body>
 </html>
