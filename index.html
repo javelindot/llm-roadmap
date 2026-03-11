@@ -8,69 +8,6 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
-    <style>
-        /* 侧边栏样式 */
-        .sidebar {
-            border-right: 1px solid #eaecef;
-        }
-        
-        /* 代码块样式 */
-        pre {
-            background-color: #f8f8f8;
-            border: 1px solid #e8e8e8;
-            border-radius: 4px;
-            padding: 15px;
-            overflow-x: auto;
-        }
-        
-        pre code {
-            background-color: transparent;
-            padding: 0;
-            border: none;
-        }
-        
-        /* 链接样式 */
-        a {
-            color: #42b983;
-            text-decoration: none;
-        }
-        
-        a:hover {
-            text-decoration: underline;
-        }
-        
-        /* 标题样式 */
-        h1, h2, h3, h4, h5, h6 {
-            color: #2c3e50;
-            font-weight: 600;
-        }
-        
-        /* 表格样式 */
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin: 20px 0;
-        }
-        
-        th, td {
-            border: 1px solid #eaecef;
-            padding: 12px;
-            text-align: left;
-        }
-        
-        th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-        }
-        
-        /* 引用样式 */
-        blockquote {
-            border-left: 4px solid #42b983;
-            padding-left: 15px;
-            margin: 20px 0;
-            color: #666;
-        }
-    </style>
 </head>
 <body>
     <div id="app"></div>
@@ -78,35 +15,12 @@
         window.$docsify = {
             name: 'AI大模型学习路线',
             repo: 'https://github.com/javelindot/llm-roadmap',
-            loadSidebar: true,
+            loadSidebar: '_sidebar.md',
             subMaxLevel: 3,
-            auto2top: true,
             homepage: 'README.md',
-            search: {
-                maxAge: 86400000,
-                paths: 'auto',
-                placeholder: '搜索',
-                noData: '没有找到结果',
-                depth: 6
-            },
-            pagination: {
-                previousText: '上一章',
-                nextText: '下一章',
-                crossChapter: true,
-                crossChapterText: true
-            },
-            copyCode: {
-                buttonText: '复制',
-                errorText: '错误',
-                successText: '复制成功'
-            }
+            relativePath: true
         }
     </script>
     <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/zoom-image.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/emoji.min.js"></script>
 </body>
 </html>
