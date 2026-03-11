@@ -1,12 +1,3 @@
-<nav style="background-color: #2c3e50; color: white; padding: 10px 0; margin-bottom: 20px; border-radius: 8px;">
-  <ul style="list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; flex-wrap: wrap;">
-    <li style="margin: 0 15px; margin-bottom: 0;"><a href="../../" style="color: white; font-weight: 500; text-decoration: none; padding: 5px 10px; border-radius: 4px; transition: background-color 0.3s ease;">首页</a></li>
-    <li style="margin: 0 15px; margin-bottom: 0;"><a href="../../base/" style="color: white; font-weight: 500; text-decoration: none; padding: 5px 10px; border-radius: 4px; transition: background-color 0.3s ease;">数学基础</a></li>
-    <li style="margin: 0 15px; margin-bottom: 0;"><a href="../../ml/" style="color: white; font-weight: 500; text-decoration: none; padding: 5px 10px; border-radius: 4px; transition: background-color 0.3s ease;">机器学习</a></li>
-    <li style="margin: 0 15px; margin-bottom: 0;"><a href="../" style="color: white; font-weight: 500; text-decoration: none; padding: 5px 10px; border-radius: 4px; transition: background-color 0.3s ease;">自然语言处理</a></li>
-  </ul>
-</nav>
-
 ## 4.1 概述
 传统的自然语言处理任务（如文本分类、序列标注）以**静态输出**为主，其目标是预测固定类别或标签。然而，现实中的许多应用需要模型**动态生成新的序列**，例如：
 

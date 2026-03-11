@@ -1,142 +1,33 @@
----
-title: 自然语言处理
----
-
-<nav style="background-color: #2c3e50; color: white; padding: 10px 0; margin-bottom: 20px; border-radius: 8px;">
-  <ul style="list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; flex-wrap: wrap;">
-    <li style="margin: 0 15px; margin-bottom: 0;"><a href="/llm-roadmap/" style="color: white; font-weight: 500; text-decoration: none; padding: 5px 10px; border-radius: 4px; transition: background-color 0.3s ease;">首页</a></li>
-    <li style="margin: 0 15px; margin-bottom: 0;"><a href="/llm-roadmap/base/" style="color: white; font-weight: 500; text-decoration: none; padding: 5px 10px; border-radius: 4px; transition: background-color 0.3s ease;">数学基础</a></li>
-    <li style="margin: 0 15px; margin-bottom: 0;"><a href="/llm-roadmap/ml/" style="color: white; font-weight: 500; text-decoration: none; padding: 5px 10px; border-radius: 4px; transition: background-color 0.3s ease;">机器学习</a></li>
-    <li style="margin: 0 15px; margin-bottom: 0;"><a href="/llm-roadmap/nlp/" style="color: white; font-weight: 500; text-decoration: none; padding: 5px 10px; border-radius: 4px; transition: background-color 0.3s ease;">自然语言处理</a></li>
-  </ul>
-</nav>
-
-<div style="max-width: 1000px; margin: 0 auto; padding: 20px; background-color: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 8px; margin-top: 20px; margin-bottom: 20px;">
-
 # 自然语言处理
 
 自然语言处理（NLP）是AI大模型的核心应用领域，从基础的词嵌入到先进的Transformer模型，NLP技术不断推动着大模型的发展。
 
+## 学习目标
+
+- 理解自然语言处理的基本概念和应用
+- 掌握文本表示的方法和技巧
+- 熟悉传统序列模型的原理
+- 了解Seq2Seq模型和Attention机制
+- 掌握Transformer架构
+- 理解预训练模型的工作原理
+
 ## 章节列表
 
-- [第一章 NLP 自然语言](chapter1/第一章 NLP 自然语言.md)
-- [第二章 Embeding文本表示](chapter2/第二章 Embeding文本表示.md)
-- [第三章 传统序列模型](chapter3/第三章 传统序列模型.md)
-- [第四章 Seq2Seq模型](chapter4/第四章 Seq2Seq模型.md)
-- [第五章 Attention机制](chapter5/第五章 Attention机制.md)
-- [第六章 Transformer模型](chapter6/第六章 Transformer模型.md)
-- [第七章 预训练模型](chapter7/第七章 预训练模型.md)
-- [附录 常用资料](附录 常用资料.md)
+1. [第一章 NLP 自然语言](./chapter1/第一章 NLP 自然语言.md)
+2. [第二章 Embeding文本表示](./chapter2/第二章 Embeding文本表示.md)
+3. [第三章 传统序列模型](./chapter3/第三章 传统序列模型.md)
+4. [第四章 Seq2Seq模型](./chapter4/第四章 Seq2Seq模型.md)
+5. [第五章 Attention机制](./chapter5/第五章 Attention机制.md)
+6. [第六章 Transformer模型](./chapter6/第六章 Transformer模型.md)
+7. [第七章 预训练模型](./chapter7/第七章 预训练模型.md)
+8. [附录 常用资料](./附录 常用资料.md)
 
 ## 学习建议
 
-- 从基础的词嵌入开始，逐步学习序列模型
-- 重点理解Attention机制和Transformer架构
-- 实践预训练模型的使用和微调
+1. **循序渐进**：按照章节顺序学习，从基础到高级
+2. **理论与实践结合**：不仅要理解理论概念，还要动手实践
+3. **阅读论文**：阅读经典论文深入理解模型原理
+4. **多做项目**：通过实际项目加深理解和应用能力
+5. **持续学习**：NLP领域发展迅速，需要不断学习新技术
 
-</div>
-
-<style>
-/* 全局样式 */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.6;
-  color: #333;
-  background-color: #f5f5f5;
-}
-
-/* 标题样式 */
-h1, h2, h3, h4, h5, h6 {
-  color: #2c3e50;
-  font-weight: 600;
-  margin-top: 1.5em;
-  margin-bottom: 0.8em;
-}
-
-h1 {
-  font-size: 2.5em;
-  border-bottom: 3px solid #3498db;
-  padding-bottom: 10px;
-}
-
-h2 {
-  font-size: 2em;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 8px;
-}
-
-h3 {
-  font-size: 1.5em;
-  color: #3498db;
-}
-
-/* 链接样式 */
-a {
-  color: #3498db;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: #2980b9;
-  text-decoration: underline;
-}
-
-/* 列表样式 */
-ul, ol {
-  padding-left: 2em;
-  margin-bottom: 1em;
-}
-
-li {
-  margin-bottom: 0.5em;
-}
-
-/* 代码样式 */
-pre, code {
-  background-color: #f8f8f8;
-  border: 1px solid #e8e8e8;
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-family: 'Courier New', Courier, monospace;
-}
-
-pre {
-  padding: 15px;
-  overflow-x: auto;
-  margin-bottom: 1em;
-}
-
-pre code {
-  border: none;
-  padding: 0;
-}
-
-/* 导航栏样式 */
-nav a:hover {
-  background-color: rgba(255,255,255,0.1);
-  text-decoration: none;
-  color: white;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .container {
-    padding: 15px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
-  h1 {
-    font-size: 2em;
-  }
-  
-  h2 {
-    font-size: 1.5em;
-  }
-  
-  nav li {
-    margin: 0 10px;
-  }
-}
-</style>
+开始您的自然语言处理学习之旅！

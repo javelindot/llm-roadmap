@@ -1,12 +1,3 @@
-<nav style="background-color: #2c3e50; color: white; padding: 10px 0; margin-bottom: 20px; border-radius: 8px;">
-  <ul style="list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; flex-wrap: wrap;">
-    <li style="margin: 0 15px; margin-bottom: 0;"><a href="../../" style="color: white; font-weight: 500; text-decoration: none; padding: 5px 10px; border-radius: 4px; transition: background-color 0.3s ease;">首页</a></li>
-    <li style="margin: 0 15px; margin-bottom: 0;"><a href="../../base/" style="color: white; font-weight: 500; text-decoration: none; padding: 5px 10px; border-radius: 4px; transition: background-color 0.3s ease;">数学基础</a></li>
-    <li style="margin: 0 15px; margin-bottom: 0;"><a href="../../ml/" style="color: white; font-weight: 500; text-decoration: none; padding: 5px 10px; border-radius: 4px; transition: background-color 0.3s ease;">机器学习</a></li>
-    <li style="margin: 0 15px; margin-bottom: 0;"><a href="../" style="color: white; font-weight: 500; text-decoration: none; padding: 5px 10px; border-radius: 4px; transition: background-color 0.3s ease;">自然语言处理</a></li>
-  </ul>
-</nav>
-
 # Attention机制
 ## 5.1 概述
 传统的 Seq2Seq 模型中，编码器在处理源句时，无论其长度如何，最终都只能将整句信息压缩为一个固定长度的上下文向量，用作解码器的唯一参考。这种设计存在两个显著问题：
