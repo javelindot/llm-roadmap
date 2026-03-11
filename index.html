@@ -2,419 +2,128 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI大模型完整学习路线指南</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="AI大模型完整学习路线指南，从数学基础到机器学习，再到自然语言处理，构建完整的AI学习体系">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
     <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        line-height: 1.6;
-        color: #333;
-        background-color: #f5f5f5;
-    }
-    
-    .container {
-        display: flex;
-        max-width: 1400px;
-        margin: 0 auto;
-        min-height: 100vh;
-    }
-    
-    .sidebar {
-        width: 280px;
-        background-color: #2c3e50;
-        color: white;
-        padding: 20px 0;
-        position: fixed;
-        height: 100vh;
-        overflow-y: auto;
-        transition: all 0.3s ease;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    }
-    
-    .sidebar-header {
-        padding: 20px;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    .sidebar-header h1 {
-        font-size: 1.5em;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-    
-    .sidebar-header p {
-        font-size: 0.9em;
-        color: rgba(255,255,255,0.7);
-    }
-    
-    .sidebar-menu {
-        list-style: none;
-        padding: 20px 0;
-    }
-    
-    .sidebar-menu li {
-        margin: 0;
-    }
-    
-    .sidebar-menu a {
-        display: block;
-        padding: 12px 20px;
-        color: rgba(255,255,255,0.8);
-        text-decoration: none;
-        transition: all 0.3s ease;
-        border-left: 3px solid transparent;
-    }
-    
-    .sidebar-menu a:hover {
-        background-color: rgba(255,255,255,0.1);
-        border-left-color: #3498db;
-        color: white;
-    }
-    
-    .sidebar-menu .submenu {
-        list-style: none;
-        padding-left: 0;
-        background-color: rgba(0,0,0,0.1);
-    }
-    
-    .sidebar-menu .submenu a {
-        padding: 8px 20px 8px 40px;
-        font-size: 0.9em;
-    }
-    
-    .main-content {
-        flex:1;
-        margin-left: 280px;
-        padding: 40px;
-        background-color: #f5f5f5;
-        min-height: 100vh;
-    }
-    
-    .content-container {
-        max-width: 900px;
-        margin: 0 auto;
-        background-color: white;
-        padding: 40px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    
-    .content-container h1 {
-        color: #2c3e50;
-        margin-bottom: 30px;
-        padding-bottom: 15px;
-        border-bottom: 3px solid #3498db;
-        font-size: 2em;
-    }
-    
-    .content-container h2 {
-        color: #3498db;
-        margin: 30px 0 20px 0;
-        font-size: 1.5em;
-    }
-    
-    .content-container h3 {
-        color: #2c3e50;
-        margin: 20px 0 15px 0;
-        font-size: 1.3em;
-    }
-    
-    .content-container h4 {
-        color: #34495e;
-        margin: 15px 0 10px 0;
-        font-size: 1.1em;
-    }
-    
-    .content-container h5 {
-        color: #34495e;
-        margin: 10px 0 8px 0;
-        font-size: 1em;
-    }
-    
-    .content-container h6 {
-        color: #34495e;
-        margin: 8px 0 6px 0;
-        font-size: 0.9em;
-    }
-    
-    .content-container p {
-        margin-bottom: 15px;
-        color: #555;
-    }
-    
-    .content-container ul {
-        padding-left: 2em;
-        margin-bottom: 20px;
-    }
-    
-    .content-container ol {
-        padding-left: 2em;
-        margin-bottom: 20px;
-    }
-    
-    .content-container li {
-        margin-bottom: 10px;
-        color: #555;
-    }
-    
-    .content-container a {
-        color: #3498db;
-        text-decoration: none;
-        transition: color 0.3s ease;
-        font-weight: 500;
-    }
-    
-    .content-container a:hover {
-        color: #2980b9;
-        text-decoration: underline;
-    }
-    
-    .content-container pre {
-        background-color: #f8f9fa;
-        border: 1px solid #e9ecef;
-        border-radius: 4px;
-        padding: 15px;
-        overflow-x: auto;
-        margin-bottom: 20px;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 0.9em;
-    }
-    
-    .content-container code {
-        font-family: 'Courier New', Courier, monospace;
-        background-color: #f8f9fa;
-        padding: 2px 4px;
-        border-radius: 3px;
-        font-size: 0.9em;
-    }
-    
-    .content-container pre code {
-        background-color: transparent;
-        padding: 0;
-    }
-    
-    .content-container img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 4px;
-        margin: 20px 0;
-    }
-    
-    .content-container table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-    }
-    
-    .content-container th,
-    .content-container td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #e9ecef;
-    }
-    
-    .content-container th {
-        background-color: #f8f9fa;
-        font-weight: 600;
-        color: #2c3e50;
-    }
-    
-    .content-container blockquote {
-        border-left: 4px solid #3498db;
-        padding-left: 15px;
-        margin: 20px 0;
-        color: #666;
-        font-style: italic;
-    }
-    
-    .content-container strong {
-        color: #2c3e50;
-        font-weight: 600;
-    }
-    
-    .content-container em {
-        color: #666;
-        font-style: italic;
-    }
-    
-    @media (max-width: 1024px) {
+        /* 侧边栏样式 */
         .sidebar {
-            width: 240px;
+            border-right: 1px solid #eaecef;
         }
         
-        .main-content {
-            margin-left: 240px;
-            padding: 30px;
+        /* 代码块样式 */
+        pre {
+            background-color: #f8f8f8;
+            border: 1px solid #e8e8e8;
+            border-radius: 4px;
+            padding: 15px;
+            overflow-x: auto;
         }
         
-        .content-container {
-            padding: 30px;
-        }
-    }
-    
-    @media (max-width: 768px) {
-        .container {
-            flex-direction: column;
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border: none;
         }
         
-        .sidebar {
+        /* 链接样式 */
+        a {
+            color: #42b983;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 标题样式 */
+        h1, h2, h3, h4, h5, h6 {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        /* 表格样式 */
+        table {
+            border-collapse: collapse;
             width: 100%;
-            height: auto;
-            position: relative;
-            box-shadow: none;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            margin: 20px 0;
         }
         
-        .sidebar-menu {
-            display: none;
+        th, td {
+            border: 1px solid #eaecef;
+            padding: 12px;
+            text-align: left;
         }
         
-        .main-content {
-            margin-left: 0;
-            padding: 20px;
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
         }
         
-        .content-container {
-            padding: 20px;
+        /* 引用样式 */
+        blockquote {
+            border-left: 4px solid #42b983;
+            padding-left: 15px;
+            margin: 20px 0;
+            color: #666;
         }
-    }
     </style>
 </head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h1>AI大模型学习路线</h1>
-                <p>从基础到进阶的完整指南</p>
-            </div>
-            <ul class="sidebar-menu">
-                <li><a href="./index.md">首页</a></li>
-                <li>
-                    <a href="./base/readme.md">数学基础</a>
-                    <ul class="submenu">
-                        <li><a href="./base/chapter1/第一章 函数图像表示.md">第一章 函数图像表示</a></li>
-                        <li><a href="./base/chapter2/第二章 三角函数与反三角函数.md">第二章 三角函数与反三角函数</a></li>
-                        <li><a href="./base/chapter3/第三章 高数：导数、偏导数与梯度.md">第三章 高数：导数、偏导数与梯度</a></li>
-                        <li><a href="./base/chapter4/第四章 线性代数：标量、向量、矩阵与张量.md">第四章 线性代数：标量、向量、矩阵与张量</a></li>
-                        <li><a href="./base/chapter5/第五章 概率与统计：概率分布、贝叶斯定理与似然函数.md">第五章 概率与统计：概率分布、贝叶斯定理与似然函数</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="./ml/readme.md">机器学习</a>
-                    <ul class="submenu">
-                        <li><a href="./ml/readme.md">机器学习基础</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="./nlp/readme.md">自然语言处理</a>
-                    <ul class="submenu">
-                        <li><a href="./nlp/chapter1/第一章 NLP 自然语言.md">第一章 NLP 自然语言</a></li>
-                        <li><a href="./nlp/chapter2/第二章 Embeding文本表示.md">第二章 Embeding文本表示</a></li>
-                        <li><a href="./nlp/chapter3/第三章 传统序列模型.md">第三章 传统序列模型</a></li>
-                        <li><a href="./nlp/chapter4/第四章 Seq2Seq模型.md">第四章 Seq2Seq模型</a></li>
-                        <li><a href="./nlp/chapter5/第五章 Attention机制.md">第五章 Attention机制</a></li>
-                        <li><a href="./nlp/chapter6/第六章 Transformer模型.md">第六章 Transformer模型</a></li>
-                        <li><a href="./nlp/chapter7/第七章 预训练模型.md">第七章 预训练模型</a></li>
-                        <li><a href="./nlp/附录 常用资料.md">附录 常用资料</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </aside>
-        
-        <main class="main-content">
-            <div class="content-container">
-                <div id="markdown-content"></div>
-            </div>
-        </main>
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <div id="app"></div>
     <script>
-        // 获取当前URL路径
-        const path = window.location.pathname;
-        const baseurl = '/llm-roadmap';
-        
-        // 根据路径确定要加载的MD文件
-        let markdownUrl = './index.md';
-        
-        if (path === '/' || path === baseurl + '/' || path === baseurl + '/index.html' || path === baseurl + '/index.md') {
-            markdownUrl = './index.md';
-        } else if (path.startsWith(baseurl + '/base/')) {
-            if (path.endsWith('/base/') || path.endsWith('/base/index.html') || path.endsWith('/base/index.md') || path.endsWith('/base/readme.md')) {
-                markdownUrl = './base/readme.md';
-            } else {
-                const relativePath = path.replace(baseurl + '/base/', './base/');
-                markdownUrl = relativePath + '.md';
-            }
-        } else if (path.startsWith(baseurl + '/ml/')) {
-            if (path.endsWith('/ml/') || path.endsWith('/ml/index.html') || path.endsWith('/ml/index.md') || path.endsWith('/ml/readme.md')) {
-                markdownUrl = './ml/readme.md';
-            } else {
-                const relativePath = path.replace(baseurl + '/ml/', './ml/');
-                markdownUrl = relativePath + '.md';
-            }
-        } else if (path.startsWith(baseurl + '/nlp/')) {
-            if (path.endsWith('/nlp/') || path.endsWith('/nlp/index.html') || path.endsWith('/nlp/index.md') || path.endsWith('/nlp/readme.md')) {
-                markdownUrl = './nlp/readme.md';
-            } else {
-                const relativePath = path.replace(baseurl + '/nlp/', './nlp/');
-                markdownUrl = relativePath + '.md';
-            }
-        }
-        
-        // 加载并渲染MD文件
-        async function loadMarkdown(url) {
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+        window.$docsify = {
+            name: 'AI大模型学习路线',
+            repo: 'https://github.com/javelindot/llm-roadmap',
+            loadSidebar: true,
+            subMaxLevel: 3,
+            search: {
+                maxAge: 86400000,
+                paths: 'auto',
+                placeholder: '搜索',
+                noData: '没有找到结果',
+                depth: 6
+            },
+            pagination: {
+                previousText: '上一章',
+                nextText: '下一章',
+                crossChapter: true,
+                crossChapterText: true,
+            },
+            copyCode: {
+                buttonText: '复制',
+                errorText: '错误',
+                successText: '复制成功'
+            },
+            count: {
+                countable: true,
+                fontsize: '0.9em',
+                color: 'rgb(90,90,90)',
+                language: 'chinese'
+            },
+            plugins: [
+                function(hook, vm) {
+                    hook.beforeEach(function(content) {
+                        return content
+                            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, function(match, text, url) {
+                                if (url.startsWith('./') || url.startsWith('../')) {
+                                    return `[${text}](${url})`;
+                                }
+                                return match;
+                            });
+                    });
                 }
-                const text = await response.text();
-                const html = marked.parse(text);
-                document.getElementById('markdown-content').innerHTML = html;
-                
-                // 更新侧边栏高亮
-                updateSidebarHighlight(path);
-            } catch (error) {
-                console.error('Error loading markdown:', error);
-                document.getElementById('markdown-content').innerHTML = `
-                    <h1>内容加载失败</h1>
-                    <p>无法加载内容：${error.message}</p>
-                    <p>请检查文件是否存在或刷新页面重试。</p>
-                `;
-            }
+            ]
         }
-        
-        // 更新侧边栏高亮
-        function updateSidebarHighlight(currentPath) {
-            const links = document.querySelectorAll('.sidebar-menu a');
-            links.forEach(link => {
-                link.style.borderLeftColor = 'transparent';
-                link.style.backgroundColor = 'transparent';
-            });
-            
-            // 找到当前页面对应的链接并高亮
-            const currentLink = Array.from(links).find(link => {
-                const href = link.getAttribute('href');
-                return currentPath.includes(href.replace('./', '').replace('.md', ''));
-            });
-            
-            if (currentLink) {
-                currentLink.style.borderLeftColor = '#3498db';
-                currentLink.style.backgroundColor = 'rgba(52, 152, 219, 0.1)';
-            }
-        }
-        
-        // 页面加载时执行
-        document.addEventListener('DOMContentLoaded', () => {
-            loadMarkdown(markdownUrl);
-        });
     </script>
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
 </body>
 </html>
