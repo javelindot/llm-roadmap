@@ -1,0 +1,16 @@
+title: LLM Roadmap
+Description: AI大模型完整学习路线指南
+Theme: minima
+Baseurl: ""
+Url: "https://javelindot.github.io/llm-roadmap"
+
+# 导航菜单
+Navigation:
+  - Title: 首页
+    Url: /
+  - Title: 数学基础
+    Url: /base/
+  - Title: 机器学习
+    Url: /ml/
+  - Title: 自然语言处理
+    Url: /nlp/
