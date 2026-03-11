@@ -1,8 +1,8 @@
 title: LLM Roadmap
 Description: AI大模型完整学习路线指南
 Theme: minima
-Baseurl: ""
-Url: "https://javelindot.github.io/llm-roadmap"
+Baseurl: "/llm-roadmap"
+Url: "https://javelindot.github.io"
 
 # 导航菜单
 Navigation:
