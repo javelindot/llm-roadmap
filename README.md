@@ -15,12 +15,23 @@
 ## 📚 核心学习路径（思维导图驱动）
 ```mermaid
 graph TD
-    A[NLP核心] -->|Transformer/预训练/词向量| B[LLM场景化应用]
-    B -->|RAG/Agent/多模态/Prompt| C[LLM工具链]
-    C -->|HuggingFace/LangChain/SAA| D[LLM微调优化]
-    D -->|LoRA/QLoRA/全量微调| E[强化学习对齐]
-    E -->|RLHF/RLAIF/DPO| F[推理与部署]
-    G[ML|DL|] -.->|按需补充| 
+    %% 定义样式（可选，让节点更清晰）
+    classDef core fill:#e1f5ff,stroke:#0066cc,stroke-width:2px;
+    classDef tool fill:#fff4e1,stroke:#cc6600,stroke-width:2px;
+    classDef deploy fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+
+    %% 1. 基础层
+    G[机器学习/深度学习<br>ML/DL] -->|基础理论支撑| A[NLP核心技术]:::core
+    A -->|Transformer架构<br>预训练模型<br>词向量表示| B[大语言模型<br>LLM]:::core
+
+    %% 2. 应用与工具层
+    B -->|场景化落地| C[LLM应用技术]:::tool
+    C -->|RAG/Agent<br>多模态融合<br>Prompt Engineering| D[LLM工具链]:::tool
+    D -->|HuggingFace<br>LangChain<br>SAA框架| E[LLM微调优化]:::tool
+
+    %% 3. 对齐与部署层
+    E -->|LoRA/QLoRA<br>全量微调| F[强化学习对齐]:::deploy
+    F -->|RLHF/RLAIF<br>DPO方法| G2[推理与部署]:::deploy
 ```
 
 ### 🔥 模块进度（持续完善中）
