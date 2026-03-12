@@ -15,20 +15,20 @@
 ## 📚 核心学习路径（思维导图驱动）
 ```mermaid
 graph TD
-    A[NLP核心] -->|Transformer/预训练/词向量| B[LLM工具链]
-    B -->|HuggingFace/LangChain/Prompt| C[LLM场景化应用]
-    C -->|RAG/Agent/多模态| D[LLM微调优化]
+    A[NLP核心] -->|Transformer/预训练/词向量| B[LLM场景化应用]
+    B -->|RAG/Agent/多模态/Prompt| C[LLM工具链]
+    C -->|HuggingFace/LangChain/SAA| D[LLM微调优化]
     D -->|LoRA/QLoRA/全量微调| E[强化学习对齐]
     E -->|RLHF/RLAIF/DPO| F[推理与部署]
-    G[数学扩展] -.->|按需补充| A
+    G[ML|DL|] -.->|按需补充| 
 ```
 
 ### 🔥 模块进度（持续完善中）
 | 模块                | 完成度 | 核心内容                                                                 |
 |---------------------|--------|--------------------------------------------------------------------------|
 | NLP核心基础      | 100%   | Transformer架构/自注意力机制/预训练原理/词向量/文本预处理                |
-| LLM工具链        | 0%    | HuggingFace实操/LangChain核心组件/Spring AI Alibaba/模型调用规范                |
-| LLM场景化应用    | 0%    | Prompt工程化/RAG检索增强生成/Function Call/MCP/Skills/AI Agent/代码生成/智能问答/多模态LLM应用                |
+| LLM场景化应用        | 0%    | Prompt工程化/RAG检索增强生成/Function Call/MCP/Skills/AI Agent/多模态LLM应用               |
+| LLM工具链    | 0%    |        HuggingFace实操/LangChain核心组件/Spring AI Alibaba/模型调用规范          |
 | LLM微调优化      | 0%    | LoRA/QLoRA轻量化微调/全量微调/数据集构建/超参数调优/效果评估            |
 | 强化学习对齐     | 5%     | RLHF/RLAIF/DPO原理/奖励模型训练/对齐实战/偏好优化                       |
 | LLM推理与部署    | 5%     | 模型量化/批量推理/FastAPI封装/Docker容器化/K8s调度/GPU优化              |
@@ -81,11 +81,11 @@ git push origin feature/llm-finetune-lora
 | 阶段               | 核心技术/工具                          | 学习优先级 |
 |--------------------|----------------------------------------|------------|
 | NLP基础阶段        | Transformer/自注意力机制/预训练原理/词向量/文本预处理        | ⭐⭐⭐⭐⭐    |
-| LLM工具阶段        | HuggingFace/LangChain/      | ⭐⭐⭐      |
-| LLM应用阶段        | Prompt/RAG/FunctionCall/Mcp/Skills/AI Agent/Manus/OpenClaw                | ⭐⭐⭐⭐      |
+| LLM工具阶段        | HuggingFace/LangChain/      | ⭐⭐⭐⭐      |
+| LLM应用阶段        | Prompt/RAG/FunctionCall/Mcp/Skills/AI Agent/Manus/OpenClaw                | ⭐⭐⭐      |
 | 微调/强化学习阶段  | LoRA/QLoRA/RLHF/DPO                    | ⭐⭐       |
 | 部署阶段           | 模型量化/Docker/FastAPI                | ⭐⭐          |
-| 数学扩展阶段       | 线性代数/概率统计（按需）| ⭐            |
+| 数学扩展阶段       | 线性代数/概率统计/ML/DL（按需）| ⭐            |
 
 ## 欢迎参与
 - 欢迎每一位参与贡献的开发者，让这份路线图更贴近工业级落地。
