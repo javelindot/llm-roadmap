@@ -8,6 +8,11 @@
   <img src="https://img.shields.io/badge/LLM-AI_Engineering-FF6F61?style=flat-square" alt="LLM"/>
   <img src="https://img.shields.io/badge/NLP-Natural_Language-4ECDC4?style=flat-square" alt="NLP"/>
   <img src="https://img.shields.io/badge/RAG-Retrieval_Augmented-45B7D1?style=flat-square" alt="RAG"/>
+  <img src="https://img.shields.io/badge/Agent-Intelligent-9B59B6?style=flat-square" alt="Agent"/>
+  <img src="https://img.shields.io/badge/Prompt-Engineering-E67E22?style=flat-square" alt="Prompt"/>
+  <img src="https://img.shields.io/badge/MCP-Model_Context-1ABC9C?style=flat-square" alt="MCP"/>
+  <img src="https://img.shields.io/badge/Dify-Low_Code-3498DB?style=flat-square" alt="Dify"/>
+  <img src="https://img.shields.io/badge/Coze-Platform-F39C12?style=flat-square" alt="Coze"/>
   <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License"/>
   <img src="https://img.shields.io/github/last-commit/javelindot/llm-roadmap?style=flat-square&label=Update" alt="Update"/>
 </p>
