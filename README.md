@@ -9,7 +9,7 @@
   <img src="https://img.shields.io/badge/NLP-Natural_Language-4ECDC4?style=flat-square" alt="NLP"/>
   <img src="https://img.shields.io/badge/RAG-Retrieval_Augmented-45B7D1?style=flat-square" alt="RAG"/>
   <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License"/>
-  <img src="https://img.shields.io/badge/Update-2025.03-brightgreen?style=flat-square" alt="Update"/>
+  <img src="https://img.shields.io/github/last-commit/javelindot/llm-roadmap?style=flat-square&label=Update" alt="Update"/>
 </p>
 
 <p><strong>应用开发 → 模型微调 → 强化学习对齐</strong></p>
