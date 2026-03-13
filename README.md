@@ -1,108 +1,349 @@
-# LLM-Roadmap | 从NLP核心到LLM全栈实践（应用/微调/强化学习）
-[![GitHub Stars](https://img.shields.io/github/stars/javelindot/llm-roadmap?style=social)](https://github.com/javelindot/llm-roadmap)
-[![Last Updated](https://img.shields.io/github/last-commit/javelindot/llm-roadmap)](https://github.com/javelindot/llm-roadmap/commits/main)
-[![License](https://img.shields.io/github/license/javelindot/llm-roadmap)](LICENSE)
+<div align="center">
 
-### 🎯 仓库定位
-一份**以NLP为起点**、聚焦「大语言模型应用落地+微调优化+强化学习对齐」的系统化学习路线图。区别于泛而全的资料，本仓库砍掉冗余的数学理论（仅作为扩展补充），直击核心：从NLP底层逻辑到LLM工程化应用，再到微调/RLHF强化学习优化，帮你快速从“懂NLP”到“能用好LLM”。
+# 🚀 LLM Roadmap
 
-### 🗺️ 核心优势
-- ✅ **NLP基础闭环**：已完成「NLP核心模块」，覆盖Transformer/注意力机制/预训练原理，是LLM学习的核心起点；
-- ✅ **实战导向**：优先聚焦LLM应用、微调、强化学习等落地环节，拒绝“纸上谈兵”；
-- ✅ **轻量化扩展**：数学仅作为补充模块（按需查阅），不占用核心学习路径；
-- ✅ **超全思维导图**：所有核心知识点配套可视化思维导图，完整路线图如下：[AI大模型学习之路](/img/AI大模型学习之路.png "点击查看大图")，注意超级大图，建议在浏览器中查看。
+## 大模型全栈开发指南
 
-## 📚 核心学习路径（思维导图驱动）
-```mermaid
-graph TD
-    %% 定义样式（可选，让节点更清晰）
-    classDef core fill:#e1f5ff,stroke:#0066cc,stroke-width:2px;
-    classDef tool fill:#fff4e1,stroke:#cc6600,stroke-width:2px;
-    classDef deploy fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+<p>
+  <img src="https://img.shields.io/badge/LLM-AI_Engineering-FF6F61?style=flat-square" alt="LLM"/>
+  <img src="https://img.shields.io/badge/NLP-Natural_Language-4ECDC4?style=flat-square" alt="NLP"/>
+  <img src="https://img.shields.io/badge/RAG-Retrieval_Augmented-45B7D1?style=flat-square" alt="RAG"/>
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License"/>
+  <img src="https://img.shields.io/badge/Update-2025.03-brightgreen?style=flat-square" alt="Update"/>
+</p>
 
-    %% 1. 基础层
-    G[机器学习/深度学习<br>ML/DL] -->|基础理论支撑| A[NLP核心技术]:::core
-    A -->|Transformer架构<br>预训练模型<br>词向量表示| B[大语言模型<br>LLM]:::core
+<p><strong>应用开发 → 模型微调 → 强化学习对齐</strong></p>
 
-    %% 2. 应用与工具层
-    B -->|场景化落地| C[LLM应用技术]:::tool
-    C -->|RAG/Agent<br>多模态融合<br>Prompt Engineering| D[LLM工具链]:::tool
-    D -->|HuggingFace<br>LangChain<br>SAA框架| E[LLM微调优化]:::tool
+<p>
+  <a href="#/README?id=项目总览">项目总览</a> •
+  <a href="#/README?id=学习路线详解">学习路线</a> •
+  <a href="#/README?id=快速开始">快速开始</a> •
+  <a href="#/README?id=贡献指南">贡献指南</a>
+</p>
 
-    %% 3. 对齐与部署层
-    E -->|LoRA/QLoRA<br>全量微调| F[强化学习对齐]:::deploy
-    F -->|RLHF/RLAIF<br>DPO方法| G2[推理与部署]:::deploy
-```
-
-### 🔥 模块进度（持续完善中）
-| 模块                | 完成度 | 核心内容                                                                 |
-|---------------------|--------|--------------------------------------------------------------------------|
-| NLP核心基础      | 100%   | Transformer架构/自注意力机制/预训练原理/词向量/文本预处理                |
-| LLM场景化应用        | 0%    | Prompt工程化/RAG检索增强生成/Function Call/MCP/Skills/AI Agent/多模态LLM应用               |
-| LLM工具链    | 0%    |        HuggingFace实操/LangChain核心组件/Spring AI Alibaba/模型调用规范          |
-| LLM微调优化      | 0%    | LoRA/QLoRA轻量化微调/全量微调/数据集构建/超参数调优/效果评估            |
-| 强化学习对齐     | 5%     | RLHF/RLAIF/DPO原理/奖励模型训练/对齐实战/偏好优化                       |
-| LLM推理与部署    | 5%     | 模型量化/批量推理/FastAPI封装/Docker容器化/K8s调度/GPU优化              |
-| 扩展补充     | 30%    | 线性代数/概率统计/优化理论（仅作为扩展，非核心路径）传统机器学习--》深度学（CNN｜RNN｜LSTM｜Transformer）                  |
-
-
-## 🚀 快速开始（从NLP到LLM第一步）
-### 1. 克隆仓库
-```bash
-git clone https://github.com/javelindot/llm-roadmap.git
-cd llm-roadmap
-```
-
-### 2. 吃透NLP核心基础（LLM的底层逻辑）
-```bash
-# 查看NLP核心笔记+代码实战
-open nlp
-
-# 运行Transformer极简实现示例：待提供
-
-# 暂时只有数学相关，后期会根据实际情况补充
-open base
-```
-
-### 3. 上手LLM工具链（从“懂原理”到“能用模型”）
-```bash
-
-```
-
-## 🤝 参与贡献（核心模块共建）
-本仓库聚焦「NLP→LLM应用→微调→强化学习」的实战路径，目前核心模块仍在完善，诚邀你一起打造“最落地的LLM学习路线”：
-1. **补充实战代码**：为微调/强化学习/部署模块补充可运行的示例（如LoRA微调LLaMA-2、RLHF极简实现）；
-2. **完善思维导图**：为应用/微调模块梳理逻辑框架，补充关键知识点；
-3. **纠错与优化**：修正NLP核心模块的代码/原理错误，优化Prompt工程最佳实践；
-4. **场景案例贡献**：分享真实业务场景下的LLM应用案例（如企业级RAG、Agent落地）。
-
-### 贡献流程
-```bash
-# 1. Fork仓库
-# 2. 创建分支（聚焦具体模块）
-git checkout -b feature/llm-finetune-lora
-# 3. 提交修改（标注模块+内容）
-git commit -m "补充-xxx模块： 补充xxx模块的代码实战OR笔记"
-# 4. 推送分支
-git push origin feature/llm-finetune-lora
-# 5. 提交PR（附详细的内容说明）
-```
-
-## 📋 核心技术栈索引（按学习优先级）
-| 阶段               | 核心技术/工具                          | 学习优先级 |
-|--------------------|----------------------------------------|------------|
-| NLP基础阶段        | Transformer/自注意力机制/预训练原理/词向量/文本预处理        | ⭐⭐⭐⭐⭐    |
-| LLM工具阶段        | HuggingFace/LangChain/      | ⭐⭐⭐⭐      |
-| LLM应用阶段        | Prompt/RAG/FunctionCall/Mcp/Skills/AI Agent/Manus/OpenClaw                | ⭐⭐⭐      |
-| 微调/强化学习阶段  | LoRA/QLoRA/RLHF/DPO                    | ⭐⭐       |
-| 部署阶段           | 模型量化/Docker/FastAPI                | ⭐⭐          |
-| 数学扩展阶段       | 线性代数/概率统计/ML/DL（按需）| ⭐            |
-
-## 欢迎参与
-- 欢迎每一位参与贡献的开发者，让这份路线图更贴近工业级落地。
-
-## 📄 许可证
-本仓库采用 [MIT License](LICENSE) 开源，你可自由使用、修改、分发本仓库内容，商用需保留原作者信息。
+</div>
 
 ---
-⭐ **Star 本仓库**，解锁「从NLP核心到LLM微调/强化学习」的完整实战路径，持续跟进模块更新！
+
+## 项目总览
+
+<div align="center">
+  <img src="./img/llm-ar.png" alt="LLM学习路线全景图" width="100%">
+  <p><em>LLM全栈开发学习路线全景图 - 从应用实战到底层基础</em></p>
+</div>
+
+### 核心理念
+
+> **逆向工程式学习法**：先上手做生产级应用，再深挖底层原理
+
+本项目采用「自顶向下」的学习路径，从大模型应用实战开始，逐步深入到底层理论基础：
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  入口：大模型应用实战（Prompt、RAG、Agent、MCP）         │
+│    ↓                                                    │
+│  工具：大模型实战工具（本地部署、低代码平台、AI编程）     │
+│    ↓                                                    │
+│  落地：创新应用落地（教育场景、企业系统）                 │
+│    ↓                                                    │
+│  理论：NLP与预训练、强化学习对齐、模型微调               │
+│    ↓                                                    │
+│  进阶：多模态技术、机器学习、深度学习                     │
+│    ↓                                                    │
+│  基础：算法与系统底层储备                                │
+│    ↓                                                    │
+│  资源：附录资料与工具集                                  │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 学习路线详解
+
+### 📌 第一层：大模型应用实战 [入口核心]
+
+> **快速上手** | 直接开始大模型应用开发，跑出可落地的MVP
+
+#### 1.1 Prompt Engineering 提示词工程
+
+```typescript
+interface PromptEngineering {
+  基础规范: "角色定义 | 目标拆解 | 执行方案 | 输出格式约束";
+  调优策略: "Zero-Shot | Few-Shot | CoT链式思维 | Self-Consistency";
+  高级能力: "多步骤任务编排 | 幻觉抑制 | 长文本上下文优化";
+  实战场景: "SQL生成 | 文案生成 | 文本分类 | 多轮对话设计";
+}
+```
+
+#### 1.2 RAG 检索增强生成
+
+```typescript
+interface RAG_System {
+  数据层: "文档解析 | 分块策略 | 清洗归一化";
+  向量层: "Embedding模型 | 文本向量化 | 向量数据库";
+  检索层: "向量检索 | 关键词召回 | 重排序 | 相似度匹配";
+  生成层: "Prompt融合 | 上下文注入 | 幻觉抑制";
+  进阶路径: "NaiveRAG → AdvancedRAG → GraphRAG → AgenticRAG";
+}
+```
+
+#### 1.3 Function Call & Agent 智能体
+
+```typescript
+interface LLM_Agent {
+  核心模块: "规划Planning | 记忆Memory | 工具Tools | 执行Action";
+  基础能力: "Function Call工具调用 | 多工具协同 | 异常重试";
+  进阶能力: "Workflow工作流编排 | 多智能体Multi-Agent协同";
+  落地场景: "自动化办公助手 | 数据分析Agent | 舆情监控系统";
+}
+```
+
+#### 1.4 MCP 模型上下文协议
+
+```typescript
+interface MCP_Protocol {
+  核心组件: "Model Server | Client Application | Protocol Specification";
+  核心优势: "标准化模型交互 | 提升开发效率 | 增强系统灵活性";
+  应用场景: "SaaS产品集成 | 跨模型统一调用 | 企业级AI中台";
+}
+```
+
+---
+
+### 🛠️ 第二层：大模型实战工具
+
+> **效率提升** | 掌握工业级大模型开发工具链
+
+| 分类 | 工具 | 核心能力 | 适用场景 |
+|------|------|----------|----------|
+| 本地部署 | **Ollama** | 私有化模型管理、多语言API、离线运行 | 本地开发、数据安全 |
+| 低代码平台 | **Dify AI** | 可视化工作流、知识库、Agent开发 | 企业应用、快速MVP |
+| 低代码平台 | **Coze** | 工作流编排、插件开发、多端部署 | AIGC内容、小程序 |
+| AI编程 | **Cursor** | 智能补全、代码重构、多语言支持 | 全栈开发、效率提升 |
+| AIGC工具 | 视频图片创作、知识学习、开发手册 | 内容创作、学习辅助 |
+
+---
+
+### 💡 第三层：创新应用落地
+
+> **MVP实践** | 将技术落地到真实场景
+
+#### 教育场景应用
+- **英语词根自然拼读工具**：基于大模型的个性化英语学习助手
+- **成语动画自动生成系统**：输入成语自动生成故事脚本、分镜与动画
+- **智能教育助手**：多学科知识点讲解、习题生成、个性化学习计划
+
+#### 企业内部系统应用
+- **TEXT2SQL+ 智能数据查询**：自然语言转SQL，支持多数据库对接
+- **基于RAG的智能客服系统**：企业知识库对接、多轮对话、工单自动生成
+- **客户交易趋势预测系统**：基于大模型的数据分析、趋势预测、风险预警
+
+---
+
+### 📝 第四层：NLP与预训练核心
+
+> **理论核心** | 深入理解大模型背后的NLP核心理论
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    NLP技术体系架构                        │
+├─────────────────────────────────────────────────────────┤
+│  📄 文本表示层                                            │
+│     └─ Tokenization → 词表构建 → Word Embedding          │
+│                                                          │
+│  🔄 序列模型层                                            │
+│     └─ RNN → LSTM → GRU → Seq2Seq编解码器                │
+│                                                          │
+│  ⚡ 核心机制层                                            │
+│     └─ Attention注意力 → Transformer架构                  │
+│                                                          │
+│  🤖 预训练层                                              │
+│     └─ GPT自回归 → BERT双向编码 → 开源生态                │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+### 🎮 第五层：强化学习与模型对齐
+
+> **模型对齐** | 掌握RLHF等大模型对齐技术
+
+```typescript
+interface RL_Alignment {
+  基础理论: "强化学习核心原理 | MDP马尔可夫决策过程";
+  核心方案: "RLHF人类反馈强化学习 | RLAIF AI反馈 | DPO直接偏好优化";
+  工程实现: "AutoGPT机制 | ChatGPT强化学习完整步骤";
+  优化方向: "模型安全性 | 输出一致性 | 幻觉抑制";
+}
+```
+
+---
+
+### ⚙️ 第六层：模型微调与定制
+
+> **领域定制** | 针对业务场景打造专属领域模型
+
+| 基础理论 | 核心技术 | 工具链 |
+|----------|----------|--------|
+| 预训练模型适配 | LoRA / QLoRA | Huggingface Transformers |
+| 增量预训练 | Full Finetune | PEFT |
+| 指令微调 | 多模态微调 | Accelerate |
+| 领域适配 | 参数高效微调 | DeepSpeed |
+
+---
+
+### 👁️ 第七层：多模态技术
+
+> **能力扩展** | 将大模型能力扩展到图像、音频、视频
+
+```typescript
+interface MultiModal_LLM {
+  理论基础: "多模态表示学习 | 跨模态对齐 | 视觉语言模型";
+  工程实现: "多模态微调优化 | 多模态部署 | 推理加速";
+  落地场景: "图文生成 | 视频理解 | 语音交互 | 数字人 | 多模态RAG";
+}
+```
+
+---
+
+### 📊 第八层：机器学习基础
+
+> **基础理论** | 补全机器学习核心理论
+
+| 分类 | 核心内容 |
+|------|----------|
+| 数学基础 | 概率与统计、线性代数、优化理论、信息论 |
+| 经典算法 | KNN、线性回归、逻辑回归、决策树、聚类算法 |
+| 学习范式 | 监督学习、无监督学习、半监督学习、强化学习 |
+| 评估体系 | 模型评估指标、过拟合与欠拟合、泛化能力优化 |
+
+---
+
+### 🧠 第九层：深度学习进阶
+
+> **核心原理** | 深入理解深度学习核心技术
+
+```typescript
+interface DeepLearning_System {
+  基础单元: "神经网络基础 | 神经元 | 激活函数 | 损失函数 | 反向传播";
+  核心架构: "CNN卷积神经网络 | RNN循环神经网络 | Transformer注意力架构";
+  优化方法: "梯度下降 | 超参数调优 | 正则化 | 模型压缩 | 推理加速";
+  工程实现: "PyTorch | TensorFlow | 分布式训练 | 生产级部署";
+}
+```
+
+---
+
+### 🔰 第十层：算法与系统底层
+
+> **底层储备** | 补全算法、编程与工程的底层能力
+
+| 分类 | 核心能力 |
+|------|----------|
+| AI算法能力 | Python数据分析、PyTorch开发、NLP进阶、算法基础 |
+| 系统开发能力 | 容器化Docker/K8s、云计算平台、微服务架构设计 |
+| 工程能力 | 软件工程、版本控制Git、CI/CD、线上运维、故障排查 |
+| 基础储备 | 数学基础、Python编程、计算机网络、操作系统 |
+
+---
+
+### 📎 第十一层：附录资料与工具集
+
+> **持续学习** | 建立持续学习的资源体系
+
+#### 资源导航
+- **官方文档**：主流大模型官方API文档、开源项目官方文档
+- **开源项目**：GitHub优质大模型开源项目、工具链、落地案例
+- **论文资源**：顶会论文、前沿技术论文、经典论文合集
+- **学习社区**：HuggingFace、GitHub、Stack Overflow、国内技术社区
+
+#### 实用工具
+- **开发工具**：路线图工具、API调试工具、模型部署工具
+- **学习辅助**：FAQ整理、面试题库、开发手册、最佳实践合集
+- **社区交流**：技术论坛、开源社区、开发者社群
+
+---
+
+## 快速开始
+
+### 环境准备
+
+```bash
+# 1. 克隆项目
+git clone https://github.com/javelindot/llm-roadmap.git
+cd llm-roadmap
+
+# 2. 本地预览（可选）
+npx docsify-cli serve -p 3000
+# 访问 http://localhost:3000
+
+# 3. 开始学习
+# 建议从「大模型应用实战」开始，自顶向下学习
+```
+
+### 学习建议
+
+**入门路径（0-3个月）**：
+```
+Week 1-2:  Prompt Engineering 提示词工程
+Week 3-4:  RAG 检索增强生成系统搭建
+Week 5-6:  Function Call & Agent 智能体开发
+Week 7-8:  创新应用落地实战
+```
+
+**进阶路径（3-6个月）**：
+```
+Month 3: NLP与预训练核心理论
+Month 4: 模型微调与定制化实战
+Month 5: 强化学习与模型对齐
+Month 6: 多模态技术前沿
+```
+
+---
+
+## 贡献指南
+
+我们欢迎所有形式的贡献！
+
+```bash
+# Fork 项目
+git clone https://github.com/your-username/llm-roadmap.git
+
+# 创建特性分支
+git checkout -b feature/your-contribution
+
+# 提交你的更改
+git commit -m "docs: add xxx module content"
+
+# 推送到分支
+git push origin feature/your-contribution
+
+# 创建 Pull Request
+```
+
+### 贡献内容规范
+
+| 类型 | 说明 |
+|------|------|
+| 内容补充 | 补充各模块学习资料、实战代码、落地案例 |
+| 错误修正 | 修正内容错误、优化知识结构与表述 |
+| 工具分享 | 分享优质工具、项目点子与行业实践 |
+| 格式优化 | 完善文档格式、修复显示问题 |
+
+---
+
+## 开源许可
+
+本项目采用 [MIT License](./LICENSE) 开源协议。
+
+---
+
+<div align="center">
+
+**如果这个项目对你有帮助，请给它一个 Star！⭐**
+
+**有任何问题或建议，欢迎提交 Issue 或 PR**
+
+**让我们一起构建最优质的 LLM 学习资源！🚀**
+
+</div>
