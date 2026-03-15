@@ -3,10 +3,11 @@
 
 - 一、大模型应用实战
   - [1.1 Prompt Engineering 提示词工程](/applications/chapter1/第一章%20Prompt%20Engineering.md)
-  - [1.2 RAG 检索增强生成](/applications/chapter3/第三章%20RAG.md)
-  - [1.3 Function Call & Agent 智能体](/applications/chapter6/第六章%20AI%20Agent.md)
-  - [1.4 MCP 模型上下文协议](/applications/chapter4/第四章%20MCP%EF%BC%88Model%20Context%20Protocol.md)
+  - [1.2 Function Call 函数调用](/applications/chapter2/第二章%20FunctionCall.md)
+  - [1.3 RAG 检索增强生成](/applications/chapter3/第三章%20RAG.md)
+  - [1.4 MCP 模型上下文协议](/applications/chapter4/第四章%20MCP（Model%20Context%20Protocol.md)
   - [1.5 国产大模型应用](/applications/chapter5/第五章%20Skills.md)
+  - [1.6 Agent 智能体](/applications/chapter6/第六章%20AI%20Agent.md)
 
 - 二、大模型实战工具
   - [2.1 Ollama 本地部署](/tools/ollama.md)
@@ -37,9 +38,7 @@
   - [5.3 模型对齐技术](/rl/alignment.md)
 
 - 六、模型微调与定制
-  - [6.1 Fine-tuning 微调基础](/finetuning/fine-tuning.md)
-  - [6.2 LoRA 低秩适应](/finetuning/lora.md)
-  - [6.3 QLoRA 量化微调](/finetuning/qlora.md)
+  - [6.1 模型微调](/roadmap/章节规划.md)
 
 - 七、多模态技术
   - [7.1 视觉语言模型](/multimodal/vlm.md)
@@ -48,9 +47,6 @@
 
 - 八、机器学习基础
   - [机器学习](/ml/readme.md)
-  - [8.1 监督学习](/ml/supervised.md)
-  - [8.2 无监督学习](/ml/unsupervised.md)
-  - [8.3 模型评估](/ml/evaluation.md)
 
 - 九、深度学习进阶
   - [9.1 神经网络基础](/dl/neural-networks.md)
