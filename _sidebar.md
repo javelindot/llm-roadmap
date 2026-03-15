@@ -6,6 +6,7 @@
   - [1.2 RAG 检索增强生成](/applications/chapter3/第三章%20RAG.md)
   - [1.3 Function Call & Agent 智能体](/applications/chapter6/第六章%20AI%20Agent.md)
   - [1.4 MCP 模型上下文协议](/applications/chapter4/第四章%20MCP%EF%BC%88Model%20Context%20Protocol.md)
+  - [1.5 国产大模型应用](/applications/chapter5/第五章%20Skills.md)
 
 - 二、大模型实战工具
   - [2.1 Ollama 本地部署](/tools/ollama.md)
@@ -14,9 +15,10 @@
   - [2.4 Cursor AI编程](/tools/cursor.md)
 
 - 三、创新应用落地
-  - [3.1 Vibe Coding 智能代码助手](/applications/vibe-coding.md)
-  - [3.2 教育场景应用](/applications/education.md)
-  - [3.3 企业内部系统应用](/applications/enterprise.md)
+  - [3.1 Vibe Coding 智能代码助手](/innovations/vibe-coding.md)
+  - [3.2 教育场景应用](/innovations/education.md)
+  - [3.3 企业内部系统应用](/innovations/enterprise.md)
+  - [创新项目目录](/innovations/index.md)
 
 - 四、NLP与预训练核心
   - [自然语言处理](/nlp/index.md)
