@@ -4,7 +4,7 @@
 
 ### 起源与背景
 
-2025年2月，深度学习先驱 Andrej Karpathy 在社交媒体上首次提出 **Vibe Coding** 的概念：
+2025年初，深度学习先驱 Andrej Karpathy 在社交媒体上首次提出 **Vibe Coding** 的概念：
 
 > "Vibe Coding is a whole new way of programming. You just say what you want in natural language, and the AI generates the code. You're not writing code anymore—you're providing the vibe, the intent, the high-level direction."
 
