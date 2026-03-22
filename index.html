@@ -7,10 +7,43 @@
     <meta name="description" content="AI大模型完整学习路线指南，从数学基础到机器学习，再到自然语言处理，构建完整的AI学习体系">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <style>
-        /* 移除标题下划线 */
+        :root {
+            --theme-color: #42b983;
+            --theme-color-dark: #2d8c5c;
+        }
+        
+        body {
+            padding-top: 0;
+            margin: 0 !important;
+        }
+        
+        /* 移除 Docsify 主题的顶部间距 */
+        #app {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .content {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+        
+        /* 移除可能存在的顶部边距 */
+        .sidebar {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+        
+        /* 强制顶部导航紧贴顶部 */
+        .top-nav {
+            margin-top: 0 !important;
+            border-top: none !important;
+        }
+        
         .markdown-section h1,
         .markdown-section h2,
         .markdown-section h3,
@@ -20,12 +53,6 @@
             border-bottom: none !important;
         }
         
-        /* 移除Docsify默认的绿色下划线 */
-        .markdown-section h2 {
-            border-bottom: none !important;
-        }
-        
-        /* 调整标题样式 */
         .markdown-section h1 {
             font-size: 2rem;
             margin-bottom: 1rem;
@@ -42,16 +69,286 @@
             margin-top: 1.5rem;
             margin-bottom: 0.75rem;
         }
+        
+        .top-nav {
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #fff;
+            border-bottom: 1px solid #e8e8e8;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .top-nav .logo {
+            color: #333;
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-decoration: none;
+            margin-right: 30px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        
+        .top-nav .logo:hover {
+            text-decoration: none;
+            color: #42b983;
+        }
+        
+        .top-nav .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            flex: 1;
+            justify-content: flex-end;
+        }
+        
+        .top-nav .nav-menu::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .top-nav .nav-item {
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .top-nav .nav-link {
+            color: #333;
+            text-decoration: none;
+            padding: 8px 10px;
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .top-nav .nav-link:hover {
+            color: #42b983;
+            background: #f5f5f5;
+        }
+        
+        .top-nav .nav-link.active {
+            color: #42b983;
+            background: #f0f9f4;
+        }
+        
+        .github-item {
+            margin-left: auto;
+        }
+        
+        .github-link {
+            display: flex !important;
+            align-items: center;
+        }
+        
+        .top-nav .nav-item:hover .dropdown {
+            display: block;
+        }
+        
+        .top-nav .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 200px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 8px 0;
+            margin-top: 5px;
+            text-align: left;
+            z-index: 200;
+        }
+        
+        .top-nav .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        
+        .top-nav .dropdown-item:hover {
+            background: #f5f5f5;
+            color: var(--theme-color);
+        }
+        
+        .sidebar {
+            top: 0 !important;
+            height: 100vh !important;
+            padding-top: 20px !important;
+        }
+        
+        .sidebar-toggle {
+            top: 10px !important;
+        }
+        
+        .content {
+            padding-top: 0 !important;
+        }
+        
+        .sidebar-nav > ul > li {
+            display: none;
+        }
+        
+        .sidebar-nav > ul > li.active-module,
+        .sidebar-nav > ul > li.active-module li,
+        .sidebar-nav > ul > li.home-item {
+            display: block;
+        }
+        
+        /* 修复移动端侧边栏遮罩层问题 */
+        .sidebar-overlay {
+            display: none !important;
+        }
+        
+        .sidebar {
+            z-index: 1000;
+        }
+        
+        /* 隐藏 Docsify 自动生成的 GitHub 角标 */
+        .github-corner {
+            display: none !important;
+        }
+        
+        @media (max-width: 768px) {
+            .top-nav .logo {
+                font-size: 1.1rem;
+                margin-right: 15px;
+            }
+            
+            .top-nav .nav-link {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+            
+            .top-nav .dropdown {
+                min-width: 180px;
+            }
+        }
     </style>
 </head>
 <body>
+    <nav class="top-nav">
+        <a href="#/" class="logo">大模型全栈知识体系</a>
+        <ul class="nav-menu">
+            <li class="nav-item" data-module="applications">
+                <a href="#/applications/chapter1/第一章%20Prompt%20Engineering" class="nav-link">大模型应用实战</a>
+                <div class="dropdown">
+                    <a href="#/applications/chapter1/第一章%20Prompt%20Engineering" class="dropdown-item">Prompt Engineering</a>
+                    <a href="#/applications/chapter2/第二章%20FunctionCall" class="dropdown-item">Function Call</a>
+                    <a href="#/applications/chapter3/第三章%20RAG" class="dropdown-item">RAG</a>
+                    <a href="#/applications/chapter4/第四章%20MCP（Model%20Context%20Protocol" class="dropdown-item">MCP</a>
+                    <a href="#/applications/chapter5/第五章%20Skills" class="dropdown-item">国产大模型应用</a>
+                    <a href="#/applications/chapter6/第六章%20AI%20Agent" class="dropdown-item">Agent</a>
+                </div>
+            </li>
+            <li class="nav-item" data-module="vibe-coding">
+                <a href="#/vibe-coding/README" class="nav-link">Vibe Coding</a>
+                <div class="dropdown">
+                    <a href="#/vibe-coding/chapter1/第一章-Vibe-Coding概念与Agent本质" class="dropdown-item">概念与Agent本质</a>
+                    <a href="#/vibe-coding/chapter2/第二章-AI-编程工具全景对比" class="dropdown-item">AI编程工具对比</a>
+                    <a href="#/vibe-coding/chapter3/第三章-Cursor-范式详解" class="dropdown-item">Cursor范式详解</a>
+                    <a href="#/vibe-coding/chapter4/第四章-Claude-范式详解" class="dropdown-item">Claude范式详解</a>
+                    <a href="#/vibe-coding/chapter5/第五章-主流工具横评与选型" class="dropdown-item">工具横评与选型</a>
+                    <a href="#/vibe-coding/chapter6/第六章-Prompt-工程与代码生成" class="dropdown-item">Prompt工程实战</a>
+                    <a href="#/vibe-coding/chapter7/第七章-实战项目案例" class="dropdown-item">实战项目案例</a>
+                </div>
+            </li>
+            <li class="nav-item" data-module="tools">
+                <a href="#/tools/README" class="nav-link">实战工具</a>
+                <div class="dropdown">
+                    <a href="#/tools/chapter1/第一章-Ollama-本地部署" class="dropdown-item">Ollama本地部署</a>
+                    <a href="#/tools/chapter2/第二章-Dify-AI-低代码平台" class="dropdown-item">Dify低代码平台</a>
+                    <a href="#/tools/chapter3/第三章-Coze-扣子平台" class="dropdown-item">Coze扣子平台</a>
+                    <a href="#/tools/chapter4/第四章-Cursor-AI编程" class="dropdown-item">Cursor AI编程</a>
+                </div>
+            </li>
+            <li class="nav-item" data-module="nlp">
+                <a href="#/nlp/index" class="nav-link">NLP与预训练</a>
+                <div class="dropdown">
+                    <a href="#/nlp/chapter1/第一章%20NLP%20自然语言" class="dropdown-item">NLP自然语言</a>
+                    <a href="#/nlp/chapter2/第二章%20Embeding文本表示" class="dropdown-item">Embeding文本表示</a>
+                    <a href="#/nlp/chapter3/第三章%20传统序列模型" class="dropdown-item">传统序列模型</a>
+                    <a href="#/nlp/chapter4/第四章%20Seq2Seq模型" class="dropdown-item">Seq2Seq模型</a>
+                    <a href="#/nlp/chapter5/第五章%20Attention机制" class="dropdown-item">Attention机制</a>
+                    <a href="#/nlp/chapter6/第六章%20Transformer模型" class="dropdown-item">Transformer模型</a>
+                    <a href="#/nlp/chapter7/第七章%20预训练模型" class="dropdown-item">预训练模型</a>
+                </div>
+            </li>
+            <li class="nav-item" data-module="rl">
+                <a href="#/rl/README" class="nav-link">强化学习</a>
+                <div class="dropdown">
+                    <a href="#/rl/chapter1/第一章-RLHF-人类反馈强化学习" class="dropdown-item">RLHF人类反馈</a>
+                    <a href="#/rl/chapter2/第二章-DPO-直接偏好优化" class="dropdown-item">DPO直接偏好优化</a>
+                    <a href="#/rl/chapter3/第三章-模型对齐技术" class="dropdown-item">模型对齐技术</a>
+                </div>
+            </li>
+            <li class="nav-item" data-module="multimodal">
+                <a href="#/multimodal/README" class="nav-link">多模态</a>
+                <div class="dropdown">
+                    <a href="#/multimodal/chapter1/第一章-视觉语言模型" class="dropdown-item">视觉语言模型</a>
+                    <a href="#/multimodal/chapter2/第二章-音频处理" class="dropdown-item">音频处理</a>
+                    <a href="#/multimodal/chapter3/第三章-视频理解" class="dropdown-item">视频理解</a>
+                </div>
+            </li>
+            <li class="nav-item" data-module="dl">
+                <a href="#/dl/README" class="nav-link">深度学习</a>
+                <div class="dropdown">
+                    <a href="#/dl/chapter1/第一章-神经网络基础" class="dropdown-item">神经网络基础</a>
+                    <a href="#/dl/chapter2/第二章-CNN-卷积神经网络" class="dropdown-item">CNN卷积神经网络</a>
+                    <a href="#/dl/chapter3/第三章-RNN-循环神经网络" class="dropdown-item">RNN循环神经网络</a>
+                    <a href="#/dl/chapter4/第四章-Attention-机制" class="dropdown-item">Attention机制</a>
+                </div>
+            </li>
+            <li class="nav-item" data-module="base">
+                <a href="#/base/readme" class="nav-link">数学基础</a>
+                <div class="dropdown">
+                    <a href="#/base/chapter1/第一章%20函数图像表示" class="dropdown-item">函数图像表示</a>
+                    <a href="#/base/chapter2/第二章%20三角函数与反三角函数" class="dropdown-item">三角函数</a>
+                    <a href="#/base/chapter3/第三章%20高数：导数、偏导数与梯度" class="dropdown-item">导数与梯度</a>
+                    <a href="#/base/chapter4/第四章%20线性代数：标量、向量、矩阵与张量" class="dropdown-item">线性代数</a>
+                    <a href="#/base/chapter5/第五章%20概率与统计：概率分布、贝叶斯定理与似然函数" class="dropdown-item">概率与统计</a>
+                </div>
+            </li>
+            <li class="nav-item" data-module="resources">
+                <a href="#/resources/README" class="nav-link">资源工具</a>
+                <div class="dropdown">
+                    <a href="#/resources/chapter1/第一章-数据集资源" class="dropdown-item">数据集资源</a>
+                    <a href="#/resources/chapter2/第二章-模型资源" class="dropdown-item">模型资源</a>
+                    <a href="#/resources/chapter3/第三章-开发工具" class="dropdown-item">开发工具</a>
+                </div>
+            </li>
+            <li class="nav-item github-item">
+                <a href="https://github.com/javelindot/llm-roadmap" target="_blank" class="nav-link github-link">
+                    <svg height="16" viewBox="0 0 16 16" width="16" style="vertical-align: middle; margin-right: 4px;">
+                        <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                    </svg>
+                    GitHub
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
     <div id="app"></div>
     <script>
         window.$docsify = {
-            name: 'AI大模型学习路线',
+            name: '大模型全栈知识体系',
             repo: 'https://github.com/javelindot/llm-roadmap',
             loadSidebar: '_sidebar.md',
-            subMaxLevel: 0,
+            subMaxLevel: 3,
             homepage: 'README.md',
             relativePath: false,
             routerMode: 'hash',
@@ -82,9 +379,77 @@
                                 throwOnError: false
                             });
                         }
+                        
+                        // 更新顶部导航栏激活状态
+                        var currentPath = window.location.hash;
+                        var navLinks = document.querySelectorAll('.top-nav .nav-link');
+                        navLinks.forEach(function(link) {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') && currentPath.indexOf(link.getAttribute('href').replace('#', '')) === 0) {
+                                link.classList.add('active');
+                            }
+                        });
+                        
+                        // 更新侧边栏显示
+                        updateSidebar(currentPath);
                     });
                 }
             ]
+        }
+        
+        function updateSidebar(currentPath) {
+            console.log('Current path:', currentPath);
+            var moduleMapping = {
+                'applications': '大模型应用实战',
+                'vibe-coding': 'Vibe Coding',
+                'tools': '大模型实战工具',
+                'innovations': '创新应用落地',
+                'nlp': 'NLP与预训练核心',
+                'rl': '强化学习与模型对齐',
+                'multimodal': '多模态技术',
+                'ml': '机器学习基础',
+                'dl': '深度学习进阶',
+                'algorithms': '算法与系统底层',
+                'resources': '附录资料与工具集',
+                'base': '数学基础'
+            };
+            
+            var currentModule = '';
+            for (var key in moduleMapping) {
+                if (currentPath.indexOf('/' + key + '/') !== -1) {
+                    currentModule = moduleMapping[key];
+                    break;
+                }
+            }
+            console.log('Current module:', currentModule);
+            
+            // 获取所有侧边栏的一级菜单
+            var sidebarItems = document.querySelectorAll('.sidebar-nav > ul > li');
+            console.log('Sidebar items count:', sidebarItems.length);
+            sidebarItems.forEach(function(item, index) {
+                // 获取一级菜单的文本（可能是直接的a标签、p包裹的a标签，或者纯文本p标签）
+                var firstElement = item.querySelector(':scope > a, :scope > p, :scope > strong');
+                var linkText = '';
+                if (firstElement) {
+                    linkText = firstElement.textContent.trim();
+                }
+                console.log('Item', index, 'text:', linkText);
+                // 如果是当前模块，显示该菜单及其所有子项
+                // 首页不显示左侧导航栏
+                // 使用包含关系匹配，因为链接文本可能包含额外内容
+                if (linkText && currentModule && linkText.indexOf(currentModule) !== -1) {
+                    item.style.display = 'block';
+                    item.classList.add('active-module');
+                    // 确保子项也显示
+                    var subItems = item.querySelectorAll('li');
+                    subItems.forEach(function(sub) {
+                        sub.style.display = 'block';
+                    });
+                } else {
+                    item.style.display = 'none';
+                    item.classList.remove('active-module');
+                }
+            });
         }
     </script>
     <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
