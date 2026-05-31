@@ -1,23 +1,48 @@
 #!/usr/bin/env python3
 """
-面试题解析脚本
-用法:
-  python parse_questions.py              # 解析 _src/ 下所有 .md 文件
-  python parse_questions.py demo.md      # 只解析指定文件
-  python parse_questions.py demo.md demo2.md  # 解析多个文件
+面试题解析脚本 —— MD 内容源 + JSON 索引层 分离架构
 
-扫描面试题 Markdown，提取公司、题目、答案，
-自动分类、打标签，输出 quiz-data.json。
+用法:
+  python parse_questions.py                  # 解析 _src/ 下所有 quiz-*.md
+  python parse_questions.py quiz-main.md     # 只解析指定文件
+  python parse_questions.py quiz-main.md quiz-agent-pending.md
+
+输出:
+  1. questions/q-{id}.md    — 每题独立 Markdown（内容源，可独立拆分）
+  2. quiz-index.json        — 轻量索引（列表/筛选/搜索）
+  3. quiz-data.json         — 完整数据（兼容现有 quiz.html）
+
+题库文件命名规范：
+  quiz-[scope]-[status].md
+    scope: 主题范围，如 main / agent / rag / deploy / algo
+    status（可选）: pending 表示待补充答案
 """
 
 import json
 import re
 import sys
 from pathlib import Path
-from collections import Counter
+from collections import Counter, defaultdict
+from datetime import datetime
 
 SRC_DIR = Path(__file__).parent / "_src"
-OUTPUT = Path(__file__).parent / "quiz-data.json"
+OUT_DIR = Path(__file__).parent
+OUTPUT_FULL = OUT_DIR / "quiz-data.json"
+OUTPUT_INDEX = OUT_DIR / "quiz-index.json"
+QUESTIONS_DIR = OUT_DIR / "questions"
+
+# 分类映射：中文名称 → 英文 key
+category_key_map = {
+    "RAG/检索": "rag",
+    "Agent/多智能体": "agent",
+    "大模型原理": "llm-theory",
+    "推理优化/部署": "deploy",
+    "NL2SQL/数据": "nl2sql",
+    "知识图谱": "kg",
+    "编程基础": "coding",
+    "系统设计": "system-design",
+    "综合": "mixed",
+}
 
 
 def clean_html(s: str) -> str:
@@ -77,6 +102,7 @@ def extract_tags(question: str, answer: str) -> list:
 
 
 def parse_markdown(filepath: Path) -> list:
+    """解析题库 dump，返回原始题目列表。"""
     with open(filepath, "r", encoding="utf-8") as f:
         content = f.read()
 
@@ -84,6 +110,7 @@ def parse_markdown(filepath: Path) -> list:
     questions = []
     current_company = None
     current_category = None
+    source_name = filepath.stem
     i = 0
 
     def is_question_line(line: str) -> bool:
@@ -98,7 +125,7 @@ def parse_markdown(filepath: Path) -> list:
     while i < len(lines):
         line = lines[i].strip()
 
-        # 检测公司名（排除编号列表项、说明性正文）
+        # 检测公司名
         company_match = None
         is_list_item = bool(re.match(r'^\s*\d+[\.、]\s*\S', line))
         if line.startswith("##") and not line.startswith("###"):
@@ -107,7 +134,6 @@ def parse_markdown(filepath: Path) -> list:
                 company_match = clean_html(m.group(1))
         elif not is_list_item and "**" in line and any(k in line for k in ["公司", "科技", "集团", "互联", "动力", "医疗", "车联网", "财经", "数字人", "机器人"]):
             c = clean_html(line.replace("**", ""))
-            # 必须以公司类关键字结尾或临近结尾，避免句子被误判
             if len(c) < 40 and re.search(r'(公司|科技|集团|互联|动力|医疗|车联网|财经|数字人|机器人)[\s\)\）]*$', c):
                 company_match = c
         elif not is_list_item and re.match(r'^[^\d\*#\-].+(公司|科技|集团|互联|动力|医疗|财经|数字人|机器人)$', line) and len(line) < 30:
@@ -153,14 +179,14 @@ def parse_markdown(filepath: Path) -> list:
             answer = "\n".join(answer_lines)
             answer = re.sub(r'\*\*', '', answer)
 
-            # 保留条件：有答案 或 来源为图片/截图/未知（纯问题录入）
-            is_unknown_source = current_company and any(k in current_company for k in ["来源未知", "图片", "截图"])
+            is_unknown_source = current_company and any(k in current_company for k in ["其他", "来源未知", "图片", "截图"])
             if answer or is_unknown_source:
                 questions.append({
                     "company": current_company or "未知",
                     "category": current_category or "综合",
                     "question": q_text,
                     "answer": answer,
+                    "source": source_name,
                 })
             i = j
             continue
@@ -170,8 +196,47 @@ def parse_markdown(filepath: Path) -> list:
     return questions
 
 
+def slugify_category(name: str) -> str:
+    """分类中文名 → 英文 key。"""
+    return category_key_map.get(name, "mixed")
+
+
+def write_question_md(qid: str, rec: dict, out_path: Path):
+    """生成单题独立 Markdown 文件。"""
+    cat = rec["category"]
+    cat_key = slugify_category(cat)
+    tags = ", ".join(f'"{t}"' for t in rec["tags"])
+    companies = ", ".join(f'"{c}"' for c in rec["companies"])
+    has_answer = "true" if rec["hasAnswer"] else "false"
+    created = rec.get("created", datetime.now().strftime("%Y-%m-%d"))
+
+    fm = f"""---
+id: {qid}
+title: {rec["question"]}
+category: {cat}
+categoryKey: {cat_key}
+tags: [{tags}]
+companies: [{companies}]
+frequency: {rec["frequency"]}
+hot: {rec["hot"]}
+hasAnswer: {has_answer}
+source: {rec["source"]}
+created: "{created}"
+---
+
+# {rec["question"]}
+
+## 答案
+
+{rec["answer"] if rec["answer"] else "（待补充）"}
+"""
+    out_path.write_text(fm, encoding="utf-8")
+
+
 def is_question_dump(path: Path) -> bool:
     """题库 dump 以 `## 公司名` 开头；指南类文档以 `---` frontmatter 开头。"""
+    if path.name.startswith("__"):
+        return False
     try:
         with open(path, "r", encoding="utf-8") as f:
             first = f.readline().strip()
@@ -181,7 +246,6 @@ def is_question_dump(path: Path) -> bool:
 
 
 def main():
-    # 命令行参数指定文件；否则只扫 _src/ 下属于题库 dump 的 .md
     if len(sys.argv) > 1:
         md_files = [SRC_DIR / f for f in sys.argv[1:]]
     else:
@@ -198,8 +262,8 @@ def main():
         all_raw.extend(parse_markdown(f))
 
     # 跨公司合并：相同题目（前 60 字符为 key）聚合 companies + 取最长答案
-    merged = {}  # key -> dict
-    order = []   # 保留首次出现顺序
+    merged = {}
+    order = []
     for q in all_raw:
         key = q["question"][:60]
         company = q["company"].replace("（", "(").replace("）", ")")
@@ -208,32 +272,51 @@ def main():
                 "question": q["question"],
                 "answer": q["answer"],
                 "companies": [],
+                "source": q["source"],
             }
             order.append(key)
         rec = merged[key]
         if company and company not in rec["companies"]:
             rec["companies"].append(company)
-        # 取最长答案作为参考答案
         if len(q["answer"].strip()) > len(rec["answer"].strip()):
             rec["answer"] = q["answer"]
 
-    # 分类、打标签、计算频次、生成 ID
-    results = []
+    # 准备输出目录
+    QUESTIONS_DIR.mkdir(parents=True, exist_ok=True)
+
+    # 生成完整数据 + 索引
+    full_results = []
+    index_questions = []
+    created_date = datetime.now().strftime("%Y-%m-%d")
+
     for idx, key in enumerate(order, 1):
         rec = merged[key]
+        qid = f"q-{idx}"
         cat = classify(rec["question"], rec["answer"])
         tags = extract_tags(rec["question"], rec["answer"])
         has_answer = len(rec["answer"].strip()) > 10
         freq = len(rec["companies"])
-        # 热度：freq>=4 双火 / freq>=2 单火 / 否则无
-        if freq >= 4:
-            hot = 2
-        elif freq >= 2:
-            hot = 1
-        else:
-            hot = 0
-        results.append({
-            "id": f"q-{idx}",
+        hot = 2 if freq >= 4 else (1 if freq >= 2 else 0)
+        cat_key = slugify_category(cat)
+        md_path = f"questions/{qid}.md"
+
+        # 写入单题 MD
+        write_question_md(qid, {
+            "question": rec["question"],
+            "category": cat,
+            "tags": tags,
+            "companies": rec["companies"],
+            "frequency": freq if freq > 0 else 1,
+            "hot": hot,
+            "hasAnswer": has_answer,
+            "source": rec["source"],
+            "answer": rec["answer"] if has_answer else "",
+            "created": created_date,
+        }, QUESTIONS_DIR / f"{qid}.md")
+
+        # 完整数据（兼容 quiz.html）
+        full_results.append({
+            "id": qid,
             "company": rec["companies"][0] if rec["companies"] else "未知",
             "companies": rec["companies"] or ["未知"],
             "frequency": freq if freq > 0 else 1,
@@ -245,19 +328,111 @@ def main():
             "tags": tags,
         })
 
-    with open(OUTPUT, "w", encoding="utf-8") as f:
-        json.dump(results, f, ensure_ascii=False, indent=2)
+        # 索引数据（轻量）
+        index_questions.append({
+            "id": qid,
+            "title": rec["question"],
+            "mdPath": md_path,
+            "categoryKey": cat_key,
+            "categoryName": cat,
+            "companies": rec["companies"] or ["未知"],
+            "frequency": freq if freq > 0 else 1,
+            "hot": hot,
+            "isHighFrequency": hot >= 1,
+            "hasAnswer": has_answer,
+            "tags": tags,
+            "variants": [],
+            "source": rec["source"],
+        })
 
-    print(f"\n✅ 共解析 {len(results)} 道题目，输出到 {OUTPUT}")
+    # 聚合索引
+    categories = defaultdict(lambda: {"name": "", "questionIds": []})
+    companies_idx = defaultdict(lambda: {"name": "", "questionIds": []})
+    tags_idx = defaultdict(lambda: {"name": "", "questionIds": []})
+
+    for q in index_questions:
+        ck = q["categoryKey"]
+        categories[ck]["name"] = q["categoryName"]
+        categories[ck]["questionIds"].append(q["id"])
+
+        for co in q["companies"]:
+            companies_idx[co]["name"] = co
+            companies_idx[co]["questionIds"].append(q["id"])
+
+        for t in q["tags"]:
+            tags_idx[t]["name"] = t
+            tags_idx[t]["questionIds"].append(q["id"])
+
+    categories_out = [
+        {
+            "key": k,
+            "name": v["name"],
+            "questionCount": len(v["questionIds"]),
+            "highFrequencyCount": sum(1 for qid in v["questionIds"] if next((x for x in index_questions if x["id"] == qid), {}).get("isHighFrequency", False)),
+            "questionIds": v["questionIds"],
+        }
+        for k, v in sorted(categories.items())
+    ]
+
+    companies_out = [
+        {
+            "name": v["name"],
+            "questionCount": len(v["questionIds"]),
+            "highFrequencyCount": sum(1 for qid in v["questionIds"] if next((x for x in index_questions if x["id"] == qid), {}).get("isHighFrequency", False)),
+            "questionIds": v["questionIds"],
+        }
+        for v in sorted(companies_idx.values(), key=lambda x: -len(x["questionIds"]))
+    ]
+
+    tags_out = [
+        {
+            "name": v["name"],
+            "questionCount": len(v["questionIds"]),
+            "questionIds": v["questionIds"],
+        }
+        for v in sorted(tags_idx.values(), key=lambda x: -len(x["questionIds"]))
+    ]
+
+    stats = {
+        "totalQuestions": len(index_questions),
+        "totalCompanies": len(companies_idx),
+        "totalCategories": len(categories),
+        "totalTags": len(tags_idx),
+        "highFrequencyQuestions": sum(1 for q in index_questions if q["isHighFrequency"]),
+        "answeredQuestions": sum(1 for q in index_questions if q["hasAnswer"]),
+        "pendingQuestions": sum(1 for q in index_questions if not q["hasAnswer"]),
+        "lastUpdated": created_date,
+    }
+
+    index_data = {
+        "meta": {
+            "version": "1.0",
+            "schema": "interview-quiz-index",
+            "description": "LLM 工程师面试题库索引 —— JSON 负责列表/筛选/搜索，MD 负责内容承载",
+            "lastUpdated": created_date,
+        },
+        "stats": stats,
+        "categories": categories_out,
+        "companies": companies_out,
+        "tags": tags_out,
+        "questions": index_questions,
+    }
+
+    # 写入文件
+    with open(OUTPUT_FULL, "w", encoding="utf-8") as f:
+        json.dump(full_results, f, ensure_ascii=False, indent=2)
+
+    with open(OUTPUT_INDEX, "w", encoding="utf-8") as f:
+        json.dump(index_data, f, ensure_ascii=False, indent=2)
+
+    print(f"\n✅ quiz-data.json    — 共 {len(full_results)} 道题目（兼容层）")
+    print(f"✅ quiz-index.json   — 轻量索引（{len(categories_out)} 分类 / {len(companies_out)} 公司 / {len(tags_out)} 标签）")
+    print(f"✅ questions/        — {len(full_results)} 个独立 Markdown 内容源")
 
     # 统计
-    cat_counter = Counter(q["category"] for q in results)
-    co_counter = Counter(q["company"] for q in results)
+    cat_counter = Counter(q["category"] for q in full_results)
     print("\n📊 分类分布:")
     for c, n in cat_counter.most_common():
-        print(f"   {c}: {n}")
-    print("\n🏢 公司分布:")
-    for c, n in co_counter.most_common():
         print(f"   {c}: {n}")
 
 

@@ -307,7 +307,7 @@ def build_module(name, cfg):
         print(f"  ⚠ {src_dir} 不存在，跳过")
         return
 
-    files = sorted(src_dir.glob("*.md"))
+    files = sorted([f for f in src_dir.glob("*.md") if not f.name.startswith("__")])
     if not files:
         print(f"  ⚠ {src_dir} 无 .md 文件，跳过")
         return

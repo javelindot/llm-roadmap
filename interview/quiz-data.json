@@ -1,6 +1,2522 @@
 [
   {
     "id": "q-1",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "SKILL 是如何工作的？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-2",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "SubAgent 是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-3",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent 如何创建工具？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-4",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent 如何长时间自主运作？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-5",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent 如何定时工作？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-6",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent 如何记忆？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent",
+      "记忆"
+    ]
+  },
+  {
+    "id": "q-7",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent 如何使用工具、SKILL",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-8",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent 如何知道自己是谁？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-9",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "什么是大模型Agent",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-10",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent由哪些部分组成",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-11",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent类型",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-12",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent创建方式",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-13",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "AgentExecutor的创建方式",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-14",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "系统设计",
+    "title": "CLIP架构？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-15",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "投影层的作用是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-16",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "on-policy和off-policy有什么区别？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-17",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "PPO算法中使用GAE的好处以及参数gamma和lambda",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-18",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "有哪些PPO算法的调参经验？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-19",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "DPO的第0步loss是多少？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-20",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "DPO训练时，chosen和rejected的reward一起下降的可能",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-21",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "sft模型出现各种复读问题如何解决？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "微调"
+    ]
+  },
+  {
+    "id": "q-22",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "如何看待各种pporlhf的平替算法dpo/kto/rrhf/slic/orpo/simpo",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-23",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "如何处理reward model中的噪声数据？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-24",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "在PPO过程中，reward model的效果上会有什么问题？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-25",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "现有的reward model泛化能力怎么样？我们需要用大reward model吗？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-26",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "DPO训练可能会出现什么问题？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-27",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "讲一下DPO和PPO，DPO和PPO有什么区别？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-28",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "PPO的缺点是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-29",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "DPO的偏好数据集长什么样子",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-30",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "DPO的损失函数是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-31",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "在什么情况下，DPO在数学上等价于PPO？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-32",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "DPO的变种算法有哪些？主要解决了DPO的什么问题？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-33",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "如何微调出带有思维链的LLM推理模型？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "微调",
+      "推理优化"
+    ]
+  },
+  {
+    "id": "q-34",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "带有思维链的推理模型优缺点？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "推理优化"
+    ]
+  },
+  {
+    "id": "q-35",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "LLM的对齐阶段分为sft和rlhf阶段，我们可以跳过sft阶段直接进行rlhf吗？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "微调",
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-36",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "哪些因素会影响内存使用？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-37",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "分布式训练及显存优化技术有哪些？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-38",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "什么是数据并行？如何提升通信效率？通信如何协同与计算？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-39",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "什么是流水线并行&优缺点？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-40",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "单卡显存装不下一个完整的模型怎么办",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-41",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "什么是张量并行?优缺点?",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-42",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "什么是 3D并行？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-43",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "什么是DeepSpeed ZeRO&DeepSpeed Offload？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-44",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "介绍RingAllReduce",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-45",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "AMP混合精度训练",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-46",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "PEFT-LoRA及变种",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "微调"
+    ]
+  },
+  {
+    "id": "q-47",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "该选什么微调方法，全参数微调/Lora？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "微调"
+    ]
+  },
+  {
+    "id": "q-48",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "介绍一下KV Cache?KV Cache优缺点",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-49",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "大模型的工作原理",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-50",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "什么是大模型？它与传统深度学习模型的区别在哪里？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-51",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "大模型的核心特点有哪些？请举例说明。",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-52",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "什么是生成式大模型？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-53",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "自回归大语言模型的训练目标是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-54",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "大模型参数量单位",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-55",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "大模型（LLMs）的缺点？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-56",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "为什么Transformer架构适合用于大语言模型？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-57",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "Pre-LayerNorm vs Post-LayerNorm",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-58",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "LLMs归一化方式",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-59",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "LLMs归一化位置",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-60",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "LLMs都使用哪种激活函数？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-61",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "常见位置编码",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-62",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "旋转位置编码的核心思想",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-63",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "LLMs使用了哪些位置编码？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-64",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "传统Attention存在哪些问题？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-65",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "Attention优化方向",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-66",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "MHA、MQA和GQA",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-67",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "LLMs采用的注意力机制变体",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-68",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "如何理解稠密模型&混合专家模型",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-69",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "为什么 Adam + L2正则化效果不好？AdamW是如何解决的？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-70",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "为什么在大模型训练中需要预热（Warmup）",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-71",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "学习率退火（Annealing）对模型收敛和泛化的作用是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-72",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "Warmup和Annealing通常如何配合使用？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-73",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "什么是缩放定律",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-74",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "什么是监督微调？它与预训练有什么区别？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "微调"
+    ]
+  },
+  {
+    "id": "q-75",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "请详细描述Instruct-GPT RLHF的整体流程及各阶段作用",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-76",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "什么是拒绝采样？具体流程？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-77",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "什么是DPO",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-78",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "什么是思维链",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-79",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "长思维链冷启动",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-80",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "什么是强-弱蒸馏（Teacher-Student Distillation）",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-81",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "什么是知识蒸馏（Knowledge Distillation），核心思想是什么",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-82",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "什么是迭代式微调？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "微调"
+    ]
+  },
+  {
+    "id": "q-83",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "系统设计",
+    "title": "Qwen3模型架构",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-84",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "为什么Adam在实际中常用？与SGD相比有何优势？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-85",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "权重初始化的重要性是什么？为什么不能将权重初始化为0？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-86",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "常用的权重初始化方法有哪些？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-87",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "Xavier初始化和He初始化的适用场景是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-88",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "神经网络中有哪些正则化技术？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-89",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "什么是批量标准化（Batch Normalization, BN）？作用是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-90",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "Dropout的原理及作用是什么？训练和测试时有何区别？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-91",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "数据增强的目的是什么？常用方法有哪些？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-92",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "CNN的核心层有哪些？各层作用是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-93",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "卷积层和全连接层的区别是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-94",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "卷积层有哪些基本参数？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-95",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "如何计算卷积层的输出的大小？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-96",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "卷积的作用是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-97",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "卷积核的大小是否一定越大越好？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-98",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "简要介绍什么是转置卷积",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-99",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "简述池化层的作用，并说明主要有哪些池化方法。",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-100",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "与卷积层相比，池化层有哪些特点？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-101",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "VGG网络的特点是什么？为什么使用多个3×3卷积核？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-102",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "ResNet如何解决梯度消失问题？残差连接的作用是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-103",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "什么是词嵌入（Word Embedding）？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "向量检索"
+    ]
+  },
+  {
+    "id": "q-104",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "什么是RNN？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-105",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "RNN与前馈神经网络的主要区别是什么？适用于什么场景？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-106",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "RNN中为什么会出现梯度消失？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-107",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "如何解决RNN中的梯度消失问题？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-108",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "机器学习-什么是机器学习？其核心目标是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-109",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "知识图谱",
+    "title": "机器学习-人工智能、机器学习、深度学习的关系是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-110",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "机器学习-机器学习的主要分类有哪些？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-111",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "机器学习-简述监督学习和无监督学习的区别",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-112",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "机器学习-简述验证集和测试集的区别",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-113",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "Huggingface下载不了模型问题",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-114",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "为什么现在LLM大部分都是Decoder Only结构",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-115",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "LLM有哪些缺点",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-116",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "RAG工作流程",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "RAG"
+    ]
+  },
+  {
+    "id": "q-117",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "为什么大模型需要外挂(向量)知识库？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "向量检索"
+    ]
+  },
+  {
+    "id": "q-118",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "怎么解析pdf？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-119",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "pdf解析存在哪些问题？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-120",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "为什么需要对文本分块？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "分块"
+    ]
+  },
+  {
+    "id": "q-121",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "介绍一下常见的文本分块方法",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "分块"
+    ]
+  },
+  {
+    "id": "q-122",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "RAG 各块有哪些优化策略？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "RAG"
+    ]
+  },
+  {
+    "id": "q-123",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "RAG 如何提升索引数据的质量？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "RAG"
+    ]
+  },
+  {
+    "id": "q-124",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "什么是大模型辅助召回？为什么需要？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-125",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "查询转换(QueryTransformations)？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-126",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "如何通过 混合检索 提升 RAG 效果？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "RAG"
+    ]
+  },
+  {
+    "id": "q-127",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "如何通过重新排名提升RAG效果？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "RAG"
+    ]
+  },
+  {
+    "id": "q-128",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "什么是RAG Fusion？工作流程？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "RAG"
+    ]
+  },
+  {
+    "id": "q-129",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "为什么RAG Fusion需要生成多个查询？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "RAG"
+    ]
+  },
+  {
+    "id": "q-130",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "RAG Fusion为什么使用RRF？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "RAG"
+    ]
+  },
+  {
+    "id": "q-131",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "介绍HYDE思路？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-132",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "谈谈HYDE问题？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-133",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "什么是Graph RAG？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "RAG"
+    ]
+  },
+  {
+    "id": "q-134",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "如何评价 RAG项目效果的好坏？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "RAG"
+    ]
+  },
+  {
+    "id": "q-135",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "RAG有哪些关键评估指标和能力？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "RAG",
+      "评估"
+    ]
+  },
+  {
+    "id": "q-136",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "什么是评估框架RAGAS？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "RAG",
+      "评估"
+    ]
+  },
+  {
+    "id": "q-137",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "抽取式摘要和生成式摘要存在哪些问题",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-138",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "One-hot 编码的原理？有什么缺点？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-139",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "Word2Vec 的核心思想？两种模型是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-140",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "什么是上下文相关词表示？与静态词向量有何区别？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "向量检索",
+      "记忆"
+    ]
+  },
+  {
+    "id": "q-141",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "RNN 的原理？有什么缺点？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-142",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "LSTM 如何解决 RNN 的长期依赖问题？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-143",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "GRU 与 LSTM 的区别是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-144",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "Seq2Seq 模型结构？有什么缺陷？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-145",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "Attention 机制的工作原理是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-146",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "Attention 与 Seq2Seq 结合的优势是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-147",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "Transformer 的核心创新是什么？与 RNN 相比有何优势？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-148",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "Transformer 的编码器和解码器结构分别是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-149",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "Transformer 中位置编码的作用和实现方式是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-150",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "Transformer中自注意层计算公式",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-151",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "GPT的结构和预训练目标是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-152",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "BERT的结构和预训练目标是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-153",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "T5的结构和预训练目标是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-154",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "预训练模型的\"预训练 + 微调\"范式是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "微调"
+    ]
+  },
+  {
+    "id": "q-155",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "如何使用 transformers 加载 Bert 模型？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-156",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "NL2SQL/数据",
+    "title": "NLP 任务中常用的评估指标有哪些？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "评估"
+    ]
+  },
+  {
+    "id": "q-157",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "NL2SQL/数据",
+    "title": "BLEU 指标",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-158",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "NL2SQL/数据",
+    "title": "几种 ROUGE 指标之间的区别是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-159",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "分类任务怎么处理类别不平衡",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-160",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "为什么需要大模型应用开发框架？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-161",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "Vision Transformer (ViT) 架构？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-162",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "Vit图像补丁嵌入是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-163",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "谈谈ViT的图像是怎么输入模型的，class token的作用是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-164",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "为什么扩散模型要对X0步加上的噪声算L2损失？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-165",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "如何处理prompt和生成的图像不对齐的问题？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-166",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "扩散模型在训练模型时，预测目标是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-167",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "扩散模型的前向扩散是什么意思？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-168",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "扩散模型的逆向扩散是什么意思？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-169",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "Unet网络是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-170",
+    "company": "其他",
+    "companies": [
+      "其他"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "Unet在扩散模型中的作用？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-171",
     "company": "北京忆芯(B2B公司，AISSD)",
     "companies": [
       "北京忆芯(B2B公司，AISSD)"
@@ -18,7 +2534,7 @@
     ]
   },
   {
-    "id": "q-2",
+    "id": "q-172",
     "company": "北京忆芯(B2B公司，AISSD)",
     "companies": [
       "北京忆芯(B2B公司，AISSD)"
@@ -36,7 +2552,7 @@
     ]
   },
   {
-    "id": "q-3",
+    "id": "q-173",
     "company": "北京忆芯(B2B公司，AISSD)",
     "companies": [
       "北京忆芯(B2B公司，AISSD)"
@@ -52,7 +2568,7 @@
     ]
   },
   {
-    "id": "q-4",
+    "id": "q-174",
     "company": "北京忆芯(B2B公司，AISSD)",
     "companies": [
       "北京忆芯(B2B公司，AISSD)"
@@ -66,7 +2582,7 @@
     "tags": []
   },
   {
-    "id": "q-5",
+    "id": "q-175",
     "company": "北京忆芯(B2B公司，AISSD)",
     "companies": [
       "北京忆芯(B2B公司，AISSD)"
@@ -83,7 +2599,7 @@
     ]
   },
   {
-    "id": "q-6",
+    "id": "q-176",
     "company": "北京忆芯(B2B公司，AISSD)",
     "companies": [
       "北京忆芯(B2B公司，AISSD)"
@@ -97,7 +2613,7 @@
     "tags": []
   },
   {
-    "id": "q-7",
+    "id": "q-177",
     "company": "北京忆芯(B2B公司，AISSD)",
     "companies": [
       "北京忆芯(B2B公司，AISSD)"
@@ -113,7 +2629,7 @@
     ]
   },
   {
-    "id": "q-8",
+    "id": "q-178",
     "company": "北京忆芯(B2B公司，AISSD)",
     "companies": [
       "北京忆芯(B2B公司，AISSD)"
@@ -130,7 +2646,7 @@
     ]
   },
   {
-    "id": "q-9",
+    "id": "q-179",
     "company": "北京忆芯(B2B公司，AISSD)",
     "companies": [
       "北京忆芯(B2B公司，AISSD)"
@@ -147,7 +2663,7 @@
     ]
   },
   {
-    "id": "q-10",
+    "id": "q-180",
     "company": "北京忆芯(B2B公司，AISSD)",
     "companies": [
       "北京忆芯(B2B公司，AISSD)"
@@ -164,7 +2680,7 @@
     ]
   },
   {
-    "id": "q-11",
+    "id": "q-181",
     "company": "北京忆芯(B2B公司，AISSD)",
     "companies": [
       "北京忆芯(B2B公司，AISSD)"
@@ -181,7 +2697,7 @@
     ]
   },
   {
-    "id": "q-12",
+    "id": "q-182",
     "company": "北京忆芯(B2B公司，AISSD)",
     "companies": [
       "北京忆芯(B2B公司，AISSD)"
@@ -198,7 +2714,7 @@
     ]
   },
   {
-    "id": "q-13",
+    "id": "q-183",
     "company": "北京慧博(B2B公司)",
     "companies": [
       "北京慧博(B2B公司)"
@@ -215,7 +2731,7 @@
     ]
   },
   {
-    "id": "q-14",
+    "id": "q-184",
     "company": "联想集团(人机交互岗)(线上一面)",
     "companies": [
       "联想集团(人机交互岗)(线上一面)"
@@ -232,7 +2748,7 @@
     ]
   },
   {
-    "id": "q-15",
+    "id": "q-185",
     "company": "水木东方(机器人)",
     "companies": [
       "水木东方(机器人)"
@@ -248,7 +2764,7 @@
     ]
   },
   {
-    "id": "q-16",
+    "id": "q-186",
     "company": "水木东方(机器人)",
     "companies": [
       "水木东方(机器人)"
@@ -266,7 +2782,7 @@
     ]
   },
   {
-    "id": "q-17",
+    "id": "q-187",
     "company": "水木东方(机器人)",
     "companies": [
       "水木东方(机器人)"
@@ -283,7 +2799,7 @@
     ]
   },
   {
-    "id": "q-18",
+    "id": "q-188",
     "company": "水木东方(机器人)",
     "companies": [
       "水木东方(机器人)"
@@ -301,7 +2817,7 @@
     ]
   },
   {
-    "id": "q-19",
+    "id": "q-189",
     "company": "水木东方(机器人)",
     "companies": [
       "水木东方(机器人)"
@@ -318,7 +2834,7 @@
     ]
   },
   {
-    "id": "q-20",
+    "id": "q-190",
     "company": "致远互联(B2B公司，政务军工)",
     "companies": [
       "致远互联(B2B公司，政务军工)"
@@ -332,7 +2848,7 @@
     "tags": []
   },
   {
-    "id": "q-21",
+    "id": "q-191",
     "company": "致远互联(B2B公司，政务军工)",
     "companies": [
       "致远互联(B2B公司，政务军工)"
@@ -350,7 +2866,7 @@
     ]
   },
   {
-    "id": "q-22",
+    "id": "q-192",
     "company": "致远互联(B2B公司，政务军工)",
     "companies": [
       "致远互联(B2B公司，政务军工)"
@@ -364,7 +2880,7 @@
     "tags": []
   },
   {
-    "id": "q-23",
+    "id": "q-193",
     "company": "中电金信(银行驻场)",
     "companies": [
       "中电金信(银行驻场)"
@@ -380,7 +2896,7 @@
     ]
   },
   {
-    "id": "q-24",
+    "id": "q-194",
     "company": "中电金信(银行驻场)",
     "companies": [
       "中电金信(银行驻场)"
@@ -394,7 +2910,7 @@
     "tags": []
   },
   {
-    "id": "q-25",
+    "id": "q-195",
     "company": "中电金信(银行驻场)",
     "companies": [
       "中电金信(银行驻场)"
@@ -412,7 +2928,7 @@
     ]
   },
   {
-    "id": "q-26",
+    "id": "q-196",
     "company": "中创实二面",
     "companies": [
       "中创实二面"
@@ -428,7 +2944,7 @@
     ]
   },
   {
-    "id": "q-27",
+    "id": "q-197",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -446,7 +2962,7 @@
     ]
   },
   {
-    "id": "q-28",
+    "id": "q-198",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -464,7 +2980,7 @@
     ]
   },
   {
-    "id": "q-29",
+    "id": "q-199",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -482,7 +2998,7 @@
     ]
   },
   {
-    "id": "q-30",
+    "id": "q-200",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -500,7 +3016,7 @@
     ]
   },
   {
-    "id": "q-31",
+    "id": "q-201",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -518,7 +3034,7 @@
     ]
   },
   {
-    "id": "q-32",
+    "id": "q-202",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -536,7 +3052,7 @@
     ]
   },
   {
-    "id": "q-33",
+    "id": "q-203",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -554,7 +3070,7 @@
     ]
   },
   {
-    "id": "q-34",
+    "id": "q-204",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -571,7 +3087,7 @@
     ]
   },
   {
-    "id": "q-35",
+    "id": "q-205",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -588,7 +3104,7 @@
     ]
   },
   {
-    "id": "q-36",
+    "id": "q-206",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -604,7 +3120,7 @@
     ]
   },
   {
-    "id": "q-37",
+    "id": "q-207",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -618,7 +3134,7 @@
     "tags": []
   },
   {
-    "id": "q-38",
+    "id": "q-208",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -636,7 +3152,7 @@
     ]
   },
   {
-    "id": "q-39",
+    "id": "q-209",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -654,7 +3170,7 @@
     ]
   },
   {
-    "id": "q-40",
+    "id": "q-210",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -670,7 +3186,7 @@
     ]
   },
   {
-    "id": "q-41",
+    "id": "q-211",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -686,7 +3202,7 @@
     ]
   },
   {
-    "id": "q-42",
+    "id": "q-212",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -704,7 +3220,7 @@
     ]
   },
   {
-    "id": "q-43",
+    "id": "q-213",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -720,7 +3236,7 @@
     ]
   },
   {
-    "id": "q-44",
+    "id": "q-214",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -737,7 +3253,7 @@
     ]
   },
   {
-    "id": "q-45",
+    "id": "q-215",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -755,7 +3271,7 @@
     ]
   },
   {
-    "id": "q-46",
+    "id": "q-216",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -769,7 +3285,7 @@
     "tags": []
   },
   {
-    "id": "q-47",
+    "id": "q-217",
     "company": "杭州寰马(数字人)",
     "companies": [
       "杭州寰马(数字人)"
@@ -787,7 +3303,7 @@
     ]
   },
   {
-    "id": "q-48",
+    "id": "q-218",
     "company": "软通动力 - 外包公司",
     "companies": [
       "软通动力 - 外包公司"
@@ -801,7 +3317,7 @@
     "tags": []
   },
   {
-    "id": "q-49",
+    "id": "q-219",
     "company": "软通动力 - 外包公司",
     "companies": [
       "软通动力 - 外包公司"
@@ -818,7 +3334,7 @@
     ]
   },
   {
-    "id": "q-50",
+    "id": "q-220",
     "company": "软通动力 - 外包公司",
     "companies": [
       "软通动力 - 外包公司"
@@ -832,7 +3348,7 @@
     "tags": []
   },
   {
-    "id": "q-51",
+    "id": "q-221",
     "company": "软通动力 - 外包公司",
     "companies": [
       "软通动力 - 外包公司"
@@ -846,7 +3362,7 @@
     "tags": []
   },
   {
-    "id": "q-52",
+    "id": "q-222",
     "company": "软通动力 - 外包公司",
     "companies": [
       "软通动力 - 外包公司"
@@ -860,7 +3376,7 @@
     "tags": []
   },
   {
-    "id": "q-53",
+    "id": "q-223",
     "company": "软通动力 - 外包公司",
     "companies": [
       "软通动力 - 外包公司"
@@ -874,7 +3390,7 @@
     "tags": []
   },
   {
-    "id": "q-54",
+    "id": "q-224",
     "company": "软通动力 - 外包公司",
     "companies": [
       "软通动力 - 外包公司"
@@ -888,7 +3404,7 @@
     "tags": []
   },
   {
-    "id": "q-55",
+    "id": "q-225",
     "company": "软通动力 - 外包公司",
     "companies": [
       "软通动力 - 外包公司"
@@ -902,7 +3418,7 @@
     "tags": []
   },
   {
-    "id": "q-56",
+    "id": "q-226",
     "company": "软通动力 - 外包公司",
     "companies": [
       "软通动力 - 外包公司"
@@ -916,7 +3432,7 @@
     "tags": []
   },
   {
-    "id": "q-57",
+    "id": "q-227",
     "company": "软通动力 - 外包公司",
     "companies": [
       "软通动力 - 外包公司"
@@ -932,7 +3448,7 @@
     ]
   },
   {
-    "id": "q-58",
+    "id": "q-228",
     "company": "软通动力 - 外包公司",
     "companies": [
       "软通动力 - 外包公司"
@@ -946,7 +3462,7 @@
     "tags": []
   },
   {
-    "id": "q-59",
+    "id": "q-229",
     "company": "软通动力 - 外包公司",
     "companies": [
       "软通动力 - 外包公司"
@@ -964,7 +3480,7 @@
     ]
   },
   {
-    "id": "q-60",
+    "id": "q-230",
     "company": "软通动力 - 外包公司",
     "companies": [
       "软通动力 - 外包公司"
@@ -978,7 +3494,7 @@
     "tags": []
   },
   {
-    "id": "q-61",
+    "id": "q-231",
     "company": "中恒博瑞(电器公司)",
     "companies": [
       "中恒博瑞(电器公司)"
@@ -992,7 +3508,7 @@
     "tags": []
   },
   {
-    "id": "q-62",
+    "id": "q-232",
     "company": "中恒博瑞(电器公司)",
     "companies": [
       "中恒博瑞(电器公司)"
@@ -1008,7 +3524,7 @@
     ]
   },
   {
-    "id": "q-63",
+    "id": "q-233",
     "company": "中恒博瑞(电器公司)",
     "companies": [
       "中恒博瑞(电器公司)"
@@ -1025,7 +3541,7 @@
     ]
   },
   {
-    "id": "q-64",
+    "id": "q-234",
     "company": "中恒博瑞(电器公司)",
     "companies": [
       "中恒博瑞(电器公司)"
@@ -1039,7 +3555,7 @@
     "tags": []
   },
   {
-    "id": "q-65",
+    "id": "q-235",
     "company": "中恒博瑞(电器公司)",
     "companies": [
       "中恒博瑞(电器公司)"
@@ -1057,7 +3573,7 @@
     ]
   },
   {
-    "id": "q-66",
+    "id": "q-236",
     "company": "中恒博瑞(电器公司)",
     "companies": [
       "中恒博瑞(电器公司)"
@@ -1073,7 +3589,7 @@
     ]
   },
   {
-    "id": "q-67",
+    "id": "q-237",
     "company": "中恒博瑞(电器公司)",
     "companies": [
       "中恒博瑞(电器公司)"
@@ -1090,7 +3606,7 @@
     ]
   },
   {
-    "id": "q-68",
+    "id": "q-238",
     "company": "中恒博瑞(电器公司)",
     "companies": [
       "中恒博瑞(电器公司)"
@@ -1106,7 +3622,7 @@
     ]
   },
   {
-    "id": "q-69",
+    "id": "q-239",
     "company": "中恒博瑞(电器公司)",
     "companies": [
       "中恒博瑞(电器公司)"
@@ -1122,7 +3638,7 @@
     ]
   },
   {
-    "id": "q-70",
+    "id": "q-240",
     "company": "中恒博瑞(电器公司)",
     "companies": [
       "中恒博瑞(电器公司)"
@@ -1140,7 +3656,7 @@
     ]
   },
   {
-    "id": "q-71",
+    "id": "q-241",
     "company": "中恒博瑞(电器公司)",
     "companies": [
       "中恒博瑞(电器公司)"
@@ -1158,7 +3674,7 @@
     ]
   },
   {
-    "id": "q-72",
+    "id": "q-242",
     "company": "中恒博瑞(电器公司)",
     "companies": [
       "中恒博瑞(电器公司)"
@@ -1176,7 +3692,7 @@
     ]
   },
   {
-    "id": "q-73",
+    "id": "q-243",
     "company": "中恒博瑞(电器公司)",
     "companies": [
       "中恒博瑞(电器公司)"
@@ -1194,7 +3710,7 @@
     ]
   },
   {
-    "id": "q-74",
+    "id": "q-244",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1208,7 +3724,7 @@
     "tags": []
   },
   {
-    "id": "q-75",
+    "id": "q-245",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1226,7 +3742,7 @@
     ]
   },
   {
-    "id": "q-76",
+    "id": "q-246",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1240,7 +3756,7 @@
     "tags": []
   },
   {
-    "id": "q-77",
+    "id": "q-247",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1256,7 +3772,7 @@
     ]
   },
   {
-    "id": "q-78",
+    "id": "q-248",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1272,7 +3788,7 @@
     ]
   },
   {
-    "id": "q-79",
+    "id": "q-249",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1288,7 +3804,7 @@
     ]
   },
   {
-    "id": "q-80",
+    "id": "q-250",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1305,7 +3821,7 @@
     ]
   },
   {
-    "id": "q-81",
+    "id": "q-251",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1322,7 +3838,7 @@
     ]
   },
   {
-    "id": "q-82",
+    "id": "q-252",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1338,7 +3854,7 @@
     ]
   },
   {
-    "id": "q-83",
+    "id": "q-253",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1356,7 +3872,7 @@
     ]
   },
   {
-    "id": "q-84",
+    "id": "q-254",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1373,7 +3889,7 @@
     ]
   },
   {
-    "id": "q-85",
+    "id": "q-255",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1391,7 +3907,7 @@
     ]
   },
   {
-    "id": "q-86",
+    "id": "q-256",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1407,7 +3923,7 @@
     ]
   },
   {
-    "id": "q-87",
+    "id": "q-257",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1421,7 +3937,7 @@
     "tags": []
   },
   {
-    "id": "q-88",
+    "id": "q-258",
     "company": "北京朗杰(培训公司)",
     "companies": [
       "北京朗杰(培训公司)"
@@ -1434,213 +3950,6 @@
     "hasAnswer": true,
     "tags": [
       "Python"
-    ]
-  },
-  {
-    "id": "q-89",
-    "company": "来源未知(Agent工程化)",
-    "companies": [
-      "来源未知(Agent工程化)"
-    ],
-    "frequency": 1,
-    "hot": 0,
-    "category": "综合",
-    "title": "SKILL 是如何工作的？",
-    "answer": "",
-    "hasAnswer": false,
-    "tags": []
-  },
-  {
-    "id": "q-90",
-    "company": "来源未知(Agent工程化)",
-    "companies": [
-      "来源未知(Agent工程化)"
-    ],
-    "frequency": 1,
-    "hot": 0,
-    "category": "Agent/多智能体",
-    "title": "SubAgent 是什么？",
-    "answer": "",
-    "hasAnswer": false,
-    "tags": [
-      "Agent"
-    ]
-  },
-  {
-    "id": "q-91",
-    "company": "来源未知(Agent工程化)",
-    "companies": [
-      "来源未知(Agent工程化)"
-    ],
-    "frequency": 1,
-    "hot": 0,
-    "category": "Agent/多智能体",
-    "title": "Agent 如何创建工具？",
-    "answer": "",
-    "hasAnswer": false,
-    "tags": [
-      "Agent"
-    ]
-  },
-  {
-    "id": "q-92",
-    "company": "来源未知(Agent工程化)",
-    "companies": [
-      "来源未知(Agent工程化)"
-    ],
-    "frequency": 1,
-    "hot": 0,
-    "category": "Agent/多智能体",
-    "title": "Agent 如何长时间自主运作？",
-    "answer": "",
-    "hasAnswer": false,
-    "tags": [
-      "Agent"
-    ]
-  },
-  {
-    "id": "q-93",
-    "company": "来源未知(Agent工程化)",
-    "companies": [
-      "来源未知(Agent工程化)"
-    ],
-    "frequency": 1,
-    "hot": 0,
-    "category": "Agent/多智能体",
-    "title": "Agent 如何定时工作？",
-    "answer": "",
-    "hasAnswer": false,
-    "tags": [
-      "Agent"
-    ]
-  },
-  {
-    "id": "q-94",
-    "company": "来源未知(Agent工程化)",
-    "companies": [
-      "来源未知(Agent工程化)"
-    ],
-    "frequency": 1,
-    "hot": 0,
-    "category": "Agent/多智能体",
-    "title": "Agent 如何记忆？",
-    "answer": "",
-    "hasAnswer": false,
-    "tags": [
-      "Agent",
-      "记忆"
-    ]
-  },
-  {
-    "id": "q-95",
-    "company": "来源未知(Agent工程化)",
-    "companies": [
-      "来源未知(Agent工程化)"
-    ],
-    "frequency": 1,
-    "hot": 0,
-    "category": "Agent/多智能体",
-    "title": "Agent 如何使用工具、SKILL",
-    "answer": "",
-    "hasAnswer": false,
-    "tags": [
-      "Agent"
-    ]
-  },
-  {
-    "id": "q-96",
-    "company": "来源未知(Agent工程化)",
-    "companies": [
-      "来源未知(Agent工程化)"
-    ],
-    "frequency": 1,
-    "hot": 0,
-    "category": "Agent/多智能体",
-    "title": "Agent 如何知道自己是谁？",
-    "answer": "",
-    "hasAnswer": false,
-    "tags": [
-      "Agent"
-    ]
-  },
-  {
-    "id": "q-97",
-    "company": "来源未知(Agent工程化)",
-    "companies": [
-      "来源未知(Agent工程化)"
-    ],
-    "frequency": 1,
-    "hot": 0,
-    "category": "Agent/多智能体",
-    "title": "什么是大模型Agent",
-    "answer": "",
-    "hasAnswer": false,
-    "tags": [
-      "Agent"
-    ]
-  },
-  {
-    "id": "q-98",
-    "company": "来源未知(Agent工程化)",
-    "companies": [
-      "来源未知(Agent工程化)"
-    ],
-    "frequency": 1,
-    "hot": 0,
-    "category": "Agent/多智能体",
-    "title": "Agent由哪些部分组成",
-    "answer": "",
-    "hasAnswer": false,
-    "tags": [
-      "Agent"
-    ]
-  },
-  {
-    "id": "q-99",
-    "company": "来源未知(Agent工程化)",
-    "companies": [
-      "来源未知(Agent工程化)"
-    ],
-    "frequency": 1,
-    "hot": 0,
-    "category": "Agent/多智能体",
-    "title": "Agent类型",
-    "answer": "",
-    "hasAnswer": false,
-    "tags": [
-      "Agent"
-    ]
-  },
-  {
-    "id": "q-100",
-    "company": "来源未知(Agent工程化)",
-    "companies": [
-      "来源未知(Agent工程化)"
-    ],
-    "frequency": 1,
-    "hot": 0,
-    "category": "Agent/多智能体",
-    "title": "Agent创建方式",
-    "answer": "",
-    "hasAnswer": false,
-    "tags": [
-      "Agent"
-    ]
-  },
-  {
-    "id": "q-101",
-    "company": "来源未知(Agent工程化)",
-    "companies": [
-      "来源未知(Agent工程化)"
-    ],
-    "frequency": 1,
-    "hot": 0,
-    "category": "Agent/多智能体",
-    "title": "AgentExecutor的创建方式",
-    "answer": "",
-    "hasAnswer": false,
-    "tags": [
-      "Agent"
     ]
   }
 ]
