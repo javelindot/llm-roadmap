@@ -1,0 +1,66 @@
+name: Build & Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # 也允许从 Actions 页面手动触发
+
+# GitHub Pages 部署所需权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时刻只允许一个部署在跑（新推送会替换排队中的旧任务，但不打断已开始的）
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Build docs HTML (markdown → html via build.py)
+        run: python3 build.py
+
+      - name: Stage site files
+        run: |
+          mkdir -p _site
+          rsync -av \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.obsidian' \
+            --exclude='.codegraph' \
+            --exclude='.claude' \
+            --exclude='_src' \
+            --exclude='_templates' \
+            --exclude='_site' \
+            --exclude='build.py' \
+            --exclude='BUILD.md' \
+            --exclude='.DS_Store' \
+            ./ _site/
+          # 确保 .nojekyll 存在，避免 GitHub Pages 用 Jekyll 处理
+          touch _site/.nojekyll
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<title>app-dev-guide · LLM Roadmap</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="从 Prompt 到 Agent — AI 应用开发完整执行手册" />
+<style>
+  :root, [data-theme="light"] {
+    --bg:#ffffff; --bg2:#fafafa; --bg3:#f4f4f5; --card:#ffffff;
+    --text:#0a0a0a; --text2:#525252; --text3:#a3a3a3;
+    --border:#e5e5e5; --border2:#d4d4d4;
+    --accent:#2563eb; --accent2:#1d4ed8; --accent-soft:#eff6ff;
+    --nav-bg:rgba(255,255,255,.85);
+    --mono:'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;
+  }
+  [data-theme="dark"] {
+    --bg:#0a0a0a; --bg2:#111111; --bg3:#18181b; --card:#0f0f10;
+    --text:#fafafa; --text2:#a1a1aa; --text3:#71717a;
+    --border:#27272a; --border2:#3f3f46;
+    --accent:#60a5fa; --accent2:#93c5fd; --accent-soft:rgba(96,165,250,.08);
+    --nav-bg:rgba(10,10,10,.85);
+  }
+  [data-theme="solarized"] {
+    --bg:#fdf6e3; --bg2:#f5efd5; --bg3:#eee8d5; --card:#fdf6e3;
+    --text:#586e75; --text2:#657b83; --text3:#93a1a1;
+    --border:#eee8d5; --border2:#d8d2bf;
+    --accent:#268bd2; --accent2:#2aa198; --accent-soft:rgba(38,139,210,.10);
+    --nav-bg:rgba(253,246,227,.85);
+  }
+  [data-theme="dracula"] {
+    --bg:#282a36; --bg2:#2d2f3d; --bg3:#383a4a; --card:#2d2f3d;
+    --text:#f8f8f2; --text2:#bcc1d3; --text3:#6272a4;
+    --border:#44475a; --border2:#565a73;
+    --accent:#bd93f9; --accent2:#ff79c6; --accent-soft:rgba(189,147,249,.12);
+    --nav-bg:rgba(40,42,54,.85);
+  }
+  [data-theme="nord"] {
+    --bg:#2e3440; --bg2:#353b48; --bg3:#3b4252; --card:#353b48;
+    --text:#eceff4; --text2:#d8dee9; --text3:#7b8497;
+    --border:#434c5e; --border2:#4c566a;
+    --accent:#88c0d0; --accent2:#5e81ac; --accent-soft:rgba(136,192,208,.12);
+    --nav-bg:rgba(46,52,64,.85);
+  }
+  [data-theme="tokyo-night"] {
+    --bg:#1a1b26; --bg2:#16161e; --bg3:#1f2335; --card:#1f2335;
+    --text:#c0caf5; --text2:#a9b1d6; --text3:#565f89;
+    --border:#292e42; --border2:#3b4261;
+    --accent:#7aa2f7; --accent2:#bb9af7; --accent-soft:rgba(122,162,247,.12);
+    --nav-bg:rgba(26,27,38,.85);
+  }
+  [data-theme="catppuccin"] {
+    --bg:#1e1e2e; --bg2:#181825; --bg3:#313244; --card:#181825;
+    --text:#cdd6f4; --text2:#bac2de; --text3:#7f849c;
+    --border:#313244; --border2:#45475a;
+    --accent:#cba6f7; --accent2:#f5c2e7; --accent-soft:rgba(203,166,247,.12);
+    --nav-bg:rgba(30,30,46,.85);
+  }
+  *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.65;
+    font-size:15px;
+    transition:background .2s,color .2s;
+  }
+  a { color:inherit; text-decoration:none; }
+
+  .nav {
+    position:sticky; top:0; z-index:100;
+    background:var(--nav-bg); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+    padding:0 32px; height:56px;
+    display:flex; align-items:center; gap:4px;
+  }
+  .brand {
+    font-family:var(--mono); font-size:.92rem; font-weight:600;
+    color:var(--text); letter-spacing:-.02em;
+    margin-right:24px;
+  }
+  .brand::before { content:'$ '; color:var(--text3); }
+  .nav-spacer { flex:1; }
+  .nav-link {
+    color:var(--text2); font-size:13.5px; font-weight:500;
+    padding:6px 11px; border-radius:6px;
+    transition:color .15s,background .15s;
+  }
+  .nav-link:hover { color:var(--text); background:var(--bg3); }
+  /* Theme switcher */
+  .theme-switcher { position:relative; margin-left:6px; }
+  .theme-btn {
+    height:30px; padding:0 10px;
+    background:transparent; border:1px solid var(--border); border-radius:6px;
+    color:var(--text2); cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--mono); font-size:12.5px;
+    transition:color .15s,border-color .15s,background .15s;
+  }
+  .theme-btn:hover { color:var(--text); background:var(--bg3); }
+  .theme-btn .dot { width:8px; height:8px; border-radius:50%; background:var(--accent); }
+  .theme-btn .caret { color:var(--text3); margin-left:2px; }
+  .theme-menu {
+    position:absolute; top:100%; right:0; margin-top:4px; z-index:200;
+    background:var(--card); border:1px solid var(--border); border-radius:6px;
+    padding:4px; min-width:148px; display:none;
+    box-shadow:0 4px 16px rgba(0,0,0,.08);
+  }
+  .theme-menu.open { display:block; }
+  .theme-menu button {
+    display:flex; align-items:center; gap:8px;
+    width:100%; padding:6px 10px; text-align:left;
+    background:transparent; border:none; cursor:pointer;
+    font-family:var(--mono); font-size:13px;
+    color:var(--text2); border-radius:4px;
+  }
+  .theme-menu button:hover { background:var(--bg3); color:var(--text); }
+  .theme-menu button.active { background:var(--bg3); color:var(--text); }
+  .theme-menu .dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .dot-light { background:linear-gradient(135deg,#fff 50%,#0a0a0a 50%); border:1px solid #d4d4d4; }
+  .dot-dark { background:#0a0a0a; border:1px solid #3f3f46; }
+  .dot-solarized { background:#b58900; }
+  .dot-dracula { background:#bd93f9; }
+  .dot-nord { background:#88c0d0; }
+  .dot-tokyo-night { background:#7aa2f7; }
+  .dot-catppuccin { background:#cba6f7; }
+
+  .wrap { max-width:920px; margin:0 auto; padding:0 32px; }
+
+  /* ── Hero ── */
+  .hero { padding:96px 0 56px; }
+  .kicker {
+    font-family:var(--mono); font-size:12px;
+    color:var(--text3); letter-spacing:.02em;
+    margin-bottom:18px;
+  }
+  .hero h1 {
+    font-size:clamp(2rem,4vw,2.75rem);
+    font-weight:700; letter-spacing:-.025em; line-height:1.1;
+    margin-bottom:16px; color:var(--text);
+  }
+  .typer {
+    font-family:var(--mono); color:var(--accent);
+    border-bottom:2px solid var(--accent);
+  }
+  .typer::after {
+    content:'_'; margin-left:2px;
+    animation:blink 1s infinite;
+  }
+  @keyframes blink { 0%,49% { opacity:1; } 50%,100% { opacity:0; } }
+  .hero p.sub {
+    font-size:17px; color:var(--text2);
+    max-width:620px; margin-top:14px;
+  }
+  .hero .meta {
+    font-family:var(--mono); font-size:13px;
+    color:var(--text3); margin-top:18px;
+  }
+  .hero .meta b { color:var(--text); font-weight:600; }
+
+  .hero-cta { margin-top:28px; }
+  .btn {
+    display:inline-flex; align-items:center; gap:6px;
+    padding:10px 18px; border-radius:6px;
+    font-size:14px; font-weight:500; cursor:pointer;
+    font-family:inherit;
+    transition:background .15s,border-color .15s,opacity .15s;
+  }
+  .btn-primary {
+    background:var(--text); color:var(--bg);
+    border:1px solid var(--text);
+  }
+  .btn-primary:hover { opacity:.9; }
+  .btn-ghost {
+    background:transparent; color:var(--text);
+    border:1px solid var(--border2);
+    margin-left:8px;
+  }
+  .btn-ghost:hover { background:var(--bg3); }
+
+  /* ── Section heading ── */
+  .sec-head {
+    font-family:var(--mono); font-size:12px;
+    color:var(--text3); margin:64px 0 14px;
+    letter-spacing:.02em;
+  }
+  .sec-head::before { content:'// '; }
+
+  /* ── Pipeline cards ── */
+  .pipeline {
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+  }
+  .pipe-step {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:10px; padding:26px 20px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);
+    transition:border-color .15s,box-shadow .2s,transform .15s;
+  }
+  .pipe-step:hover {
+    border-color:var(--border2);
+    transform:translateY(-3px);
+    box-shadow:0 4px 8px rgba(0,0,0,.06),0 12px 24px rgba(0,0,0,.07);
+  }
+  .pipe-step .ic {
+    font-size:1.7rem; margin-bottom:16px;
+    display:block; line-height:1;
+  }
+  .pipe-step .n {
+    font-family:var(--mono); font-size:10.5px;
+    color:var(--accent); letter-spacing:.10em;
+    margin-bottom:8px; font-weight:600;
+  }
+  .pipe-step h4 {
+    font-size:1.05rem; font-weight:700;
+    color:var(--text); margin-bottom:4px;
+  }
+  .pipe-step .sub {
+    font-family:var(--mono); font-size:12px;
+    color:var(--accent2); margin-bottom:10px;
+  }
+  .pipe-step p { font-size:12.5px; color:var(--text2); line-height:1.55; }
+
+  /* ── Modules list ── */
+  .mods {
+    border:1px solid var(--border); border-radius:10px;
+    overflow:hidden; background:var(--card);
+    box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.04);
+  }
+  .mod {
+    display:flex; align-items:flex-start; gap:18px;
+    padding:22px 26px;
+    border-bottom:1px solid var(--border);
+    transition:background .15s;
+  }
+  .mod:last-child { border-bottom:none; }
+  .mod:hover { background:var(--bg2); }
+  .mod .ic {
+    font-size:1.4rem; line-height:1; padding-top:2px;
+    flex-shrink:0;
+  }
+  .mod .idx {
+    font-family:var(--mono); font-size:12px;
+    color:var(--text3); padding-top:5px;
+    min-width:32px;
+  }
+  .mod .body { flex:1; min-width:0; }
+  .mod h3 { font-size:15px; font-weight:600; color:var(--text); margin-bottom:4px; }
+  .mod p { font-size:13.5px; color:var(--text2); line-height:1.55; }
+  .mod .meta {
+    font-family:var(--mono); font-size:11.5px;
+    color:var(--text3); margin-top:8px;
+  }
+  .mod::after {
+    content:'→'; color:var(--text3); padding-top:2px;
+    transition:color .15s,transform .15s;
+  }
+  .mod:hover::after { color:var(--accent); transform:translateX(2px); }
+
+  /* ── Practices ── */
+  .pracs {
+    display:grid; grid-template-columns:repeat(2,1fr);
+    gap:12px;
+  }
+  .prac {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:10px; padding:24px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.04);
+    transition:border-color .15s,box-shadow .2s;
+  }
+  .prac:hover {
+    border-color:var(--border2);
+    box-shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.05);
+  }
+  .prac .ic { font-size:1.4rem; margin-bottom:10px; display:block; line-height:1; }
+  .prac h4 {
+    font-size:15px; color:var(--text); margin-bottom:6px;
+    font-weight:700;
+  }
+  .prac.do h4::before { content:'✓ '; color:#16a34a; font-weight:700; }
+  .prac.dont h4::before { content:'✗ '; color:#dc2626; font-weight:700; }
+  .prac p { font-size:13.5px; color:var(--text2); line-height:1.6; }
+
+  /* ── Footer ── */
+  footer {
+    border-top:1px solid var(--border);
+    margin-top:64px; padding:24px 32px;
+    display:flex; justify-content:space-between; align-items:center;
+    color:var(--text3); font-size:12.5px;
+    flex-wrap:wrap; gap:12px;
+    font-family:var(--mono);
+  }
+  footer a { color:var(--text2); }
+  footer a:hover { color:var(--accent); }
+
+  @media (max-width:760px) {
+    .pipeline { grid-template-columns:repeat(2,1fr); }
+    .pracs { grid-template-columns:1fr; }
+    .hero { padding:64px 0 40px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="../index.html">app-dev-guide</a>
+  <div class="nav-spacer"></div>
+  <a class="nav-link" href="../index.html">← 主站</a>
+  <a class="nav-link" href="#pipeline">工作流</a>
+  <a class="nav-link" href="#modules">模块</a>
+  <a class="nav-link" href="docs.html">文档</a>
+  <a class="nav-link" href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
+  <div class="theme-switcher">
+    <button class="theme-btn" id="themeBtn" aria-label="切换主题">
+      <span class="dot"></span><span class="tname">light</span><span class="caret">▾</span>
+    </button>
+    <div class="theme-menu" id="themeMenu">
+      <button data-theme="light"><span class="dot dot-light"></span>light</button>
+      <button data-theme="dark"><span class="dot dot-dark"></span>dark</button>
+      <button data-theme="solarized"><span class="dot dot-solarized"></span>solarized</button>
+      <button data-theme="dracula"><span class="dot dot-dracula"></span>dracula</button>
+      <button data-theme="nord"><span class="dot dot-nord"></span>nord</button>
+      <button data-theme="tokyo-night"><span class="dot dot-tokyo-night"></span>tokyo-night</button>
+      <button data-theme="catppuccin"><span class="dot dot-catppuccin"></span>catppuccin</button>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="kicker">app-dev-guide / v1.0</div>
+    <h1>大模型应用开发<span class="typer" id="typer">先跑通</span></h1>
+    <p class="sub">从 Prompt 工程到 AI Agent —— 一站式覆盖大模型应用开发全链路。先把 MVP 跑起来，再回头精修。</p>
+    <div class="meta"><b>5</b> 大主题 · <b>20+</b> 代码示例 · 持续更新</div>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="docs.html">开始阅读 →</a>
+      <a class="btn btn-ghost" href="#pipeline">查看工作流</a>
+    </div>
+  </section>
+
+  <div class="sec-head" id="pipeline">工作流 · 五阶段</div>
+  <div class="pipeline">
+    <div class="pipe-step">
+      <span class="ic">✍️</span>
+      <div class="n">阶段 01</div>
+      <h4>Prompt</h4>
+      <div class="sub">提示词工程</div>
+      <p>结构化指令、CoT、Few-shot 让输出稳定 3–5 倍</p>
+    </div>
+    <div class="pipe-step">
+      <span class="ic">🔧</span>
+      <div class="n">阶段 02</div>
+      <h4>Function Call</h4>
+      <div class="sub">工具调用</div>
+      <p>JSON Schema 让模型按需调用外部能力</p>
+    </div>
+    <div class="pipe-step">
+      <span class="ic">📚</span>
+      <div class="n">阶段 03</div>
+      <h4>RAG</h4>
+      <div class="sub">检索增强生成</div>
+      <p>向量召回 + Reranker 注入私域知识</p>
+    </div>
+    <div class="pipe-step">
+      <span class="ic">🔌</span>
+      <div class="n">阶段 04</div>
+      <h4>MCP</h4>
+      <div class="sub">模型上下文协议</div>
+      <p>统一工具/数据源对接，插件生态化</p>
+    </div>
+    <div class="pipe-step">
+      <span class="ic">🤖</span>
+      <div class="n">阶段 05</div>
+      <h4>Agent</h4>
+      <div class="sub">智能体编排</div>
+      <p>规划、记忆、反思、自主多步执行</p>
+    </div>
+  </div>
+
+  <div class="sec-head" id="modules">核心模块 · 五大主题</div>
+  <div class="mods">
+    <a class="mod" href="https://github.com/javelindot/llm-roadmap/tree/main/applications/chapter1" target="_blank" rel="noopener">
+      <span class="ic">✍️</span>
+      <span class="idx">01</span>
+      <div class="body">
+        <h3>Prompt Engineering</h3>
+        <p>从「模糊指令」到「结构化提示词」—— 角色、目标、约束、输出四要素让模型输出稳定 3–5 倍。</p>
+        <div class="meta">applications/chapter1 →</div>
+      </div>
+    </a>
+    <a class="mod" href="https://github.com/javelindot/llm-roadmap/tree/main/applications/chapter2" target="_blank" rel="noopener">
+      <span class="ic">🔧</span>
+      <span class="idx">02</span>
+      <div class="body">
+        <h3>Function Call</h3>
+        <p>从纯文本输出进化到结构化调用，模型按 JSON Schema 决定何时调用、传什么参数。</p>
+        <div class="meta">applications/chapter2 →</div>
+      </div>
+    </a>
+    <a class="mod" href="https://github.com/javelindot/llm-roadmap/tree/main/applications/chapter3" target="_blank" rel="noopener">
+      <span class="ic">📚</span>
+      <span class="idx">03</span>
+      <div class="body">
+        <h3>RAG 检索增强</h3>
+        <p>把外部知识库的相关片段作为上下文，让模型基于事实回答。工程难点在数据清洗与评测。</p>
+        <div class="meta">applications/chapter3 →</div>
+      </div>
+    </a>
+    <a class="mod" href="https://github.com/javelindot/llm-roadmap/tree/main/applications/chapter4" target="_blank" rel="noopener">
+      <span class="ic">🔌</span>
+      <span class="idx">04</span>
+      <div class="body">
+        <h3>MCP 模型上下文协议</h3>
+        <p>Anthropic 提出的标准协议，统一「大模型 ↔ 工具/数据源」对接，让插件生态可组合、可移植。</p>
+        <div class="meta">applications/chapter4 →</div>
+      </div>
+    </a>
+    <a class="mod" href="https://github.com/javelindot/llm-roadmap/tree/main/applications/chapter6" target="_blank" rel="noopener">
+      <span class="ic">🤖</span>
+      <span class="idx">05</span>
+      <div class="body">
+        <h3>AI Agent</h3>
+        <p>规划、记忆、反思与工具使用 —— LangGraph / Claude Agent SDK 是主流栈。</p>
+        <div class="meta">applications/chapter6 →</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="sec-head">实战准则 · 6 条经验</div>
+  <div class="pracs">
+    <div class="prac do"><span class="ic">🚀</span><h4>先跑通再优化</h4><p>能用就赢一半。先 happy path 走通，再迭代 edge cases。别一开始追求完美架构。</p></div>
+    <div class="prac do"><span class="ic">📝</span><h4>把 Prompt 当代码</h4><p>版本管理、单元测试、A/B 对比。所有线上 prompt 进 Git，每次改动留 changelog。</p></div>
+    <div class="prac do"><span class="ic">🧪</span><h4>评测先于优化</h4><p>没有评测集就别谈优化 —— 不然你不知道每次改动是「变好」还是「换坏」。</p></div>
+    <div class="prac dont"><span class="ic">💰</span><h4>迷信顶级模型</h4><p>90% 场景 Haiku / Mini 已经够用，省下成本可以做 10 倍流量。</p></div>
+    <div class="prac dont"><span class="ic">🛠️</span><h4>RAG 自造轮子</h4><p>切片、Embedding、Reranker 都有成熟方案。先用现成的跑通，再针对性优化。</p></div>
+    <div class="prac dont"><span class="ic">⚠️</span><h4>不约束 Agent</h4><p>无约束 Agent 容易陷入无限循环或工具滥用。给步数上限、给工具白名单。</p></div>
+  </div>
+
+</div>
+
+<footer>
+  <div>© 2026 llm-roadmap / app-dev-guide</div>
+  <div>
+    <a href="../index.html">主站</a> ·
+    <a href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  /* Theme switcher */
+  const tBtn = document.getElementById('themeBtn');
+  const tMenu = document.getElementById('themeMenu');
+  const tHtml = document.documentElement;
+  function applyTheme(name) {
+    tHtml.dataset.theme = name;
+    tBtn.querySelector('.tname').textContent = name;
+    tMenu.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.theme === name));
+    localStorage.setItem('theme', name);
+  }
+  applyTheme(localStorage.getItem('theme') || 'light');
+  tBtn.addEventListener('click', e => { e.stopPropagation(); tMenu.classList.toggle('open'); });
+  tMenu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { applyTheme(b.dataset.theme); tMenu.classList.remove('open'); }));
+  document.addEventListener('click', () => tMenu.classList.remove('open'));
+
+  /* Typewriter */
+  const phrases = ['先跑通', '构建 Agent', '从 Prompt 到生产', 'Ship It', '开始动手'];
+  const el = document.getElementById('typer');
+  let pi = 0, ci = phrases[0].length, deleting = false;
+  function tick() {
+    const p = phrases[pi];
+    if (!deleting) {
+      ci++;
+      el.textContent = p.slice(0, ci);
+      if (ci >= p.length) { deleting = true; setTimeout(tick, 1800); return; }
+    } else {
+      ci--;
+      el.textContent = p.slice(0, ci);
+      if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+    }
+    setTimeout(tick, deleting ? 45 : 110);
+  }
+  setTimeout(tick, 1500);
+</script>
+</body>
+</html>

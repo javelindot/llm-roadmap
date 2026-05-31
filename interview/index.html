@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<title>interview-guide · LLM Roadmap</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="LLM 工程师全栈面试 · 算法 / 八股 / 系统设计 / 行为面 / 谈薪" />
+<style>
+  :root, [data-theme="light"] {
+    --bg:#ffffff; --bg2:#fafafa; --bg3:#f4f4f5;
+    --card:#ffffff;
+    --text:#0a0a0a; --text2:#525252; --text3:#a3a3a3;
+    --border:#e5e5e5; --border2:#d4d4d4;
+    --accent:#2563eb; --accent2:#1d4ed8; --accent-soft:#eff6ff;
+    --nav-bg:rgba(255,255,255,.85);
+    --mono:'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;
+  }
+  [data-theme="dark"] {
+    --bg:#0a0a0a; --bg2:#111111; --bg3:#18181b; --card:#0f0f10;
+    --text:#fafafa; --text2:#a1a1aa; --text3:#71717a;
+    --border:#27272a; --border2:#3f3f46;
+    --accent:#60a5fa; --accent2:#93c5fd; --accent-soft:rgba(96,165,250,.08);
+    --nav-bg:rgba(10,10,10,.85);
+  }
+  [data-theme="solarized"] {
+    --bg:#fdf6e3; --bg2:#f5efd5; --bg3:#eee8d5; --card:#fdf6e3;
+    --text:#586e75; --text2:#657b83; --text3:#93a1a1;
+    --border:#eee8d5; --border2:#d8d2bf;
+    --accent:#268bd2; --accent2:#2aa198; --accent-soft:rgba(38,139,210,.10);
+    --nav-bg:rgba(253,246,227,.85);
+  }
+  [data-theme="dracula"] {
+    --bg:#282a36; --bg2:#2d2f3d; --bg3:#383a4a; --card:#2d2f3d;
+    --text:#f8f8f2; --text2:#bcc1d3; --text3:#6272a4;
+    --border:#44475a; --border2:#565a73;
+    --accent:#bd93f9; --accent2:#ff79c6; --accent-soft:rgba(189,147,249,.12);
+    --nav-bg:rgba(40,42,54,.85);
+  }
+  [data-theme="nord"] {
+    --bg:#2e3440; --bg2:#353b48; --bg3:#3b4252; --card:#353b48;
+    --text:#eceff4; --text2:#d8dee9; --text3:#7b8497;
+    --border:#434c5e; --border2:#4c566a;
+    --accent:#88c0d0; --accent2:#5e81ac; --accent-soft:rgba(136,192,208,.12);
+    --nav-bg:rgba(46,52,64,.85);
+  }
+  [data-theme="tokyo-night"] {
+    --bg:#1a1b26; --bg2:#16161e; --bg3:#1f2335; --card:#1f2335;
+    --text:#c0caf5; --text2:#a9b1d6; --text3:#565f89;
+    --border:#292e42; --border2:#3b4261;
+    --accent:#7aa2f7; --accent2:#bb9af7; --accent-soft:rgba(122,162,247,.12);
+    --nav-bg:rgba(26,27,38,.85);
+  }
+  [data-theme="catppuccin"] {
+    --bg:#1e1e2e; --bg2:#181825; --bg3:#313244; --card:#181825;
+    --text:#cdd6f4; --text2:#bac2de; --text3:#7f849c;
+    --border:#313244; --border2:#45475a;
+    --accent:#cba6f7; --accent2:#f5c2e7; --accent-soft:rgba(203,166,247,.12);
+    --nav-bg:rgba(30,30,46,.85);
+  }
+  *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.65;
+    font-size:15px;
+    transition:background .2s,color .2s;
+    min-height:100vh;
+    display:flex; flex-direction:column;
+  }
+  a { color:inherit; text-decoration:none; }
+
+  /* ── Nav ── */
+  .nav {
+    position:sticky; top:0; z-index:100;
+    background:var(--nav-bg); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+    padding:0 32px; height:56px;
+    display:flex; align-items:center; gap:4px;
+  }
+  .brand {
+    font-family:var(--mono); font-size:.92rem; font-weight:600;
+    color:var(--text); letter-spacing:-.02em;
+    margin-right:24px;
+  }
+  .brand::before { content:'$ '; color:var(--text3); }
+  .nav-spacer { flex:1; }
+  .nav-link {
+    color:var(--text2); font-size:13.5px; font-weight:500;
+    padding:6px 11px; border-radius:6px;
+    transition:color .15s,background .15s;
+  }
+  .nav-link:hover { color:var(--text); background:var(--bg3); }
+  /* Theme switcher */
+  .theme-switcher { position:relative; margin-left:6px; }
+  .theme-btn {
+    height:30px; padding:0 10px;
+    background:transparent; border:1px solid var(--border); border-radius:6px;
+    color:var(--text2); cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--mono); font-size:12.5px;
+    transition:color .15s,border-color .15s,background .15s;
+  }
+  .theme-btn:hover { color:var(--text); background:var(--bg3); }
+  .theme-btn .dot { width:8px; height:8px; border-radius:50%; background:var(--accent); }
+  .theme-btn .caret { color:var(--text3); margin-left:2px; }
+  .theme-menu {
+    position:absolute; top:100%; right:0; margin-top:4px; z-index:200;
+    background:var(--card); border:1px solid var(--border); border-radius:6px;
+    padding:4px; min-width:148px; display:none;
+    box-shadow:0 4px 16px rgba(0,0,0,.08);
+  }
+  .theme-menu.open { display:block; }
+  .theme-menu button {
+    display:flex; align-items:center; gap:8px;
+    width:100%; padding:6px 10px; text-align:left;
+    background:transparent; border:none; cursor:pointer;
+    font-family:var(--mono); font-size:13px;
+    color:var(--text2); border-radius:4px;
+  }
+  .theme-menu button:hover { background:var(--bg3); color:var(--text); }
+  .theme-menu button.active { background:var(--bg3); color:var(--text); }
+  .theme-menu .dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .dot-light { background:linear-gradient(135deg,#fff 50%,#0a0a0a 50%); border:1px solid #d4d4d4; }
+  .dot-dark { background:#0a0a0a; border:1px solid #3f3f46; }
+  .dot-solarized { background:#b58900; }
+  .dot-dracula { background:#bd93f9; }
+  .dot-nord { background:#88c0d0; }
+  .dot-tokyo-night { background:#7aa2f7; }
+  .dot-catppuccin { background:#cba6f7; }
+
+  /* ── Wrap ── */
+  .wrap { max-width:920px; margin:0 auto; padding:0 32px; flex:1; width:100%; }
+
+  /* ── Hero ── */
+  .hero { padding:96px 0 56px; }
+  .kicker {
+    font-family:var(--mono); font-size:12px;
+    color:var(--text3); letter-spacing:.02em;
+    margin-bottom:18px;
+  }
+  .hero h1 {
+    font-size:clamp(2rem,4vw,2.75rem);
+    font-weight:700; letter-spacing:-.025em; line-height:1.1;
+    margin-bottom:16px; color:var(--text);
+  }
+  .hero p.sub {
+    font-size:17px; color:var(--text2);
+    max-width:600px;
+  }
+
+  /* ── Stats ── */
+  .stats {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    margin:48px 0 56px;
+    border:1px solid var(--border); border-radius:10px;
+    overflow:hidden;
+    background:var(--card);
+    box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.04);
+  }
+  .stat {
+    padding:24px 28px;
+    border-right:1px solid var(--border);
+  }
+  .stat:last-child { border-right:none; }
+  .stat .lbl {
+    font-family:var(--mono); font-size:11px;
+    color:var(--text3); margin-bottom:6px;
+    text-transform:lowercase;
+  }
+  .stat .num {
+    font-size:1.6rem; font-weight:700; line-height:1;
+    color:var(--text); letter-spacing:-.02em;
+    font-feature-settings:"tnum";
+  }
+
+  /* ── Modes ── */
+  .modes-head {
+    font-family:var(--mono); font-size:12px;
+    color:var(--text3); margin-bottom:14px;
+    letter-spacing:.02em;
+  }
+  .modes-head::before { content:'// '; }
+  .modes {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:56px;
+  }
+  .mode {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:10px; padding:28px 26px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);
+    transition:border-color .15s,box-shadow .2s,transform .15s;
+    position:relative;
+  }
+  .mode:hover {
+    border-color:var(--border2);
+    transform:translateY(-3px);
+    box-shadow:0 4px 8px rgba(0,0,0,.06),0 16px 32px rgba(0,0,0,.08);
+  }
+  .mode .ic {
+    font-size:1.7rem; margin-bottom:16px;
+    display:block; line-height:1;
+  }
+  .mode .badge {
+    font-family:var(--mono); font-size:10.5px;
+    color:var(--accent); letter-spacing:.10em;
+    margin-bottom:8px; font-weight:600;
+  }
+  .mode h3 {
+    font-size:1.1rem; font-weight:700; color:var(--text);
+    margin-bottom:4px;
+  }
+  .mode .sub {
+    font-family:var(--mono); font-size:12px;
+    color:var(--accent2); margin-bottom:10px;
+  }
+  .mode p {
+    font-size:13px; color:var(--text2); line-height:1.55;
+  }
+  .mode::after {
+    content:'→'; display:block; margin-top:14px;
+    color:var(--text3); font-size:14px;
+    transition:color .15s,transform .15s;
+  }
+  .mode:hover::after { color:var(--accent); transform:translateX(2px); }
+
+  /* ── CTA ── */
+  .cta-wrap { margin-bottom:56px; }
+  .btn {
+    display:inline-flex; align-items:center; gap:6px;
+    padding:10px 18px; border-radius:6px;
+    font-size:14px; font-weight:500; cursor:pointer;
+    font-family:inherit;
+    transition:background .15s,border-color .15s,color .15s;
+  }
+  .btn-primary {
+    background:var(--text); color:var(--bg);
+    border:1px solid var(--text);
+  }
+  .btn-primary:hover { opacity:.9; }
+  .btn-ghost {
+    background:transparent; color:var(--text);
+    border:1px solid var(--border2);
+  }
+  .btn-ghost:hover { background:var(--bg3); }
+  .cta-side {
+    margin-top:14px; font-size:13px; color:var(--text3);
+    font-family:var(--mono);
+  }
+  .cta-side a {
+    color:var(--text2);
+    text-decoration:underline; text-decoration-color:var(--border2);
+    text-underline-offset:3px;
+    margin:0 4px;
+  }
+  .cta-side a:hover { color:var(--accent); text-decoration-color:var(--accent); }
+
+  /* ── Why list ── */
+  .why-head {
+    font-family:var(--mono); font-size:12px;
+    color:var(--text3); margin-bottom:18px;
+  }
+  .why-head::before { content:'// '; }
+  .why-list {
+    display:grid; grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-bottom:64px;
+  }
+  .why {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:10px; padding:24px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.04);
+    transition:border-color .15s,box-shadow .2s;
+  }
+  .why:hover {
+    border-color:var(--border2);
+    box-shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.05);
+  }
+  .why .ic { font-size:1.4rem; margin-bottom:10px; display:block; line-height:1; }
+  .why h4 {
+    font-size:15px; font-weight:700;
+    color:var(--text); margin-bottom:8px;
+  }
+  .why p { font-size:13.5px; color:var(--text2); line-height:1.6; }
+
+  /* ── Footer ── */
+  footer {
+    border-top:1px solid var(--border);
+    padding:24px 32px;
+    display:flex; justify-content:space-between; align-items:center;
+    color:var(--text3); font-size:12.5px;
+    flex-wrap:wrap; gap:12px;
+    font-family:var(--mono);
+  }
+  footer a { color:var(--text2); }
+  footer a:hover { color:var(--accent); }
+
+  @media (max-width:760px) {
+    .stats { grid-template-columns:repeat(2,1fr); }
+    .stat:nth-child(2) { border-right:none; }
+    .stat:nth-child(1),.stat:nth-child(2) { border-bottom:1px solid var(--border); }
+    .modes, .why-list { grid-template-columns:1fr; }
+    .hero { padding:64px 0 40px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="../index.html">interview-guide</a>
+  <div class="nav-spacer"></div>
+  <a class="nav-link" href="../index.html">← 主站</a>
+  <a class="nav-link" href="docs.html">算法</a>
+  <a class="nav-link" href="docs.html#llm-transformer">八股</a>
+  <a class="nav-link" href="docs.html#sys-rag">系统设计</a>
+  <a class="nav-link" href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
+  <div class="theme-switcher">
+    <button class="theme-btn" id="themeBtn" aria-label="切换主题">
+      <span class="dot"></span><span class="tname">light</span><span class="caret">▾</span>
+    </button>
+    <div class="theme-menu" id="themeMenu">
+      <button data-theme="light"><span class="dot dot-light"></span>light</button>
+      <button data-theme="dark"><span class="dot dot-dark"></span>dark</button>
+      <button data-theme="solarized"><span class="dot dot-solarized"></span>solarized</button>
+      <button data-theme="dracula"><span class="dot dot-dracula"></span>dracula</button>
+      <button data-theme="nord"><span class="dot dot-nord"></span>nord</button>
+      <button data-theme="tokyo-night"><span class="dot dot-tokyo-night"></span>tokyo-night</button>
+      <button data-theme="catppuccin"><span class="dot dot-catppuccin"></span>catppuccin</button>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="kicker">interview-guide / v1.0</div>
+    <h1>LLM 工程师全栈面试</h1>
+    <p class="sub">从简历到 Offer 的系统性准备 —— 算法、八股、系统设计、行为面、谈薪。结构化拆解，按节奏推进。</p>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><div class="lbl">章节数</div><div class="num">15</div></div>
+    <div class="stat"><div class="lbl">题型分类</div><div class="num">7</div></div>
+    <div class="stat"><div class="lbl">八股要点</div><div class="num">30+</div></div>
+    <div class="stat"><div class="lbl">系统设计</div><div class="num">8</div></div>
+  </div>
+
+  <div class="modes-head">选择学习路径</div>
+  <div class="modes">
+    <a class="mode" href="docs.html#algo-must">
+      <span class="ic">🧮</span>
+      <div class="badge">模式 01</div>
+      <h3>算法刷题</h3>
+      <div class="sub">LeetCode Hot 100</div>
+      <p>按 7 大题型顺序刷题，配合应试策略最大化效率。</p>
+    </a>
+    <a class="mode" href="docs.html#llm-transformer">
+      <span class="ic">📐</span>
+      <div class="badge">模式 02</div>
+      <h3>八股突击</h3>
+      <div class="sub">Transformer · RLHF · DPO</div>
+      <p>覆盖高频考点，按知识点矩阵系统复习。</p>
+    </a>
+    <a class="mode" href="docs.html#sys-rag">
+      <span class="ic">🏗️</span>
+      <div class="badge">模式 03</div>
+      <h3>系统设计</h3>
+      <div class="sub">RAG · Agent · 推理</div>
+      <p>8 个经典案例，30 分钟答题框架直接套用。</p>
+    </a>
+  </div>
+
+  <div class="cta-wrap">
+    <a class="btn btn-primary" href="docs.html">进入文档 →</a>
+    <a class="btn btn-ghost" href="docs.html#plan" style="margin-left:8px;">90 天计划</a>
+    <div class="cta-side">
+      或：
+      <a href="docs.html#resume-frame">STAR 简历模板</a>·
+      <a href="docs.html#salary">offer 谈判</a>·
+      <a href="docs.html#bq">行为面经典题</a>
+    </div>
+  </div>
+
+  <div class="why-head">为什么选这份指南</div>
+  <div class="why-list">
+    <div class="why"><span class="ic">📋</span><h4>简历优先</h4><p>STAR 框架 + 量化指标，让面试官 30 秒读懂你的价值。</p></div>
+    <div class="why"><span class="ic">⏱️</span><h4>90 天节奏</h4><p>从盘点项目到投递复盘，每周清晰目标，告别「无尽刷题」。</p></div>
+    <div class="why"><span class="ic">📐</span><h4>系统设计套路</h4><p>5 步答题法 + 关键决策点清单，10 分钟搞定一道大题。</p></div>
+    <div class="why"><span class="ic">🧠</span><h4>八股矩阵化</h4><p>把碎片化八股按 Transformer / 预训练 / 对齐三轴归类，复习不漏点。</p></div>
+    <div class="why"><span class="ic">🎤</span><h4>项目深挖防坑</h4><p>2 分钟电梯版 + 10 分钟深挖版，3 层反问准备，扛住面试官追问。</p></div>
+    <div class="why"><span class="ic">💰</span><h4>谈薪四原则</h4><p>从「先报价」到「留 24 小时」，多 10–20% 不靠运气靠方法。</p></div>
+  </div>
+
+</div>
+
+<footer>
+  <div>© 2026 llm-roadmap / interview-guide</div>
+  <div>
+    <a href="../index.html">主站</a> ·
+    <a href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  const tBtn = document.getElementById('themeBtn');
+  const tMenu = document.getElementById('themeMenu');
+  const tHtml = document.documentElement;
+  function applyTheme(name) {
+    tHtml.dataset.theme = name;
+    tBtn.querySelector('.tname').textContent = name;
+    tMenu.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.theme === name));
+    localStorage.setItem('theme', name);
+  }
+  applyTheme(localStorage.getItem('theme') || 'light');
+  tBtn.addEventListener('click', e => { e.stopPropagation(); tMenu.classList.toggle('open'); });
+  tMenu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { applyTheme(b.dataset.theme); tMenu.classList.remove('open'); }));
+  document.addEventListener('click', () => tMenu.classList.remove('open'));
+</script>
+</body>
+</html>

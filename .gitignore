@@ -1,0 +1,13 @@
+# Ignore dot-prefixed directories (e.g. .obsidian, .codegraph, .claude)
+.*/
+# …but keep these（CI 配置 + Pages 标记）
+!.github/
+!.nojekyll
+
+# Build outputs（由 build.py 从 <module>/_src/ 自动生成，部署时由 Actions 实时构建）
+app-dev/docs.html
+interview/docs.html
+_site/
+
+# OS
+.DS_Store
