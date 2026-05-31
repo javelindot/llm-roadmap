@@ -198,7 +198,13 @@
     padding-bottom:32px; margin-bottom:36px;
     border-bottom:1px solid var(--border);
   }
-  main section { scroll-margin-top:80px; }
+  main section {
+    scroll-margin-top:80px;
+    padding-bottom:80px;
+    margin-bottom:40px;
+    border-bottom:1px solid var(--border);
+  }
+  main section:last-of-type { border-bottom:none; margin-bottom:0; padding-bottom:40px; }
   main h2 { font-size:1.7rem; font-weight:800; margin-top:56px; margin-bottom:18px; scroll-margin-top:80px; }
   main h2:first-of-type, main section:first-of-type h2 { margin-top:8px; }
   main h3 { font-size:1.2rem; font-weight:700; margin-top:32px; margin-bottom:12px; scroll-margin-top:80px; color:var(--text); }

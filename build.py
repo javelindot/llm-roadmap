@@ -354,14 +354,38 @@ def build_module(name, cfg):
             sidebar_parts.append(f'    <a class="chap-item" href="#{c["id"]}">{c["title"]}</a>')
     sidebar_html = "\n".join(sidebar_parts)
 
-    # 生成正文（按文件顺序，自动包 <section> + <h2>）
+    # 生成正文（按文件顺序，自动包 <section> + <h2> + 底部翻页卡片）
     content_parts = []
-    for c in chapters:
+    total = len(chapters)
+    for i, c in enumerate(chapters):
         content_parts.append(f'    <section id="{c["id"]}">')
         content_parts.append(f'      <h2>{c["title"]}</h2>')
-        # 内容缩进对齐（可选，不影响渲染）
         content_parts.append("      " + c["html"].replace("\n", "\n      "))
-        content_parts.append("    </section>")
+
+        # 底部上一篇 / 下一篇导航
+        nav_html = ['      <div class="chap-nav">']
+        if i > 0:
+            prev = chapters[i - 1]
+            nav_html.append(
+                f'        <a href="#{prev["id"]}" class="prev">'
+                f'<div class="lbl">← 上一篇</div>'
+                f'<div class="ttl">{htmllib.escape(prev["title"])}</div></a>'
+            )
+        else:
+            nav_html.append('        <span></span>')
+        if i < total - 1:
+            nxt = chapters[i + 1]
+            nav_html.append(
+                f'        <a href="#{nxt["id"]}" class="next">'
+                f'<div class="lbl">下一篇 →</div>'
+                f'<div class="ttl">{htmllib.escape(nxt["title"])}</div></a>'
+            )
+        else:
+            nav_html.append('        <span></span>')
+        nav_html.append('      </div>')
+        content_parts.append("\n".join(nav_html))
+
+        content_parts.append('    </section>')
     content_html = "\n".join(content_parts)
 
     # 生成右侧 TOC（按章节分组，每个项标记 data-section 供 JS 过滤）
