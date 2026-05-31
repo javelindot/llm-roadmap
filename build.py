@@ -150,7 +150,16 @@ def render_inline(text):
 BLOCK_START_RE = re.compile(r"^(#{1,6}\s|```|[-*]\s|\d+\.\s|\||>|:::)")
 
 
-def render_blocks(md_text):
+def slugify(text):
+    """从标题文本生成 URL slug。"""
+    text = re.sub(r'<[^>]+>', '', text)
+    text = text.strip().lower()
+    text = re.sub(r'[^\w\s-]', '', text)
+    text = re.sub(r'\s+', '-', text)
+    return text or 'heading'
+
+
+def render_blocks(md_text, heading_prefix=None):
     """将 markdown 文本解析为 HTML（块级）。"""
     lines = md_text.split("\n")
     out = []
@@ -166,11 +175,16 @@ def render_blocks(md_text):
             i += 1
             continue
 
-        # 标题
+        # 标题（h2/h3 生成唯一 id，支持 TOC 锚点）
         m = re.match(r"^(#{1,6})\s+(.+)$", line)
         if m:
             level = len(m.group(1))
-            out.append(f"<h{level}>{render_inline(m.group(2))}</h{level}>")
+            text = render_inline(m.group(2))
+            if level >= 2 and heading_prefix:
+                hid = f"{heading_prefix}--{slugify(text)}"
+                out.append(f'<h{level} id="{hid}">{text}</h{level}>')
+            else:
+                out.append(f"<h{level}>{text}</h{level}>")
             i += 1
             continue
 
@@ -298,20 +312,29 @@ def build_module(name, cfg):
         print(f"  ⚠ {src_dir} 无 .md 文件，跳过")
         return
 
-    chapters = []  # list of {group, id, title, toc, html}
+    chapters = []  # list of {group, id, title, toc, html, headings}
     for f in files:
         text = f.read_text(encoding="utf-8")
         meta, body = parse_frontmatter(text)
         if "id" not in meta:
             print(f"  ⚠ {f.name} 缺 frontmatter `id`，跳过")
             continue
+        html = render_blocks(body, heading_prefix=meta["id"])
+        # 提取本章节内的 h2/h3 作为 right-TOC 的子条目
+        headings = []
+        for m in re.finditer(r'<h([23])\s+id="([^"]+)"[^>]*>(.*?)</h\1>', html):
+            level = int(m.group(1))
+            hid = m.group(2)
+            htext = re.sub(r'<[^>]+>', '', m.group(3))
+            headings.append({"level": level, "id": hid, "text": htext})
         chapters.append({
             "file": f.name,
             "group": meta.get("group", "未分组"),
             "id": meta["id"],
             "title": meta.get("title", meta["id"]),
             "toc": meta.get("toc", meta.get("title", meta["id"])),
-            "html": render_blocks(body),
+            "html": html,
+            "headings": headings,
         })
 
     # 按文件名顺序保留；按 group 分组（保持首次出现顺序）
@@ -341,8 +364,13 @@ def build_module(name, cfg):
         content_parts.append("    </section>")
     content_html = "\n".join(content_parts)
 
-    # 生成右侧 TOC
-    toc_parts = [f'    <a class="toc-item" href="#{c["id"]}">{c["toc"]}</a>' for c in chapters]
+    # 生成右侧 TOC（层级：章节 → h2 → h3）
+    toc_parts = []
+    for c in chapters:
+        toc_parts.append(f'    <a class="toc-item toc-h1" href="#{c["id"]}">{c["toc"]}</a>')
+        for h in c["headings"]:
+            indent_class = "toc-h3" if h["level"] == 3 else "toc-h2"
+            toc_parts.append(f'    <a class="toc-item {indent_class}" href="#{h["id"]}">{h["text"]}</a>')
     toc_html = "\n".join(toc_parts)
 
     # 模板替换

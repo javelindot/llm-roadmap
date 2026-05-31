@@ -6,15 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style>
   :root, [data-theme="light"] {
-    --bg:#ffffff; --bg2:#fafafa; --bg3:#f4f4f5;
+    --bg:#f0f4f8; --bg2:#e8edf5; --bg3:#e2e8f0;
     --card:#ffffff;
-    --text:#0a0a0a; --text2:#525252; --text3:#a3a3a3;
-    --border:#e5e5e5; --border2:#d4d4d4;
-    --accent:#2563eb; --accent2:#1d4ed8; --accent-soft:#eff6ff;
-    --code-bg:#fafafa; --code-text:#0a0a0a;
-    --code-key:#7c3aed; --code-str:#16a34a; --code-com:#71717a; --code-num:#dc2626;
-    --shadow:0 1px 2px rgba(0,0,0,.04); --callout-border:#e5e5e5;
-    --nav-bg:rgba(255,255,255,.85);
+    --text:#1e293b; --text2:#475569; --text3:#94a3b8;
+    --border:#e2e8f0; --border2:#cbd5e1;
+    --accent:#6366f1; --accent2:#4f46e5; --accent-soft:rgba(99,102,241,.08);
+    --code-bg:#f8fafc; --code-text:#1e293b;
+    --code-key:#7c3aed; --code-str:#059669; --code-com:#64748b; --code-num:#dc2626;
+    --shadow:0 1px 3px rgba(30,41,59,.06); --callout-border:#e2e8f0;
+    --nav-bg:rgba(255,255,255,.88);
   }
   [data-theme="dark"] {
     --bg:#0a0a0a; --bg2:#111111; --bg3:#18181b;
@@ -245,13 +245,17 @@
   .callout p:last-child { margin-bottom:0; }
 
   .toc-item {
-    display:block; padding:6px 12px;
+    display:block; padding:5px 12px;
     color:var(--text2); font-size:12.5px;
     border-left:2px solid transparent; margin-left:2px;
     transition:color .15s,border-color .15s;
   }
   .toc-item:hover { color:var(--accent); }
   .toc-item.active { color:var(--accent); border-color:var(--accent); font-weight:600; }
+  .toc-item.toc-h1 { font-weight:600; color:var(--text); font-size:13px; margin-top:8px; }
+  .toc-item.toc-h1:first-of-type { margin-top:0; }
+  .toc-item.toc-h2 { padding-left:20px; font-size:12px; }
+  .toc-item.toc-h3 { padding-left:32px; font-size:11.5px; color:var(--text3); }
 
   .chap-nav {
     margin-top:48px; padding-top:24px;
@@ -352,6 +356,7 @@ $toc
   document.addEventListener('click', () => tMenu.classList.remove('open'));
 
   const sections = document.querySelectorAll('main section[id]');
+  const headings = document.querySelectorAll('main h2[id], main h3[id]');
   const tocLinks = document.querySelectorAll('.side-r .toc-item');
   const chapLinks = document.querySelectorAll('.side-l .chap-item');
   function setActive(id) {
@@ -362,8 +367,9 @@ $toc
     const visible = entries.filter(e => e.isIntersecting)
       .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
     if (visible[0]) setActive(visible[0].target.id);
-  }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+  }, { rootMargin: '-80px 0px -55% 0px', threshold: 0 });
   sections.forEach(s => io.observe(s));
+  headings.forEach(h => io.observe(h));
 </script>
 </body>
 </html>
