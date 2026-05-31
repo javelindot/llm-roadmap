@@ -2,12 +2,12 @@
 
 - 大模型应用开发
   - [应用开发封面](/app-dev/index.html)
-  - [Prompt 工程](/app-dev/docs.html#prompt-basics)
-  - [Function Call](/app-dev/docs.html#fc-concept)
-  - [RAG 检索增强](/app-dev/docs.html#rag-overview)
-  - [MCP 协议](/app-dev/docs.html#mcp-overview)
-  - [Skills](/app-dev/docs.html#skills-overview)
-  - [AI Agent](/app-dev/docs.html#agent-concept)
+  - [Prompt 工程](/app-dev/chapter/100-prompt-basics.html)
+  - [Function Call](/app-dev/chapter/200-fc-concept.html)
+  - [RAG 检索增强](/app-dev/chapter/300-rag-overview.html)
+  - [MCP 协议](/app-dev/chapter/400-mcp-overview.html)
+  - [Skills](/app-dev/chapter/500-skills-overview.html)
+  - [AI Agent](/app-dev/chapter/600-agent-concept.html)
 
 - Vibe Coding 教程
   - [Vibe Coding 教程](/vibe-coding/README.md)

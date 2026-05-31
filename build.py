@@ -397,19 +397,81 @@ def build_module(name, cfg):
             toc_parts.append(f'    <a class="toc-item {indent_class}" href="#{h["id"]}" data-section="{c["id"]}">{h["text"]}</a>')
     toc_html = "\n".join(toc_parts)
 
-    # 模板替换
+    # ── 单页版本（docs.html）保留作为全文阅读入口 ──
+    global_nav = '''    <div class="chap-nav">
+      <a href="$cover_url" class="prev">
+        <div class="lbl">← 返回</div>
+        <div class="ttl">$back_label</div>
+      </a>
+      <a href="$main_url" class="next">
+        <div class="lbl">回到 →</div>
+        <div class="ttl">主站首页</div>
+      </a>
+    </div>'''
+    single_content = content_html + "\n" + global_nav
+
+    # 生成多页 sidebar（链接指向章节文件）
+    sidebar_parts_multi = []
+    for g in group_order:
+        sidebar_parts_multi.append(f'    <div class="chap-head">{g}</div>')
+        for c in groups[g]:
+            sidebar_parts_multi.append(f'    <a class="chap-item" href="{c["file"].replace(".md", ".html")}">{c["title"]}</a>')
+    sidebar_html_multi = "\n".join(sidebar_parts_multi)
+
     tpl_text = TPL.read_text(encoding="utf-8")
+
+    # 单页 docs.html
     out_text = string.Template(tpl_text).safe_substitute(
         sidebar=sidebar_html,
-        content=content_html,
+        content=single_content,
         toc=toc_html,
         **cfg,
     )
-
     out_path = ROOT / name / "docs.html"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(out_text, encoding="utf-8")
     print(f"  ✓ {out_path.relative_to(ROOT)}  ({len(chapters)} 章节, {sum(len(v) for v in groups.values())} 项, {len(group_order)} 组)")
+
+    # ── 多页版本（每章独立页面）──
+    chapter_dir = ROOT / name / "chapter"
+    chapter_dir.mkdir(parents=True, exist_ok=True)
+    for i, c in enumerate(chapters):
+        prev_url = chapters[i - 1]["file"].replace(".md", ".html") if i > 0 else ""
+        next_url = chapters[i + 1]["file"].replace(".md", ".html") if i < len(chapters) - 1 else ""
+
+        section_html = f'    <section id="{c["id"]}">\n      <h2>{c["title"]}</h2>\n      ' + c["html"].replace("\n", "\n      ") + '\n    </section>'
+
+        nav_parts = ['      <div class="chap-nav">']
+        if prev_url:
+            nav_parts.append(
+                f'        <a href="{prev_url}" class="prev"><div class="lbl">← 上一篇</div><div class="ttl">{htmllib.escape(chapters[i - 1]["title"])}</div></a>'
+            )
+        else:
+            nav_parts.append('        <span></span>')
+        if next_url:
+            nav_parts.append(
+                f'        <a href="{next_url}" class="next"><div class="lbl">下一篇 →</div><div class="ttl">{htmllib.escape(chapters[i + 1]["title"])}</div></a>'
+            )
+        else:
+            nav_parts.append('        <span></span>')
+        nav_parts.append('      </div>')
+        nav_html = "\n".join(nav_parts)
+
+        toc_parts_chap = [f'    <a class="toc-item toc-h1" href="#{c["id"]}">{c["toc"]}</a>']
+        for h in c["headings"]:
+            indent_class = "toc-h3" if h["level"] == 3 else "toc-h2"
+            toc_parts_chap.append(f'    <a class="toc-item {indent_class}" href="#{h["id"]}">{h["text"]}</a>')
+        toc_html_chap = "\n".join(toc_parts_chap)
+
+        out_text_chap = string.Template(tpl_text).safe_substitute(
+            sidebar=sidebar_html_multi,
+            content=section_html + "\n" + nav_html,
+            toc=toc_html_chap,
+            **cfg,
+        )
+        out_path_chap = chapter_dir / c["file"].replace(".md", ".html")
+        out_path_chap.write_text(out_text_chap, encoding="utf-8")
+    print(f"  ✓ {chapter_dir.relative_to(ROOT)}/*  ({len(chapters)} 个独立章节页)")
 
 
 # ─────────────────────────────────────────────────────────────

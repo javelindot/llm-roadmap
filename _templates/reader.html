@@ -327,17 +327,6 @@ $sidebar
     <p class="lead">$lead</p>
 
 $content
-
-    <div class="chap-nav">
-      <a href="$cover_url" class="prev">
-        <div class="lbl">← 返回</div>
-        <div class="ttl">$back_label</div>
-      </a>
-      <a href="$main_url" class="next">
-        <div class="lbl">回到 →</div>
-        <div class="ttl">主站首页</div>
-      </a>
-    </div>
   </main>
 
   <aside class="side-r">
@@ -384,6 +373,17 @@ $toc
   function setActiveChapter(id) {
     chapLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
   }
+
+  function highlightCurrentPage() {
+    const current = location.pathname.split('/').pop();
+    chapLinks.forEach(a => {
+      const href = a.getAttribute('href');
+      if (!href.startsWith('#')) {
+        a.classList.toggle('active', href === current || href === './' + current);
+      }
+    });
+  }
+  highlightCurrentPage();
 
   // Section IO：决定当前活跃章节 → 过滤右栏 + 高亮左栏
   const sectionIO = new IntersectionObserver(entries => {
