@@ -1,12 +1,13 @@
 - [首页](/)
 
-- 大模型应用实战
-  - [Prompt Engineering 提示词工程](/applications/chapter1/第一章%20Prompt%20Engineering.md)
-  - [Function Call 函数调用](/applications/chapter2/第二章%20FunctionCall.md)
-  - [RAG 检索增强生成](/applications/chapter3/第三章%20RAG.md)
-  - [MCP 模型上下文协议](/applications/chapter4/第四章%20MCP（Model%20Context%20Protocol.md)
-  - [国产大模型应用](/applications/chapter5/第五章%20Skills.md)
-  - [Agent 智能体](/applications/chapter6/第六章%20AI%20Agent.md)
+- 大模型应用开发
+  - [应用开发封面](/app-dev/index.html)
+  - [Prompt 工程](/app-dev/docs.html#prompt-basics)
+  - [Function Call](/app-dev/docs.html#fc-concept)
+  - [RAG 检索增强](/app-dev/docs.html#rag-overview)
+  - [MCP 协议](/app-dev/docs.html#mcp-overview)
+  - [Skills](/app-dev/docs.html#skills-overview)
+  - [AI Agent](/app-dev/docs.html#agent-concept)
 
 - Vibe Coding 教程
   - [Vibe Coding 教程](/vibe-coding/README.md)
