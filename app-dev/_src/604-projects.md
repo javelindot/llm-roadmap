@@ -1,8 +1,8 @@
 ---
-group: 5. AI Agent
-id: agent-project
-title: AI Agent · 项目实战
-toc: Agent · 项目实战
+group: 6. AI Agent
+id: agent-projects
+title: Agent · 实战项目
+toc: Agent · 实战项目
 ---
 
 三个练手项目（按难度递增）：

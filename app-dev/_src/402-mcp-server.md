@@ -1,8 +1,8 @@
 ---
 group: 4. MCP 协议
-id: mcp-case
-title: MCP · 实战集成
-toc: MCP · 实战集成
+id: mcp-server
+title: MCP · 编写 Server
+toc: MCP · Server
 ---
 
 一个最小 MCP Server 示例（Python）：

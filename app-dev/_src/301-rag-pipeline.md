@@ -1,8 +1,8 @@
 ---
 group: 3. RAG 检索增强
-id: rag-arch
-title: RAG · 系统架构
-toc: RAG · 架构
+id: rag-pipeline
+title: RAG · 标准流水线
+toc: RAG · 流水线
 ---
 
 RAG（Retrieval-Augmented Generation）的核心：**把外部知识库的相关片段作为上下文喂给模型**，让模型基于事实回答，规避幻觉。

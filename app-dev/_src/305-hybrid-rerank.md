@@ -1,8 +1,8 @@
 ---
 group: 3. RAG 检索增强
-id: rag-tips
-title: RAG · 工程实践
-toc: RAG · 工程实践
+id: hybrid-rerank
+title: RAG · 混合检索 + Reranker
+toc: RAG · 混合+Rerank
 ---
 
 - **切片粒度**：通常 200–500 token，按语义边界切分（标题/段落），避免硬切

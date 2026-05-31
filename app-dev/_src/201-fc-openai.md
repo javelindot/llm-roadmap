@@ -1,8 +1,8 @@
 ---
 group: 2. Function Call
-id: fc-example
-title: Function Call · 代码示例
-toc: Function Call · 示例
+id: fc-openai
+title: Function Call · OpenAI 实战
+toc: FC · OpenAI
 ---
 
 ```python

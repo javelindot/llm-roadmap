@@ -1,8 +1,8 @@
 ---
-group: 5. AI Agent
-id: agent-design
-title: AI Agent · 架构设计
-toc: Agent · 架构设计
+group: 6. AI Agent
+id: agent-concept
+title: Agent · 概念与四要素
+toc: Agent · 概念
 ---
 
 Agent 不是简单的「LLM + 工具」组合，它需要：
