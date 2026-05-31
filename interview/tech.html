@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<title>巩固能力 · Interview Guide</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="LLM 工程师面试 · 八股 / 系统设计 / 算法 ——「考点矩阵」式系统复习" />
+<style>
+  :root, [data-theme="light"] {
+    --bg:#ffffff; --bg2:#fafafa; --bg3:#f4f4f5;
+    --card:#ffffff;
+    --text:#0a0a0a; --text2:#525252; --text3:#a3a3a3;
+    --border:#e5e5e5; --border2:#d4d4d4;
+    --accent:#2563eb; --accent2:#1d4ed8; --accent-soft:#eff6ff;
+    --nav-bg:rgba(255,255,255,.85);
+    --mono:'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;
+    --ok:#16a34a; --ok-soft:#dcfce7;
+    --warn:#ea580c; --warn-soft:#ffedd5;
+  }
+  [data-theme="dark"] {
+    --bg:#0a0a0a; --bg2:#111111; --bg3:#18181b; --card:#0f0f10;
+    --text:#fafafa; --text2:#a1a1aa; --text3:#71717a;
+    --border:#27272a; --border2:#3f3f46;
+    --accent:#60a5fa; --accent2:#93c5fd; --accent-soft:rgba(96,165,250,.08);
+    --nav-bg:rgba(10,10,10,.85);
+    --ok:#4ade80; --ok-soft:rgba(74,222,128,.12);
+    --warn:#fb923c; --warn-soft:rgba(251,146,60,.12);
+  }
+  [data-theme="solarized"] {
+    --bg:#fdf6e3; --bg2:#f5efd5; --bg3:#eee8d5; --card:#fdf6e3;
+    --text:#586e75; --text2:#657b83; --text3:#93a1a1;
+    --border:#eee8d5; --border2:#d8d2bf;
+    --accent:#268bd2; --accent2:#2aa198; --accent-soft:rgba(38,139,210,.10);
+    --nav-bg:rgba(253,246,227,.85);
+    --ok:#859900; --ok-soft:rgba(133,153,0,.12);
+    --warn:#cb4b16; --warn-soft:rgba(203,75,22,.10);
+  }
+  [data-theme="dracula"] {
+    --bg:#282a36; --bg2:#2d2f3d; --bg3:#383a4a; --card:#2d2f3d;
+    --text:#f8f8f2; --text2:#bcc1d3; --text3:#6272a4;
+    --border:#44475a; --border2:#565a73;
+    --accent:#bd93f9; --accent2:#ff79c6; --accent-soft:rgba(189,147,249,.12);
+    --nav-bg:rgba(40,42,54,.85);
+    --ok:#50fa7b; --ok-soft:rgba(80,250,123,.12);
+    --warn:#ffb86c; --warn-soft:rgba(255,184,108,.12);
+  }
+  [data-theme="nord"] {
+    --bg:#2e3440; --bg2:#353b48; --bg3:#3b4252; --card:#353b48;
+    --text:#eceff4; --text2:#d8dee9; --text3:#7b8497;
+    --border:#434c5e; --border2:#4c566a;
+    --accent:#88c0d0; --accent2:#5e81ac; --accent-soft:rgba(136,192,208,.12);
+    --nav-bg:rgba(46,52,64,.85);
+    --ok:#a3be8c; --ok-soft:rgba(163,190,140,.12);
+    --warn:#ebcb8b; --warn-soft:rgba(235,203,139,.12);
+  }
+  [data-theme="tokyo-night"] {
+    --bg:#1a1b26; --bg2:#16161e; --bg3:#1f2335; --card:#1f2335;
+    --text:#c0caf5; --text2:#a9b1d6; --text3:#565f89;
+    --border:#292e42; --border2:#3b4261;
+    --accent:#7aa2f7; --accent2:#bb9af7; --accent-soft:rgba(122,162,247,.12);
+    --nav-bg:rgba(26,27,38,.85);
+    --ok:#9ece6a; --ok-soft:rgba(158,206,106,.12);
+    --warn:#e0af68; --warn-soft:rgba(224,175,104,.12);
+  }
+  [data-theme="catppuccin"] {
+    --bg:#1e1e2e; --bg2:#181825; --bg3:#313244; --card:#181825;
+    --text:#cdd6f4; --text2:#bac2de; --text3:#7f849c;
+    --border:#313244; --border2:#45475a;
+    --accent:#cba6f7; --accent2:#f5c2e7; --accent-soft:rgba(203,166,247,.12);
+    --nav-bg:rgba(30,30,46,.85);
+    --ok:#a6e3a1; --ok-soft:rgba(166,227,161,.12);
+    --warn:#fab387; --warn-soft:rgba(250,179,135,.12);
+  }
+  *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.65;
+    font-size:15px; min-height:100vh; display:flex; flex-direction:column;
+    transition:background .2s,color .2s;
+  }
+  a { color:inherit; text-decoration:none; }
+
+  .nav {
+    position:sticky; top:0; z-index:100;
+    background:var(--nav-bg); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+    padding:0 32px; height:56px;
+    display:flex; align-items:center; gap:4px;
+  }
+  .brand {
+    font-family:var(--mono); font-size:.92rem; font-weight:600;
+    color:var(--text); letter-spacing:-.02em; margin-right:24px;
+  }
+  .brand::before { content:'$ '; color:var(--text3); }
+  .nav-spacer { flex:1; }
+  .nav-link {
+    color:var(--text2); font-size:13.5px; font-weight:500;
+    padding:6px 11px; border-radius:6px;
+    transition:color .15s,background .15s;
+  }
+  .nav-link:hover { color:var(--text); background:var(--bg3); }
+  .theme-switcher { position:relative; margin-left:6px; }
+  .theme-btn {
+    height:30px; padding:0 10px;
+    background:transparent; border:1px solid var(--border); border-radius:6px;
+    color:var(--text2); cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--mono); font-size:12.5px;
+    transition:color .15s,border-color .15s,background .15s;
+  }
+  .theme-btn:hover { color:var(--text); background:var(--bg3); }
+  .theme-btn .dot { width:8px; height:8px; border-radius:50%; background:var(--accent); }
+  .theme-menu {
+    position:absolute; top:100%; right:0; margin-top:4px; z-index:200;
+    background:var(--card); border:1px solid var(--border); border-radius:6px;
+    padding:4px; min-width:148px; display:none;
+    box-shadow:0 4px 16px rgba(0,0,0,.08);
+  }
+  .theme-menu.open { display:block; }
+  .theme-menu button {
+    display:flex; align-items:center; gap:8px;
+    width:100%; padding:6px 10px; text-align:left;
+    background:transparent; border:none; cursor:pointer;
+    font-family:var(--mono); font-size:13px;
+    color:var(--text2); border-radius:4px;
+  }
+  .theme-menu button:hover { background:var(--bg3); color:var(--text); }
+  .theme-menu button.active { background:var(--bg3); color:var(--text); }
+  .theme-menu .dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .dot-light { background:linear-gradient(135deg,#fff 50%,#0a0a0a 50%); border:1px solid #d4d4d4; }
+  .dot-dark { background:#0a0a0a; border:1px solid #3f3f46; }
+  .dot-solarized { background:#b58900; }
+  .dot-dracula { background:#bd93f9; }
+  .dot-nord { background:#88c0d0; }
+  .dot-tokyo-night { background:#7aa2f7; }
+  .dot-catppuccin { background:#cba6f7; }
+
+  .layout {
+    display:grid; grid-template-columns:260px minmax(0,1fr);
+    gap:28px; padding:24px 32px; max-width:1280px; margin:0 auto; width:100%; flex:1;
+    align-items:start;
+  }
+  .side {
+    position:sticky; top:72px;
+    max-height:calc(100vh - 88px); overflow-y:auto;
+    padding:18px 8px 18px 0;
+  }
+  .side::-webkit-scrollbar { width:5px; }
+  .side::-webkit-scrollbar-thumb { background:var(--border2); border-radius:3px; }
+  .side-brand {
+    font-family:var(--mono); font-size:11px; font-weight:700;
+    color:var(--text3); letter-spacing:.1em; text-transform:uppercase;
+    padding:0 12px; margin-bottom:14px;
+  }
+  .side-brand::before { content:'// '; }
+  .side-group { margin-bottom:18px; }
+  .side-group-head {
+    font-family:var(--mono); font-size:10.5px; font-weight:700;
+    color:var(--text3); letter-spacing:.14em;
+    padding:8px 12px 6px;
+  }
+  .side-item {
+    display:flex; align-items:center; gap:8px;
+    padding:7px 12px; border-radius:6px;
+    font-size:13.5px; color:var(--text2);
+    cursor:pointer; transition:all .12s;
+    border-left:2px solid transparent;
+  }
+  .side-item:hover { color:var(--text); background:var(--bg3); }
+  .side-item.active {
+    color:var(--accent); background:var(--accent-soft);
+    border-left-color:var(--accent); font-weight:600;
+  }
+  .side-item .si-num {
+    font-family:var(--mono); font-size:11px;
+    color:var(--text3); flex-shrink:0; min-width:18px;
+  }
+  .side-item.active .si-num { color:var(--accent); }
+
+  .main { min-width:0; padding:8px 0 48px; }
+
+  .article { display:none; }
+  .article.active { display:block; animation:fadeIn .2s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+
+  .art-crumbs {
+    font-family:var(--mono); font-size:11.5px; color:var(--text3);
+    margin-bottom:12px; letter-spacing:.04em;
+  }
+  .art-crumbs .crumb-sep { margin:0 6px; color:var(--text3); }
+  .art-crumbs .crumb-active { color:var(--text2); }
+
+  .article h1 {
+    font-size:clamp(1.6rem,3vw,2.05rem);
+    font-weight:700; letter-spacing:-.025em; line-height:1.2;
+    margin-bottom:14px; color:var(--text);
+  }
+  .article .art-lead {
+    font-size:15.5px; color:var(--text2);
+    margin-bottom:24px; line-height:1.75;
+    padding-bottom:20px; border-bottom:1px solid var(--border);
+  }
+  .article h2 {
+    font-size:1.18rem; font-weight:700;
+    color:var(--text); margin:32px 0 12px;
+    letter-spacing:-.01em;
+  }
+  .article h3 {
+    font-size:1rem; font-weight:700;
+    color:var(--text); margin:20px 0 8px;
+  }
+  .article p {
+    color:var(--text2); margin-bottom:14px;
+    font-size:14.5px; line-height:1.8;
+  }
+  .article p strong { color:var(--text); }
+  .article ul, .article ol {
+    margin:0 0 18px 22px;
+    color:var(--text2);
+    font-size:14.5px; line-height:1.85;
+  }
+  .article ul li, .article ol li { margin-bottom:4px; }
+  .article ul li::marker { color:var(--text3); }
+  .article ol li::marker { color:var(--text3); font-family:var(--mono); }
+  .article li strong { color:var(--text); }
+  .article code {
+    background:var(--bg3); color:var(--accent);
+    padding:1px 6px; border-radius:4px;
+    font-family:var(--mono); font-size:.92em;
+  }
+  .article pre {
+    background:var(--bg2); border:1px solid var(--border);
+    border-radius:10px; padding:16px 18px;
+    overflow-x:auto; margin-bottom:18px;
+    font-family:var(--mono); font-size:12.5px;
+    color:var(--text); line-height:1.75;
+    white-space:pre-wrap;
+  }
+  .article pre .n { color:var(--warn); font-weight:600; }
+  .article pre .k { color:var(--accent); }
+  .article pre .c { color:var(--text3); }
+  .article pre .ok { color:var(--ok); }
+
+  .callout {
+    display:flex; align-items:flex-start; gap:12px;
+    padding:14px 16px; border-radius:10px;
+    background:var(--accent-soft); border:1px solid var(--accent-soft);
+    margin:8px 0 22px;
+  }
+  .callout .ic { font-size:1.05rem; line-height:1.5; flex-shrink:0; }
+  .callout p { margin:0; color:var(--text); font-size:14px; line-height:1.7; }
+  .callout p strong { color:var(--accent); }
+  .callout.warn { background:var(--warn-soft); border-color:var(--warn-soft); }
+  .callout.warn p strong { color:var(--warn); }
+  .callout.ok { background:var(--ok-soft); border-color:var(--ok-soft); }
+  .callout.ok p strong { color:var(--ok); }
+
+  table {
+    width:100%; border-collapse:collapse; margin-bottom:20px;
+    font-size:13.5px;
+    border:1px solid var(--border); border-radius:10px;
+    overflow:hidden;
+  }
+  th, td {
+    padding:9px 14px; text-align:left;
+    border-bottom:1px solid var(--border);
+    vertical-align:top;
+  }
+  th {
+    background:var(--bg2); color:var(--text2);
+    font-family:var(--mono); font-size:12px;
+    font-weight:600; letter-spacing:.02em;
+  }
+  td { color:var(--text2); }
+  tbody tr:last-child td { border-bottom:none; }
+
+  .pager {
+    display:flex; gap:10px; justify-content:space-between;
+    margin-top:48px; padding-top:24px;
+    border-top:1px solid var(--border);
+  }
+  .pager-btn {
+    flex:1; max-width:50%;
+    padding:14px 16px; border-radius:10px;
+    border:1px solid var(--border); background:var(--card);
+    color:var(--text2); cursor:pointer;
+    transition:all .15s; display:block;
+  }
+  .pager-btn:hover {
+    border-color:var(--accent); background:var(--accent-soft);
+    transform:translateY(-1px);
+  }
+  .pager-btn .pg-label {
+    font-family:var(--mono); font-size:11px;
+    color:var(--text3); margin-bottom:4px;
+  }
+  .pager-btn .pg-title {
+    font-size:13.5px; color:var(--text); font-weight:600;
+    line-height:1.4;
+  }
+  .pager-btn:hover .pg-title { color:var(--accent); }
+  .pager-btn.next { text-align:right; }
+  .pager-btn.disabled { opacity:.35; pointer-events:none; }
+
+  footer {
+    border-top:1px solid var(--border);
+    padding:24px 32px;
+    display:flex; justify-content:space-between; align-items:center;
+    color:var(--text3); font-size:12.5px;
+    flex-wrap:wrap; gap:12px;
+    font-family:var(--mono);
+  }
+  footer a { color:var(--text2); }
+  footer a:hover { color:var(--accent); }
+
+  .side-toggle {
+    display:none;
+    width:100%; padding:10px 14px;
+    background:var(--bg2); border:1px solid var(--border); border-radius:8px;
+    color:var(--text); font-size:13.5px; cursor:pointer;
+    font-family:inherit; margin-bottom:10px;
+    text-align:left;
+  }
+  .side-toggle::before { content:'☰  '; color:var(--text3); }
+
+  @media (max-width:880px) {
+    .layout { grid-template-columns:1fr; gap:12px; padding:14px 16px; }
+    .side { position:static; max-height:none; padding:0; }
+    .side.collapsed { display:none; }
+    .side-toggle { display:block; }
+    .nav { padding:0 12px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="index.html">tech-prep</a>
+  <div class="nav-spacer"></div>
+  <a class="nav-link" href="index.html">首页</a>
+  <a class="nav-link" href="plan.html">🧭 定位</a>
+  <a class="nav-link" href="resume.html">📋 简历</a>
+  <a class="nav-link" href="quiz.html">🔥 真题库</a>
+  <a class="nav-link" href="offer.html">💰 offer</a>
+  <a class="nav-link" href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
+  <div class="theme-switcher">
+    <button class="theme-btn" id="themeBtn" aria-label="切换主题">
+      <span class="dot"></span><span class="tname">light</span><span style="color:var(--text3);margin-left:2px;">▾</span>
+    </button>
+    <div class="theme-menu" id="themeMenu">
+      <button data-theme="light"><span class="dot dot-light"></span>light</button>
+      <button data-theme="dark"><span class="dot dot-dark"></span>dark</button>
+      <button data-theme="solarized"><span class="dot dot-solarized"></span>solarized</button>
+      <button data-theme="dracula"><span class="dot dot-dracula"></span>dracula</button>
+      <button data-theme="nord"><span class="dot dot-nord"></span>nord</button>
+      <button data-theme="tokyo-night"><span class="dot dot-tokyo-night"></span>tokyo-night</button>
+      <button data-theme="catppuccin"><span class="dot dot-catppuccin"></span>catppuccin</button>
+    </div>
+  </div>
+</nav>
+
+<div class="layout">
+
+  <aside class="side" id="side">
+    <div class="side-brand">巩固能力</div>
+
+    <div class="side-group">
+      <div class="side-group-head">PART 1 · LLM 八股</div>
+      <a class="side-item" data-id="transformer"><span class="si-num">01</span>Transformer 细节</a>
+      <a class="side-item" data-id="pretrain"><span class="si-num">02</span>预训练与微调</a>
+      <a class="side-item" data-id="alignment"><span class="si-num">03</span>RLHF / DPO 对齐</a>
+    </div>
+
+    <div class="side-group">
+      <div class="side-group-head">PART 2 · 系统设计</div>
+      <a class="side-item" data-id="sys-5steps"><span class="si-num">04</span>5 步答题法</a>
+      <a class="side-item" data-id="sys-rag"><span class="si-num">05</span>设计 RAG 系统</a>
+      <a class="side-item" data-id="sys-agent"><span class="si-num">06</span>设计 Agent 平台</a>
+    </div>
+
+    <div class="side-group">
+      <div class="side-group-head">PART 3 · 算法（提高篇）</div>
+      <a class="side-item" data-id="algo-must"><span class="si-num">07</span>必刷题清单</a>
+      <a class="side-item" data-id="algo-strategy"><span class="si-num">08</span>应试策略</a>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <button class="side-toggle" id="sideToggle">目录</button>
+
+    <!-- ============ PART 1 · LLM 八股 ============ -->
+    <article id="transformer" class="article">
+      <div class="art-crumbs">巩固能力 <span class="crumb-sep">/</span> PART 1 <span class="crumb-sep">/</span> <span class="crumb-active">Transformer 细节</span></div>
+      <h1>Transformer 细节</h1>
+      <p class="art-lead">Transformer 是 LLM 面试 100% 命中的考点。<strong>不需要会推导, 但每个组件都要能讲 3 分钟</strong>。</p>
+
+      <h2>Self-Attention 计算公式</h2>
+      <pre>Attention(Q, K, V) = softmax(Q·K<span class="k">ᵀ</span> / √d_k) · V
+
+<span class="c"># Q, K, V 分别由输入 X 经过 3 个线性变换得到</span>
+Q = X · W_q   <span class="c"># [seq, d_model] · [d_model, d_k] → [seq, d_k]</span>
+K = X · W_k
+V = X · W_v</pre>
+
+      <h3>每个变量的物理意义</h3>
+      <ul>
+        <li><strong>Q (Query)</strong>: 「我要找什么」 —— 当前 token 的查询向量。</li>
+        <li><strong>K (Key)</strong>: 「我的标识」 —— 每个 token 的关键字, 用于被匹配。</li>
+        <li><strong>V (Value)</strong>: 「我的内容」 —— 每个 token 实际的信息载体。</li>
+        <li><strong>QK<sup>T</sup></strong>: 相似度矩阵, 维度 [seq, seq], 第 i 行 j 列 = 第 i 个 token 对第 j 个 token 的关注度。</li>
+        <li><strong>/√d_k</strong>: 缩放, 防止 softmax 进入梯度消失区域。</li>
+        <li><strong>softmax</strong>: 归一化, 把相似度变成概率分布。</li>
+        <li><strong>·V</strong>: 用注意力权重加权求和 V, 得到聚合后的表示。</li>
+      </ul>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>常考</strong>: 「为什么要 /√d_k?」答: 当 d_k 较大时, Q·K<sup>T</sup> 数值会很大, softmax 后梯度趋近 0, 训练不稳定。除以 √d_k 把方差归一回 1。</p>
+      </div>
+
+      <h2>Multi-Head Attention</h2>
+      <p>用 h 个并行的 Attention 头, 每个头学不同的「关注模式」, 最后 concat 起来再线性变换:</p>
+      <pre>MultiHead(Q, K, V) = Concat(head_1, ..., head_h) · W_o
+其中 head_i = Attention(Q · W_q^i, K · W_k^i, V · W_v^i)</pre>
+      <p><strong>关键</strong>: 每个头的 d_k = d_model / h, 总参数量和 single-head 相同, 但表达能力更强 (能同时关注「语法关系」、「语义关系」、「位置关系」等不同模式)。</p>
+
+      <h2>位置编码演进</h2>
+      <table>
+        <thead><tr><th>方法</th><th>原理</th><th>能否外推</th><th>主流模型</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Sinusoidal</strong></td><td>固定 sin/cos 函数</td><td>❌ 不能</td><td>原版 Transformer</td></tr>
+          <tr><td><strong>Learned</strong></td><td>可学的 position embedding</td><td>❌ 不能</td><td>BERT, GPT-2</td></tr>
+          <tr><td><strong>RoPE</strong> (旋转位置编码)</td><td>对 Q,K 应用旋转矩阵</td><td>⚠️ 有限外推</td><td>LLaMA, ChatGLM, Qwen</td></tr>
+          <tr><td><strong>ALiBi</strong></td><td>在 attention score 上加位置偏置</td><td>✅ 能</td><td>BLOOM, MPT</td></tr>
+          <tr><td><strong>YaRN</strong></td><td>RoPE 的改进, 频率插值</td><td>✅ 能</td><td>LLaMA-2 7B 64k</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>常考</strong>: 「为什么 RoPE 流行?」答: ① 相对位置编码自然 (q · k 内积只跟相对位置有关) ② 外推性能比 learned 好 ③ 实现简单, 不增加参数量。</p>
+      </div>
+
+      <h2>常见追问 (10 个)</h2>
+      <ol>
+        <li>Self-Attention 和 RNN 比, 优缺点是什么? <br><span style="color:var(--text3);">→ 优: 并行计算 + 长距依赖。缺: O(n²) 内存。</span></li>
+        <li>Multi-Head 为什么比 single-head 好? <br><span style="color:var(--text3);">→ 同时学习多种关注模式 (语法/语义/位置)。</span></li>
+        <li>为什么要 LayerNorm 而不是 BatchNorm? <br><span style="color:var(--text3);">→ Transformer 的 batch 内序列长度不一, LN 在 feature 维度更稳定。</span></li>
+        <li>Pre-LN 和 Post-LN 区别? <br><span style="color:var(--text3);">→ Pre-LN 更稳定 (梯度直通), Post-LN 收敛快但需要 warmup。当前 LLM 都用 Pre-LN。</span></li>
+        <li>FFN 为什么用两层 + 中间放大 4 倍? <br><span style="color:var(--text3);">→ 升维让模型有更强的非线性能力, 4 倍是经验值。</span></li>
+        <li>Encoder-only / Decoder-only / Encoder-Decoder 区别? <br><span style="color:var(--text3);">→ BERT / GPT / T5; 现在 LLM 都是 Decoder-only。</span></li>
+        <li>KV Cache 是什么? <br><span style="color:var(--text3);">→ 推理时缓存历史 K,V, 避免重复计算, 大幅加速 generation。</span></li>
+        <li>FlashAttention 解决什么问题? <br><span style="color:var(--text3);">→ 用分块计算 + 重计算, 把 attention 内存复杂度从 O(n²) 降到 O(n)。</span></li>
+        <li>MoE (Mixture of Experts) 原理? <br><span style="color:var(--text3);">→ 每个 token 只激活一部分专家, 大幅扩参不增加推理成本。</span></li>
+        <li>GQA (Grouped Query Attention) 是什么? <br><span style="color:var(--text3);">→ 多 Q 头共享 K,V 头, 推理时减少 KV cache 内存。</span></li>
+      </ol>
+    </article>
+
+    <article id="pretrain" class="article">
+      <div class="art-crumbs">巩固能力 <span class="crumb-sep">/</span> PART 1 <span class="crumb-sep">/</span> <span class="crumb-active">预训练与微调</span></div>
+      <h1>预训练与微调</h1>
+      <p class="art-lead">从「预训练 (Pretrain)」到「微调 (Fine-tune)」是当前 LLM 训练的两大阶段。理解每个阶段的目标、数据、方法, 才能讲清 LoRA / QLoRA / SFT 这些高频名词。</p>
+
+      <h2>训练阶段全景</h2>
+      <table>
+        <thead><tr><th>阶段</th><th>训练数据</th><th>目标</th><th>代表方法</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Pretrain</strong></td><td>万亿 token 通用语料</td><td>学语言模式 + 世界知识</td><td>Next Token Prediction</td></tr>
+          <tr><td><strong>Continual Pretrain</strong></td><td>领域语料</td><td>注入领域知识</td><td>同 Pretrain, 数据替换</td></tr>
+          <tr><td><strong>SFT</strong></td><td>高质量「指令-答案」对</td><td>学会按指令回答</td><td>Instruction Tuning</td></tr>
+          <tr><td><strong>RLHF / DPO</strong></td><td>偏好对 (A 好 / B 好)</td><td>对齐人类偏好</td><td>下一篇详讲</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Pretrain 数据 & 算力</h2>
+      <ul>
+        <li><strong>数据规模</strong>: GPT-4 估计 ~10T+ tokens, LLaMA-3 训练 15T tokens。</li>
+        <li><strong>数据组成</strong>: Web (CommonCrawl) + 书籍 + 论文 + 代码 + 多语言。</li>
+        <li><strong>数据清洗</strong>: 去重 + 质量过滤 + 安全过滤 + 编程数据加权。</li>
+        <li><strong>算力</strong>: LLaMA-2 70B 训练用了 ~2000 张 A100, 约 30 万 GPU 小时。</li>
+        <li><strong>Scaling Law</strong>: 参数量、数据量、算力大致按 N^α 关系 scaling, Chinchilla 论文给出最优配比。</li>
+      </ul>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>面试热点</strong>: 「为什么 LLaMA-3 用了 15T tokens 训练 8B 模型?」答: Chinchilla 推荐的最优配比是 ~20 token / param, 8B 模型 ~160B token 就够了。但 LLaMA-3 「过训练」是因为推理成本远高于训练成本, 多训能进一步提升推理质量。</p>
+      </div>
+
+      <h2>SFT 详解</h2>
+      <p>Supervised Fine-Tuning, 用「指令 + 答案」对教模型按指令回答。</p>
+      <pre><span class="c"># SFT 数据示例 (JSONL 格式)</span>
+{"instruction": "解释什么是 RAG?",
+ "input": "",
+ "output": "RAG 全称 Retrieval-Augmented Generation, ..."}
+
+<span class="c"># 训练 loss = next token cross entropy</span>
+<span class="c"># 关键: 只对 output 部分计算 loss, instruction 部分 mask 掉</span></pre>
+
+      <h3>SFT 数据质量 &gt; 数量</h3>
+      <p>Meta LIMA 论文证明: <strong>1000 条高质量 SFT 数据</strong> + 65B 预训练模型, 效果就能接近 ChatGPT。质量比数量重要 10 倍。</p>
+
+      <h2>微调方法对比</h2>
+      <table>
+        <thead><tr><th>方法</th><th>更新参数量</th><th>显存</th><th>性能</th><th>适用</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Full Fine-tune</strong></td><td>100%</td><td>极高</td><td>★★★★★</td><td>资源足 + 大幅领域迁移</td></tr>
+          <tr><td><strong>LoRA</strong></td><td>0.1-1%</td><td>中</td><td>★★★★</td><td>当前主流</td></tr>
+          <tr><td><strong>QLoRA</strong></td><td>0.1-1%</td><td>低 (4bit)</td><td>★★★★</td><td>消费级 GPU</td></tr>
+          <tr><td><strong>Adapter</strong></td><td>1-5%</td><td>中</td><td>★★★</td><td>多任务切换</td></tr>
+          <tr><td><strong>Prompt Tuning</strong></td><td>&lt;0.01%</td><td>极低</td><td>★★</td><td>仅当模型 ≥10B 时有效</td></tr>
+        </tbody>
+      </table>
+
+      <h3>LoRA 原理</h3>
+      <p>低秩分解: 原 W 矩阵 [d, d], 不直接更新, 而是<strong>加上一个小矩阵</strong> ΔW = A · B, 其中 A: [d, r], B: [r, d], r &lt;&lt; d。</p>
+      <pre>W' = W + A · B   <span class="c"># A,B 是新加的小矩阵, 只更新这两个</span>
+
+<span class="c"># 参数量从 d² 降到 2dr, 当 r=8, d=4096 时减少 256 倍</span></pre>
+
+      <h3>QLoRA 原理</h3>
+      <p>QLoRA = LoRA + 4bit 量化:</p>
+      <ol>
+        <li>把预训练模型量化到 NF4 (4-bit Normal Float), 显存 ÷ 4。</li>
+        <li>在量化模型上做 LoRA 微调, 反向传播时反量化。</li>
+        <li>实际效果: 65B 模型可以在单卡 48GB GPU 上微调。</li>
+      </ol>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>常考</strong>: 「LoRA 训练后怎么部署?」答: 推理时把 A·B 合并到 W 中 (W' = W + A·B), 推理时<strong>无额外开销</strong>。这是 LoRA 比 Adapter 更受欢迎的关键原因。</p>
+      </div>
+
+      <h2>常见追问 (8 个)</h2>
+      <ol>
+        <li>什么时候做 SFT, 什么时候做 LoRA? <br><span style="color:var(--text3);">→ SFT = 通用方法名, LoRA = SFT 的一种参数高效实现。一般 SFT 默认指 LoRA。</span></li>
+        <li>LoRA 的 r 怎么选? <br><span style="color:var(--text3);">→ 一般 8-64, 任务简单 r=8, 复杂任务 r=32 或 64。</span></li>
+        <li>QLoRA 比 LoRA 慢多少? <br><span style="color:var(--text3);">→ 慢 20-30% (4bit 反量化开销), 但显存省 4 倍, 性价比极高。</span></li>
+        <li>SFT 数据量该多少? <br><span style="color:var(--text3);">→ 1k-100k 都行, 关键看质量。LIMA 证明 1k 高质量已足够。</span></li>
+        <li>怎么判断 SFT 是否过拟合? <br><span style="color:var(--text3);">→ 验证集 loss 上升 / 输出重复模板化 / 失去通用能力。</span></li>
+        <li>SFT 后会丢失原模型能力吗? <br><span style="color:var(--text3);">→ 会, 叫「灾难性遗忘」。解决: 加少量原始数据混训 / 用 LoRA 限制改动。</span></li>
+        <li>什么是 Continual Pretrain? <br><span style="color:var(--text3);">→ 在预训练模型上继续用领域语料 next-token 训练, 注入领域知识。</span></li>
+        <li>LoRA + SFT 的训练 loss 是什么? <br><span style="color:var(--text3);">→ Cross entropy on next token, 只对 output 部分计算。</span></li>
+      </ol>
+    </article>
+
+    <article id="alignment" class="article">
+      <div class="art-crumbs">巩固能力 <span class="crumb-sep">/</span> PART 1 <span class="crumb-sep">/</span> <span class="crumb-active">RLHF / DPO</span></div>
+      <h1>RLHF / DPO 对齐</h1>
+      <p class="art-lead">SFT 让模型「会答」, 对齐让模型「答得好」。这部分是 LLM 高频考点中的高频。</p>
+
+      <h2>三种主流对齐方法</h2>
+      <table>
+        <thead><tr><th>方法</th><th>原理</th><th>稳定性</th><th>训练成本</th><th>主流模型</th></tr></thead>
+        <tbody>
+          <tr><td><strong>RLHF</strong> (PPO)</td><td>SFT → RM → PPO 强化学习</td><td>⚠️ 训练不稳</td><td>★★★★★ 极高</td><td>InstructGPT, ChatGPT 早期</td></tr>
+          <tr><td><strong>DPO</strong></td><td>直接用偏好对优化策略</td><td>✅ 稳定</td><td>★★ 低</td><td>Zephyr, LLaMA-3 后期</td></tr>
+          <tr><td><strong>GRPO</strong></td><td>无 critic 模型的 PPO 变种</td><td>✅ 稳定</td><td>★★★ 中</td><td>DeepSeek-R1</td></tr>
+        </tbody>
+      </table>
+
+      <h2>RLHF 详解</h2>
+      <p>3 阶段流程:</p>
+      <pre><span class="k">Stage 1: SFT</span>
+   输入: 指令-答案对
+   输出: SFT 模型 π_SFT
+
+<span class="k">Stage 2: Reward Model</span>
+   输入: 「指令 + 答案A + 答案B + 偏好 (A好/B好)」
+   训练: 学一个 R(x, y) 给答案打分
+   输出: 奖励模型 RM
+
+<span class="k">Stage 3: PPO</span>
+   输入: 指令 x
+   过程: π 生成 y → RM 打分 → PPO 更新 π
+   关键 loss = R(x, y) - β · KL(π || π_SFT)
+              ← 防止 π 跑太远</pre>
+
+      <h3>RLHF 三大痛点</h3>
+      <ol>
+        <li><strong>训练不稳</strong>: 4 个模型同时跑 (π, π_old, RM, ref), 任何一个炸都重来。</li>
+        <li><strong>资源密集</strong>: 需要 4 倍显存 + 复杂调度。</li>
+        <li><strong>RM 难训</strong>: 奖励模型本身可能被「过拟合」, 导致 reward hacking。</li>
+      </ol>
+
+      <h2>DPO 详解</h2>
+      <p>核心思想: <strong>跳过 RM, 直接用偏好对优化策略</strong>。</p>
+
+      <h3>DPO 数学原理 (简化)</h3>
+      <pre><span class="c"># 偏好对: (x, y_w, y_l) - x 是输入, y_w 是更好的答案, y_l 是较差的</span>
+
+<span class="k">DPO loss</span> = -log σ(β · [log(π(y_w|x) / π_ref(y_w|x))
+                       - log(π(y_l|x) / π_ref(y_l|x))])
+
+<span class="c"># 直觉: 让 π 给 y_w 的概率提高、给 y_l 的概率降低</span>
+<span class="c"># 同时不让 π 离 π_ref 太远 (隐式 KL 约束)</span></pre>
+
+      <h3>DPO 优势</h3>
+      <ul>
+        <li><strong>稳定</strong>: 只有 2 个模型 (π 和 π_ref), 不需要 RM 和 PPO。</li>
+        <li><strong>高效</strong>: 训练成本 ≈ SFT 的 1.5 倍, RLHF 的 1/5。</li>
+        <li><strong>效果接近</strong>: 在主流 benchmark 上和 RLHF 持平甚至略好。</li>
+      </ul>
+
+      <div class="callout ok">
+        <div class="ic">✅</div>
+        <p><strong>常考</strong>: 「为什么 DPO 比 RLHF 受欢迎?」答: ① 训练稳定 ② 超参少 ③ 没有 PPO 那套复杂 infra ④ 效果不差。当前 LLaMA-3 后期、Mistral、Qwen 都在用 DPO。</p>
+      </div>
+
+      <h2>GRPO 详解 (DeepSeek 用)</h2>
+      <p>Group Relative Policy Optimization, PPO 的简化版:</p>
+      <ul>
+        <li><strong>核心改动</strong>: 不用 critic 模型, 直接用「同一组答案的相对分数」作为 advantage。</li>
+        <li><strong>训练流程</strong>:
+          <ol>
+            <li>对每个 prompt 采样 G 个答案 (典型 G=8)。</li>
+            <li>用 RM 给 G 个答案分别打分。</li>
+            <li>计算「组内归一化分数」: (R_i - mean) / std。</li>
+            <li>用这个归一化分数作为 advantage, 跑 PPO 更新。</li>
+          </ol>
+        </li>
+        <li><strong>优势</strong>: 比 PPO 少一个 critic 模型, 训练成本降 1/3。</li>
+      </ul>
+
+      <h2>常见追问 (10 个)</h2>
+      <ol>
+        <li>RM 为什么用 Bradley-Terry 模型? <br><span style="color:var(--text3);">→ 经典偏好建模方法, log loss 形式简单。</span></li>
+        <li>KL 约束作用是什么? <br><span style="color:var(--text3);">→ 防止 RLHF 后的模型偏离 SFT 太远, 失去多样性。</span></li>
+        <li>什么是 reward hacking? <br><span style="color:var(--text3);">→ 模型学会「骗」RM 拿高分, 而不是真正变好。比如说话变啰嗦但答案空洞。</span></li>
+        <li>DPO 和 SFT 区别? <br><span style="color:var(--text3);">→ SFT 只学正例, DPO 同时学正例 + 负例, 信号更强。</span></li>
+        <li>偏好数据怎么标? <br><span style="color:var(--text3);">→ 人工标 (贵) / RM 标 (快) / 模型自标 (RLAIF)。</span></li>
+        <li>DPO 的 β 怎么选? <br><span style="color:var(--text3);">→ 一般 0.1-0.5, 越大越保守 (接近 π_ref)。</span></li>
+        <li>RLAIF 是什么? <br><span style="color:var(--text3);">→ Reinforcement Learning from AI Feedback, 用 LLM 代替人标偏好。</span></li>
+        <li>怎么评测对齐效果? <br><span style="color:var(--text3);">→ MT-Bench / AlpacaEval / Arena 人工对战 / LLM-as-Judge。</span></li>
+        <li>对齐后模型能力会下降吗? <br><span style="color:var(--text3);">→ 会, 叫「alignment tax」, 通常用更多 SFT 数据缓解。</span></li>
+        <li>DPO 后能再接 PPO 吗? <br><span style="color:var(--text3);">→ 可以, 但收益小, 业界一般 SFT → DPO 就够了。</span></li>
+      </ol>
+    </article>
+
+    <!-- ============ PART 2 · 系统设计 ============ -->
+    <article id="sys-5steps" class="article">
+      <div class="art-crumbs">巩固能力 <span class="crumb-sep">/</span> PART 2 <span class="crumb-sep">/</span> <span class="crumb-active">5 步答题法</span></div>
+      <h1>系统设计 · 5 步答题法</h1>
+      <p class="art-lead">系统设计题最怕「上来就画架构」。<strong>5 步法是通用框架</strong>, 用熟了 25 分钟内能稳稳答完 RAG / Agent / 推理系统这些经典题。</p>
+
+      <h2>5 步法概览</h2>
+      <pre><span class="k">Step 1</span>: 澄清需求    (3-5 min)
+<span class="k">Step 2</span>: 整体架构    (5-7 min)
+<span class="k">Step 3</span>: 关键决策    (8-10 min) ← 拉开差距的部分
+<span class="k">Step 4</span>: 工程考虑    (3-5 min)
+<span class="k">Step 5</span>: 瓶颈与扩展  (2-3 min)</pre>
+
+      <h2>Step 1 · 澄清需求</h2>
+      <p>不澄清就开做是最大忌。<strong>主动问 5 个问题</strong>:</p>
+      <ol>
+        <li><strong>用户规模</strong>: DAU 多少? QPS 多少?</li>
+        <li><strong>数据规模</strong>: 文档量 / 知识库大小?</li>
+        <li><strong>延迟要求</strong>: 用户能接受的响应时间?</li>
+        <li><strong>多模态</strong>: 纯文本 / 含图片 / 含表格?</li>
+        <li><strong>核心场景</strong>: 主要 use case 是什么?</li>
+      </ol>
+      <p>面试官的回答会大幅决定后面的设计方向。<strong>面试官没说的 = 你自己定个合理假设, 大声说出来</strong>。</p>
+
+      <h2>Step 2 · 整体架构</h2>
+      <p>用「数据流向」画图, 上下游清晰:</p>
+      <pre>用户 → API Gateway → 应用服务 → [核心组件 1, 2, 3] → 数据层
+                          ↓
+                       缓存 / 队列</pre>
+      <ul>
+        <li>每个模块用<strong>方框 + 1 句话功能</strong>, 不写代码。</li>
+        <li>箭头标明数据流向 + 数据格式 (JSON / Embedding / Token)。</li>
+        <li><strong>不画细节</strong>: 类似 OS 课, 先把「图书馆借书流程」画清楚, 别上来就讲「书架第几层」。</li>
+      </ul>
+
+      <h2>Step 3 · 关键决策（拉开差距）</h2>
+      <p>这一步是平庸答案和优秀答案的分水岭。<strong>每个关键决策都要回答「为什么 A 而非 B」</strong>:</p>
+
+      <h3>关键决策模板</h3>
+      <pre><span class="k">决策点 1</span>: 选 X 还是 Y?
+   候选: X (优势 / 劣势)
+        Y (优势 / 劣势)
+   <span class="ok">选择</span>: X, 因为 [本场景的具体权衡]
+   <span class="c"># 比如: 选 Milvus 而非 ES, 因为 100w+ 向量量级时 Milvus 检索快 5 倍</span></pre>
+
+      <p>每个项目 / 系统设计题, 至少准备 <strong>3 个关键决策</strong>。</p>
+
+      <h2>Step 4 · 工程考虑</h2>
+      <p>展示「能落地」的能力, 不是纸上谈兵:</p>
+      <ul>
+        <li><strong>权限 & 安全</strong>: 数据隔离 / 接口鉴权 / 敏感词过滤。</li>
+        <li><strong>监控 & 告警</strong>: QPS / 延迟 / 错误率 / token 消耗。</li>
+        <li><strong>降级 & 限流</strong>: 大模型超时 → 切小模型 / 缓存兜底。</li>
+        <li><strong>评测 & A/B</strong>: 在线效果监控 + 离线评测集。</li>
+        <li><strong>增量更新</strong>: 知识库新增 / 删除 / 更新怎么处理。</li>
+      </ul>
+
+      <h2>Step 5 · 瓶颈与扩展</h2>
+      <p>面试官常追问的几个方向:</p>
+      <ul>
+        <li><strong>QPS 翻 10 倍</strong>: 怎么扩? 缓存层 + 异步队列 + 模型分级。</li>
+        <li><strong>文档量翻 100 倍</strong>: 切片策略调整 / 分片检索 / 用 RAG-Fusion。</li>
+        <li><strong>多语言</strong>: Embedding 模型换成多语模型 (mE5, BGE-M3)。</li>
+        <li><strong>多模态</strong>: 图片用 CLIP / 表格用 LayoutLM。</li>
+      </ul>
+
+      <div class="callout ok">
+        <div class="ic">✅</div>
+        <p><strong>核心心法</strong>: 系统设计题不考「最好的方案」, 考「权衡和决策能力」。<strong>对每个组件都能说出 2-3 个替代品 + 选这个的理由</strong>, 你就赢了 90% 候选人。</p>
+      </div>
+
+      <h2>常见追问准备</h2>
+      <ol>
+        <li>「你这个方案的瓶颈在哪?」 → 永远要先回答「LLM 调用是单点瓶颈」。</li>
+        <li>「如果延迟降到 100ms 怎么办?」 → 缓存 + 提示词压缩 + 模型蒸馏。</li>
+        <li>「数据脱敏怎么做?」 → 输入前过滤 PII + Output 后置过滤。</li>
+        <li>「成本怎么控制?」 → token 缓存 + 模型分级 + batch processing。</li>
+      </ol>
+    </article>
+
+    <article id="sys-rag" class="article">
+      <div class="art-crumbs">巩固能力 <span class="crumb-sep">/</span> PART 2 <span class="crumb-sep">/</span> <span class="crumb-active">设计 RAG 系统</span></div>
+      <h1>系统设计 · 设计一个 RAG 系统</h1>
+      <p class="art-lead">面试官最爱让你 30 分钟设计一个企业 RAG 系统。<strong>按 5 步法走</strong>, 关键在 Step 3 的「关键决策」秀出深度。</p>
+
+      <h2>Step 1 · 澄清需求</h2>
+      <p>主动问 5 个问题, 假设面试官给出:</p>
+      <pre>用户规模: 100w 用户 / 日活 30w / QPS 峰值 100
+文档规模: 10w 篇文档 / 平均 5k token
+延迟要求: P95 &lt; 5s
+多模态:   主要文本, 少量 PDF 带表格
+核心场景: 企业内部知识库问答 (客服 / IT / HR)</pre>
+
+      <h2>Step 2 · 整体架构</h2>
+      <pre>用户 ──→ API Gateway ──→ 应用服务
+                              │
+            ┌─────────────────┼─────────────────┐
+            ↓                 ↓                 ↓
+        [Query 重写]      [混合检索]        [Rerank]
+            │                 │                 │
+            └─────────────────┴─────────────────┘
+                              ↓
+                        [LLM 生成]
+                              ↓
+                         返回答案
+
+数据入库流水线 (离线):
+  文档 → 解析 → 切片 → Embedding → 入向量库 + 全文索引
+                                  ↓
+                              Milvus + ES</pre>
+
+      <h2>Step 3 · 关键决策（5 个）</h2>
+
+      <h3>① 切片策略</h3>
+      <ul>
+        <li>固定长度 (500 token + 50 重叠) 简单但可能切断语义。</li>
+        <li>语义切片 (按段落 / 标题) 更准但慢。</li>
+        <li><strong>选</strong>: 混合策略 - 段落优先, 超过 max 长度再固定切。</li>
+      </ul>
+
+      <h3>② Embedding 模型</h3>
+      <table>
+        <thead><tr><th>选项</th><th>优势</th><th>劣势</th></tr></thead>
+        <tbody>
+          <tr><td>OpenAI text-embedding-3</td><td>效果好</td><td>贵 + 不可控</td></tr>
+          <tr><td>BGE-Large-zh</td><td>开源 + 中文好</td><td>需自部署</td></tr>
+          <tr><td>BCE</td><td>网易开源, 中文检索 SOTA</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <p><strong>选 BGE-Large-zh</strong>, 因为内部部署 + 中文场景效果好 + 可微调。</p>
+
+      <h3>③ 检索策略</h3>
+      <p>单路语义召回 → 在多义词 / 罕见词上准确率约 68%。</p>
+      <p><strong>选混合检索</strong>:</p>
+      <pre>BGE 召回 top50 (语义)
++ BM25 召回 top50 (关键字)
++ Reranker 精排 top10 (BCE-Reranker)</pre>
+      <p>实测准确率从 68% → 91%。</p>
+
+      <h3>④ Reranker</h3>
+      <p>初步召回的 100 条候选, 用专用 Reranker 模型重排 top 10:</p>
+      <ul>
+        <li>Cross-Encoder (vs Bi-Encoder) 准确率更高, 但慢。</li>
+        <li>因为候选已减到 100 条, Cross-Encoder 延迟可控 (~200ms)。</li>
+      </ul>
+
+      <h3>⑤ LLM 生成</h3>
+      <ul>
+        <li><strong>模型选型</strong>: Qwen2-72B (本地部署 vLLM) + GPT-4o (复杂问题降级)。</li>
+        <li><strong>Prompt 设计</strong>: 严格限制「仅基于上下文回答」, 防止幻觉。</li>
+        <li><strong>引用标注</strong>: 答案中标注来源文档, 用户可追溯。</li>
+      </ul>
+
+      <h2>Step 4 · 工程考虑</h2>
+      <ul>
+        <li><strong>评测回路</strong>: LLM-as-Judge + 人工抽检 500 题, 每周回归。</li>
+        <li><strong>权限</strong>: 文档级 ACL, 用户只能检索有权限的文档。</li>
+        <li><strong>监控</strong>: 召回率 / 准确率 / token 消耗 / 用户反馈。</li>
+        <li><strong>增量更新</strong>: 监听文档变更事件 → 异步 re-embed → 增量入库。</li>
+        <li><strong>降级</strong>: LLM 超时 → 直接返回 top-3 切片让用户自己看。</li>
+      </ul>
+
+      <h2>Step 5 · 瓶颈与扩展</h2>
+      <ul>
+        <li><strong>QPS 翻 10 倍</strong>: Embedding 缓存 + Rerank 异步化 + LLM 流式输出。</li>
+        <li><strong>文档量翻 100 倍 (1000w)</strong>: 分片向量库 + 路由检索 + 索引压缩。</li>
+        <li><strong>多语言</strong>: 换 BGE-M3 (多语 SOTA), 或对每个语种独立索引。</li>
+        <li><strong>多模态</strong>: 图片用 CLIP / 表格用 LayoutLM 单独 embedding。</li>
+      </ul>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>面试加分点</strong>: 提到「LLM-as-Judge 评测回路」「文档级 ACL」「混合检索 + Rerank」这三个组合, 几乎是当前业界 RAG 系统的最佳实践 token, 面试官听了会眼前一亮。</p>
+      </div>
+
+      <h2>常见追问 (8 个)</h2>
+      <ol>
+        <li>幻觉怎么解? <br><span style="color:var(--text3);">→ 严格 prompt + 召回 + 引用标注 + Reranker 提质量。</span></li>
+        <li>切片长度怎么选? <br><span style="color:var(--text3);">→ 200-800 token 都行, 太短上下文不够, 太长检索粒度粗。</span></li>
+        <li>BGE 怎么微调? <br><span style="color:var(--text3);">→ 用 (query, positive, negative) 三元组, 对比学习 loss。</span></li>
+        <li>怎么处理长文档? <br><span style="color:var(--text3);">→ 父子分片: 切小段做检索, 召回时返回父段落给 LLM。</span></li>
+        <li>引用标注怎么实现? <br><span style="color:var(--text3);">→ Prompt 强制 LLM 输出 [doc_id] 格式, 后置解析。</span></li>
+        <li>评测准确率怎么定义? <br><span style="color:var(--text3);">→ 答案正确率 + 召回 hit@K + 用户点击/反馈率。</span></li>
+        <li>如果文档每天更新 10 万? <br><span style="color:var(--text3);">→ 增量入库 + 异步 embedding + 监听数据库 binlog。</span></li>
+        <li>怎么防止 prompt injection? <br><span style="color:var(--text3);">→ 输入清洗 + 严格 system prompt + 输出过滤。</span></li>
+      </ol>
+    </article>
+
+    <article id="sys-agent" class="article">
+      <div class="art-crumbs">巩固能力 <span class="crumb-sep">/</span> PART 2 <span class="crumb-sep">/</span> <span class="crumb-active">设计 Agent 平台</span></div>
+      <h1>系统设计 · 设计一个 Agent 平台</h1>
+      <p class="art-lead">2025 年起 Agent 平台成了系统设计高频题。考点不再是「Prompt 怎么写」, 而是<strong>多业务方接入、稳定性、可观测性</strong>。</p>
+
+      <h2>Step 1 · 澄清需求</h2>
+      <pre>业务方: 公司内部 10+ 业务线 (客服 / IT / HR / 运维 / 数据 ...)
+规模: 月调用 100w+, 峰值 QPS 200
+延迟: 简单查询 ≤ 3s, 复杂任务异步执行
+工具数: 50+ 内部 API + 外部 API
+稳定性要求: 工具调用成功率 ≥ 95%</pre>
+
+      <h2>Step 2 · 整体架构</h2>
+      <pre>业务方 ──→ Agent API ──→ 编排引擎 (LangGraph)
+                            │
+        ┌───────────────────┼───────────────────┐
+        ↓                   ↓                   ↓
+   [理解节点]          [工具调用层]         [记忆系统]
+                            │                   │
+                            ↓                   ↓
+                      [工具注册中心]      [向量库 + Redis]
+                       (MCP 协议)
+                            ↓
+                    内部 API + 外部 API
+                            │
+                            ↓
+        ┌───────────────────┼───────────────────┐
+        ↓                   ↓                   ↓
+   [观测平台]          [安全沙箱]           [评测回路]</pre>
+
+      <h2>Step 3 · 关键决策（6 个）</h2>
+
+      <h3>① 编排引擎选型</h3>
+      <table>
+        <thead><tr><th>选项</th><th>优势</th><th>劣势</th></tr></thead>
+        <tbody>
+          <tr><td>LangChain</td><td>生态全, 文档好</td><td>抽象重, 调试难</td></tr>
+          <tr><td>LangGraph</td><td>状态机模型清晰, 易追踪</td><td>新, 例子少</td></tr>
+          <tr><td>自研</td><td>完全可控</td><td>开发成本高</td></tr>
+        </tbody>
+      </table>
+      <p><strong>选 LangGraph</strong>: 状态机模型最适合 Agent 多步推理, 状态可序列化便于持久化和重放。</p>
+
+      <h3>② 工具注册中心</h3>
+      <p>50+ 内部 API + 各种外部 API 怎么管?</p>
+      <ul>
+        <li>用 <strong>MCP (Model Context Protocol)</strong> 协议统一接入。</li>
+        <li>每个工具发布到中心化「工具市场」, 业务方自取。</li>
+        <li>工具元信息包含: 描述、参数 schema、权限、限流配置。</li>
+        <li>LLM 通过 function calling 调用, 通过工具网关 dispatch。</li>
+      </ul>
+
+      <h3>③ 记忆系统</h3>
+      <pre>短期记忆: Redis 存对话上下文 (1 小时 TTL)
+长期记忆: 向量库存用户偏好 / 历史问答
+工作记忆: 当前任务的中间结果 (DAG 节点产物)</pre>
+
+      <h3>④ 工具调用稳定性</h3>
+      <p>「工具调用成功率 ≥ 95%」是关键 SLA, 提升手段:</p>
+      <ol>
+        <li><strong>参数校验</strong>: LLM 输出的参数先经 schema 校验, 失败立即重试。</li>
+        <li><strong>智能重试</strong>: 5xx 重试, 4xx 让 LLM 重新生成参数。</li>
+        <li><strong>降级</strong>: 工具 timeout → 用缓存数据 / 默认值。</li>
+        <li><strong>限流</strong>: 每个工具单独限流配置, 防止下游打挂。</li>
+        <li><strong>幂等</strong>: 写操作类工具必须支持 idempotency key。</li>
+      </ol>
+
+      <h3>⑤ 观测平台</h3>
+      <p>Agent 失败时, 必须能<strong>完整 replay 整个执行链路</strong>:</p>
+      <ul>
+        <li>每步执行: 节点名 / 输入 / 输出 / 耗时 / 错误。</li>
+        <li>LLM 调用: 完整 prompt / response / token 数 / 模型版本。</li>
+        <li>工具调用: 请求体 / 响应 / 状态码。</li>
+        <li>UI: trace 树形展示, 一键 replay。</li>
+        <li>推荐: LangSmith / Phoenix / 自研。</li>
+      </ul>
+
+      <h3>⑥ 安全沙箱</h3>
+      <ul>
+        <li><strong>权限边界</strong>: 每个用户 / 业务方有工具白名单, RBAC 控制。</li>
+        <li><strong>代码执行隔离</strong>: 如果支持代码 interpretator, 必须容器 + 网络隔离。</li>
+        <li><strong>敏感数据过滤</strong>: 输入 PII 检测, 输出敏感词过滤。</li>
+        <li><strong>调用配额</strong>: 每个业务方有 token / API 调用配额。</li>
+      </ul>
+
+      <h2>Step 4 · 工程考虑</h2>
+      <ul>
+        <li><strong>评测回路</strong>: 自动评测集 (固定 100 个典型任务) + 在线随机抽样人工评测。</li>
+        <li><strong>A/B 测试</strong>: 不同 prompt / 不同模型 / 不同工具组合的对比。</li>
+        <li><strong>异步执行</strong>: 长任务用消息队列异步, 用户轮询或 webhook 通知。</li>
+        <li><strong>成本控制</strong>: token 缓存 + 模型分级 (简单任务用小模型) + batch 处理。</li>
+      </ul>
+
+      <h2>Step 5 · 瓶颈与扩展</h2>
+      <ul>
+        <li><strong>QPS 翻 10 倍</strong>: 异步化 + 缓存 + 多副本部署。</li>
+        <li><strong>工具翻 10 倍 (500+)</strong>: 工具检索机制 (按 description 召回 top10 给 LLM 选)。</li>
+        <li><strong>多租户隔离</strong>: 按租户独立队列 + 配额 + 监控。</li>
+        <li><strong>新业务接入</strong>: SDK + 自助门户, 不需要平台开发介入。</li>
+      </ul>
+
+      <div class="callout ok">
+        <div class="ic">✅</div>
+        <p><strong>面试加分</strong>: 强调「MCP 协议」「LangGraph 状态机」「Trace 一键 replay」三个关键词 + 工具调用稳定性的 5 招, 95% 候选人讲不出这层深度。</p>
+      </div>
+    </article>
+
+    <!-- ============ PART 3 · 算法 ============ -->
+    <article id="algo-must" class="article">
+      <div class="art-crumbs">巩固能力 <span class="crumb-sep">/</span> PART 3 <span class="crumb-sep">/</span> <span class="crumb-active">必刷题清单</span></div>
+      <h1>算法必刷题清单</h1>
+      <p class="art-lead">面试常考的 <strong>7 大题型</strong>, 每类至少刷 5 题。Hot 100 + 这 35 题, 大厂校招 + 社招笔试 90% 不出范围。</p>
+
+      <h2>7 大题型概览</h2>
+      <table>
+        <thead><tr><th>题型</th><th>代表题</th><th>频率</th><th>掌握度</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. 数组 / 双指针</strong></td><td>三数之和、接雨水、合并区间</td><td>⭐⭐⭐⭐⭐</td><td>必会</td></tr>
+          <tr><td><strong>2. 哈希 / 滑窗</strong></td><td>最长无重复子串、两数之和</td><td>⭐⭐⭐⭐⭐</td><td>必会</td></tr>
+          <tr><td><strong>3. BFS / DFS</strong></td><td>岛屿数量、二叉树最大深度</td><td>⭐⭐⭐⭐</td><td>必会</td></tr>
+          <tr><td><strong>4. 动态规划</strong></td><td>最长递增子序列、背包、爬楼梯</td><td>⭐⭐⭐⭐</td><td>必会</td></tr>
+          <tr><td><strong>5. 堆 / 优先队列</strong></td><td>Top-K 频次、合并 K 链表、中位数</td><td>⭐⭐⭐</td><td>常见</td></tr>
+          <tr><td><strong>6. 回溯</strong></td><td>子集、全排列、N 皇后</td><td>⭐⭐⭐</td><td>常见</td></tr>
+          <tr><td><strong>7. 图 / 并查集</strong></td><td>拓扑排序、最短路、并查集</td><td>⭐⭐</td><td>选学</td></tr>
+        </tbody>
+      </table>
+
+      <h2>详细题单（每类 5 题）</h2>
+
+      <h3>① 数组 / 双指针</h3>
+      <ol>
+        <li><a href="https://leetcode.cn/problems/3sum/" target="_blank" style="color:var(--accent);">15. 三数之和</a> - 排序 + 固定一个数 + 双指针</li>
+        <li><a href="https://leetcode.cn/problems/trapping-rain-water/" target="_blank" style="color:var(--accent);">42. 接雨水</a> - 左右双指针 / 单调栈</li>
+        <li><a href="https://leetcode.cn/problems/merge-intervals/" target="_blank" style="color:var(--accent);">56. 合并区间</a> - 排序 + 模拟</li>
+        <li><a href="https://leetcode.cn/problems/sort-colors/" target="_blank" style="color:var(--accent);">75. 颜色分类</a> - 三指针荷兰国旗</li>
+        <li><a href="https://leetcode.cn/problems/container-with-most-water/" target="_blank" style="color:var(--accent);">11. 盛最多水的容器</a> - 双指针</li>
+      </ol>
+
+      <h3>② 哈希 / 滑窗</h3>
+      <ol>
+        <li><a href="https://leetcode.cn/problems/two-sum/" target="_blank" style="color:var(--accent);">1. 两数之和</a> - 哈希表 O(n)</li>
+        <li><a href="https://leetcode.cn/problems/longest-substring-without-repeating-characters/" target="_blank" style="color:var(--accent);">3. 无重复字符最长子串</a> - 滑窗 + 哈希</li>
+        <li><a href="https://leetcode.cn/problems/minimum-window-substring/" target="_blank" style="color:var(--accent);">76. 最小覆盖子串</a> - 滑窗</li>
+        <li><a href="https://leetcode.cn/problems/longest-consecutive-sequence/" target="_blank" style="color:var(--accent);">128. 最长连续序列</a> - 哈希</li>
+        <li><a href="https://leetcode.cn/problems/group-anagrams/" target="_blank" style="color:var(--accent);">49. 字母异位词分组</a> - 哈希 + 排序</li>
+      </ol>
+
+      <h3>③ BFS / DFS</h3>
+      <ol>
+        <li><a href="https://leetcode.cn/problems/number-of-islands/" target="_blank" style="color:var(--accent);">200. 岛屿数量</a> - 模板 DFS</li>
+        <li><a href="https://leetcode.cn/problems/binary-tree-level-order-traversal/" target="_blank" style="color:var(--accent);">102. 二叉树层序遍历</a> - BFS</li>
+        <li><a href="https://leetcode.cn/problems/binary-tree-maximum-path-sum/" target="_blank" style="color:var(--accent);">124. 二叉树最大路径和</a> - 后序 DFS</li>
+        <li><a href="https://leetcode.cn/problems/symmetric-tree/" target="_blank" style="color:var(--accent);">101. 对称二叉树</a> - 递归 DFS</li>
+        <li><a href="https://leetcode.cn/problems/word-ladder/" target="_blank" style="color:var(--accent);">127. 单词接龙</a> - BFS</li>
+      </ol>
+
+      <h3>④ 动态规划</h3>
+      <ol>
+        <li><a href="https://leetcode.cn/problems/climbing-stairs/" target="_blank" style="color:var(--accent);">70. 爬楼梯</a> - DP 入门</li>
+        <li><a href="https://leetcode.cn/problems/longest-increasing-subsequence/" target="_blank" style="color:var(--accent);">300. 最长递增子序列</a> - DP O(n²) / 二分 O(nlogn)</li>
+        <li><a href="https://leetcode.cn/problems/longest-palindromic-substring/" target="_blank" style="color:var(--accent);">5. 最长回文子串</a> - 中心扩展 / DP</li>
+        <li><a href="https://leetcode.cn/problems/edit-distance/" target="_blank" style="color:var(--accent);">72. 编辑距离</a> - 二维 DP</li>
+        <li><a href="https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/" target="_blank" style="color:var(--accent);">121. 买卖股票最佳时机</a> - DP 经典</li>
+      </ol>
+
+      <h3>⑤ 堆 / 优先队列</h3>
+      <ol>
+        <li><a href="https://leetcode.cn/problems/top-k-frequent-elements/" target="_blank" style="color:var(--accent);">347. 前 K 高频元素</a> - 堆</li>
+        <li><a href="https://leetcode.cn/problems/merge-k-sorted-lists/" target="_blank" style="color:var(--accent);">23. 合并 K 升序链表</a> - 堆</li>
+        <li><a href="https://leetcode.cn/problems/find-median-from-data-stream/" target="_blank" style="color:var(--accent);">295. 数据流的中位数</a> - 大小堆</li>
+        <li><a href="https://leetcode.cn/problems/kth-largest-element-in-an-array/" target="_blank" style="color:var(--accent);">215. 数组第 K 大元素</a> - 堆 / 快选</li>
+        <li><a href="https://leetcode.cn/problems/sliding-window-maximum/" target="_blank" style="color:var(--accent);">239. 滑窗最大值</a> - 单调队列</li>
+      </ol>
+
+      <h3>⑥ 回溯</h3>
+      <ol>
+        <li><a href="https://leetcode.cn/problems/subsets/" target="_blank" style="color:var(--accent);">78. 子集</a> - 模板</li>
+        <li><a href="https://leetcode.cn/problems/permutations/" target="_blank" style="color:var(--accent);">46. 全排列</a> - 模板</li>
+        <li><a href="https://leetcode.cn/problems/n-queens/" target="_blank" style="color:var(--accent);">51. N 皇后</a> - 经典回溯</li>
+        <li><a href="https://leetcode.cn/problems/combination-sum/" target="_blank" style="color:var(--accent);">39. 组合总和</a> - 回溯</li>
+        <li><a href="https://leetcode.cn/problems/word-search/" target="_blank" style="color:var(--accent);">79. 单词搜索</a> - DFS + 回溯</li>
+      </ol>
+
+      <h3>⑦ 图 / 并查集</h3>
+      <ol>
+        <li><a href="https://leetcode.cn/problems/course-schedule/" target="_blank" style="color:var(--accent);">207. 课程表</a> - 拓扑排序</li>
+        <li><a href="https://leetcode.cn/problems/network-delay-time/" target="_blank" style="color:var(--accent);">743. 网络延迟</a> - Dijkstra</li>
+        <li><a href="https://leetcode.cn/problems/number-of-provinces/" target="_blank" style="color:var(--accent);">547. 省份数量</a> - 并查集</li>
+        <li><a href="https://leetcode.cn/problems/clone-graph/" target="_blank" style="color:var(--accent);">133. 克隆图</a> - DFS / BFS</li>
+        <li><a href="https://leetcode.cn/problems/redundant-connection/" target="_blank" style="color:var(--accent);">684. 冗余连接</a> - 并查集</li>
+      </ol>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>刷题方法</strong>: 第一遍看解, 第二遍自己写, 第三遍 25 分钟内 bug-free。不要一遍刷完就觉得「会了」, <strong>3 遍刷透 35 题 &gt; 一遍刷 200 题</strong>。</p>
+      </div>
+    </article>
+
+    <article id="algo-strategy" class="article">
+      <div class="art-crumbs">巩固能力 <span class="crumb-sep">/</span> PART 3 <span class="crumb-sep">/</span> <span class="crumb-active">应试策略</span></div>
+      <h1>算法应试策略</h1>
+      <p class="art-lead">同样会一道题, 不同人面试表现能差 30%。<strong>应试技巧本身就是分数的一部分</strong>。</p>
+
+      <h2>面试现场 5 步法</h2>
+
+      <h3>Step 1 · 主动澄清边界（30 秒）</h3>
+      <p>读完题不要立刻动手, 主动问 2-3 个问题:</p>
+      <ul>
+        <li><strong>输入范围</strong>: 数组长度? 数值范围? 有负数 / 0 吗?</li>
+        <li><strong>边界情况</strong>: 空输入怎么办? 重复元素?</li>
+        <li><strong>输出要求</strong>: 多解返回哪个? 顺序要求?</li>
+      </ul>
+      <p><strong>加分项</strong>: 主动澄清显示「严谨思考」, 这点几乎所有面试官都会单独打分。</p>
+
+      <h3>Step 2 · 讲思路（2-3 分钟）</h3>
+      <pre><span class="ok">你</span>: 这题我的思路是 [简述]. 整体思路 [大概几步].
+    最直接的解法是 [暴力解], 时间复杂度 O(?).
+    我能想到的优化是 [优化解], 时间 O(?).
+    我用 [优化解] 来写, 您看可以吗?</pre>
+      <ul>
+        <li><strong>先暴力再优化</strong>: 哪怕 O(n²) 也比 0 提交强, 且通常面试官会接受。</li>
+        <li><strong>不要硬想最优解</strong>: 5 分钟想不出来就先写暴力, 边写边想优化。</li>
+        <li><strong>得到面试官 OK 再动手</strong>: 避免方向错了浪费时间。</li>
+      </ul>
+
+      <h3>Step 3 · 边写边讲（10-15 分钟）</h3>
+      <p>让面试官跟上你的节奏:</p>
+      <pre><span class="ok">你</span>: 我先定义两个指针 left, right ...
+   接下来用 while 循环 ...
+   这里 if 条件是为了 [意图] ...
+   注意这个 +1 / -1 是因为 [边界] ...</pre>
+      <ul>
+        <li><strong>边写边讲意图</strong>, 不是读代码。</li>
+        <li><strong>命名规范</strong>: 不要用 a, b, c, 用 left, right, count, freq_map。</li>
+        <li><strong>变量名英文</strong>, 不要中文拼音。</li>
+      </ul>
+
+      <h3>Step 4 · 主动 dry run（2-3 分钟）</h3>
+      <p>写完后<strong>不要等面试官说</strong>, 主动跑一组小用例:</p>
+      <pre><span class="ok">你</span>: 我用一个简单用例 dry run 一下 ——
+   输入 [3, 1, 4, 1, 5], 期望输出 [4]
+   第一步: ... 第二步: ... 结果 [4] ✓</pre>
+      <ul>
+        <li>能 90% 概率自己发现 bug, 比面试官指出来强。</li>
+        <li>面试官看到你「自带 debugger」会大幅加分。</li>
+      </ul>
+
+      <h3>Step 5 · 复杂度分析（30 秒）</h3>
+      <pre><span class="ok">你</span>: 时间复杂度 O(n), 因为只遍历一次.
+   空间复杂度 O(k), 哈希表最多存 k 个 key.</pre>
+
+      <h2>遇到不会的题</h2>
+      <ol>
+        <li><strong>不要沉默</strong>: 「这题我没见过, 让我想 1 分钟」&gt;&gt; 沉默 5 分钟。</li>
+        <li><strong>说出你的思考过程</strong>: 哪怕想错也比不说强, 面试官能给提示。</li>
+        <li><strong>主动求提示</strong>: 「我想到 X 方向, 不知道您觉得对不对?」</li>
+        <li><strong>写出退化解</strong>: 哪怕 O(n³) 也写出来, 比不交白卷强。</li>
+      </ol>
+
+      <h2>面试官常见提示信号</h2>
+      <table>
+        <thead><tr><th>面试官说</th><th>潜台词</th></tr></thead>
+        <tbody>
+          <tr><td>「这个方法可以但能优化」</td><td>你这个 O(n²) 太慢, 想想 O(n)</td></tr>
+          <tr><td>「这里如果 n=10^9 呢?」</td><td>你的空间复杂度炸了, 优化空间</td></tr>
+          <tr><td>「考虑一下边界?」</td><td>有 bug, 通常在边界</td></tr>
+          <tr><td>「我们换一个例子」</td><td>你这个例子覆盖不全, 试试更难的</td></tr>
+          <tr><td>「跑一下试试」</td><td>你这有 bug, 自己跑就发现了</td></tr>
+        </tbody>
+      </table>
+
+      <h2>常见雷区</h2>
+      <ol>
+        <li><strong>不澄清就动手</strong>: 写错方向后撤回成本极高。</li>
+        <li><strong>边写边想</strong>: 写一半发现错了, 大量返工。</li>
+        <li><strong>变量名 a/b/c</strong>: 看起来像新手。</li>
+        <li><strong>不写注释</strong>: 复杂逻辑面试官读起来累。</li>
+        <li><strong>写完不验证</strong>: 等面试官指 bug 比自己发现失分多。</li>
+        <li><strong>不讲复杂度</strong>: 即便最后说错, 也比不说强。</li>
+      </ol>
+
+      <div class="callout ok">
+        <div class="ic">✅</div>
+        <p><strong>核心心法</strong>: 算法面试不是「你会不会做」, 是「你怎么解决一个陌生问题」。<strong>5 步法走下来, 哪怕题没做完, 也能拿到 70% 分</strong>。沉默到结束的, 大概率 0 分。</p>
+      </div>
+    </article>
+
+    <div class="pager" id="pager"></div>
+
+  </main>
+
+</div>
+
+<footer>
+  <div>© 2026 llm-roadmap / interview-guide · 巩固能力</div>
+  <div>
+    <a href="index.html">首页</a> ·
+    <a href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  const tBtn = document.getElementById('themeBtn');
+  const tMenu = document.getElementById('themeMenu');
+  const tHtml = document.documentElement;
+  function applyTheme(name) {
+    tHtml.dataset.theme = name;
+    tBtn.querySelector('.tname').textContent = name;
+    tMenu.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.theme === name));
+    localStorage.setItem('theme', name);
+  }
+  applyTheme(localStorage.getItem('theme') || 'light');
+  tBtn.addEventListener('click', e => { e.stopPropagation(); tMenu.classList.toggle('open'); });
+  tMenu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { applyTheme(b.dataset.theme); tMenu.classList.remove('open'); }));
+  document.addEventListener('click', () => tMenu.classList.remove('open'));
+
+  const items = [...document.querySelectorAll('.side-item')];
+  const articles = [...document.querySelectorAll('.article')];
+  const order = items.map(el => el.dataset.id);
+  const titleMap = {};
+  items.forEach(el => { titleMap[el.dataset.id] = el.textContent.trim().replace(/^\d+/, '').trim(); });
+
+  function showArticle(id) {
+    if (!order.includes(id)) id = order[0];
+    articles.forEach(a => a.classList.toggle('active', a.id === id));
+    items.forEach(el => el.classList.toggle('active', el.dataset.id === id));
+    renderPager(id);
+    if (location.hash !== '#' + id) history.replaceState(null, '', '#' + id);
+    window.scrollTo({top:0, behavior:'instant'});
+    if (window.innerWidth <= 880) document.getElementById('side').classList.add('collapsed');
+  }
+
+  function renderPager(id) {
+    const i = order.indexOf(id);
+    const prev = i > 0 ? order[i-1] : null;
+    const next = i < order.length - 1 ? order[i+1] : null;
+    const pager = document.getElementById('pager');
+    pager.innerHTML =
+      (prev
+        ? '<a class="pager-btn prev" data-go="' + prev + '"><div class="pg-label">← 上一篇</div><div class="pg-title">' + titleMap[prev] + '</div></a>'
+        : '<span class="pager-btn prev disabled"><div class="pg-label">已是首篇</div><div class="pg-title">—</div></span>')
+      +
+      (next
+        ? '<a class="pager-btn next" data-go="' + next + '"><div class="pg-label">下一篇 →</div><div class="pg-title">' + titleMap[next] + '</div></a>'
+        : '<span class="pager-btn next disabled"><div class="pg-label">已是末篇</div><div class="pg-title">—</div></span>');
+  }
+
+  document.addEventListener('click', e => {
+    const it = e.target.closest('.side-item');
+    if (it) { showArticle(it.dataset.id); return; }
+    const pg = e.target.closest('.pager-btn[data-go]');
+    if (pg) { showArticle(pg.dataset.go); return; }
+    const tg = e.target.closest('#sideToggle');
+    if (tg) { document.getElementById('side').classList.toggle('collapsed'); return; }
+  });
+  window.addEventListener('hashchange', () => showArticle((location.hash || '').replace(/^#/, '')));
+
+  const initId = (location.hash || '').replace(/^#/, '') || order[0];
+  showArticle(initId);
+  if (window.innerWidth > 880) document.getElementById('side').classList.remove('collapsed');
+</script>
+</body>
+</html>

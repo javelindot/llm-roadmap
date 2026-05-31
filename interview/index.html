@@ -175,116 +175,117 @@
     font-feature-settings:"tnum";
   }
 
-  /* ── Modes ── */
-  .modes-head {
-    font-family:var(--mono); font-size:12px;
-    color:var(--text3); margin-bottom:14px;
-    letter-spacing:.02em;
-  }
-  .modes-head::before { content:'// '; }
-  .modes {
+  /* ── Lead CTA (置顶三卡) ── */
+  .lead-cta {
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin-bottom:56px;
+    gap:14px;
+    margin:32px 0 48px;
   }
-  .mode {
-    background:var(--card); border:1px solid var(--border);
-    border-radius:10px; padding:28px 26px;
-    box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);
-    transition:border-color .15s,box-shadow .2s,transform .15s;
+  .lead-card {
     position:relative;
-  }
-  .mode:hover {
-    border-color:var(--border2);
-    transform:translateY(-3px);
-    box-shadow:0 4px 8px rgba(0,0,0,.06),0 16px 32px rgba(0,0,0,.08);
-  }
-  .mode .ic {
-    font-size:1.7rem; margin-bottom:16px;
-    display:block; line-height:1;
-  }
-  .mode .badge {
-    font-family:var(--mono); font-size:10.5px;
-    color:var(--accent); letter-spacing:.10em;
-    margin-bottom:8px; font-weight:600;
-  }
-  .mode h3 {
-    font-size:1.1rem; font-weight:700; color:var(--text);
-    margin-bottom:4px;
-  }
-  .mode .sub {
-    font-family:var(--mono); font-size:12px;
-    color:var(--accent2); margin-bottom:10px;
-  }
-  .mode p {
-    font-size:13px; color:var(--text2); line-height:1.55;
-  }
-  .mode::after {
-    content:'→'; display:block; margin-top:14px;
-    color:var(--text3); font-size:14px;
-    transition:color .15s,transform .15s;
-  }
-  .mode:hover::after { color:var(--accent); transform:translateX(2px); }
-
-  /* ── CTA ── */
-  .cta-wrap { margin-bottom:56px; }
-  .btn {
-    display:inline-flex; align-items:center; gap:6px;
-    padding:10px 18px; border-radius:6px;
-    font-size:14px; font-weight:500; cursor:pointer;
-    font-family:inherit;
-    transition:background .15s,border-color .15s,color .15s;
-  }
-  .btn-primary {
-    background:var(--text); color:var(--bg);
-    border:1px solid var(--text);
-  }
-  .btn-primary:hover { opacity:.9; }
-  .btn-ghost {
-    background:transparent; color:var(--text);
-    border:1px solid var(--border2);
-  }
-  .btn-ghost:hover { background:var(--bg3); }
-  .cta-side {
-    margin-top:14px; font-size:13px; color:var(--text3);
-    font-family:var(--mono);
-  }
-  .cta-side a {
-    color:var(--text2);
-    text-decoration:underline; text-decoration-color:var(--border2);
-    text-underline-offset:3px;
-    margin:0 4px;
-  }
-  .cta-side a:hover { color:var(--accent); text-decoration-color:var(--accent); }
-
-  /* ── Why list ── */
-  .why-head {
-    font-family:var(--mono); font-size:12px;
-    color:var(--text3); margin-bottom:18px;
-  }
-  .why-head::before { content:'// '; }
-  .why-list {
-    display:grid; grid-template-columns:repeat(2,1fr);
-    gap:12px;
-    margin-bottom:64px;
-  }
-  .why {
     background:var(--card); border:1px solid var(--border);
-    border-radius:10px; padding:24px;
+    border-radius:12px; padding:26px 28px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);
+    transition:border-color .15s,box-shadow .2s,transform .15s;
+    display:flex; flex-direction:column;
+  }
+  .lead-card:hover {
+    border-color:var(--accent);
+    transform:translateY(-3px);
+    box-shadow:0 4px 8px rgba(37,99,235,.06),0 18px 36px rgba(37,99,235,.10);
+  }
+  .lead-ic {
+    font-size:1.7rem; line-height:1;
+    margin-bottom:14px; color:var(--accent);
+  }
+  .lead-tag {
+    font-family:var(--mono); font-size:10.5px;
+    color:var(--text3); letter-spacing:.1em; font-weight:600;
+    margin-bottom:6px;
+  }
+  .lead-card h3 {
+    font-size:1.2rem; font-weight:700; color:var(--text);
+    letter-spacing:-.01em; margin-bottom:8px;
+  }
+  .lead-card p {
+    font-size:13px; color:var(--text2); line-height:1.6;
+    flex:1;
+  }
+  .lead-arrow {
+    margin-top:14px; font-family:var(--mono); font-size:13px;
+    color:var(--text3); transition:color .15s, transform .15s;
+  }
+  .lead-card:hover .lead-arrow { color:var(--accent); transform:translateX(3px); }
+
+  /* ── Flow (求职 5 阶段时间线) ── */
+  .flow-head {
+    font-family:var(--mono); font-size:12px;
+    color:var(--text3); margin-bottom:6px;
+    letter-spacing:.02em;
+  }
+  .flow-head::before { content:'// '; }
+  .flow-sub {
+    font-size:13px; color:var(--text2);
+    margin-bottom:20px; line-height:1.6;
+  }
+  .flow {
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:14px;
+    margin-bottom:64px;
+    align-items:start;
+  }
+  .flow-stage {
+    position:relative;
+    background:var(--card); border:1px solid var(--border);
+    border-radius:12px; padding:20px 18px;
     box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.04);
-    transition:border-color .15s,box-shadow .2s;
+    transition:border-color .15s,box-shadow .2s,transform .15s;
+    display:flex; flex-direction:column;
   }
-  .why:hover {
-    border-color:var(--border2);
-    box-shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.05);
+  .flow-stage:hover {
+    border-color:var(--accent);
+    transform:translateY(-3px);
+    box-shadow:0 4px 8px rgba(37,99,235,.06),0 14px 28px rgba(37,99,235,.10);
   }
-  .why .ic { font-size:1.4rem; margin-bottom:10px; display:block; line-height:1; }
-  .why h4 {
-    font-size:15px; font-weight:700;
-    color:var(--text); margin-bottom:8px;
+  .flow-stage::after {
+    content:'→';
+    position:absolute; right:-15px; top:50%;
+    transform:translateY(-50%);
+    font-family:var(--mono); font-size:18px;
+    color:var(--text3); z-index:1;
   }
-  .why p { font-size:13.5px; color:var(--text2); line-height:1.6; }
+  .flow-stage:last-child::after { display:none; }
+  .flow-num {
+    font-family:var(--mono); font-size:10.5px;
+    color:var(--accent); letter-spacing:.14em;
+    font-weight:700; margin-bottom:10px;
+  }
+  .flow-name {
+    font-size:1.05rem; font-weight:700;
+    color:var(--text); margin-bottom:10px;
+    letter-spacing:-.01em; line-height:1.35;
+    display:flex; align-items:baseline; gap:6px;
+  }
+  .flow-name .emoji {
+    font-size:1.15em; line-height:1;
+  }
+  .flow-desc {
+    font-size:13px; color:var(--text2);
+    line-height:1.65; margin-bottom:14px;
+    min-height:42px;
+  }
+  .flow-cta {
+    font-family:var(--mono); font-size:12px;
+    color:var(--text3); padding-top:12px;
+    border-top:1px solid var(--border);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    transition:color .15s;
+  }
+  .flow-stage:hover .flow-cta { color:var(--accent); }
 
   /* ── Footer ── */
   footer {
@@ -298,11 +299,18 @@
   footer a { color:var(--text2); }
   footer a:hover { color:var(--accent); }
 
+  @media (max-width:1080px) {
+    .flow { grid-template-columns:repeat(3,1fr); }
+    .flow-stage::after { display:none; }
+  }
+  @media (max-width:820px) {
+    .flow { grid-template-columns:repeat(2,1fr); }
+  }
   @media (max-width:760px) {
     .stats { grid-template-columns:repeat(2,1fr); }
     .stat:nth-child(2) { border-right:none; }
     .stat:nth-child(1),.stat:nth-child(2) { border-bottom:1px solid var(--border); }
-    .modes, .why-list { grid-template-columns:1fr; }
+    .flow, .lead-cta { grid-template-columns:1fr; }
     .hero { padding:64px 0 40px; }
   }
 </style>
@@ -313,9 +321,10 @@
   <a class="brand" href="../index.html">interview-guide</a>
   <div class="nav-spacer"></div>
   <a class="nav-link" href="../index.html">首页</a>
-  <a class="nav-link" href="docs.html">算法</a>
-  <a class="nav-link" href="docs.html#llm-transformer">八股</a>
-  <a class="nav-link" href="docs.html#sys-rag">系统设计</a>
+  <a class="nav-link" href="#flow">5 阶段</a>
+  <a class="nav-link" href="resume.html">📋 简历</a>
+  <a class="nav-link" href="quiz.html">🔥 真题库</a>
+  <a class="nav-link" href="offer.html">💰 offer</a>
   <a class="nav-link" href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
   <div class="theme-switcher">
     <button class="theme-btn" id="themeBtn" aria-label="切换主题">
@@ -337,61 +346,74 @@
 
   <section class="hero">
     <div class="kicker">interview-guide / v1.0</div>
-    <h1>LLM 工程师全栈面试</h1>
-    <p class="sub">从简历到 Offer 的系统性准备 —— 算法、八股、系统设计、行为面、谈薪。结构化拆解，按节奏推进。</p>
+    <h1>LLM 工程师求职导航</h1>
+    <p class="sub">从简历到 offer，5 阶段全流程指南。任何人进来，都能立刻找到下一步。</p>
   </section>
+
+  <div class="lead-cta">
+    <a class="lead-card" href="resume.html">
+      <div class="lead-ic">📋</div>
+      <div class="lead-tag">投递前 · RESUME</div>
+      <h3>简历优化</h3>
+      <p>STAR 框架 + 项目描述模板 + 自我介绍模板，让面试官 30 秒读懂你的价值。</p>
+      <div class="lead-arrow">→ 开始优化</div>
+    </a>
+    <a class="lead-card" href="quiz.html">
+      <div class="lead-ic">🔥</div>
+      <div class="lead-tag">面试中 · QUIZ</div>
+      <h3>真题库</h3>
+      <p>100+ 真实公司面经，按热度 / 分类筛选，标记已会、收藏、写笔记。</p>
+      <div class="lead-arrow">→ 进入刷题</div>
+    </a>
+    <a class="lead-card" href="offer.html">
+      <div class="lead-ic">💰</div>
+      <div class="lead-tag">拿到后 · OFFER</div>
+      <h3>offer && 谈薪</h3>
+      <p>多 offer 比较 + 谈薪四原则 + 24 小时决策，多 10–20% 不靠运气靠方法。</p>
+      <div class="lead-arrow">→ 准备谈判</div>
+    </a>
+  </div>
 
   <div class="stats">
     <div class="stat"><div class="lbl">章节数</div><div class="num">15</div></div>
     <div class="stat"><div class="lbl">题型分类</div><div class="num">7</div></div>
-    <div class="stat"><div class="lbl">八股要点</div><div class="num">30+</div></div>
+    <div class="stat"><div class="lbl">真题数</div><div class="num">100+</div></div>
     <div class="stat"><div class="lbl">系统设计</div><div class="num">8</div></div>
   </div>
 
-  <div class="modes-head">选择学习路径</div>
-  <div class="modes">
-    <a class="mode" href="docs.html#algo-must">
-      <span class="ic">🧮</span>
-      <div class="badge">模式 01</div>
-      <h3>算法刷题</h3>
-      <div class="sub">LeetCode Hot 100</div>
-      <p>按 7 大题型顺序刷题，配合应试策略最大化效率。</p>
+  <div class="flow-head" id="flow">找工作 5 个阶段</div>
+  <div class="flow-sub">从「不知道做什么」到「拿到 offer」的完整流程概览。点击任意阶段进入对应模块。</div>
+  <div class="flow">
+    <a class="flow-stage" href="plan.html">
+      <div class="flow-num">STAGE 01</div>
+      <div class="flow-name"><span class="emoji">🧭</span>定位 & 节奏</div>
+      <div class="flow-desc">看清岗位地图，定一个 30 天能跑通的备战节奏。</div>
+      <div class="flow-cta">→ 进入定位 & 节奏</div>
     </a>
-    <a class="mode" href="docs.html#llm-transformer">
-      <span class="ic">📐</span>
-      <div class="badge">模式 02</div>
-      <h3>八股突击</h3>
-      <div class="sub">Transformer · RLHF · DPO</div>
-      <p>覆盖高频考点，按知识点矩阵系统复习。</p>
+    <a class="flow-stage" href="resume.html">
+      <div class="flow-num">STAGE 02</div>
+      <div class="flow-name"><span class="emoji">📋</span>简历优化</div>
+      <div class="flow-desc">STAR + 项目模板 + 自我介绍，把卖点讲清楚。</div>
+      <div class="flow-cta">→ 进简历优化</div>
     </a>
-    <a class="mode" href="docs.html#sys-rag">
-      <span class="ic">🏗️</span>
-      <div class="badge">模式 03</div>
-      <h3>系统设计</h3>
-      <div class="sub">RAG · Agent · 推理</div>
-      <p>8 个经典案例，30 分钟答题框架直接套用。</p>
+    <a class="flow-stage" href="tech.html">
+      <div class="flow-num">STAGE 03</div>
+      <div class="flow-name"><span class="emoji">📐</span>巩固能力</div>
+      <div class="flow-desc">八股 + 系统设计 + 算法，按考点矩阵复习。</div>
+      <div class="flow-cta">→ 进入巩固能力</div>
     </a>
-  </div>
-
-  <div class="cta-wrap">
-    <a class="btn btn-primary" href="docs.html">进入文档 →</a>
-    <a class="btn btn-ghost" href="docs.html#plan" style="margin-left:8px;">90 天计划</a>
-    <div class="cta-side">
-      或：
-      <a href="docs.html#resume-frame">STAR 简历模板</a>·
-      <a href="docs.html#salary">offer 谈判</a>·
-      <a href="docs.html#bq">行为面经典题</a>
-    </div>
-  </div>
-
-  <div class="why-head">为什么选这份指南</div>
-  <div class="why-list">
-    <div class="why"><span class="ic">📋</span><h4>简历优先</h4><p>STAR 框架 + 量化指标，让面试官 30 秒读懂你的价值。</p></div>
-    <div class="why"><span class="ic">⏱️</span><h4>90 天节奏</h4><p>从盘点项目到投递复盘，每周清晰目标，告别「无尽刷题」。</p></div>
-    <div class="why"><span class="ic">📐</span><h4>系统设计套路</h4><p>5 步答题法 + 关键决策点清单，10 分钟搞定一道大题。</p></div>
-    <div class="why"><span class="ic">🧠</span><h4>八股矩阵化</h4><p>把碎片化八股按 Transformer / 预训练 / 对齐三轴归类，复习不漏点。</p></div>
-    <div class="why"><span class="ic">🎤</span><h4>项目深挖防坑</h4><p>2 分钟电梯版 + 10 分钟深挖版，3 层反问准备，扛住面试官追问。</p></div>
-    <div class="why"><span class="ic">💰</span><h4>谈薪四原则</h4><p>从「先报价」到「留 24 小时」，多 10–20% 不靠运气靠方法。</p></div>
+    <a class="flow-stage" href="quiz.html">
+      <div class="flow-num">STAGE 04</div>
+      <div class="flow-name"><span class="emoji">🎤</span>面试实战</div>
+      <div class="flow-desc">100+ 真实公司面经分类刷，扛住面试官追问。</div>
+      <div class="flow-cta">→ 进真题库</div>
+    </a>
+    <a class="flow-stage" href="offer.html">
+      <div class="flow-num">STAGE 05</div>
+      <div class="flow-name"><span class="emoji">💰</span>拿 Offer</div>
+      <div class="flow-desc">多 offer 比较 + 谈薪四原则 + 签约入职指南。</div>
+      <div class="flow-cta">→ 看 offer 攻略</div>
+    </a>
   </div>
 
 </div>

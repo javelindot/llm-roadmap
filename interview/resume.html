@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<title>简历优化 · Interview Guide</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="LLM 工程师简历优化指南 · STAR 框架 · 项目描述模板 · 自我介绍 · 应届生友好" />
+<style>
+  :root, [data-theme="light"] {
+    --bg:#ffffff; --bg2:#fafafa; --bg3:#f4f4f5;
+    --card:#ffffff;
+    --text:#0a0a0a; --text2:#525252; --text3:#a3a3a3;
+    --border:#e5e5e5; --border2:#d4d4d4;
+    --accent:#2563eb; --accent2:#1d4ed8; --accent-soft:#eff6ff;
+    --nav-bg:rgba(255,255,255,.85);
+    --mono:'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;
+    --ok:#16a34a; --ok-soft:#dcfce7;
+    --warn:#ea580c; --warn-soft:#ffedd5;
+  }
+  [data-theme="dark"] {
+    --bg:#0a0a0a; --bg2:#111111; --bg3:#18181b; --card:#0f0f10;
+    --text:#fafafa; --text2:#a1a1aa; --text3:#71717a;
+    --border:#27272a; --border2:#3f3f46;
+    --accent:#60a5fa; --accent2:#93c5fd; --accent-soft:rgba(96,165,250,.08);
+    --nav-bg:rgba(10,10,10,.85);
+    --ok:#4ade80; --ok-soft:rgba(74,222,128,.12);
+    --warn:#fb923c; --warn-soft:rgba(251,146,60,.12);
+  }
+  [data-theme="solarized"] {
+    --bg:#fdf6e3; --bg2:#f5efd5; --bg3:#eee8d5; --card:#fdf6e3;
+    --text:#586e75; --text2:#657b83; --text3:#93a1a1;
+    --border:#eee8d5; --border2:#d8d2bf;
+    --accent:#268bd2; --accent2:#2aa198; --accent-soft:rgba(38,139,210,.10);
+    --nav-bg:rgba(253,246,227,.85);
+    --ok:#859900; --ok-soft:rgba(133,153,0,.12);
+    --warn:#cb4b16; --warn-soft:rgba(203,75,22,.10);
+  }
+  [data-theme="dracula"] {
+    --bg:#282a36; --bg2:#2d2f3d; --bg3:#383a4a; --card:#2d2f3d;
+    --text:#f8f8f2; --text2:#bcc1d3; --text3:#6272a4;
+    --border:#44475a; --border2:#565a73;
+    --accent:#bd93f9; --accent2:#ff79c6; --accent-soft:rgba(189,147,249,.12);
+    --nav-bg:rgba(40,42,54,.85);
+    --ok:#50fa7b; --ok-soft:rgba(80,250,123,.12);
+    --warn:#ffb86c; --warn-soft:rgba(255,184,108,.12);
+  }
+  [data-theme="nord"] {
+    --bg:#2e3440; --bg2:#353b48; --bg3:#3b4252; --card:#353b48;
+    --text:#eceff4; --text2:#d8dee9; --text3:#7b8497;
+    --border:#434c5e; --border2:#4c566a;
+    --accent:#88c0d0; --accent2:#5e81ac; --accent-soft:rgba(136,192,208,.12);
+    --nav-bg:rgba(46,52,64,.85);
+    --ok:#a3be8c; --ok-soft:rgba(163,190,140,.12);
+    --warn:#ebcb8b; --warn-soft:rgba(235,203,139,.12);
+  }
+  [data-theme="tokyo-night"] {
+    --bg:#1a1b26; --bg2:#16161e; --bg3:#1f2335; --card:#1f2335;
+    --text:#c0caf5; --text2:#a9b1d6; --text3:#565f89;
+    --border:#292e42; --border2:#3b4261;
+    --accent:#7aa2f7; --accent2:#bb9af7; --accent-soft:rgba(122,162,247,.12);
+    --nav-bg:rgba(26,27,38,.85);
+    --ok:#9ece6a; --ok-soft:rgba(158,206,106,.12);
+    --warn:#e0af68; --warn-soft:rgba(224,175,104,.12);
+  }
+  [data-theme="catppuccin"] {
+    --bg:#1e1e2e; --bg2:#181825; --bg3:#313244; --card:#181825;
+    --text:#cdd6f4; --text2:#bac2de; --text3:#7f849c;
+    --border:#313244; --border2:#45475a;
+    --accent:#cba6f7; --accent2:#f5c2e7; --accent-soft:rgba(203,166,247,.12);
+    --nav-bg:rgba(30,30,46,.85);
+    --ok:#a6e3a1; --ok-soft:rgba(166,227,161,.12);
+    --warn:#fab387; --warn-soft:rgba(250,179,135,.12);
+  }
+  *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.65;
+    font-size:15px; min-height:100vh; display:flex; flex-direction:column;
+    transition:background .2s,color .2s;
+  }
+  a { color:inherit; text-decoration:none; }
+
+  /* ── Nav ── */
+  .nav {
+    position:sticky; top:0; z-index:100;
+    background:var(--nav-bg); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+    padding:0 32px; height:56px;
+    display:flex; align-items:center; gap:4px;
+  }
+  .brand {
+    font-family:var(--mono); font-size:.92rem; font-weight:600;
+    color:var(--text); letter-spacing:-.02em; margin-right:24px;
+  }
+  .brand::before { content:'$ '; color:var(--text3); }
+  .nav-spacer { flex:1; }
+  .nav-link {
+    color:var(--text2); font-size:13.5px; font-weight:500;
+    padding:6px 11px; border-radius:6px;
+    transition:color .15s,background .15s;
+  }
+  .nav-link:hover { color:var(--text); background:var(--bg3); }
+  .theme-switcher { position:relative; margin-left:6px; }
+  .theme-btn {
+    height:30px; padding:0 10px;
+    background:transparent; border:1px solid var(--border); border-radius:6px;
+    color:var(--text2); cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--mono); font-size:12.5px;
+    transition:color .15s,border-color .15s,background .15s;
+  }
+  .theme-btn:hover { color:var(--text); background:var(--bg3); }
+  .theme-btn .dot { width:8px; height:8px; border-radius:50%; background:var(--accent); }
+  .theme-menu {
+    position:absolute; top:100%; right:0; margin-top:4px; z-index:200;
+    background:var(--card); border:1px solid var(--border); border-radius:6px;
+    padding:4px; min-width:148px; display:none;
+    box-shadow:0 4px 16px rgba(0,0,0,.08);
+  }
+  .theme-menu.open { display:block; }
+  .theme-menu button {
+    display:flex; align-items:center; gap:8px;
+    width:100%; padding:6px 10px; text-align:left;
+    background:transparent; border:none; cursor:pointer;
+    font-family:var(--mono); font-size:13px;
+    color:var(--text2); border-radius:4px;
+  }
+  .theme-menu button:hover { background:var(--bg3); color:var(--text); }
+  .theme-menu button.active { background:var(--bg3); color:var(--text); }
+  .theme-menu .dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .dot-light { background:linear-gradient(135deg,#fff 50%,#0a0a0a 50%); border:1px solid #d4d4d4; }
+  .dot-dark { background:#0a0a0a; border:1px solid #3f3f46; }
+  .dot-solarized { background:#b58900; }
+  .dot-dracula { background:#bd93f9; }
+  .dot-nord { background:#88c0d0; }
+  .dot-tokyo-night { background:#7aa2f7; }
+  .dot-catppuccin { background:#cba6f7; }
+
+  /* ── Layout ── */
+  .layout {
+    display:grid; grid-template-columns:260px minmax(0,1fr);
+    gap:28px; padding:24px 32px; max-width:1280px; margin:0 auto; width:100%; flex:1;
+    align-items:start;
+  }
+  .side {
+    position:sticky; top:72px;
+    max-height:calc(100vh - 88px); overflow-y:auto;
+    padding:18px 8px 18px 0;
+  }
+  .side::-webkit-scrollbar { width:5px; }
+  .side::-webkit-scrollbar-thumb { background:var(--border2); border-radius:3px; }
+  .side-brand {
+    font-family:var(--mono); font-size:11px; font-weight:700;
+    color:var(--text3); letter-spacing:.1em; text-transform:uppercase;
+    padding:0 12px; margin-bottom:14px;
+  }
+  .side-brand::before { content:'// '; }
+  .side-group { margin-bottom:18px; }
+  .side-group-head {
+    font-family:var(--mono); font-size:10.5px; font-weight:700;
+    color:var(--text3); letter-spacing:.14em;
+    padding:8px 12px 6px;
+  }
+  .side-item {
+    display:flex; align-items:center; gap:8px;
+    padding:7px 12px; border-radius:6px;
+    font-size:13.5px; color:var(--text2);
+    cursor:pointer; transition:all .12s;
+    border-left:2px solid transparent;
+  }
+  .side-item:hover { color:var(--text); background:var(--bg3); }
+  .side-item.active {
+    color:var(--accent); background:var(--accent-soft);
+    border-left-color:var(--accent); font-weight:600;
+  }
+  .side-item .si-num {
+    font-family:var(--mono); font-size:11px;
+    color:var(--text3); flex-shrink:0; min-width:18px;
+  }
+  .side-item.active .si-num { color:var(--accent); }
+
+  /* ── Main ── */
+  .main { min-width:0; padding:8px 0 48px; }
+
+  .article { display:none; }
+  .article.active { display:block; animation:fadeIn .2s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+
+  .art-crumbs {
+    font-family:var(--mono); font-size:11.5px; color:var(--text3);
+    margin-bottom:12px; letter-spacing:.04em;
+  }
+  .art-crumbs .crumb-sep { margin:0 6px; color:var(--text3); }
+  .art-crumbs .crumb-active { color:var(--text2); }
+
+  .article h1 {
+    font-size:clamp(1.6rem,3vw,2.05rem);
+    font-weight:700; letter-spacing:-.025em; line-height:1.2;
+    margin-bottom:14px; color:var(--text);
+  }
+  .article .art-lead {
+    font-size:15.5px; color:var(--text2);
+    margin-bottom:24px; line-height:1.75;
+    padding-bottom:20px; border-bottom:1px solid var(--border);
+  }
+  .article h2 {
+    font-size:1.18rem; font-weight:700;
+    color:var(--text); margin:32px 0 12px;
+    letter-spacing:-.01em;
+  }
+  .article h3 {
+    font-size:1rem; font-weight:700;
+    color:var(--text); margin:20px 0 8px;
+  }
+  .article p {
+    color:var(--text2); margin-bottom:14px;
+    font-size:14.5px; line-height:1.8;
+  }
+  .article p strong { color:var(--text); }
+  .article ul, .article ol {
+    margin:0 0 18px 22px;
+    color:var(--text2);
+    font-size:14.5px; line-height:1.85;
+  }
+  .article ul li, .article ol li { margin-bottom:4px; }
+  .article ul li::marker { color:var(--text3); }
+  .article ol li::marker { color:var(--text3); font-family:var(--mono); }
+  .article li strong { color:var(--text); }
+  .article code {
+    background:var(--bg3); color:var(--accent);
+    padding:1px 6px; border-radius:4px;
+    font-family:var(--mono); font-size:.92em;
+  }
+  .article pre {
+    background:var(--bg2); border:1px solid var(--border);
+    border-radius:10px; padding:16px 18px;
+    overflow-x:auto; margin-bottom:18px;
+    font-family:var(--mono); font-size:12.5px;
+    color:var(--text); line-height:1.75;
+    white-space:pre-wrap;
+  }
+  .article pre .n { color:var(--warn); font-weight:600; }
+  .article pre .k { color:var(--accent); }
+  .article pre .c { color:var(--text3); }
+  .article pre .ok { color:var(--ok); }
+
+  .callout {
+    display:flex; align-items:flex-start; gap:12px;
+    padding:14px 16px; border-radius:10px;
+    background:var(--accent-soft); border:1px solid var(--accent-soft);
+    margin:8px 0 22px;
+  }
+  .callout .ic { font-size:1.05rem; line-height:1.5; flex-shrink:0; }
+  .callout p { margin:0; color:var(--text); font-size:14px; line-height:1.7; }
+  .callout p strong { color:var(--accent); }
+  .callout.warn { background:var(--warn-soft); border-color:var(--warn-soft); }
+  .callout.warn p strong { color:var(--warn); }
+  .callout.ok { background:var(--ok-soft); border-color:var(--ok-soft); }
+  .callout.ok p strong { color:var(--ok); }
+
+  table {
+    width:100%; border-collapse:collapse; margin-bottom:20px;
+    font-size:13.5px;
+    border:1px solid var(--border); border-radius:10px;
+    overflow:hidden;
+  }
+  th, td {
+    padding:9px 14px; text-align:left;
+    border-bottom:1px solid var(--border);
+    vertical-align:top;
+  }
+  th {
+    background:var(--bg2); color:var(--text2);
+    font-family:var(--mono); font-size:12px;
+    font-weight:600; letter-spacing:.02em;
+  }
+  td { color:var(--text2); }
+  tbody tr:last-child td { border-bottom:none; }
+
+  /* 上一篇/下一篇 */
+  .pager {
+    display:flex; gap:10px; justify-content:space-between;
+    margin-top:48px; padding-top:24px;
+    border-top:1px solid var(--border);
+  }
+  .pager-btn {
+    flex:1; max-width:50%;
+    padding:14px 16px; border-radius:10px;
+    border:1px solid var(--border); background:var(--card);
+    color:var(--text2); cursor:pointer;
+    transition:all .15s; display:block;
+  }
+  .pager-btn:hover {
+    border-color:var(--accent); background:var(--accent-soft);
+    transform:translateY(-1px);
+  }
+  .pager-btn .pg-label {
+    font-family:var(--mono); font-size:11px;
+    color:var(--text3); margin-bottom:4px;
+  }
+  .pager-btn .pg-title {
+    font-size:13.5px; color:var(--text); font-weight:600;
+    line-height:1.4;
+  }
+  .pager-btn:hover .pg-title { color:var(--accent); }
+  .pager-btn.next { text-align:right; }
+  .pager-btn.disabled { opacity:.35; pointer-events:none; }
+
+  /* ── Footer ── */
+  footer {
+    border-top:1px solid var(--border);
+    padding:24px 32px;
+    display:flex; justify-content:space-between; align-items:center;
+    color:var(--text3); font-size:12.5px;
+    flex-wrap:wrap; gap:12px;
+    font-family:var(--mono);
+  }
+  footer a { color:var(--text2); }
+  footer a:hover { color:var(--accent); }
+
+  /* 移动端：sidebar 折叠到顶部 */
+  .side-toggle {
+    display:none;
+    width:100%; padding:10px 14px;
+    background:var(--bg2); border:1px solid var(--border); border-radius:8px;
+    color:var(--text); font-size:13.5px; cursor:pointer;
+    font-family:inherit; margin-bottom:10px;
+    text-align:left;
+  }
+  .side-toggle::before { content:'☰  '; color:var(--text3); }
+
+  @media (max-width:880px) {
+    .layout { grid-template-columns:1fr; gap:12px; padding:14px 16px; }
+    .side { position:static; max-height:none; padding:0; }
+    .side.collapsed { display:none; }
+    .side-toggle { display:block; }
+    .nav { padding:0 12px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="index.html">resume-opt</a>
+  <div class="nav-spacer"></div>
+  <a class="nav-link" href="index.html">首页</a>
+  <a class="nav-link" href="quiz.html">🔥 真题库</a>
+  <a class="nav-link" href="offer.html">💰 offer && 谈薪</a>
+  <a class="nav-link" href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
+  <div class="theme-switcher">
+    <button class="theme-btn" id="themeBtn" aria-label="切换主题">
+      <span class="dot"></span><span class="tname">light</span><span style="color:var(--text3);margin-left:2px;">▾</span>
+    </button>
+    <div class="theme-menu" id="themeMenu">
+      <button data-theme="light"><span class="dot dot-light"></span>light</button>
+      <button data-theme="dark"><span class="dot dot-dark"></span>dark</button>
+      <button data-theme="solarized"><span class="dot dot-solarized"></span>solarized</button>
+      <button data-theme="dracula"><span class="dot dot-dracula"></span>dracula</button>
+      <button data-theme="nord"><span class="dot dot-nord"></span>nord</button>
+      <button data-theme="tokyo-night"><span class="dot dot-tokyo-night"></span>tokyo-night</button>
+      <button data-theme="catppuccin"><span class="dot dot-catppuccin"></span>catppuccin</button>
+    </div>
+  </div>
+</nav>
+
+<div class="layout">
+
+  <aside class="side" id="side">
+    <div class="side-brand">简历优化</div>
+
+    <div class="side-group">
+      <div class="side-group-head">PART 1 · 基础认知</div>
+      <a class="side-item" data-id="essence"><span class="si-num">01</span>简历的本质：5W 法</a>
+      <a class="side-item" data-id="grad-vs-senior"><span class="si-num">02</span>应届生 vs 社招</a>
+      <a class="side-item" data-id="page-count"><span class="si-num">03</span>1 页 vs 2 页</a>
+    </div>
+
+    <div class="side-group">
+      <div class="side-group-head">PART 2 · 内容怎么写</div>
+      <a class="side-item" data-id="star"><span class="si-num">04</span>STAR 框架</a>
+      <a class="side-item" data-id="project"><span class="si-num">05</span>项目描述模板</a>
+      <a class="side-item" data-id="edu-internship"><span class="si-num">06</span>教育与实习经历</a>
+      <a class="side-item" data-id="skills"><span class="si-num">07</span>技能栏：少而精</a>
+    </div>
+
+    <div class="side-group">
+      <div class="side-group-head">PART 3 · 自我介绍</div>
+      <a class="side-item" data-id="intro-1min"><span class="si-num">08</span>1 分钟电梯版</a>
+      <a class="side-item" data-id="intro-3min"><span class="si-num">09</span>3 分钟深挖版</a>
+    </div>
+
+    <div class="side-group">
+      <div class="side-group-head">PART 4 · 实战进阶</div>
+      <a class="side-item" data-id="grad-traps"><span class="si-num">10</span>应届生 10 个坑</a>
+      <a class="side-item" data-id="company-prefs"><span class="si-num">11</span>不同公司偏好</a>
+      <a class="side-item" data-id="delivery"><span class="si-num">12</span>投递与跟进</a>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <button class="side-toggle" id="sideToggle">目录</button>
+
+    <!-- ============ PART 1 ============ -->
+    <article id="essence" class="article">
+      <div class="art-crumbs">简历优化 <span class="crumb-sep">/</span> PART 1 <span class="crumb-sep">/</span> <span class="crumb-active">简历的本质</span></div>
+      <h1>简历的本质：5W 法</h1>
+      <p class="art-lead">简历不是「经历清单」，是「价值证明」。HR 平均 30 秒扫一份简历，你要在 30 秒里回答 3 个问题：你做过什么、你独特在哪、你能给我带来什么。</p>
+
+      <h2>5W：写简历前先回答自己</h2>
+      <table>
+        <thead><tr><th>W</th><th>问题</th><th>解释</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Why</strong></td><td>为什么投这家公司这个岗位？</td><td>定调简历的「侧重点」：投算法岗就放重模型项目，投应用岗就放重业务效果。</td></tr>
+          <tr><td><strong>Who</strong></td><td>你是谁？最大标签？</td><td>1 句话定位（例：3 年 LLM 应用开发，做过 RAG / Agent 平台）。</td></tr>
+          <tr><td><strong>What</strong></td><td>你做过什么？</td><td>2–3 个最能打的项目 / 实习，每条用 STAR 展开。</td></tr>
+          <tr><td><strong>How</strong></td><td>怎么做的？关键决策？</td><td>项目里讲清楚「为什么用 A 不用 B」，证明你有判断力。</td></tr>
+          <tr><td><strong>Result</strong></td><td>拿到什么结果？</td><td>用数字量化（用户量、性能、ROI），没有数字就编造一个能 defend 的。</td></tr>
+        </tbody>
+      </table>
+
+      <h2>反例 vs 正例</h2>
+      <p><strong>❌ 经历清单式（流水账）</strong>：</p>
+      <pre><span class="c">- 负责公司知识库问答系统的开发
+- 参与 RAG 系统的设计与实现
+- 使用 LangChain、Milvus、BGE 等技术
+- 协助测试与上线</span></pre>
+
+      <p><strong>✅ 价值证明式（穿过 30 秒筛选）</strong>：</p>
+      <pre><span class="k">[项目]</span> 企业知识库问答系统｜<span class="ok">技术 owner</span>
+<span class="k">[痛点]</span> 客服日均 8000 单，<span class="n">30</span>% 是重复问题
+<span class="k">[方案]</span> RAG（BGE+BM25+Reranker）+ LangGraph 多轮编排
+<span class="k">[结果]</span> 承接 <span class="n">62</span>% 重复咨询，工单 ↓ <span class="n">38</span>%，准确率 <span class="n">91</span>%
+<span class="k">[贡献]</span> 独立完成检索召回 + 评测回路设计</pre>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>记住一件事</strong>：HR 不关心你「做过什么」，只关心「你能给公司带来什么」。每写一句话，都问自己「这句让公司多想要我一点了吗？」</p>
+      </div>
+
+      <h2>应届生：没有工作经验也能 5W</h2>
+      <p>没有正式工作？把 5W 套到这些经历上：</p>
+      <ul>
+        <li><strong>课程项目</strong>：用户数（同班 30 人用过）、对比 baseline 提升、代码量。</li>
+        <li><strong>毕设</strong>：解决什么真实问题、用了什么方法、拿到什么实验结果。</li>
+        <li><strong>实习</strong>：哪怕是打杂的实习也能写——「整理了 X 份调研报告，被产品采纳 N 条建议」。</li>
+        <li><strong>开源 / Kaggle</strong>：star 数、排名、PR 被 merge。</li>
+        <li><strong>竞赛 / 比赛</strong>：什么级别、什么名次、解决了什么。</li>
+      </ul>
+    </article>
+
+    <article id="grad-vs-senior" class="article">
+      <div class="art-crumbs">简历优化 <span class="crumb-sep">/</span> PART 1 <span class="crumb-sep">/</span> <span class="crumb-active">应届生 vs 社招</span></div>
+      <h1>应届生 vs 社招简历的差异</h1>
+      <p class="art-lead">应届生和社招的简历不是同一个东西，模板套错就废。理解差异，才能写出对应阶段最有竞争力的版本。</p>
+
+      <h2>核心差异对照</h2>
+      <table>
+        <thead><tr><th>维度</th><th>应届生简历</th><th>社招简历</th></tr></thead>
+        <tbody>
+          <tr><td>长度</td><td><strong>1 页</strong>（强制）</td><td>1–2 页（5 年以下 1 页）</td></tr>
+          <tr><td>主推内容</td><td>项目 + 实习 + 教育背景</td><td>工作经历 + 项目</td></tr>
+          <tr><td>量化指标来源</td><td>课程项目 / 比赛 / 实习</td><td>线上业务指标</td></tr>
+          <tr><td>教育背景位置</td><td><strong>顶部第一栏</strong></td><td>底部一行</td></tr>
+          <tr><td>GPA / 排名</td><td><strong>必写</strong>（前 30% 写）</td><td>可省（除非顶校或转行）</td></tr>
+          <tr><td>技能栏</td><td>主推编程语言 + 基础框架</td><td>主推主力工具栈 + 业务领域</td></tr>
+          <tr><td>项目深度</td><td>1–2 个深度项目即可</td><td>3–5 个，每个都要可量化</td></tr>
+          <tr><td>「自我评价」</td><td>不要写</td><td>不要写</td></tr>
+        </tbody>
+      </table>
+
+      <h2>应届生 3 大优势 + 3 大劣势</h2>
+      <h3>优势</h3>
+      <ul>
+        <li><strong>白纸优势</strong>：公司不会用「3 年经验 = X」标准苛求，可塑性是加分项。</li>
+        <li><strong>价格优势</strong>：HC 多、给薪相对宽松，「便宜量大」反而好谈 base。</li>
+        <li><strong>学习能力背书</strong>：学校 / 排名 / 课程 / 论文 / 竞赛，应届生独有的硬背书。</li>
+      </ul>
+      <h3>劣势</h3>
+      <ul>
+        <li><strong>缺乏真实业务</strong>：从未对接过真实用户和真实数据 → 用实习 + 高质量项目补。</li>
+        <li><strong>缺乏团队协作经验</strong>：→ 用大型课程项目（5 人以上协作）+ 开源贡献补。</li>
+        <li><strong>缺乏量化指标</strong>：→ 用比赛排名、对比 baseline 提升、用户量补。</li>
+      </ul>
+
+      <div class="callout">
+        <div class="ic">🎯</div>
+        <p><strong>应届生策略</strong>：把劣势转成优势。「我没有真实业务经验」 → 「我有 X 个完整项目从 0 做到 1，有完整工程素养」。</p>
+      </div>
+
+      <h2>应届生简历推荐结构（自上而下）</h2>
+      <pre>1. 基础信息   ：姓名 / 邮箱 / 电话 / GitHub
+2. 教育背景   ：学校 / 专业 / 学历 / GPA / 排名
+3. 实习经历   ：1–3 段, STAR 化
+4. 项目经历   ：2–3 个核心项目, STAR + 数字
+5. 技能栏     ：3–5 项, 分级
+6. 荣誉 & 开源：竞赛获奖 / 开源贡献（可选）</pre>
+    </article>
+
+    <article id="page-count" class="article">
+      <div class="art-crumbs">简历优化 <span class="crumb-sep">/</span> PART 1 <span class="crumb-sep">/</span> <span class="crumb-active">1 页 vs 2 页</span></div>
+      <h1>1 页 vs 2 页：到底写多长？</h1>
+      <p class="art-lead">简历不是越长越好。「写不满 1 页」和「写到 3 页」是同一个错误：前者没准备，后者没重点。</p>
+
+      <h2>长度建议</h2>
+      <table>
+        <thead><tr><th>身份</th><th>推荐长度</th><th>原因</th></tr></thead>
+        <tbody>
+          <tr><td>应届生</td><td><strong>1 页</strong></td><td>HR 第一眼看你简历是「学校 + 项目」，超 1 页反而暴露内容稀</td></tr>
+          <tr><td>1–3 年社招</td><td>1 页</td><td>3 年内职业经历够 1 页讲透，过长说明没筛选</td></tr>
+          <tr><td>3–5 年社招</td><td>1–1.5 页</td><td>有重大成就可上 1.5 页</td></tr>
+          <tr><td>5+ 年 / 管理岗</td><td>1.5–2 页</td><td>过去成就足够撑得起 2 页，但每条仍要有价值</td></tr>
+          <tr><td>专家 / 学者</td><td>2 页+（含论文清单）</td><td>论文 / 专利可独立成附录页</td></tr>
+        </tbody>
+      </table>
+
+      <h2>写不满 1 页怎么办？</h2>
+      <ol>
+        <li><strong>项目深挖</strong>：1 个项目从 3 行扩成 6 行（多写 1 个关键决策 + 1 个量化指标）。</li>
+        <li><strong>把课程作业写成项目</strong>：选 1 个最复杂的课程大作业，按 STAR 写。</li>
+        <li><strong>补开源 / 个人项目</strong>：哪怕是 toy project，写清楚动机 + 学到了什么。</li>
+        <li><strong>调字号 / 行距</strong>：14pt → 11pt、行距 1.5 → 1.15，留白合理化。</li>
+      </ol>
+
+      <h2>写超 1 页怎么办？</h2>
+      <ol>
+        <li><strong>删自我评价</strong>：一行都不要留。</li>
+        <li><strong>删兴趣爱好</strong>：除非和岗位强相关（如游戏公司 + 玩游戏）。</li>
+        <li><strong>砍掉 3 个以上的小项目</strong>：留 2–3 个最能打的，其他全删。</li>
+        <li><strong>删掉「我们」开头的句子</strong>：能删一半。</li>
+        <li><strong>合并重复技能</strong>：「Python、Pytorch、TensorFlow、Numpy、Pandas」 → 「Python 生态（含 PyTorch / Pandas）」。</li>
+      </ol>
+
+      <h2>排版建议</h2>
+      <ul>
+        <li><strong>字号</strong>：正文 10.5–11.5pt，标题 12–14pt，姓名 16–20pt。</li>
+        <li><strong>行距</strong>：1.15–1.3，过密像挤公交，过疏像凑数。</li>
+        <li><strong>留白</strong>：左右各 1.5–2 cm 边距，上下各 1.5 cm。</li>
+        <li><strong>字体</strong>：中文用思源宋体 / 微软雅黑，英文用 Inter / Helvetica。</li>
+        <li><strong>颜色</strong>：≤2 种主色（黑 + 1 个 accent），不要彩虹。</li>
+        <li><strong>不要花哨图标</strong>：HR 用 PDF 看，过多 emoji 会让简历显得不专业。</li>
+      </ul>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>大忌</strong>：用模板里的进度条表示「Python 80%、Java 60%」——这是凭感觉打分，面试官一问就露。技能用「精通 / 熟练 / 了解」3 档文字描述更稳。</p>
+      </div>
+    </article>
+
+    <!-- ============ PART 2 ============ -->
+    <article id="star" class="article">
+      <div class="art-crumbs">简历优化 <span class="crumb-sep">/</span> PART 2 <span class="crumb-sep">/</span> <span class="crumb-active">STAR 框架</span></div>
+      <h1>STAR 框架：让经历变成故事</h1>
+      <p class="art-lead">每一条项目经历都按 <code>Situation → Task → Action → Result</code> 展开，<strong>结果用数字量化</strong>。这一条原则就能淘汰 80% 的流水账简历。</p>
+
+      <h2>STAR 各代表什么</h2>
+      <table>
+        <thead><tr><th>字母</th><th>问自己</th><th>常见误区</th></tr></thead>
+        <tbody>
+          <tr><td><strong>S</strong> Situation</td><td>背景是什么？多大规模？</td><td>不写规模，面试官无法判断难度</td></tr>
+          <tr><td><strong>T</strong> Task</td><td>目标是什么？我承担哪部分？</td><td>用「我们」开头，淡化个人贡献</td></tr>
+          <tr><td><strong>A</strong> Action</td><td>关键决策是什么？为什么 A 不 B？</td><td>只写「用了 X」，不讲为什么</td></tr>
+          <tr><td><strong>R</strong> Result</td><td>用什么指标量化？前后对比？</td><td>「显著提升」「大幅优化」—— 数字呢？</td></tr>
+        </tbody>
+      </table>
+
+      <h2>社招示例（知识库 RAG 项目）</h2>
+      <pre>负责公司知识库问答系统的开发
+
+<span class="k">S</span>: 客服日均 <span class="n">8000</span> 单咨询, <span class="n">30</span>% 重复问题占用人工
+<span class="k">T</span>: 搭建 RAG 智能问答系统, 目标承接 <span class="n">50</span>%+ 重复咨询
+<span class="k">A</span>: 设计混合检索（BGE + BM25 + Reranker）
+   用 LangGraph 编排多轮对话
+   引入 LLM-as-Judge 评测回路
+<span class="k">R</span>: 上线后承接 <span class="n">62</span>% 重复咨询
+   人工工单 ↓ <span class="n">38</span>%
+   回答准确率 <span class="n">91</span>%（人工抽检 <span class="n">500</span> 题）</pre>
+
+      <h2>应届生示例（毕设 / 课程项目）</h2>
+      <pre>毕设课题: 中文医疗问答模型微调
+
+<span class="k">S</span>: 通用 LLM 在医疗领域准确率仅 <span class="n">64</span>%
+   开源数据集 cMedQA, 包含 <span class="n">10</span>w+ QA 对
+<span class="k">T</span>: 用 LoRA 微调 ChatGLM-6B, 目标准确率超 <span class="n">80</span>%
+<span class="k">A</span>: 数据清洗去重剩 <span class="n">7</span>w 高质量样本
+   对比 LoRA / QLoRA / Adapter 三种方案
+   选 QLoRA（4bit 量化 + LoRA, 显存只需 <span class="n">12</span>GB）
+   用 LangChain 部署成 demo
+<span class="k">R</span>: 微调后准确率 <span class="n">83.7</span>%, 推理速度 <span class="n">25</span> token/s
+   毕设答辩获优, demo 在 GitHub 收获 <span class="n">120</span>+ star</pre>
+
+      <h2>应届生示例（实习日常工作）</h2>
+      <pre>实习岗位: 算法实习生 @ 字节
+
+<span class="k">S</span>: 团队推荐模型 CTR 准确率 <span class="n">11.2</span>%, 半年未优化
+<span class="k">T</span>: 实习期间提出可行的优化方案, 目标 +<span class="n">0.5</span>%
+<span class="k">A</span>: 分析现有特征 <span class="n">120</span> 维, 发现长尾用户行为特征缺失
+   引入 <span class="n">7</span> 天滑窗 + 用户聚类标签
+   用 LightGBM + DeepFM 双模型融合
+<span class="k">R</span>: 离线 AUC <span class="n">+1.2</span>%, 线上小流量 CTR <span class="n">+0.8</span>%
+   方案已合入主分支, 转正答辩获评 S</pre>
+
+      <div class="callout ok">
+        <div class="ic">✅</div>
+        <p><strong>关键</strong>：S 写规模、T 写目标、A 写决策、R 写数字。即使是课程项目和实习日常，按这个套路写都能比 80% 的应届简历好看。</p>
+      </div>
+    </article>
+
+    <article id="project" class="article">
+      <div class="art-crumbs">简历优化 <span class="crumb-sep">/</span> PART 2 <span class="crumb-sep">/</span> <span class="crumb-active">项目描述模板</span></div>
+      <h1>项目描述模板</h1>
+      <p class="art-lead">📌 一份打动面试官的项目描述应回答：<strong>解决了什么真实问题？做出了什么独特决策？拿到了什么可量化结果？</strong></p>
+
+      <h2>4 段式结构</h2>
+      <ul>
+        <li><strong>痛点（1 句）</strong>：1 句讲清业务/技术背景，避免行业黑话堆砌。</li>
+        <li><strong>方案（2–3 句）</strong>：突出 1–2 个关键技术决策，回答「为什么用这个而非其他」。</li>
+        <li><strong>指标（3 个）</strong>：业务指标 / 性能指标 / 工程指标，各 1 个。</li>
+        <li><strong>个人贡献（1 句）</strong>：明确「我」做了什么模块，避免笼统「我们做了…」。</li>
+      </ul>
+
+      <h2>通用模板</h2>
+      <pre><span class="c"># 项目名 · 一句话定位</span>
+&lt;项目名&gt;｜&lt;角色, 如: 技术 owner / 后端主开发 / 算法实习&gt;
+
+<span class="c"># 痛点</span>
+&lt;谁&gt; 面临 &lt;什么具体问题&gt;, 导致 &lt;什么后果&gt;.
+
+<span class="c"># 方案</span>
+基于 &lt;核心技术 A + B&gt; 搭建 &lt;系统类型&gt;.
+关键决策: 选 &lt;A&gt; 而非 &lt;B&gt;, 原因是 &lt;权衡点&gt;.
+
+<span class="c"># 结果</span>
+&lt;业务指标&gt;: &lt;前&gt; → &lt;后&gt;（↑/↓ <span class="n">N</span>%）
+&lt;性能指标&gt;: &lt;数字&gt;
+&lt;工程指标&gt;: &lt;数字&gt;
+
+<span class="c"># 我的贡献</span>
+独立完成 &lt;模块 X&gt;、主导 &lt;决策 Y&gt;、推动 &lt;Z&gt; 上线.</pre>
+
+      <h2>应届生：把课程项目写出价值</h2>
+      <p>课程项目和真实业务的核心差异是「没有真实指标」。但仍能量化：</p>
+      <table>
+        <thead><tr><th>项目类型</th><th>可量化的指标</th></tr></thead>
+        <tbody>
+          <tr><td>课程大作业</td><td>团队人数 / 代码行数 / 完成度 vs 班级平均</td></tr>
+          <tr><td>算法比赛</td><td>线上排名 / 与第一名差距 / 团队 score</td></tr>
+          <tr><td>Kaggle</td><td>private leaderboard 排名 / 同类型比赛 percentile</td></tr>
+          <tr><td>开源项目</td><td>star / fork / issue / PR 数 / 下载量</td></tr>
+          <tr><td>科研项目</td><td>论文是否中、影响因子、引用数</td></tr>
+          <tr><td>个人 demo</td><td>用户量、跑通的测试用例、对比 baseline 的提升</td></tr>
+        </tbody>
+      </table>
+
+      <h2>应届生示例：把毕设写好</h2>
+      <pre><span class="c"># LLM 医疗问答系统｜个人毕设 + 答辩优</span>
+
+<span class="k">痛点</span>: 通用 LLM 在医疗专业问答上准确率仅 <span class="n">64</span>%, 不能直接落地.
+
+<span class="k">方案</span>: 用 QLoRA (4bit + LoRA) 微调 ChatGLM-6B.
+   对比 LoRA / QLoRA / Adapter 三种方案,
+   QLoRA 在 <span class="n">12</span>GB 显存下精度损失 ≤ <span class="n">1</span>%, 选它.
+   用 LangChain + Streamlit 部署成 web demo.
+
+<span class="k">结果</span>: 准确率 <span class="n">64</span>% → <span class="n">83.7</span>% (cMedQA test set)
+   推理速度 <span class="n">25</span> token/s (单卡 RTX 3090)
+   GitHub <span class="n">120</span>+ star, 毕设答辩评分 <span class="n">95</span>/100
+
+<span class="k">个人贡献</span>: 独立完成数据清洗、模型微调、demo 部署全流程.</pre>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>避坑</strong>：宁可项目少而精，不要项目多而杂。<strong>项目 ≤3 个，每个写透</strong>。「精通 5 个领域」会被认为「都不精」。</p>
+      </div>
+    </article>
+
+    <article id="edu-internship" class="article">
+      <div class="art-crumbs">简历优化 <span class="crumb-sep">/</span> PART 2 <span class="crumb-sep">/</span> <span class="crumb-active">教育与实习经历</span></div>
+      <h1>教育背景与实习经历</h1>
+      <p class="art-lead">应届生最重要的两栏。教育背景是「硬通货」，实习经历是「软实力」证明。两栏写好，简历就赢了一半。</p>
+
+      <h2>教育背景：每一项都有讲究</h2>
+      <table>
+        <thead><tr><th>项</th><th>怎么写</th><th>什么时候省略</th></tr></thead>
+        <tbody>
+          <tr><td>学校 + 专业 + 学历</td><td>必写</td><td>从不省略</td></tr>
+          <tr><td>GPA / 排名</td><td>前 <strong>30</strong>% 写，前 10 名直接写名次</td><td>排名靠后则省略</td></tr>
+          <tr><td>核心课程</td><td>选 4–6 门与岗位相关的</td><td>非相关岗位不写</td></tr>
+          <tr><td>学位论文 / 毕设</td><td>有亮点就写一句</td><td>普通本科论文可省</td></tr>
+          <tr><td>奖学金 / 荣誉</td><td>校级 +、国家级 ++</td><td>系级以下不写</td></tr>
+          <tr><td>海外交换</td><td>有就写（重要加分）</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <h3>写法示例</h3>
+      <pre><span class="k">浙江大学</span> · 计算机科学与技术 · 硕士  <span class="c">| 2022.09 - 2025.06</span>
+GPA: <span class="n">3.82</span>/4.0 (专业排名 <span class="n">4</span>/<span class="n">68</span>)
+核心课: 机器学习、深度学习、自然语言处理、分布式系统
+毕设: 基于 QLoRA 的中文医疗问答模型微调 (评分 <span class="n">95</span>/100)
+荣誉: 国家奖学金 (top <span class="n">2</span>%)、优秀毕业生</pre>
+
+      <h2>实习经历：哪怕打杂也能 STAR</h2>
+      <p>很多应届生写实习是「跟着 mentor 学 X、参与 Y 项目」，这等于没写。实习也要 STAR 化：</p>
+      <pre><span class="k">字节跳动</span> · 抖音推荐算法组 · 算法实习生  <span class="c">| 2024.04 - 2024.09</span>
+
+<span class="k">S</span>: 团队主推荐模型 CTR <span class="n">11.2</span>%, 半年未提升
+<span class="k">T</span>: 提出可行优化方案, 目标 CTR +<span class="n">0.5</span>%
+<span class="k">A</span>: 分析现有特征 <span class="n">120</span> 维, 引入用户聚类标签 + <span class="n">7</span> 天行为滑窗
+   实验 LightGBM + DeepFM 双模融合
+<span class="k">R</span>: 离线 AUC +<span class="n">1.2</span>%, 线上 A/B 小流量 CTR +<span class="n">0.8</span>%
+   方案合入主分支, 转正答辩 <span class="k">S</span> 评</pre>
+
+      <h2>没拿过实习怎么办？</h2>
+      <p>用以下 4 类经历替代，效果不输实习：</p>
+      <ol>
+        <li><strong>科研经历</strong>：导师组里的 RA、参与论文/专利。</li>
+        <li><strong>开源贡献</strong>：给知名项目（&gt;1k star）提 PR、维护自己的项目。</li>
+        <li><strong>大型比赛</strong>：Kaggle / 天池 / 阿里中间件比赛进 top X%。</li>
+        <li><strong>校园技术组织</strong>：实验室、技术社团的核心成员，做出过实际产品/服务。</li>
+      </ol>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>关键</strong>：实习/科研/比赛/开源「至少占其一」。一个都没有，简历竞争力会大幅下降。剩 3 个月毕业还来不及补？立刻找 1 个开源项目持续贡献 8 周，比啥都不做强 10 倍。</p>
+      </div>
+    </article>
+
+    <article id="skills" class="article">
+      <div class="art-crumbs">简历优化 <span class="crumb-sep">/</span> PART 2 <span class="crumb-sep">/</span> <span class="crumb-active">技能栏</span></div>
+      <h1>技能栏：少而精胜过报菜名</h1>
+      <p class="art-lead">技能栏不是「报菜名」，是「能 defend 的能力清单」。简历上每写 1 个技术，面试时都可能被问 30 分钟，你扛得住吗？</p>
+
+      <h2>错误示范 vs 正确写法</h2>
+      <p><strong>❌ 报菜名式</strong>：</p>
+      <pre>编程语言: Python, Java, C++, Go, JavaScript, TypeScript, Rust
+框架: PyTorch, TensorFlow, Keras, JAX, Flask, FastAPI, Django,
+     Spring, Vue, React, Express, NestJS
+中间件: Redis, MySQL, MongoDB, Kafka, RabbitMQ, ES, Milvus, Neo4j
+其他: Docker, K8s, Linux, Git, AWS, GCP, Azure, CI/CD</pre>
+      <p>面试官看到这种，第一反应是「啥都浅尝」，然后挑你最不熟的那个问你。</p>
+
+      <p><strong>✅ 分级 + 背书</strong>：</p>
+      <pre><span class="k">精通</span>: Python (<span class="n">5</span> 年, 主力开发), PyTorch (微调过 <span class="n">3</span>+ 模型)
+<span class="k">熟练</span>: vLLM / FastAPI / LangChain (生产部署过 RAG 系统)
+       Milvus / Redis (有 <span class="n">100</span>w+ 向量场景实战)
+<span class="k">了解</span>: K8s / Docker (能独立部署服务), Go (读得懂代码)</pre>
+
+      <h2>分级标准（自检表）</h2>
+      <table>
+        <thead><tr><th>等级</th><th>判定标准</th><th>面试承诺</th></tr></thead>
+        <tbody>
+          <tr><td><strong>精通</strong></td><td>用过 1 年以上 + 解决过线上重大问题 + 读过源码</td><td>能讲底层原理 + 优劣对比 + 真实踩坑</td></tr>
+          <tr><td><strong>熟练</strong></td><td>项目实战过 + 能独立完成 80% 任务</td><td>能讲常见 API + 一些坑 + 典型用法</td></tr>
+          <tr><td><strong>了解</strong></td><td>看过文档 + 跑过 demo</td><td>能讲是什么、解决什么问题</td></tr>
+        </tbody>
+      </table>
+
+      <h2>LLM 工程师推荐技能栈写法</h2>
+      <pre><span class="k">语言 & 框架</span>: Python (主力) · PyTorch (微调实战)
+<span class="k">大模型生态</span>: vLLM (推理部署) · LangChain / LangGraph (Agent 编排)
+              LoRA / QLoRA (微调实战) · BGE / BCE (Embedding 选型)
+<span class="k">向量数据库</span>: Milvus (<span class="n">100</span>w+ 规模实战) · Qdrant / Chroma (调研对比)
+<span class="k">工程化</span>:     FastAPI · Docker · 基础 K8s 部署
+<span class="k">数据 & 评估</span>: HuggingFace Datasets · 自研评测集 + LLM-as-Judge</pre>
+
+      <h2>3 个常见坑</h2>
+      <ol>
+        <li><strong>把「精通」写成礼貌客气</strong>：你写「精通 Python」面试官就当真问 GIL、装饰器原理、async。</li>
+        <li><strong>列了简历没出现的项目里的工具</strong>：技能栏出现但项目里没用，面试官会觉得你在凑数。</li>
+        <li><strong>报「全栈」</strong>：「精通前后端 + 大数据 + AI」= 没有重点。聚焦 1–2 个方向更好。</li>
+      </ol>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>底线</strong>：技能栏每一项<strong>都能在项目栏找到对应项目</strong>。没用过的工具一律不写。</p>
+      </div>
+    </article>
+
+    <!-- ============ PART 3 ============ -->
+    <article id="intro-1min" class="article">
+      <div class="art-crumbs">简历优化 <span class="crumb-sep">/</span> PART 3 <span class="crumb-sep">/</span> <span class="crumb-active">1 分钟电梯版</span></div>
+      <h1>自我介绍 · 1 分钟电梯版</h1>
+      <p class="art-lead">面试开场前 1 分钟，面试官还在看你的简历。<strong>用自我介绍把节奏抓在自己手里</strong>，引导他追问你想讲的项目。</p>
+
+      <h2>3 段结构（1 分钟版）</h2>
+      <pre><span class="c"># 1. 一句话定位（5 秒）</span>
+您好我是 &lt;名字&gt;, &lt;X&gt; 年 &lt;方向&gt; 经验, 目前在 &lt;公司&gt; 做 &lt;岗位&gt;.
+
+<span class="c"># 2. 一段核心经历（30 秒）</span>
+最近做了 &lt;主项目&gt;, 解决 &lt;什么问题&gt;.
+技术上用 &lt;核心栈&gt;, 关键决策是 &lt;独特选择&gt;.
+最终拿到 &lt;可量化结果&gt;.
+
+<span class="c"># 3. 应聘动机 + 抛钩子（20 秒）</span>
+看到贵司 &lt;岗位/团队&gt; 在做 &lt;XX 方向&gt;,
+和我之前 &lt;某段经历&gt; 很匹配, 所以特别想加入.
+（→ 引导面试官追问你想讲的部分）</pre>
+
+      <h2>社招版（示例）</h2>
+      <pre>您好我是 XX, <span class="n">3</span> 年 LLM 应用开发, 目前在 ABC 公司做 RAG 工程师.
+
+最近主导了企业知识库问答系统从 <span class="n">0</span> 到 <span class="n">1</span>,
+团队 <span class="n">4</span> 人, 我负责整体架构 + 检索召回模块.
+关键决策是用混合检索 (BGE + BM25 + Reranker) 替代单路语义召回,
+最终承接 <span class="n">62</span>% 重复咨询, 工单 ↓ <span class="n">38</span>%, 准确率 <span class="n">91</span>%.
+
+看到贵司在做 Agent 平台, 我之前用 LangGraph 编排过多轮对话,
+和这个方向很契合, 想加入一起做.</pre>
+
+      <h2>应届生版（示例）</h2>
+      <p>应届生没有「X 年经验」就用「学校 + 实习 + 项目」三段。</p>
+      <pre>您好我是 XX, 浙大计算机硕士, 研究方向是大模型微调.
+
+在校期间, 我在字节抖音算法组实习了 <span class="n">5</span> 个月,
+做推荐模型优化, 线上 CTR +<span class="n">0.8</span>%, 转正评 S.
+毕设做了医疗 LLM 微调 (cMedQA 数据集),
+用 QLoRA 把准确率从 <span class="n">64</span>% 提到 <span class="n">83.7</span>%,
+开源在 GitHub 收获 <span class="n">120</span>+ star.
+
+看到贵司在做大模型应用层, 和我实习 + 毕设的方向很匹配,
+特别想加入贵司的团队继续深入.</pre>
+
+      <h2>留钩子的技巧</h2>
+      <p>自我介绍故意留<strong>一个最擅长的细节</strong>，让面试官顺着追问。这样你能用准备好的内容主导节奏。</p>
+      <table>
+        <thead><tr><th>钩子句</th><th>面试官大概率会追问</th></tr></thead>
+        <tbody>
+          <tr><td>「关键决策是用 X 替代 Y」</td><td>为什么不用 Y？X 的缺点呢？</td></tr>
+          <tr><td>「踩了 N 个坑，最大的一个是 Z」</td><td>那 Z 你是怎么解决的？</td></tr>
+          <tr><td>「准确率从 64 → 83.7%」</td><td>具体提升来自哪里？</td></tr>
+          <tr><td>「线上 A/B 跑了 2 周」</td><td>怎么设计的 A/B？指标怎么定？</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <div class="ic">🎯</div>
+        <p><strong>关键</strong>：钩子要是<strong>你最擅长讲的</strong>，被追问时能从容讲 3–5 分钟。不要留你自己也答不好的钩子。</p>
+      </div>
+    </article>
+
+    <article id="intro-3min" class="article">
+      <div class="art-crumbs">简历优化 <span class="crumb-sep">/</span> PART 3 <span class="crumb-sep">/</span> <span class="crumb-active">3 分钟深挖版</span></div>
+      <h1>自我介绍 · 3 分钟深挖版</h1>
+      <p class="art-lead">面试官说「再详细讲讲」，或者你被安排到 30 分钟以上的深度面试时，启动深挖版。</p>
+
+      <h2>4 段结构（3 分钟版）</h2>
+      <ol>
+        <li><strong>背景串线（30 秒）</strong>：教育背景 + 工作经历串成一条线，不要罗列。</li>
+        <li><strong>2 个核心项目（90 秒, 各 45 秒）</strong>：每个按 STAR 讲，重点不同。</li>
+        <li><strong>技术栈广度（30 秒）</strong>：1 段话带过（避免 5 分钟列工具清单）。</li>
+        <li><strong>主动 Q&A 收尾（10 秒）</strong>：「以上是我的简单介绍，您有什么想先聊的？」</li>
+      </ol>
+
+      <h2>示例：3 分钟版逐段拆解</h2>
+
+      <h3>① 背景串线（30 秒）</h3>
+      <pre>我本科是 XX 大学计算机, 硕士 XX 大学 NLP 方向.
+研究生期间一直在做大模型相关的工作 ——
+从早期的 BERT 微调, 到 ChatGPT 出来后转 LLM 应用.
+毕业进入 ABC 公司, 主要做 RAG / Agent 方向, 已经 <span class="n">3</span> 年.</pre>
+      <p><strong>关键</strong>：用「一条线」串起来，不要写成简历朗读。</p>
+
+      <h3>② 项目 1 · 重技术决策（45 秒）</h3>
+      <pre>主项目是企业知识库 RAG 系统.
+团队 <span class="n">4</span> 人, 我负责架构 + 检索召回.
+
+最大的技术决策是用混合检索替代单路语义召回.
+背景是, 单路 BGE 召回在多义词 / 罕见词上准确率只有 <span class="n">68</span>%.
+我对比了 BM25 / Hybrid / Rerank 三种方案,
+最后采用 BGE 召回 top<span class="n">50</span> + BM25 召回 top<span class="n">50</span> +
+BCE-Reranker 精排 top<span class="n">10</span>, 准确率提到 <span class="n">91</span>%.
+
+业务侧, 上线后承接 <span class="n">62</span>% 重复咨询, 工单 ↓ <span class="n">38</span>%.</pre>
+      <p><strong>关键</strong>：突出「我的关键决策 + 量化结果」，省略大量过程细节。</p>
+
+      <h3>③ 项目 2 · 重工程深度（45 秒）</h3>
+      <pre>第二个项目是 Agent 平台.
+公司有 <span class="n">10</span>+ 业务方需要接入 LLM, 各自重复造轮子.
+我们用 LangGraph 做了统一编排框架,
+关键解决了「工具调用稳定性」问题 ——
+通过 MCP 协议 + 重试 + 降级, 把成功率从 <span class="n">82</span>% 提到 <span class="n">98</span>%.
+
+平台上线 <span class="n">6</span> 个月, 接入 <span class="n">8</span> 个业务线, 月调用 <span class="n">200</span>w+.</pre>
+      <p><strong>关键</strong>：两个项目侧重不同——一个秀算法决策，一个秀工程能力。</p>
+
+      <h3>④ 技术栈广度 + 收尾（40 秒）</h3>
+      <pre>技术栈方面, 主要用 Python + PyTorch.
+LLM 生态熟悉 vLLM / LangChain / LangGraph,
+向量库做过 Milvus 和 Qdrant 选型对比.
+工程化用 FastAPI / Docker, 基础的 K8s 部署也能搞定.
+
+以上是我的简单介绍, 您有什么想先深入聊的部分?</pre>
+      <p><strong>关键</strong>：「您有什么想先聊」既是礼貌也是把球抛给面试官，让对方说出想问的方向，你就能主动迎合。</p>
+
+      <h2>应届生 3 分钟版的核心差异</h2>
+      <ul>
+        <li>背景段重学校 + 实习串线，不写「3 年经验」。</li>
+        <li>项目 1 = 最强实习 / 项目 2 = 毕设或竞赛。</li>
+        <li>技术栈段可强调「学习能力」：「半年内自学了 LLM 整条链路」。</li>
+        <li>收尾时主动暴露弱点 + 学习态度：「相比社招，我在线上工程经验上还在持续补齐」。</li>
+      </ul>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>训练方法</strong>：录音自己讲 3 遍，听一遍。第 1 遍找冗余、第 2 遍调节奏、第 3 遍能 2:50 内讲完就 ok。</p>
+      </div>
+    </article>
+
+    <!-- ============ PART 4 ============ -->
+    <article id="grad-traps" class="article">
+      <div class="art-crumbs">简历优化 <span class="crumb-sep">/</span> PART 4 <span class="crumb-sep">/</span> <span class="crumb-active">应届生 10 个坑</span></div>
+      <h1>应届生 10 个常见坑</h1>
+      <p class="art-lead">下面这些坑，每个 HR 一天能看几十遍。避开它们，你的简历已经超过 50% 同辈。</p>
+
+      <table>
+        <thead><tr><th>#</th><th>坑</th><th>更好的做法</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>简历里写「自我评价」（认真负责、有责任心、学习能力强）</td><td>直接删，HR 不信也不看</td></tr>
+          <tr><td>2</td><td>把高中 / 初中也列进教育背景</td><td>只列最高学历，硕士可加本科</td></tr>
+          <tr><td>3</td><td>每个项目都用「我们」开头</td><td>明确写「独立完成」「我主导」「我设计」</td></tr>
+          <tr><td>4</td><td>项目全是「跟着 mentor 学」「参与了 XX」</td><td>具体说做了哪部分、产出了什么</td></tr>
+          <tr><td>5</td><td>技能栏列 30+ 个技术</td><td>≤8 个，分级，每个能 defend</td></tr>
+          <tr><td>6</td><td>没有任何数字（「准确率显著提升」）</td><td>有数字写数字，没真实数字写比较（vs baseline / 同班平均）</td></tr>
+          <tr><td>7</td><td>简历套用花哨模板（彩虹色 / 进度条 / 大头像）</td><td>用极简单色模板，PDF 导出，1 页内</td></tr>
+          <tr><td>8</td><td>邮箱用 qq 邮箱 / 网名 (cute_xx@…)</td><td>用 Gmail / 学校邮箱 + 真名拼音</td></tr>
+          <tr><td>9</td><td>用 Word 投递（不同电脑打开格式乱）</td><td>导出 PDF, 文件名「姓名-岗位-学校.pdf」</td></tr>
+          <tr><td>10</td><td>语法 / 错别字 / 标点错乱</td><td>投前给同学 / 学长读一遍, 找出 3+ 个错</td></tr>
+        </tbody>
+      </table>
+
+      <h2>3 个隐藏深坑（容易自我感觉良好但其实减分）</h2>
+
+      <h3>① 写「精通 / 熟练」却答不出底层</h3>
+      <p>你写「精通 Python」，面试官就问「装饰器原理、GIL、async 协程的本质」。答不出来就反向减分。<strong>不确定能 defend 的就降级</strong>：精通 → 熟练 → 了解。</p>
+
+      <h3>② 项目栏全是「跟课」项目</h3>
+      <p>3 个项目都是 NLP 课作业、机器学习课作业、深度学习课作业——同质化严重，面试官一眼看出。<strong>3 个项目至少 1 个是非课程项目</strong>（开源 / 比赛 / 个人 demo）。</p>
+
+      <h3>③ 实习 / 项目时间倒着排</h3>
+      <p>正确：最近的在最上面。错误：按重要性排或时间正序——HR 默认期待倒序，乱排会让 HR 直接跳过。</p>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>底线检查</strong>：简历投出去前问自己 3 个问题。<br>① 我的最近 1 段经历能用 30 秒讲清吗？<br>② 简历里所有数字我能 defend 吗？<br>③ 简历里每一个技术名词我都用过吗？三个都「是」再投。</p>
+      </div>
+    </article>
+
+    <article id="company-prefs" class="article">
+      <div class="art-crumbs">简历优化 <span class="crumb-sep">/</span> PART 4 <span class="crumb-sep">/</span> <span class="crumb-active">不同公司偏好</span></div>
+      <h1>不同公司的简历偏好</h1>
+      <p class="art-lead">同一份简历投不同公司效果会差很多。<strong>不是一份打天下</strong>，而是 1 份「主版本」+ 几个「定制版」。</p>
+
+      <h2>横向对比表</h2>
+      <table>
+        <thead><tr><th>类型</th><th>看重</th><th>简历策略</th></tr></thead>
+        <tbody>
+          <tr><td><strong>大厂</strong>（阿里/腾讯/字节/美团）</td><td>项目深度、技术栈匹配、量化指标</td><td>突出 1–2 个深度项目, 严格 STAR, 全是数字</td></tr>
+          <tr><td><strong>独角兽 / 创业</strong></td><td>独立完成能力、学习速度、踩坑经验</td><td>突出「从 0 到 1」, 写学到了什么 + 解决了什么</td></tr>
+          <tr><td><strong>外企</strong>（Google/Meta/微软）</td><td>英文表达、STAR、quantifiable impact、Coding 强度</td><td>必须英文简历, 量化 + Impact, LeetCode 评估</td></tr>
+          <tr><td><strong>国企 / 银行</strong></td><td>学校、学历、证书、稳定性</td><td>突出学历 / 排名 / 证书 / 党员</td></tr>
+          <tr><td><strong>科研院所</strong></td><td>论文、专利、导师推荐</td><td>论文清单单独列, 标 SCI/CCF 等级</td></tr>
+          <tr><td><strong>AI 算法岗</strong>（不限公司）</td><td>论文、Kaggle、开源项目、模型实战</td><td>给论文 / 比赛 / GitHub 单独栏</td></tr>
+        </tbody>
+      </table>
+
+      <h2>大厂简历模板要点</h2>
+      <ul>
+        <li><strong>排版</strong>：极简，黑白 + 1 个 accent 色，1 页。</li>
+        <li><strong>技术栈匹配</strong>：JD 里出现的关键字尽量出现在你的项目里。</li>
+        <li><strong>项目顺序</strong>：把和 JD 最匹配的项目放最前面。</li>
+        <li><strong>每条都有数字</strong>：不能量化的不写。</li>
+      </ul>
+
+      <h2>创业 / 独角兽要点</h2>
+      <ul>
+        <li><strong>突出独立性</strong>：「独立完成 X」「一个人撑起 Y」是加分项。</li>
+        <li><strong>突出复合能力</strong>：「写代码 + 跟 PM 沟通 + 看数据」三位一体。</li>
+        <li><strong>突出快速学习</strong>：「2 周内从 0 学会 X 并上线」。</li>
+      </ul>
+
+      <h2>外企要点</h2>
+      <ul>
+        <li><strong>英文版必备</strong>：用 Action verb 开头（Built / Designed / Improved），不用 Be 动词。</li>
+        <li><strong>量化的 Impact</strong>：「Improved CTR by 0.8% in production」远胜「Made the model better」。</li>
+        <li><strong>不要用复杂英文</strong>：HR 不一定是 native speaker，简单直接更好。</li>
+        <li><strong>有 LeetCode 数据可加</strong>：「Solved 500+ LeetCode problems」。</li>
+      </ul>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>实用建议</strong>：维护 1 份「全版本简历」(2 页内容池子)，投递时按公司类型抽 1 页生成定制版。一年下来你的简历可以演化出 4–5 个版本，每个都更契合特定类型公司。</p>
+      </div>
+    </article>
+
+    <article id="delivery" class="article">
+      <div class="art-crumbs">简历优化 <span class="crumb-sep">/</span> PART 4 <span class="crumb-sep">/</span> <span class="crumb-active">投递与跟进</span></div>
+      <h1>投递与跟进</h1>
+      <p class="art-lead">同样的简历，<strong>渠道不同回复率能差 5–10 倍</strong>。投递不是「发出去就完事」，跟进才是关键。</p>
+
+      <h2>投递渠道排序</h2>
+      <table>
+        <thead><tr><th>渠道</th><th>回复率</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. 强内推</strong>（认识的人在岗位团队）</td><td>★★★★★</td><td>简历直接到团队负责人手里, 当天反馈</td></tr>
+          <tr><td><strong>2. 弱内推</strong>（HR 内推码, 不认识）</td><td>★★★★☆</td><td>仍走 HR 池, 但有内推标记会优先看</td></tr>
+          <tr><td><strong>3. 官网投递</strong></td><td>★★★☆☆</td><td>会被 HR 系统筛, JD 关键字匹配很重要</td></tr>
+          <tr><td><strong>4. 招聘网站</strong>（Boss/拉勾）</td><td>★★☆☆☆</td><td>HR 主动找你的渠道, 不是你主动找的</td></tr>
+          <tr><td><strong>5. LinkedIn / 脉脉</strong></td><td>★★☆☆☆</td><td>外企 / 海外岗位高效, 国内一般</td></tr>
+        </tbody>
+      </table>
+
+      <h2>如何找到内推</h2>
+      <ol>
+        <li><strong>同学 / 学长</strong>：硕士师兄师姐内推效率最高。</li>
+        <li><strong>实习同事</strong>：过去实习的 mentor / leader，关系到位都愿意推。</li>
+        <li><strong>技术社区</strong>：知乎 / 即刻 / V2EX 上的从业者，加微信请教 + 提内推。</li>
+        <li><strong>朋友 LinkedIn 二度连接</strong>：朋友 → 朋友的朋友在某公司。</li>
+        <li><strong>BBS / 内推群</strong>：脉脉、各大学校论坛、技术微信群。</li>
+      </ol>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>找内推的礼仪</strong>：开口前先简单自我介绍 + 说明意图 + 附简历 PDF。<strong>不要直接「在吗」「能不能推一下」</strong>。把决策成本降到最低，对方会更愿意帮你。</p>
+      </div>
+
+      <h2>投递时间</h2>
+      <ul>
+        <li><strong>最佳</strong>：周二至周四 09:00–11:00，HR 最有时间筛简历。</li>
+        <li><strong>次佳</strong>：周日晚上 20:00–22:00，HR 下周一早上看。</li>
+        <li><strong>避免</strong>：周一上午（HR 忙开会）、周五下午（HR 准备下班）。</li>
+        <li><strong>校招高峰期</strong>：8–10 月秋招，2–4 月春招，越早投越好。</li>
+      </ul>
+
+      <h2>跟进话术（如果一周没回）</h2>
+      <pre><span class="c">## 给内推人</span>
+&lt;X 哥/姐&gt; 您好, 上周麻烦您内推的 &lt;岗位&gt;,
+不知道目前进度大概到哪一步了? 麻烦您方便时帮我看一下,
+非常感谢您之前的帮助!
+
+<span class="c">## 给 HR (邮件)</span>
+&lt;HR 姓名&gt; 您好,
+我是 &lt;X 月 X 日&gt; 投递贵司 &lt;岗位&gt; 的 &lt;姓名&gt;,
+邮件附简历回顾.
+请问目前流程是否在进行中? 期待您的回复, 谢谢!</pre>
+
+      <h2>拒信处理</h2>
+      <ul>
+        <li><strong>不要回怼</strong>：HR 圈子很小，留下负面记录会影响后面。</li>
+        <li><strong>礼貌感谢 + 留 contact</strong>：「感谢回复，希望未来有合适机会再合作」。</li>
+        <li><strong>6 个月后可再投</strong>：HR 系统一般 6 个月封禁期，过期可重投。</li>
+        <li><strong>反思简历 vs 面试</strong>：如果简历就被拒 → 改简历；如果面试拒 → 复盘面试。</li>
+      </ul>
+
+      <div class="callout ok">
+        <div class="ic">✅</div>
+        <p><strong>心态建议</strong>：投 50 家被拒 45 家是常态。<strong>找工作是概率游戏</strong>，唯一作弊器是「投得多 + 改得勤」。投 10 家就泄气的人，永远拿不到好 offer。</p>
+      </div>
+    </article>
+
+    <!-- 上一篇 / 下一篇 -->
+    <div class="pager" id="pager"></div>
+
+  </main>
+
+</div>
+
+<footer>
+  <div>© 2026 llm-roadmap / interview-guide · 简历优化</div>
+  <div>
+    <a href="index.html">首页</a> ·
+    <a href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  // ==================== 主题 ====================
+  const tBtn = document.getElementById('themeBtn');
+  const tMenu = document.getElementById('themeMenu');
+  const tHtml = document.documentElement;
+  function applyTheme(name) {
+    tHtml.dataset.theme = name;
+    tBtn.querySelector('.tname').textContent = name;
+    tMenu.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.theme === name));
+    localStorage.setItem('theme', name);
+  }
+  applyTheme(localStorage.getItem('theme') || 'light');
+  tBtn.addEventListener('click', e => { e.stopPropagation(); tMenu.classList.toggle('open'); });
+  tMenu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { applyTheme(b.dataset.theme); tMenu.classList.remove('open'); }));
+  document.addEventListener('click', () => tMenu.classList.remove('open'));
+
+  // ==================== 文章路由 ====================
+  const items = [...document.querySelectorAll('.side-item')];
+  const articles = [...document.querySelectorAll('.article')];
+  const order = items.map(el => el.dataset.id);
+  const titleMap = {};
+  items.forEach(el => { titleMap[el.dataset.id] = el.textContent.trim().replace(/^\d+/, '').trim(); });
+
+  function showArticle(id) {
+    if (!order.includes(id)) id = order[0];
+    articles.forEach(a => a.classList.toggle('active', a.id === id));
+    items.forEach(el => el.classList.toggle('active', el.dataset.id === id));
+    renderPager(id);
+    if (location.hash !== '#' + id) history.replaceState(null, '', '#' + id);
+    document.querySelector('.main').scrollTo?.({top:0});
+    window.scrollTo({top:0, behavior:'instant'});
+    // 移动端切换后自动收起 sidebar
+    if (window.innerWidth <= 880) document.getElementById('side').classList.add('collapsed');
+  }
+
+  function renderPager(id) {
+    const i = order.indexOf(id);
+    const prev = i > 0 ? order[i-1] : null;
+    const next = i < order.length - 1 ? order[i+1] : null;
+    const pager = document.getElementById('pager');
+    pager.innerHTML =
+      (prev
+        ? '<a class="pager-btn prev" data-go="' + prev + '"><div class="pg-label">← 上一篇</div><div class="pg-title">' + titleMap[prev] + '</div></a>'
+        : '<span class="pager-btn prev disabled"><div class="pg-label">已是首篇</div><div class="pg-title">—</div></span>')
+      +
+      (next
+        ? '<a class="pager-btn next" data-go="' + next + '"><div class="pg-label">下一篇 →</div><div class="pg-title">' + titleMap[next] + '</div></a>'
+        : '<span class="pager-btn next disabled"><div class="pg-label">已是末篇</div><div class="pg-title">—</div></span>');
+  }
+
+  // 点击
+  document.addEventListener('click', e => {
+    const it = e.target.closest('.side-item');
+    if (it) { showArticle(it.dataset.id); return; }
+    const pg = e.target.closest('.pager-btn[data-go]');
+    if (pg) { showArticle(pg.dataset.go); return; }
+    const tg = e.target.closest('#sideToggle');
+    if (tg) { document.getElementById('side').classList.toggle('collapsed'); return; }
+  });
+  window.addEventListener('hashchange', () => showArticle((location.hash || '').replace(/^#/, '')));
+
+  // 初始
+  const initId = (location.hash || '').replace(/^#/, '') || order[0];
+  showArticle(initId);
+  // PC 默认展开 sidebar
+  if (window.innerWidth > 880) document.getElementById('side').classList.remove('collapsed');
+</script>
+</body>
+</html>

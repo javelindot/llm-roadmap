@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<title>offer && 谈薪 · Interview Guide</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="LLM 工程师 offer 谈判与谈薪指南 · 多 offer 比较 · 谈薪四原则 · 签约入职 · 应届生友好" />
+<style>
+  :root, [data-theme="light"] {
+    --bg:#ffffff; --bg2:#fafafa; --bg3:#f4f4f5;
+    --card:#ffffff;
+    --text:#0a0a0a; --text2:#525252; --text3:#a3a3a3;
+    --border:#e5e5e5; --border2:#d4d4d4;
+    --accent:#2563eb; --accent2:#1d4ed8; --accent-soft:#eff6ff;
+    --nav-bg:rgba(255,255,255,.85);
+    --mono:'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;
+    --ok:#16a34a; --ok-soft:#dcfce7;
+    --warn:#ea580c; --warn-soft:#ffedd5;
+  }
+  [data-theme="dark"] {
+    --bg:#0a0a0a; --bg2:#111111; --bg3:#18181b; --card:#0f0f10;
+    --text:#fafafa; --text2:#a1a1aa; --text3:#71717a;
+    --border:#27272a; --border2:#3f3f46;
+    --accent:#60a5fa; --accent2:#93c5fd; --accent-soft:rgba(96,165,250,.08);
+    --nav-bg:rgba(10,10,10,.85);
+    --ok:#4ade80; --ok-soft:rgba(74,222,128,.12);
+    --warn:#fb923c; --warn-soft:rgba(251,146,60,.12);
+  }
+  [data-theme="solarized"] {
+    --bg:#fdf6e3; --bg2:#f5efd5; --bg3:#eee8d5; --card:#fdf6e3;
+    --text:#586e75; --text2:#657b83; --text3:#93a1a1;
+    --border:#eee8d5; --border2:#d8d2bf;
+    --accent:#268bd2; --accent2:#2aa198; --accent-soft:rgba(38,139,210,.10);
+    --nav-bg:rgba(253,246,227,.85);
+    --ok:#859900; --ok-soft:rgba(133,153,0,.12);
+    --warn:#cb4b16; --warn-soft:rgba(203,75,22,.10);
+  }
+  [data-theme="dracula"] {
+    --bg:#282a36; --bg2:#2d2f3d; --bg3:#383a4a; --card:#2d2f3d;
+    --text:#f8f8f2; --text2:#bcc1d3; --text3:#6272a4;
+    --border:#44475a; --border2:#565a73;
+    --accent:#bd93f9; --accent2:#ff79c6; --accent-soft:rgba(189,147,249,.12);
+    --nav-bg:rgba(40,42,54,.85);
+    --ok:#50fa7b; --ok-soft:rgba(80,250,123,.12);
+    --warn:#ffb86c; --warn-soft:rgba(255,184,108,.12);
+  }
+  [data-theme="nord"] {
+    --bg:#2e3440; --bg2:#353b48; --bg3:#3b4252; --card:#353b48;
+    --text:#eceff4; --text2:#d8dee9; --text3:#7b8497;
+    --border:#434c5e; --border2:#4c566a;
+    --accent:#88c0d0; --accent2:#5e81ac; --accent-soft:rgba(136,192,208,.12);
+    --nav-bg:rgba(46,52,64,.85);
+    --ok:#a3be8c; --ok-soft:rgba(163,190,140,.12);
+    --warn:#ebcb8b; --warn-soft:rgba(235,203,139,.12);
+  }
+  [data-theme="tokyo-night"] {
+    --bg:#1a1b26; --bg2:#16161e; --bg3:#1f2335; --card:#1f2335;
+    --text:#c0caf5; --text2:#a9b1d6; --text3:#565f89;
+    --border:#292e42; --border2:#3b4261;
+    --accent:#7aa2f7; --accent2:#bb9af7; --accent-soft:rgba(122,162,247,.12);
+    --nav-bg:rgba(26,27,38,.85);
+    --ok:#9ece6a; --ok-soft:rgba(158,206,106,.12);
+    --warn:#e0af68; --warn-soft:rgba(224,175,104,.12);
+  }
+  [data-theme="catppuccin"] {
+    --bg:#1e1e2e; --bg2:#181825; --bg3:#313244; --card:#181825;
+    --text:#cdd6f4; --text2:#bac2de; --text3:#7f849c;
+    --border:#313244; --border2:#45475a;
+    --accent:#cba6f7; --accent2:#f5c2e7; --accent-soft:rgba(203,166,247,.12);
+    --nav-bg:rgba(30,30,46,.85);
+    --ok:#a6e3a1; --ok-soft:rgba(166,227,161,.12);
+    --warn:#fab387; --warn-soft:rgba(250,179,135,.12);
+  }
+  *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.65;
+    font-size:15px; min-height:100vh; display:flex; flex-direction:column;
+    transition:background .2s,color .2s;
+  }
+  a { color:inherit; text-decoration:none; }
+
+  /* ── Nav ── */
+  .nav {
+    position:sticky; top:0; z-index:100;
+    background:var(--nav-bg); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+    padding:0 32px; height:56px;
+    display:flex; align-items:center; gap:4px;
+  }
+  .brand {
+    font-family:var(--mono); font-size:.92rem; font-weight:600;
+    color:var(--text); letter-spacing:-.02em; margin-right:24px;
+  }
+  .brand::before { content:'$ '; color:var(--text3); }
+  .nav-spacer { flex:1; }
+  .nav-link {
+    color:var(--text2); font-size:13.5px; font-weight:500;
+    padding:6px 11px; border-radius:6px;
+    transition:color .15s,background .15s;
+  }
+  .nav-link:hover { color:var(--text); background:var(--bg3); }
+  .theme-switcher { position:relative; margin-left:6px; }
+  .theme-btn {
+    height:30px; padding:0 10px;
+    background:transparent; border:1px solid var(--border); border-radius:6px;
+    color:var(--text2); cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--mono); font-size:12.5px;
+    transition:color .15s,border-color .15s,background .15s;
+  }
+  .theme-btn:hover { color:var(--text); background:var(--bg3); }
+  .theme-btn .dot { width:8px; height:8px; border-radius:50%; background:var(--accent); }
+  .theme-menu {
+    position:absolute; top:100%; right:0; margin-top:4px; z-index:200;
+    background:var(--card); border:1px solid var(--border); border-radius:6px;
+    padding:4px; min-width:148px; display:none;
+    box-shadow:0 4px 16px rgba(0,0,0,.08);
+  }
+  .theme-menu.open { display:block; }
+  .theme-menu button {
+    display:flex; align-items:center; gap:8px;
+    width:100%; padding:6px 10px; text-align:left;
+    background:transparent; border:none; cursor:pointer;
+    font-family:var(--mono); font-size:13px;
+    color:var(--text2); border-radius:4px;
+  }
+  .theme-menu button:hover { background:var(--bg3); color:var(--text); }
+  .theme-menu button.active { background:var(--bg3); color:var(--text); }
+  .theme-menu .dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .dot-light { background:linear-gradient(135deg,#fff 50%,#0a0a0a 50%); border:1px solid #d4d4d4; }
+  .dot-dark { background:#0a0a0a; border:1px solid #3f3f46; }
+  .dot-solarized { background:#b58900; }
+  .dot-dracula { background:#bd93f9; }
+  .dot-nord { background:#88c0d0; }
+  .dot-tokyo-night { background:#7aa2f7; }
+  .dot-catppuccin { background:#cba6f7; }
+
+  /* ── Layout ── */
+  .layout {
+    display:grid; grid-template-columns:260px minmax(0,1fr);
+    gap:28px; padding:24px 32px; max-width:1280px; margin:0 auto; width:100%; flex:1;
+    align-items:start;
+  }
+  .side {
+    position:sticky; top:72px;
+    max-height:calc(100vh - 88px); overflow-y:auto;
+    padding:18px 8px 18px 0;
+  }
+  .side::-webkit-scrollbar { width:5px; }
+  .side::-webkit-scrollbar-thumb { background:var(--border2); border-radius:3px; }
+  .side-brand {
+    font-family:var(--mono); font-size:11px; font-weight:700;
+    color:var(--text3); letter-spacing:.1em; text-transform:uppercase;
+    padding:0 12px; margin-bottom:14px;
+  }
+  .side-brand::before { content:'// '; }
+  .side-group { margin-bottom:18px; }
+  .side-group-head {
+    font-family:var(--mono); font-size:10.5px; font-weight:700;
+    color:var(--text3); letter-spacing:.14em;
+    padding:8px 12px 6px;
+  }
+  .side-item {
+    display:flex; align-items:center; gap:8px;
+    padding:7px 12px; border-radius:6px;
+    font-size:13.5px; color:var(--text2);
+    cursor:pointer; transition:all .12s;
+    border-left:2px solid transparent;
+  }
+  .side-item:hover { color:var(--text); background:var(--bg3); }
+  .side-item.active {
+    color:var(--accent); background:var(--accent-soft);
+    border-left-color:var(--accent); font-weight:600;
+  }
+  .side-item .si-num {
+    font-family:var(--mono); font-size:11px;
+    color:var(--text3); flex-shrink:0; min-width:18px;
+  }
+  .side-item.active .si-num { color:var(--accent); }
+
+  /* ── Main ── */
+  .main { min-width:0; padding:8px 0 48px; }
+
+  .article { display:none; }
+  .article.active { display:block; animation:fadeIn .2s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+
+  .art-crumbs {
+    font-family:var(--mono); font-size:11.5px; color:var(--text3);
+    margin-bottom:12px; letter-spacing:.04em;
+  }
+  .art-crumbs .crumb-sep { margin:0 6px; color:var(--text3); }
+  .art-crumbs .crumb-active { color:var(--text2); }
+
+  .article h1 {
+    font-size:clamp(1.6rem,3vw,2.05rem);
+    font-weight:700; letter-spacing:-.025em; line-height:1.2;
+    margin-bottom:14px; color:var(--text);
+  }
+  .article .art-lead {
+    font-size:15.5px; color:var(--text2);
+    margin-bottom:24px; line-height:1.75;
+    padding-bottom:20px; border-bottom:1px solid var(--border);
+  }
+  .article h2 {
+    font-size:1.18rem; font-weight:700;
+    color:var(--text); margin:32px 0 12px;
+    letter-spacing:-.01em;
+  }
+  .article h3 {
+    font-size:1rem; font-weight:700;
+    color:var(--text); margin:20px 0 8px;
+  }
+  .article p {
+    color:var(--text2); margin-bottom:14px;
+    font-size:14.5px; line-height:1.8;
+  }
+  .article p strong { color:var(--text); }
+  .article ul, .article ol {
+    margin:0 0 18px 22px;
+    color:var(--text2);
+    font-size:14.5px; line-height:1.85;
+  }
+  .article ul li, .article ol li { margin-bottom:4px; }
+  .article ul li::marker { color:var(--text3); }
+  .article ol li::marker { color:var(--text3); font-family:var(--mono); }
+  .article li strong { color:var(--text); }
+  .article code {
+    background:var(--bg3); color:var(--accent);
+    padding:1px 6px; border-radius:4px;
+    font-family:var(--mono); font-size:.92em;
+  }
+  .article pre {
+    background:var(--bg2); border:1px solid var(--border);
+    border-radius:10px; padding:16px 18px;
+    overflow-x:auto; margin-bottom:18px;
+    font-family:var(--mono); font-size:12.5px;
+    color:var(--text); line-height:1.75;
+    white-space:pre-wrap;
+  }
+  .article pre .n { color:var(--warn); font-weight:600; }
+  .article pre .k { color:var(--accent); }
+  .article pre .c { color:var(--text3); }
+  .article pre .ok { color:var(--ok); }
+
+  .callout {
+    display:flex; align-items:flex-start; gap:12px;
+    padding:14px 16px; border-radius:10px;
+    background:var(--accent-soft); border:1px solid var(--accent-soft);
+    margin:8px 0 22px;
+  }
+  .callout .ic { font-size:1.05rem; line-height:1.5; flex-shrink:0; }
+  .callout p { margin:0; color:var(--text); font-size:14px; line-height:1.7; }
+  .callout p strong { color:var(--accent); }
+  .callout.warn { background:var(--warn-soft); border-color:var(--warn-soft); }
+  .callout.warn p strong { color:var(--warn); }
+  .callout.ok { background:var(--ok-soft); border-color:var(--ok-soft); }
+  .callout.ok p strong { color:var(--ok); }
+
+  table {
+    width:100%; border-collapse:collapse; margin-bottom:20px;
+    font-size:13.5px;
+    border:1px solid var(--border); border-radius:10px;
+    overflow:hidden;
+  }
+  th, td {
+    padding:9px 14px; text-align:left;
+    border-bottom:1px solid var(--border);
+    vertical-align:top;
+  }
+  th {
+    background:var(--bg2); color:var(--text2);
+    font-family:var(--mono); font-size:12px;
+    font-weight:600; letter-spacing:.02em;
+  }
+  td { color:var(--text2); }
+  tbody tr:last-child td { border-bottom:none; }
+
+  /* 谈薪四原则 卡片栅格 */
+  .principles {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin-bottom:24px;
+  }
+  .principle {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:12px; padding:18px 20px;
+    transition:border-color .15s,box-shadow .2s,transform .15s;
+  }
+  .principle:hover {
+    border-color:var(--accent);
+    box-shadow:0 4px 8px rgba(37,99,235,.06),0 14px 28px rgba(37,99,235,.08);
+    transform:translateY(-2px);
+  }
+  .principle .pnum {
+    font-family:var(--mono); font-size:11px;
+    color:var(--accent); letter-spacing:.14em;
+    font-weight:700; margin-bottom:6px;
+  }
+  .principle h4 {
+    font-size:.98rem; font-weight:700;
+    color:var(--text); margin-bottom:6px;
+  }
+  .principle p {
+    font-size:13px; color:var(--text2);
+    line-height:1.65; margin:0;
+  }
+
+  .pager {
+    display:flex; gap:10px; justify-content:space-between;
+    margin-top:48px; padding-top:24px;
+    border-top:1px solid var(--border);
+  }
+  .pager-btn {
+    flex:1; max-width:50%;
+    padding:14px 16px; border-radius:10px;
+    border:1px solid var(--border); background:var(--card);
+    color:var(--text2); cursor:pointer;
+    transition:all .15s; display:block;
+  }
+  .pager-btn:hover {
+    border-color:var(--accent); background:var(--accent-soft);
+    transform:translateY(-1px);
+  }
+  .pager-btn .pg-label {
+    font-family:var(--mono); font-size:11px;
+    color:var(--text3); margin-bottom:4px;
+  }
+  .pager-btn .pg-title {
+    font-size:13.5px; color:var(--text); font-weight:600;
+    line-height:1.4;
+  }
+  .pager-btn:hover .pg-title { color:var(--accent); }
+  .pager-btn.next { text-align:right; }
+  .pager-btn.disabled { opacity:.35; pointer-events:none; }
+
+  /* ── Footer ── */
+  footer {
+    border-top:1px solid var(--border);
+    padding:24px 32px;
+    display:flex; justify-content:space-between; align-items:center;
+    color:var(--text3); font-size:12.5px;
+    flex-wrap:wrap; gap:12px;
+    font-family:var(--mono);
+  }
+  footer a { color:var(--text2); }
+  footer a:hover { color:var(--accent); }
+
+  .side-toggle {
+    display:none;
+    width:100%; padding:10px 14px;
+    background:var(--bg2); border:1px solid var(--border); border-radius:8px;
+    color:var(--text); font-size:13.5px; cursor:pointer;
+    font-family:inherit; margin-bottom:10px;
+    text-align:left;
+  }
+  .side-toggle::before { content:'☰  '; color:var(--text3); }
+
+  @media (max-width:880px) {
+    .layout { grid-template-columns:1fr; gap:12px; padding:14px 16px; }
+    .side { position:static; max-height:none; padding:0; }
+    .side.collapsed { display:none; }
+    .side-toggle { display:block; }
+    .nav { padding:0 12px; }
+    .principles { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="index.html">offer-deal</a>
+  <div class="nav-spacer"></div>
+  <a class="nav-link" href="index.html">首页</a>
+  <a class="nav-link" href="resume.html">📋 简历优化</a>
+  <a class="nav-link" href="quiz.html">🔥 真题库</a>
+  <a class="nav-link" href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
+  <div class="theme-switcher">
+    <button class="theme-btn" id="themeBtn" aria-label="切换主题">
+      <span class="dot"></span><span class="tname">light</span><span style="color:var(--text3);margin-left:2px;">▾</span>
+    </button>
+    <div class="theme-menu" id="themeMenu">
+      <button data-theme="light"><span class="dot dot-light"></span>light</button>
+      <button data-theme="dark"><span class="dot dot-dark"></span>dark</button>
+      <button data-theme="solarized"><span class="dot dot-solarized"></span>solarized</button>
+      <button data-theme="dracula"><span class="dot dot-dracula"></span>dracula</button>
+      <button data-theme="nord"><span class="dot dot-nord"></span>nord</button>
+      <button data-theme="tokyo-night"><span class="dot dot-tokyo-night"></span>tokyo-night</button>
+      <button data-theme="catppuccin"><span class="dot dot-catppuccin"></span>catppuccin</button>
+    </div>
+  </div>
+</nav>
+
+<div class="layout">
+
+  <aside class="side" id="side">
+    <div class="side-brand">offer && 谈薪</div>
+
+    <div class="side-group">
+      <div class="side-group-head">PART 1 · offer 基础</div>
+      <a class="side-item" data-id="comp-structure"><span class="si-num">01</span>offer 的构成要素</a>
+      <a class="side-item" data-id="stock-types"><span class="si-num">02</span>股票 / 期权 / RSU</a>
+      <a class="side-item" data-id="company-types"><span class="si-num">03</span>大厂/创业/外企对比</a>
+    </div>
+
+    <div class="side-group">
+      <div class="side-group-head">PART 2 · 多 offer 比较</div>
+      <a class="side-item" data-id="tc-calc"><span class="si-num">04</span>TC 计算与折现</a>
+      <a class="side-item" data-id="compare-framework"><span class="si-num">05</span>5 维度比较框架</a>
+      <a class="side-item" data-id="non-money"><span class="si-num">06</span>非货币因素决策</a>
+    </div>
+
+    <div class="side-group">
+      <div class="side-group-head">PART 3 · 谈薪实战</div>
+      <a class="side-item" data-id="principles"><span class="si-num">07</span>谈薪四原则</a>
+      <a class="side-item" data-id="scripts"><span class="si-num">08</span>实战话术模板</a>
+      <a class="side-item" data-id="expected-salary"><span class="si-num">09</span>期望薪资怎么报</a>
+    </div>
+
+    <div class="side-group">
+      <div class="side-group-head">PART 4 · 签约入职</div>
+      <a class="side-item" data-id="offer-letter"><span class="si-num">10</span>offer letter 必看 8 项</a>
+      <a class="side-item" data-id="handover"><span class="si-num">11</span>离职交接 checklist</a>
+      <a class="side-item" data-id="onboarding"><span class="si-num">12</span>入职前 7 天准备</a>
+      <a class="side-item" data-id="backup"><span class="si-num">13</span>反悔与 backup</a>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <button class="side-toggle" id="sideToggle">目录</button>
+
+    <!-- ============ PART 1 ============ -->
+    <article id="comp-structure" class="article">
+      <div class="art-crumbs">offer 与谈薪 <span class="crumb-sep">/</span> PART 1 <span class="crumb-sep">/</span> <span class="crumb-active">offer 构成</span></div>
+      <h1>offer 的构成要素</h1>
+      <p class="art-lead">一份 offer 不只是「月薪 X 万」。把每个组成部分搞清楚，你才知道<strong>哪里能谈、哪里不能谈、哪里有水分</strong>。</p>
+
+      <h2>5 大组成部分</h2>
+      <table>
+        <thead><tr><th>项</th><th>是什么</th><th>是否可谈</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. base salary</strong></td><td>每月基本工资 × 12 (或 13/14 个月)</td><td>✅ 主战场, 优先谈</td></tr>
+          <tr><td><strong>2. bonus</strong></td><td>年终奖 / 季度奖 / 项目奖, 通常按 base 倍数</td><td>⚠️ 「保底 / 目标 / 上限」三个数字必须问清</td></tr>
+          <tr><td><strong>3. 股票 / RSU / 期权</strong></td><td>授予数量 × vesting 节奏</td><td>✅ base 谈不动时换它</td></tr>
+          <tr><td><strong>4. 签字费 sign-on</strong></td><td>入职一次性奖金, 弥补上家未结清奖金</td><td>✅ 几乎不动 base 就能拿到</td></tr>
+          <tr><td><strong>5. 福利</strong></td><td>五险一金、补充医疗、餐补、housing、年假…</td><td>❌ 一般不可谈, 但要问清</td></tr>
+        </tbody>
+      </table>
+
+      <h2>各项详解</h2>
+
+      <h3>① base salary</h3>
+      <p>每月固定金额，最稳定的一部分，也是后续涨薪、奖金、社保的基准。<strong>base 每涨 1k，10 年累计 ≥ 12 万 + 复利</strong>，是最值得拼的部分。</p>
+      <ul>
+        <li><strong>月薪 × 12</strong>：传统计算方式（大部分大厂）。</li>
+        <li><strong>月薪 × 13/14/15</strong>：把年终的一部分包到固定中（国企/外企/部分港资）。</li>
+        <li><strong>月薪 × 16/17/18</strong>：包了大部分奖金（一些金融机构 / 港府）。</li>
+      </ul>
+
+      <h3>② bonus（最容易被忽悠）</h3>
+      <p>「年终奖」是<strong>三个数字</strong>，必须全问清：</p>
+      <pre><span class="k">保底</span>: 即使公司亏损, 至少给的部分 (如 <span class="n">1</span> 个月 base)
+<span class="k">目标</span>: 正常完成绩效的预期 (如 <span class="n">3</span> 个月 base)
+<span class="k">上限</span>: 业绩封顶能拿到的 (如 <span class="n">6</span> 个月 base)</pre>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>常见坑</strong>：HR 说「年终大概 3 个月」却没写进 offer letter。<strong>口头承诺等于 0</strong>，必须落到合同/邮件留痕。</p>
+      </div>
+
+      <h3>③ 股票 / RSU / 期权</h3>
+      <p>大头但水分最多，下一篇专门讲。</p>
+
+      <h3>④ 签字费 sign-on bonus</h3>
+      <p>一次性补偿，常见的三种用途：</p>
+      <ul>
+        <li><strong>补偿你提早离开上家</strong>：上家未结清年终奖（如 9 月入职，损失上家未发的奖金）。</li>
+        <li><strong>大厂抢人</strong>：行情好时给 5–20 万吸引你立刻接。</li>
+        <li><strong>境外抢人</strong>：relocation 补偿（搬家 / 安顿费）。</li>
+      </ul>
+      <p>签字费<strong>通常分 1–2 年发放 + 离职追回</strong>，看清楚「服务期」条款。</p>
+
+      <h3>⑤ 福利（隐性 TC）</h3>
+      <ul>
+        <li><strong>五险一金</strong>：按 base 缴 vs 按封顶缴，差距能达每月 ¥3000+。</li>
+        <li><strong>补充医疗</strong>：覆盖范围、家人是否包含。</li>
+        <li><strong>餐补 / 班车 / 房补</strong>：每月折现 ¥1k–3k。</li>
+        <li><strong>年假天数</strong>：法定 5 天，大厂普遍 10–15 天，硅谷 unlimited。</li>
+        <li><strong>体检 / 健身房 / 子女教育</strong>：偏后期才会用到，但有比没有强。</li>
+      </ul>
+
+      <div class="callout ok">
+        <div class="ic">💡</div>
+        <p><strong>应届生提醒</strong>：第一份工作不要只盯 base。<strong>「base + 股票 vesting + 签字费」</strong>三项加起来才是 Y1 真实 TC。同样 base 30w 的两个 offer，TC 可能差 50%。</p>
+      </div>
+    </article>
+
+    <article id="stock-types" class="article">
+      <div class="art-crumbs">offer 与谈薪 <span class="crumb-sep">/</span> PART 1 <span class="crumb-sep">/</span> <span class="crumb-active">股票 / 期权 / RSU</span></div>
+      <h1>股票 / 期权 / RSU：到底有多值？</h1>
+      <p class="art-lead">股票这部分水最深。<strong>不懂的人会被忽悠拿「价值 X 百万」的废纸</strong>。先搞清三种形式，再算实际现金价值。</p>
+
+      <h2>三种主流形式</h2>
+      <table>
+        <thead><tr><th>形式</th><th>定义</th><th>典型公司</th><th>价值确定性</th></tr></thead>
+        <tbody>
+          <tr><td><strong>RSU</strong> (限制性股票单位)</td><td>到 vesting 时直接给你股票, 即时变现</td><td>FAANG / 阿里/腾讯/字节</td><td>★★★★★ 高</td></tr>
+          <tr><td><strong>期权</strong> Option</td><td>未来按行权价买股票的权利</td><td>早期创业 / 部分美股</td><td>★★★☆☆ 中 (要行权 + 公司值钱)</td></tr>
+          <tr><td><strong>影子股</strong> Phantom</td><td>对标公司估值的现金奖励, 不是真股</td><td>未上市国内大厂</td><td>★★★★☆ 中高 (看公司是否兑现)</td></tr>
+        </tbody>
+      </table>
+
+      <h2>RSU 详解</h2>
+      <p>最简单也最值钱的形式。「给你 100 股，4 年 vest 完」 = 4 年后你拥有 100 股，可以直接卖。</p>
+      <h3>典型 vesting 节奏</h3>
+      <ul>
+        <li><strong>4 年 25/25/25/25</strong>：每年 25%（FAANG 早期标准）。</li>
+        <li><strong>4 年 1y cliff + 月 vest</strong>：第 1 年满才拿 25%, 之后每月解锁 1/48（外企常见）。</li>
+        <li><strong>4 年 10/20/30/40</strong>：后端加重, 留人用（Amazon 典型，但前 2 年配 sign-on 补偿）。</li>
+        <li><strong>4 年 25/25/25/25 + 每年 refresh</strong>：每年再加一笔, 实际是滚动的（Google/Meta 高 level）。</li>
+      </ul>
+
+      <h3>RSU 现金价值计算</h3>
+      <pre><span class="c"># 例: 公司给你 RSU 总价值 <span class="n">40</span> 万, 4 年 25/25/25/25</span>
+
+每年解锁: <span class="n">40</span>w / <span class="n">4</span> = <span class="n">10</span>w
+Y1 实际拿到现金: <span class="n">10</span>w (按当前股价计算)
+
+<span class="c"># 折现风险</span>
+- 上市公司股价波动: ±<span class="n">30</span>%
+- 解锁时要交税: <span class="n">20</span>%–<span class="n">40</span>%
+- 实际到手: <span class="n">10</span>w × <span class="n">0.8</span> × <span class="n">0.7</span> = <span class="n">5.6</span>w (悲观估计)</pre>
+
+      <h2>期权详解</h2>
+      <p>「给你 10w 股期权，行权价 ¥1/股」= 公司涨到 ¥10/股时，你可以用 10w 买入再卖, 净赚 90w。<strong>但</strong>:</p>
+      <ul>
+        <li>公司没上市/没涨 → 期权一文不值。</li>
+        <li>行权要先掏现金（10w × ¥1 = 10w 真金白银）。</li>
+        <li>行权后还要持有规定时间才能卖。</li>
+        <li>离职时要在 30–90 天内决定是否行权，错过就没了。</li>
+      </ul>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>期权大坑</strong>：「这家公司估值 100 亿, 你这 1% 期权值 1 亿!」—— 不要信。<strong>未上市公司估值打 2-3 折, 创业前期打 1 折都不为过</strong>。</p>
+      </div>
+
+      <h2>影子股 / RSU 国内版</h2>
+      <p>未上市公司的「奖金分期方案」。给你「相当于 N 股的价值」，公司估值涨/跌就跟着涨跌, 但<strong>没有真股票</strong>, 通常公司上市或被收购才能套现。</p>
+      <p>关键看：</p>
+      <ul>
+        <li>是否有<strong>明确的回购机制</strong>（每年回购 X% 或离职时按估值回购）。</li>
+        <li>公司过去对老员工是否兑现过。</li>
+        <li>合同里写的「行权条件」（必须工作满 X 年才能行权）。</li>
+      </ul>
+
+      <h2>股票现金折现率推荐</h2>
+      <table>
+        <thead><tr><th>公司类型</th><th>折现率</th><th>解释</th></tr></thead>
+        <tbody>
+          <tr><td>上市头部（FAANG/BAT）</td><td>×0.7–0.8</td><td>股价稳定 + 税</td></tr>
+          <tr><td>上市非头部</td><td>×0.5–0.6</td><td>股价波动大</td></tr>
+          <tr><td>独角兽（已轮 D/E 轮）</td><td>×0.3–0.5</td><td>等上市, 中间可能腰斩</td></tr>
+          <tr><td>独角兽（B/C 轮）</td><td>×0.15–0.3</td><td>3 年内有显著破产风险</td></tr>
+          <tr><td>早期创业（A 轮以下）</td><td>×0.05–0.15</td><td>90% 公司活不过 3 年</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>记住</strong>：股票/期权一定要按现金折现后再和别的 offer 比。「股票价值 200w 的创业 offer」和「base 60w 的大厂 offer」, 多数情况下后者赢。</p>
+      </div>
+    </article>
+
+    <article id="company-types" class="article">
+      <div class="art-crumbs">offer 与谈薪 <span class="crumb-sep">/</span> PART 1 <span class="crumb-sep">/</span> <span class="crumb-active">公司类型对比</span></div>
+      <h1>大厂 / 创业 / 外企 / 国企 offer 结构</h1>
+      <p class="art-lead">不同类型公司的 offer 结构差异巨大。<strong>同样 50w「年薪」，构成可能完全不同</strong>。</p>
+
+      <h2>横向对比表</h2>
+      <table>
+        <thead>
+          <tr><th>类型</th><th>base 占比</th><th>奖金</th><th>股票/期权</th><th>福利</th><th>适合</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>大厂</strong>（阿里/腾讯/字节/美团）</td><td><span class="ok">60-70%</span></td><td>2-6 个月 base</td><td>RSU 4 年 vest</td><td>★★★★</td><td>求稳 + 简历</td></tr>
+          <tr><td><strong>外企</strong>（Google/Meta/微软）</td><td><span class="ok">50-60%</span></td><td>1-3 个月 base</td><td>RSU 4 年, 含 refresh</td><td>★★★★★</td><td>WLB + 海外</td></tr>
+          <tr><td><strong>独角兽 / 上市</strong>（拼多多/小红书）</td><td><span class="ok">50-60%</span></td><td>项目奖灵活</td><td>RSU 或 影子股</td><td>★★★</td><td>成长快</td></tr>
+          <tr><td><strong>创业 A-B 轮</strong></td><td><span class="warn">70-90%</span></td><td>少或无</td><td>期权大额（高水分）</td><td>★★</td><td>赌长期上市</td></tr>
+          <tr><td><strong>国企 / 银行</strong></td><td><span class="ok">40-50%</span></td><td>13/14/15 薪 + 季度奖</td><td>无</td><td>★★★★★</td><td>稳定 + 体制内</td></tr>
+          <tr><td><strong>科研院所</strong></td><td><span class="ok">50%</span></td><td>项目提成 / 课题</td><td>无</td><td>★★★★（含编制）</td><td>论文 + 体制</td></tr>
+        </tbody>
+      </table>
+
+      <h2>同样 50w 年薪，不同公司怎么发？</h2>
+
+      <h3>大厂（字节示例）</h3>
+      <pre>base       : <span class="n">36</span>w (3w × 12)
+年终       : <span class="n">9</span>w  (3 个月 base, 视绩效)
+股票       : RSU 4 年共 <span class="n">40</span>w → 第 1 年 <span class="n">10</span>w
+签字费     : <span class="n">5</span>w
+─────────────────
+Y1 TC      : <span class="ok">60</span>w  (含 sign-on)
+稳态 TC    : <span class="ok">55</span>w
+</pre>
+
+      <h3>外企（Google L4 中国示例）</h3>
+      <pre>base       : <span class="n">30</span>w (2.5w × 12)
+target bonus: <span class="n">4.5</span>w  (15% base)
+RSU 4 年    : <span class="n">60</span>w → 第 1 年 <span class="n">15</span>w
+sign-on     : <span class="n">0</span>w
+─────────────────
+Y1 TC       : <span class="ok">49.5</span>w
+福利         : 顶级 (15 天年假 + 顶级医疗 + 通勤 + 餐 + 健身)</pre>
+
+      <h3>创业（独角兽 B 轮示例）</h3>
+      <pre>base       : <span class="n">42</span>w (3.5w × 12) <span class="c"># 比大厂高 6w</span>
+年终       : 不保证, "看项目"
+期权       : <span class="n">200</span>w (估值 50 亿 × 0.04% 股)
+            <span class="c"># 实际折现: 200w × 0.15 = 30w (4 年)</span>
+            <span class="c"># Y1 实际值: 7.5w</span>
+─────────────────
+Y1 TC      : <span class="ok">~50</span>w (含期权折现, 高方差)
+真实风险    : 公司活不到上市, 期权归 0</pre>
+
+      <h3>国企（某大行 IT 示例）</h3>
+      <pre>月薪 × 16   : <span class="n">32</span>w (2w × 16, 13/14/15/16 薪)
+季度奖     : <span class="n">8</span>w (按绩效, 一般稳定)
+项目奖     : <span class="n">5</span>w (年度)
+─────────────────
+现金 TC    : <span class="ok">45</span>w
+福利        : 公积金顶格 (隐性 +5-8w/年)
+            + 食堂 + 班车 + 体检 + 培训
+实际等价 TC: <span class="ok">55-60</span>w (含公积金)</pre>
+
+      <h2>怎么选？看你优先级</h2>
+      <ul>
+        <li><strong>要钱要稳</strong>: 大厂 RSU 部分能预期到。</li>
+        <li><strong>要 wlb</strong>: 外企 + 国企 + 部分小厂。</li>
+        <li><strong>要简历</strong>: 大厂 + 外企 (3-5 年后跳槽议价高)。</li>
+        <li><strong>要成长</strong>: 独角兽 / 上市后中型公司 (业务复杂度高)。</li>
+        <li><strong>要长期暴富</strong>: 创业期权 (做好 90% 亏的准备)。</li>
+        <li><strong>要稳定退休</strong>: 国企 / 体制内。</li>
+      </ul>
+
+      <div class="callout">
+        <div class="ic">🎯</div>
+        <p><strong>应届生建议</strong>：第一份工作选大厂或顶级独角兽。简历 + 训练 + 视野的复利, 比第 1 年多 5w 重要 10 倍。</p>
+      </div>
+    </article>
+
+    <!-- ============ PART 2 ============ -->
+    <article id="tc-calc" class="article">
+      <div class="art-crumbs">offer 与谈薪 <span class="crumb-sep">/</span> PART 2 <span class="crumb-sep">/</span> <span class="crumb-active">TC 计算与折现</span></div>
+      <h1>TC 计算与折现</h1>
+      <p class="art-lead">TC = Total Compensation = 你「真实拿到手」的所有收入。不算清 TC 就比 offer，相当于蒙眼下注。</p>
+
+      <h2>TC 计算公式</h2>
+      <pre><span class="k">Y1 TC</span> = base + bonus(预期) + 股票/RSU 第 1 年解锁(折现) + sign-on
+<span class="k">Y2-4 TC</span> = base + bonus + 股票/RSU 该年解锁(折现)
+<span class="k">总 TC</span> = sum(Y1..Y4)
+<span class="k">月均 TC</span> = 总 TC / 48</pre>
+
+      <h2>实战：两家 offer 对比</h2>
+
+      <h3>Offer A · 大厂 RSU</h3>
+      <pre><span class="k">基础</span>
+base       : <span class="n">50</span>w
+年终目标   : <span class="n">3</span> 个月 base = <span class="n">12.5</span>w (按 100% 完成)
+RSU 4 年   : <span class="n">40</span>w (25/25/25/25)
+sign-on    : <span class="n">5</span>w (一次性)
+
+<span class="k">分年 TC</span>
+Y1 : 50 + 12.5 + 10 + 5 = <span class="ok">77.5</span>w
+Y2 : 50 + 12.5 + 10     = <span class="ok">72.5</span>w
+Y3 : 50 + 12.5 + 10     = <span class="ok">72.5</span>w
+Y4 : 50 + 12.5 + 10     = <span class="ok">72.5</span>w
+─────────────────────
+4 年总 TC : <span class="ok">295</span>w
+月均 TC   : <span class="ok">6.15</span>w</pre>
+
+      <h3>Offer B · 创业期权</h3>
+      <pre><span class="k">基础</span>
+base       : <span class="n">60</span>w (高于 A 10w)
+年终       : 不保证, 按 <span class="n">1</span> 个月 base 估 = <span class="n">5</span>w
+期权 4 年  : <span class="n">200</span>w (估值 50 亿独角兽, 折现率 0.15)
+            实际折现 = 200 × 0.15 = <span class="ok">30</span>w
+sign-on    : <span class="n">0</span>w
+
+<span class="k">分年 TC (按折现期权)</span>
+Y1 : 60 + 5 + 7.5 = <span class="ok">72.5</span>w
+Y2 : 60 + 5 + 7.5 = <span class="ok">72.5</span>w
+Y3 : 60 + 5 + 7.5 = <span class="ok">72.5</span>w
+Y4 : 60 + 5 + 7.5 = <span class="ok">72.5</span>w
+─────────────────────
+4 年总 TC : <span class="ok">290</span>w (含期权折现)
+月均 TC   : <span class="ok">6.04</span>w
+
+<span class="k">悲观情景</span> (公司 4 年内倒闭, 期权归 0)
+4 年总 TC : <span class="warn">260</span>w
+月均      : <span class="warn">5.4</span>w</pre>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>结论</strong>: 两家 TC 几乎一样, 但 A 确定性高 + 简历好看。多数情况下选 A。除非你强烈看好 B 公司 3-5 年内能上市估值翻 5 倍以上。</p>
+      </div>
+
+      <h2>计算 TC 时的 3 个常见错误</h2>
+
+      <h3>① 把股票总额当作 Y1 收入</h3>
+      <p>HR 说「股票 40w」，很多新手以为 Y1 拿 40w。<strong>实际是 4 年分发, Y1 只有 10w</strong>。差 4 倍。</p>
+
+      <h3>② 忽略 sign-on 一次性属性</h3>
+      <p>sign-on 5w 是「Y1 一次性」，Y2 没了。计算「稳态 TC」时要剔除。</p>
+
+      <h3>③ 不考虑折现率, 直接信公司估值</h3>
+      <p>未上市公司给的「期权价值 X 万」是按当前估值算的。<strong>用历史经验折现</strong>: 头部独角兽 0.3, 普通独角兽 0.15, 早期创业 0.05-0.1。</p>
+
+      <h2>TC 计算模板（可直接复制）</h2>
+      <pre>=== Offer __ ===
+base       :       w
+年终(目标) :       w  (___ 个月 base × ___% 概率)
+RSU/期权   :       w 总 → 折现率 ___ → 实际       w → Y1 解锁       w
+sign-on    :       w
+─────────────────────
+Y1 TC      :       w
+稳态 TC    :       w
+4 年总 TC  :       w</pre>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>务必把 offer 写下来再比, 不要凭印象</strong>。两家 offer 在脑子里比, 100% 出错。</p>
+      </div>
+    </article>
+
+    <article id="compare-framework" class="article">
+      <div class="art-crumbs">offer 与谈薪 <span class="crumb-sep">/</span> PART 2 <span class="crumb-sep">/</span> <span class="crumb-active">5 维度比较框架</span></div>
+      <h1>多 offer 比较 · 5 维度框架</h1>
+      <p class="art-lead">TC 算清楚后, 加上 4 个非货币维度, 才能做出真正合适的选择。</p>
+
+      <h2>5 个维度</h2>
+      <table>
+        <thead><tr><th>维度</th><th>看什么</th><th>权重建议</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. 现金 TC</strong></td><td>base + bonus + 签字费 (第 1 年) / 年化</td><td>★★★★★ 短期最看重</td></tr>
+          <tr><td><strong>2. 股票 / 期权</strong></td><td>vesting 节奏、估值靠谱度、流动性</td><td>★★★☆☆ 高方差, 按现金折现</td></tr>
+          <tr><td><strong>3. 岗位发展</strong></td><td>3 年后能成长为什么、技术栈是否新</td><td>★★★★☆ 长期 ROI</td></tr>
+          <tr><td><strong>4. 团队 & 老板</strong></td><td>直属老板背景、团队氛围、人员稳定度</td><td>★★★★☆ 决定每天体验</td></tr>
+          <tr><td><strong>5. 隐性成本</strong></td><td>通勤、加班强度、出差比例、WLB</td><td>★★★☆☆ 容易被忽略</td></tr>
+        </tbody>
+      </table>
+
+      <h2>打分模板</h2>
+      <pre>            Offer A   Offer B   Offer C
+─────────────────────────────────
+Y1 TC       <span class="n">75</span>w      <span class="n">68</span>w      <span class="n">82</span>w
+4 年 TC     <span class="n">280</span>w     <span class="n">260</span>w     <span class="n">310</span>w
+股票稳定度  <span class="ok">8</span>/10     <span class="warn">4</span>/10     <span class="ok">7</span>/10
+岗位发展    <span class="ok">9</span>/10     <span class="ok">7</span>/10     <span class="ok">8</span>/10
+团队 & 老板 <span class="ok">7</span>/10     <span class="ok">9</span>/10     <span class="warn">5</span>/10  (不熟悉)
+隐性成本    通勤 30min, 大小周
+             |
+             V
+            <span class="warn">5</span>/10     <span class="ok">8</span>/10     <span class="ok">7</span>/10
+
+加权总分    <span class="ok">7.4</span>      <span class="ok">7.2</span>      <span class="warn">6.8</span>
+─────────────────────────────────
+推荐选 A</pre>
+
+      <h2>非货币维度详解</h2>
+
+      <h3>岗位发展（最容易低估）</h3>
+      <p>3 年后你想成为什么？</p>
+      <ul>
+        <li><strong>大厂高级工程师</strong>：路径清晰 (P5→P6→P7)，但天花板明显。</li>
+        <li><strong>创业团队技术负责人</strong>：成长快、决策权大、抗风险能力强。</li>
+        <li><strong>体制内中层</strong>：稳定，社会地位好，但技术深度有限。</li>
+        <li><strong>独立开发者</strong>：高自由度，需要先在大厂攒人脉/简历/积蓄。</li>
+      </ul>
+
+      <h3>团队 & 老板（决定每天体验）</h3>
+      <p>面试时尽量见到<strong>未来直属老板</strong>，问 3 个问题：</p>
+      <ol>
+        <li>「您团队过去 1 年招了几个、走了几个？为什么走？」</li>
+        <li>「您觉得这个岗位最大的挑战是什么？」</li>
+        <li>「您希望这个新人 6 个月后做出什么成果？」</li>
+      </ol>
+      <p>对方回答的<strong>具体程度</strong>反映他对岗位的真实重视度。模糊回答 = 红旗。</p>
+
+      <h3>隐性成本（容易被忽视）</h3>
+      <ul>
+        <li><strong>通勤</strong>: 单程 1 小时 = 每年 480 小时 = 20 天纯通勤。</li>
+        <li><strong>加班强度</strong>: 996 vs 大小周 vs 弹性, 长期对健康影响差几十倍。</li>
+        <li><strong>出差</strong>: 每月出 1 周的岗位, 不适合有家庭的人。</li>
+        <li><strong>办公地点</strong>: 工厂园区 vs 市中心 CBD, 生活质量差很多。</li>
+      </ul>
+
+      <div class="callout ok">
+        <div class="ic">✅</div>
+        <p><strong>决策提示</strong>: 多 offer 总分接近时, 选「3 年后能给你更多选项」的那个。第一份工作的<strong>技能复利</strong>远高于第 1 年 5w 差异。</p>
+      </div>
+    </article>
+
+    <article id="non-money" class="article">
+      <div class="art-crumbs">offer 与谈薪 <span class="crumb-sep">/</span> PART 2 <span class="crumb-sep">/</span> <span class="crumb-active">非货币因素</span></div>
+      <h1>非货币因素决策</h1>
+      <p class="art-lead">钱往往不是最大的差异。<strong>你愿意为什么牺牲多少钱</strong>，是 offer 决策的核心问题。</p>
+
+      <h2>问自己 6 个问题</h2>
+      <ol>
+        <li><strong>3 年后我想成为什么样的人？</strong> → 哪个 offer 更接近这个目标？</li>
+        <li><strong>我现在最缺什么？</strong> 钱 / 名片 / 技术 / 平台 / 团队 → 选最匹配的。</li>
+        <li><strong>我能接受的加班强度？</strong> 996 / 大小周 / 双休 / 弹性。</li>
+        <li><strong>通勤多久能接受？</strong> 单程 30 / 60 / 90 min。</li>
+        <li><strong>地理位置偏好？</strong> 北京 / 上海 / 深圳 / 杭州 / 远程 / 海外。</li>
+        <li><strong>未来 3 年是否打算结婚/生娃/换城市？</strong> → 影响选择稳定性还是机会。</li>
+      </ol>
+
+      <h2>常见权衡场景</h2>
+
+      <h3>场景 1：大厂稳定 vs 创业暴富</h3>
+      <pre>Offer A: 大厂, Y1 TC <span class="n">65</span>w, 简历 ✅, 节奏稳定
+Offer B: 创业, Y1 TC <span class="n">58</span>w + 期权 <span class="n">100</span>w (折现 <span class="n">15</span>w), 高风险</pre>
+      <p><strong>建议</strong>:</p>
+      <ul>
+        <li><strong>第一份工作</strong>: 选大厂。简历 + 训练 + 视野复利, 3-5 年后回头看会感谢自己。</li>
+        <li><strong>已有 3 年大厂经验</strong>: 可以考虑创业, 攒到的简历能 backup。</li>
+        <li><strong>家底厚 + 高风险偏好</strong>: 创业也行, 但要做好 90% 期权归 0 的准备。</li>
+      </ul>
+
+      <h3>场景 2：高薪 + 高强度 vs 低薪 + WLB</h3>
+      <pre>Offer A: 某大厂, base <span class="n">60</span>w, 996, 通勤 1 小时
+Offer B: 外企, base <span class="n">45</span>w, 朝九晚六, 通勤 30 分钟</pre>
+      <p><strong>关键算账</strong>:</p>
+      <pre>A 实际工作时间: <span class="n">12</span> 小时 × <span class="n">6</span> = <span class="n">72</span> h/周
+B 实际工作时间: <span class="n">9</span> 小时 × <span class="n">5</span> = <span class="n">45</span> h/周
+
+A 时薪 (按月): <span class="n">60</span>w / <span class="n">12</span> 月 / <span class="n">288</span>h = <span class="n">174</span>/h
+B 时薪 (按月): <span class="n">45</span>w / <span class="n">12</span> 月 / <span class="n">180</span>h = <span class="n">208</span>/h</pre>
+      <p><strong>B 时薪更高</strong>。如果你 25 岁能承受高强度 → A 也行；27 岁有家庭 → B 更香。</p>
+
+      <h3>场景 3：北上深 vs 二三线</h3>
+      <pre>Offer A: 上海, base <span class="n">50</span>w, 房租 <span class="n">8</span>k/月
+Offer B: 成都, base <span class="n">35</span>w, 房租 <span class="n">3</span>k/月</pre>
+      <p><strong>关键算账</strong>:</p>
+      <pre>A 可支配收入: <span class="n">50</span>w − 房租 <span class="n">9.6</span>w − 日常 <span class="n">8</span>w = <span class="n">32.4</span>w
+B 可支配收入: <span class="n">35</span>w − 房租 <span class="n">3.6</span>w − 日常 <span class="n">5</span>w = <span class="n">26.4</span>w</pre>
+      <p>看起来 A 多 6w/年。但还要考虑：</p>
+      <ul>
+        <li>上海的<strong>机会密度</strong>: 跳槽容易、技术圈活跃, 3 年后涨薪空间大。</li>
+        <li>成都的<strong>生活质量</strong>: 通勤短、节奏慢、亲友近。</li>
+        <li>未来<strong>买房成本</strong>: 上海首付 ≥ 200w vs 成都 60w, 差 3 倍。</li>
+      </ul>
+
+      <h2>决策矩阵</h2>
+      <p>把所有维度打分相加。<strong>分差 ≤ 1 时, 选你「感觉更对」的那个</strong>——感觉不是迷信, 是潜意识对未识别因素的反应。</p>
+
+      <div class="callout">
+        <div class="ic">🎯</div>
+        <p><strong>最后一招</strong>: 把两个 offer 写在纸上, 抛硬币决定。<strong>抛之前注意你内心希望硬币落到哪面</strong>——那个就是你真正想选的。</p>
+      </div>
+    </article>
+
+    <!-- ============ PART 3 ============ -->
+    <article id="principles" class="article">
+      <div class="art-crumbs">offer 与谈薪 <span class="crumb-sep">/</span> PART 3 <span class="crumb-sep">/</span> <span class="crumb-active">谈薪四原则</span></div>
+      <h1>谈薪四原则</h1>
+      <p class="art-lead">HR 给你的第一份 offer 几乎<strong>从不是「最高水位」</strong>。礼貌地多问一次，常能涨 10–20%。这四条是任何场景下都该坚守的底线。</p>
+
+      <div class="principles">
+        <div class="principle">
+          <div class="pnum">PRINCIPLE 01</div>
+          <h4>不要先报价</h4>
+          <p>先问公司预算范围。一旦你先报, 天花板就锁死了。被追问就回答「我对岗位匹配度更感兴趣, 薪资部分希望了解贵司的范围」。</p>
+        </div>
+        <div class="principle">
+          <div class="pnum">PRINCIPLE 02</div>
+          <h4>用竞争 offer 加杠杆</h4>
+          <p>哪怕只是同行业一个普通 offer 也算筹码。「我手上还有 X 公司的 offer, base XX, 希望您能 match」。<strong>有 offer 才有谈判权</strong>。</p>
+        </div>
+        <div class="principle">
+          <div class="pnum">PRINCIPLE 03</div>
+          <h4>谈包不谈单项</h4>
+          <p>把 base + bonus + 股票 + 签字费 + 调薪节奏 <strong>一起谈</strong>。base 卡死时换股票, 股票卡死时要签字费, 永远留余地。</p>
+        </div>
+        <div class="principle">
+          <div class="pnum">PRINCIPLE 04</div>
+          <h4>留 24 小时决策</h4>
+          <p>永远不要现场答应。说「我需要和家人商量, 明天给您答复」。冷静一晚上能避免 80% 的冲动选择和价值误判。</p>
+        </div>
+      </div>
+
+      <h2>每个原则的应用细节</h2>
+
+      <h3>原则 1 · 不要先报价 · 应届生场景</h3>
+      <p>HR: 「你期望薪资是多少？」</p>
+      <ul>
+        <li><strong>错误回答</strong>: 「我希望 1.5w」 → 锁死天花板, 公司可能本来打算给 1.8w。</li>
+        <li><strong>错误回答 2</strong>: 「按公司标准就行」 → 给得最低也不能反悔。</li>
+        <li><strong>正确回答</strong>: 「我对岗位本身更感兴趣, 想了解贵司这个 level 的薪酬范围。」</li>
+        <li><strong>实在追问</strong>: 给一个区间 (调研行业行情后), 区间下限是你的真实底线。</li>
+      </ul>
+
+      <h3>原则 2 · 用竞争 offer 加杠杆 · 应届生场景</h3>
+      <p>「我没拿到别的 offer 怎么办？」</p>
+      <ul>
+        <li><strong>用 SP / SSP / 头条加薪</strong>: 「字节给的是 SP 价, 我看到您家普通 offer 是 XX, 能否对齐?」</li>
+        <li><strong>用同体量公司行情</strong>: 「我了解的同体量公司应届生 base 一般在 30-35w, 希望贵司能在区间内。」</li>
+        <li><strong>用调研数据</strong>: 看准网 / OfferShow / 知乎匿名贴, 引用公开数据。</li>
+        <li><strong>用面试反馈</strong>: 「您之前的反馈说我面试表现不错, 希望能体现在 offer 上。」</li>
+      </ul>
+
+      <h3>原则 3 · 谈包不谈单项</h3>
+      <pre><span class="c"># 错误谈法</span>
+你: base 能涨 5k 吗?
+HR: 不能, 走流程没动空间.
+你: 哦那算了.
+
+<span class="c"># 正确谈法</span>
+你: 整体我对贵司非常想加入. 就是希望整体包能上 8%.
+    base 涨 3k 也好, 或者多 1 万签字费, 或者 RSU 多 5w 也行.
+HR: base 走流程没动空间, 但签字费可以申请加 1w.
+你: 那我们就这么定, 谢谢您!</pre>
+
+      <h3>原则 4 · 留 24 小时决策</h3>
+      <ul>
+        <li><strong>电话/视频谈薪</strong>: 「让我和家人商量下, 明天这个时间给您答复」。</li>
+        <li><strong>面对面谈薪</strong>: 「这是个重要决定, 让我考虑一晚」。</li>
+        <li><strong>HR 逼你立刻签</strong>: 「逼签」是 HR 的话术, 不要慌, 24 小时绝大多数公司都能等。</li>
+        <li><strong>HR 说「明天就过期」</strong>: 90% 是策略, 留 24 小时仍来得及。</li>
+      </ul>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>大忌</strong>: 不要撒谎编造不存在的 offer, HR 圈子很小。可以模糊化 (「同体量公司」「另一家给的更高」), 但不要伪造具体公司+数字。</p>
+      </div>
+    </article>
+
+    <article id="scripts" class="article">
+      <div class="art-crumbs">offer 与谈薪 <span class="crumb-sep">/</span> PART 3 <span class="crumb-sep">/</span> <span class="crumb-active">实战话术模板</span></div>
+      <h1>实战话术模板</h1>
+      <p class="art-lead">谈薪不是临场发挥，是事先准备的「演讲」。下面 6 个高频场景, 每个准备一段话, 真到现场不会慌。</p>
+
+      <h2>场景 1：HR 反问你期望薪资</h2>
+      <pre><span class="k">HR</span>: 您期望的薪资是多少?
+<span class="ok">你</span>: 我对这个岗位本身更感兴趣.
+    我之前 base XX, 希望在这个基础上有合理涨幅.
+    贵司这个 level 一般的范围是怎样?</pre>
+
+      <h2>场景 2：拿到口头 offer，base 偏低 5–10%</h2>
+      <pre><span class="k">HR</span>: base 我们能给到 <span class="n">50</span>w.
+<span class="ok">你</span>: 谢谢! 整体我非常想加入.
+    就 base 这部分, 我手上 X 公司的 offer 是 <span class="n">55</span>w,
+    希望贵司能 match 一下,
+    或者在签字费/股票上有所补足.
+    能否帮我向上沟通一下?</pre>
+
+      <h2>场景 3：HR 给出最终 offer 让你立刻签</h2>
+      <pre><span class="k">HR</span>: 这是我们最后报价, 今天能确认吗?
+<span class="ok">你</span>: 非常感谢! 这是个重要决定,
+    能否给我 24 小时和家人商量,
+    明天这个时间我给您确定的答复.</pre>
+
+      <h2>场景 4：HR 说「base 走流程, 真的没动空间」</h2>
+      <pre><span class="k">HR</span>: base 这个 level 全公司统一, 真的动不了.
+<span class="ok">你</span>: 理解, 我也不为难您.
+    那能否在「股票」「签字费」「调薪节奏」上有所体现?
+    比如签字费多 X 万 / 股票 grant 多 N 股 /
+    试用期通过后 6 个月有一次定向调薪.</pre>
+
+      <h2>场景 5：拒掉非首选 offer（保持关系）</h2>
+      <pre><span class="ok">你</span>: X 总您好, 非常感谢贵司给我的 offer 和这段时间的沟通.
+    经过认真考虑, 我最终选择了另一家更匹配的公司.
+    这个决定不是关于薪资, 而是 [岗位方向 / 团队 / 地点] 的考量.
+
+    特别感谢您 [过程中具体的某件事 / 帮助].
+    希望未来有合适机会再合作, 期待保持联系.
+
+    祝贵司业务蒸蒸日上.</pre>
+
+      <h2>场景 6：上家挽留（counter offer 应对）</h2>
+      <pre><span class="k">上家老板</span>: 你要走的话, 我去给你申请涨 30% 怎么样?
+<span class="ok">你</span>: 谢谢老板的肯定. 我离开不是因为钱,
+    主要是 [岗位发展 / 技术方向 / 平台机会] 的考虑.
+    即便加薪我也已经决定了, 希望老板理解.
+
+    我会做好交接, 不会让团队有缺口.</pre>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>反挽留原则</strong>: 上家加薪挽留, 除非 ≥30% 且和老板沟通好 promotion 路径, 否则<strong>不要回头</strong>。挽留的薪是「补偿你不走的钱」, 不是「认可你的钱」, 加完你下次想走时更难。</p>
+      </div>
+
+      <h2>谈薪节奏控制</h2>
+      <ol>
+        <li><strong>第一次电话/邮件</strong>: 只听不报数字, 让 HR 给区间。</li>
+        <li><strong>口头 offer 当天</strong>: 礼貌感谢 + 表达兴趣 + 「让我整理下信息明天回复」。</li>
+        <li><strong>第二天</strong>: 提出具体诉求 (XX w base + YY 签字费), 给出理由 (竞争 offer / 调研行情)。</li>
+        <li><strong>HR 反馈后</strong>: 接受 / 进一步 push / 拒绝, 3 选 1。</li>
+        <li><strong>书面 offer 收到</strong>: 仔细对照口头承诺, 不符的项书面 push。</li>
+        <li><strong>签字</strong>: 一切落到 PDF 后再签。</li>
+      </ol>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>避坑</strong>: 永远<strong>用书面 (邮件 / IM 文字) 沟通关键数字</strong>。电话谈完后, 立刻邮件「再次和您确认: base XX, 签字费 YY, RSU ZZ, 入职 MM 月 DD 日。如有出入请告知, 否则我按此理解」。</p>
+      </div>
+    </article>
+
+    <article id="expected-salary" class="article">
+      <div class="art-crumbs">offer 与谈薪 <span class="crumb-sep">/</span> PART 3 <span class="crumb-sep">/</span> <span class="crumb-active">期望薪资</span></div>
+      <h1>期望薪资怎么报</h1>
+      <p class="art-lead">「期望薪资」是面试 / 谈薪最敏感的问题之一。<strong>第一次报数字, 决定你的天花板</strong>。</p>
+
+      <h2>3 种被问场景</h2>
+      <table>
+        <thead><tr><th>场景</th><th>策略</th></tr></thead>
+        <tbody>
+          <tr><td>HR 第一次电话筛选</td><td>给区间 (下限是底线, 上限是理想)</td></tr>
+          <tr><td>面试中被技术面问</td><td>「这部分我希望和 HR 单独沟通」→ 推到后面</td></tr>
+          <tr><td>final 谈薪</td><td>不要先报, 让 HR 先给</td></tr>
+        </tbody>
+      </table>
+
+      <h2>三种典型应对话术</h2>
+
+      <h3>① 必须报区间（电话筛选 / 简历筛选时）</h3>
+      <pre><span class="k">HR</span>: 您期望薪资多少?
+<span class="ok">你</span>: 我目前的 base 是 X, 上家年终大概 Y.
+    本次希望整体包在 [<span class="n">X×1.3</span>] - [<span class="n">X×1.5</span>] 区间.
+    具体看岗位匹配度, 也希望听到贵司给我的 offer.</pre>
+      <p><strong>关键</strong>: 区间下限是你绝对接受的底线, 上限留 10-20% 议价空间。</p>
+
+      <h3>② 推到后面（技术面 / 中间环节）</h3>
+      <pre><span class="k">面试官</span>: 你期望薪资多少?
+<span class="ok">你</span>: 关于薪资部分, 我希望和 HR 一起统一沟通,
+    我对岗位本身更感兴趣, 想多了解一些工作内容.
+    您方便讲讲团队最近的项目吗?</pre>
+      <p><strong>关键</strong>: 把问题推回, 转移到工作内容。</p>
+
+      <h3>③ 让 HR 先报（final 谈薪）</h3>
+      <pre><span class="k">HR</span>: 我们想在最后定 offer 前再确认下您的期望.
+<span class="ok">你</span>: 我对贵司非常感兴趣, 想先听到您家给我的 offer 报价,
+    我会综合考虑后给您答复.</pre>
+
+      <h2>报区间的科学方法</h2>
+
+      <h3>步骤 1：调研行业行情</h3>
+      <ul>
+        <li><strong>看准网 / Glassdoor</strong>: 看公司 + 岗位 + level 的薪资分布。</li>
+        <li><strong>OfferShow / 知乎匿名贴</strong>: 找 2-3 个最近 6 个月的真实 offer 报价。</li>
+        <li><strong>问同行</strong>: 知乎 / 即刻 / 校友 / 群里悄悄问。</li>
+        <li><strong>找猎头</strong>: 即使不打算用, 猎头能给你行业行情参考。</li>
+      </ul>
+
+      <h3>步骤 2：定下限 = 底线</h3>
+      <p>底线 = 你<strong>绝对不接受比这低的数字</strong>。低了你也会接, 那就是骗自己。常见基准：</p>
+      <ul>
+        <li><strong>跳槽底线</strong>: 上家 TC × 1.2-1.3。</li>
+        <li><strong>应届生底线</strong>: 行情下限 (看准网 25 百分位)。</li>
+        <li><strong>底线明显高于行情</strong>: 那就接受少几个 offer 的现实, 不要为了 1-2 个 offer 自损价格。</li>
+      </ul>
+
+      <h3>步骤 3：定上限 = 理想</h3>
+      <p>理想 = <strong>合理且能 defend</strong> 的最高值。比底线高 20-30%。</p>
+      <p>例：底线 50w → 区间报 50-65w, 上限 65w 留谈判空间, 公司大概率给 55-60w。</p>
+
+      <h2>应届生场景</h2>
+      <p>应届生没有「上家 base」, 区间怎么定？</p>
+      <ul>
+        <li><strong>同岗位 SSP/SP/普通 offer 价</strong>: 公开渠道查 (字节 SP 应届生约 50-65w, 普通 35-45w)。</li>
+        <li><strong>同学 / 学长行情</strong>: 同校同方向最近毕业的 offer 价。</li>
+        <li><strong>头部 / 中部公司差异</strong>: 头部贵司 50-65w, 中部 30-45w, 普通 20-30w。</li>
+        <li><strong>实习留用价</strong>: 留用价通常 = SP 应届价, 是最稳的底线。</li>
+      </ul>
+
+      <h2>必须避免的 3 个错误</h2>
+
+      <h3>❌ 「按公司标准给就行」</h3>
+      <p>等于授权 HR 给你最低档。「公司标准」可能 20-50w 区间, 不报数字 = 拿 20w。</p>
+
+      <h3>❌ 「我现在 20w, 希望涨到 30w 就行」</h3>
+      <p>把上家薪资暴露 + 把心理价位暴露, 双重弱势。永远只报「期望」, 不报「现在」。</p>
+
+      <h3>❌ 「随便, 我对薪资不太敏感」</h3>
+      <p>HR 翻译: 「敏感的人能 push 多 5-10w, 这位不敏感就少给点」。</p>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>核心心法</strong>: 报数字之前永远问自己——这个数字, 我能 defend 多久? 不能 defend 的高数字会被砍, 能 defend 的低数字会成为天花板。<strong>报有理由的数字</strong>: 「我的理由是 A 公司给我 65w + B 公司 60w, 我希望贵司至少 60w」。</p>
+      </div>
+    </article>
+
+    <!-- ============ PART 4 ============ -->
+    <article id="offer-letter" class="article">
+      <div class="art-crumbs">offer 与谈薪 <span class="crumb-sep">/</span> PART 4 <span class="crumb-sep">/</span> <span class="crumb-active">offer letter 8 项</span></div>
+      <h1>offer letter 必看 8 项</h1>
+      <p class="art-lead">口头 offer ≠ 正式 offer。<strong>白纸黑字到手前都有变数</strong>。签字前必须逐项核对的 8 项条款。</p>
+
+      <h2>必看 8 项详解</h2>
+      <table>
+        <thead><tr><th>条款</th><th>看什么</th><th>常见坑</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. base / bonus</strong></td><td>数字与口头一致</td><td>口头说 15% bonus, letter 写「酌定」</td></tr>
+          <tr><td><strong>2. 股票 vesting</strong></td><td>cliff、节奏、价值 estimation</td><td>第 1 年 cliff 拿不到 / vesting 10 年</td></tr>
+          <tr><td><strong>3. 试用期 & 工资比例</strong></td><td>多长？8 折还是全薪？</td><td>试用期 6 个月 + 8 折</td></tr>
+          <tr><td><strong>4. 入职日期</strong></td><td>留够交接缓冲</td><td>催你 2 周内入职 → 上家交接出事</td></tr>
+          <tr><td><strong>5. 竞业协议</strong></td><td>范围 / 期限 / 补偿</td><td>不付钱的「君子协议」</td></tr>
+          <tr><td><strong>6. 调薪节奏</strong></td><td>多久一次？看什么？</td><td>「视公司情况」= 没有承诺</td></tr>
+          <tr><td><strong>7. 出差 / 派驻条款</strong></td><td>是否强制？比例多少？</td><td>面试不提, 入职被外派</td></tr>
+          <tr><td><strong>8. 离职条款</strong></td><td>提前多久通知？股票如何处理？</td><td>未 vest 股票全没收</td></tr>
+        </tbody>
+      </table>
+
+      <h2>逐项展开</h2>
+
+      <h3>① base / bonus 数字 ≠ 口头</h3>
+      <p>HR 口头说「年终大概 3 个月 base」, letter 必须写「保底 X 个月 + 目标 Y 个月」。<strong>没写就等于零</strong>。</p>
+
+      <h3>② 股票 vesting 4 个核心要素</h3>
+      <ul>
+        <li><strong>cliff</strong>: 第 1 年是否有 cliff (满 1 年才解锁 25%)？</li>
+        <li><strong>节奏</strong>: 之后按月 / 季 / 年解锁？</li>
+        <li><strong>授予价值</strong>: 写「价值 40w」还是「N 股」？股票是按 grant 日股价算还是 vest 日？</li>
+        <li><strong>refresh 政策</strong>: 是否每年再 grant 新股？</li>
+      </ul>
+
+      <h3>③ 试用期</h3>
+      <p>劳动法允许试用期最长 6 个月, 最短 1 个月。试用期工资<strong>不得低于 80% 转正工资</strong>, 不得低于当地最低工资。<strong>试用期工资低于转正 80% 即违法</strong>。</p>
+
+      <h3>④ 入职日期</h3>
+      <p>建议留<strong>30-45 天</strong>: 上家提前 30 天通知 + 交接 + 缓冲。HR 逼你 2 周内入职大概率是: 团队真的急 (好事) 或老板没看清你简历 (red flag)。</p>
+
+      <h3>⑤ 竞业协议</h3>
+      <p>核心三问：</p>
+      <ol>
+        <li><strong>限制范围</strong>: 哪些公司不能去？(范围越宽越伤害你)</li>
+        <li><strong>期限</strong>: 一般 6 月-2 年, 法定最长 2 年。</li>
+        <li><strong>补偿</strong>: 离职后每月给你多少？(无补偿等于无约束, 但 ≥30% 月薪)</li>
+      </ol>
+
+      <h3>⑥ 调薪节奏</h3>
+      <p>关注三个数字：</p>
+      <ul>
+        <li><strong>频率</strong>: 1 年 1 次 / 1 年 2 次。</li>
+        <li><strong>幅度</strong>: 通胀型 (3-5%) / 业绩型 (10-30%)。</li>
+        <li><strong>触发条件</strong>: 自动 / 看绩效 / 看 promotion。</li>
+      </ul>
+
+      <h3>⑦ 出差 / 派驻</h3>
+      <p>看清「公司有权根据业务需要派驻外地」这类条款。<strong>面试时一定要确认</strong>: 「这个岗位是否需要出差? 比例多少? 是否会长期派驻?」</p>
+
+      <h3>⑧ 离职条款</h3>
+      <ul>
+        <li><strong>提前通知期</strong>: 法定 30 天, 但合同可约定更长 (高级岗位常见 60-90 天)。</li>
+        <li><strong>未 vest 股票</strong>: 离职时通常归零, 极少公司会按比例发放。</li>
+        <li><strong>未发的 bonus</strong>: 一般要工作到「发放日仍在职」才能拿到 → 选好离职时机。</li>
+      </ul>
+
+      <h2>签字前 checklist</h2>
+      <ol>
+        <li>拿到 PDF 版正式 offer letter (不是口头 / 微信文字)。</li>
+        <li>对照上面 8 项, 逐条核对。</li>
+        <li>有任何与口头不符的, 邮件回复 HR 澄清, 留书面记录。</li>
+        <li>签字前再读一遍, 特别关注「特别约定」「附则」类小字。</li>
+        <li>签字后立即邮件知会 HR + 约定入职日。</li>
+        <li>等正式签字完成<strong>再走上家离职流程</strong>。</li>
+      </ol>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>大忌</strong>: 上家辞职 → 等新家 offer letter → 新家 offer 推迟或撤回。<strong>顺序必须是: 新家正式签字 → 上家辞职</strong>。永远不要 reverse。</p>
+      </div>
+    </article>
+
+    <article id="handover" class="article">
+      <div class="art-crumbs">offer 与谈薪 <span class="crumb-sep">/</span> PART 4 <span class="crumb-sep">/</span> <span class="crumb-active">离职交接</span></div>
+      <h1>离职交接 checklist</h1>
+      <p class="art-lead"><strong>「好聚好散」不是客气, 是为未来的背调和潜在合作留口子</strong>。即便老板不友好, 你也要专业地完成交接。</p>
+
+      <h2>4 步交接流程</h2>
+
+      <h3>① 决定 → 通知（提前 30 天）</h3>
+      <ul>
+        <li><strong>劳动法</strong>: 试用期 3 天通知, 正式员工 30 天通知。</li>
+        <li><strong>通知顺序</strong>: 先<strong>当面</strong>告诉直属老板, 再提交书面辞职信。</li>
+        <li><strong>口径</strong>: 「家庭原因」「个人发展」「换城市」, <strong>不要说新东家是谁</strong>。</li>
+        <li><strong>书面辞职信</strong>: 1 段话, 表明感谢 + 离职日期 + 配合交接。</li>
+      </ul>
+
+      <h3>② 交接清单（提前 2 周开始整理）</h3>
+      <pre><span class="k">代码 / 仓库</span>
+□ 所有 owner 的仓库列表 + 当前活跃 PR
+□ 关键代码段的注释和文档补齐
+□ 把权限转移给接手人 (admin / owner)
+
+<span class="k">文档 / 知识</span>
+□ 项目文档地址 + 设计文档 + 故障复盘
+□ 已知问题 / TODO 清单
+□ 第三方接口 / 账号 / 密钥的归档位置
+
+<span class="k">在途工作</span>
+□ 未完成的任务清单 (含负责人交接)
+□ 排期表 + 风险点 + 关键决策
+□ 进行中的项目状态汇报
+
+<span class="k">对接关系</span>
+□ 上下游对接人 list (姓名 + 联系方式)
+□ 关键客户 / 供应商 contact
+□ 团队会议 / 群组的管理员权限</pre>
+
+      <h3>③ 文档化交接（最后 1-2 周）</h3>
+      <ul>
+        <li><strong>交接文档</strong>: 写一份 markdown, 把上面清单都列清。</li>
+        <li><strong>交接会议</strong>: 和接手人面对面过 1-2 次, 现场答疑。</li>
+        <li><strong>边界 PR / 文档审核</strong>: 接手人 review, 你帮 backup 1-2 周。</li>
+        <li><strong>知会上下游</strong>: 邮件 / 群里告知交接给谁, 截图留档。</li>
+      </ul>
+
+      <h3>④ 离职手续（最后 1 天）</h3>
+      <pre><span class="k">必拿</span>
+□ 离职证明 (盖章) - 下次背调用
+□ 工资单 / 个税完税证明 - 背调 + 报税
+□ 公积金 / 社保转移单
+□ 五险一金缴费记录 (一份备份)
+□ 工号 / 邮箱 / 工牌交还记录
+
+<span class="k">必删</span>
+□ 个人电脑里公司机密 / 客户数据
+□ 私人邮箱里的公司邮件归档
+□ Github / IM 里的公司账号
+
+<span class="k">必保留</span>
+□ 自己的代码 (公开仓库 fork 一份, 关私有)
+□ 自己写的文档 (Markdown / PDF 备份)
+□ 工作成果证明 (周报、PPT、Bug 修复记录)</pre>
+
+      <h2>背调注意事项</h2>
+      <p>大厂入职前都有<strong>背调</strong>, 主要查 3 件事：</p>
+      <ol>
+        <li><strong>简历真实性</strong>: 学历 / 工作经历 / 职级 / 薪资。</li>
+        <li><strong>离职原因和过程</strong>: 是否好聚好散。</li>
+        <li><strong>过往评价</strong>: 调查 2-3 个证明人 (前老板 / 同事)。</li>
+      </ol>
+      <p><strong>关键</strong>: 离职时把<strong>3 个能给你说好话的人</strong>留好关系, 离职后保持 1-2 个月一次的轻度联系 (节日问候)。</p>
+
+      <h2>上家挽留怎么应对</h2>
+      <pre><span class="k">老板</span>: 你走我团队就散了, 我给你申请涨 <span class="n">30</span>%.
+<span class="ok">你</span>: 老板您的认可我非常感激, 但我离开不只是钱.
+    我对 [岗位 / 平台 / 方向] 已经有完整规划,
+    现在反悔对我和团队都不公平.
+    交接期内我会尽全力, 走之后随时可以请教.</pre>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>反挽留底线</strong>: 除非加薪 ≥30% + 老板 confirm 6 个月内 promotion, 否则<strong>不要回头</strong>。回头 = 在老板心里贴上「随时会走」标签, 下次想走时更难, 升职也会被砍。</p>
+      </div>
+    </article>
+
+    <article id="onboarding" class="article">
+      <div class="art-crumbs">offer 与谈薪 <span class="crumb-sep">/</span> PART 4 <span class="crumb-sep">/</span> <span class="crumb-active">入职 7 天准备</span></div>
+      <h1>入职前 7 天准备</h1>
+      <p class="art-lead">新公司第 1 天的状态, 决定了你前 6 个月的「印象分」。提前 7 天准备, 第 1 周就能跑起来。</p>
+
+      <h2>提前 7 天 · 信息收集</h2>
+      <ul>
+        <li><strong>主动联系 buddy / mentor</strong>: 邮件 / IM 介绍自己, 问问入职第 1 周注意事项。</li>
+        <li><strong>了解团队近期产出</strong>: 让对方发 1-2 份近期周报 / 设计文档。</li>
+        <li><strong>研究业务</strong>: 公司官网 / App / 公开论文 / 技术博客全看一遍。</li>
+        <li><strong>了解直属老板</strong>: LinkedIn / 知乎 / 公开演讲, 找 1-2 个共同话题。</li>
+        <li><strong>下载工具</strong>: 公司常用 IM / VPN / 协作工具提前装好。</li>
+      </ul>
+
+      <h2>提前 3 天 · onboarding 物料确认</h2>
+      <pre>□ 电脑型号 / 操作系统 (公司发还是自带)
+□ 工牌 / 门禁卡 / 工号
+□ 公司邮箱 / SSO / VPN 是否已开通
+□ 入职当天到几点 / 报到地点 / 联系人电话
+□ 第 1 周培训 / mentor 见面安排</pre>
+
+      <h2>第 1 天 · 准时 + 准备</h2>
+      <ul>
+        <li><strong>提前 15 分钟到</strong>: 留余地, 给好印象。</li>
+        <li><strong>带身份证 + 学历证 + 离职证明 + 工资单 + 银行卡</strong>: 入职手续齐全。</li>
+        <li><strong>第 1 句话</strong>: 「您好我是 XX, 今天来报到, 请问哪位 HR 接待?」</li>
+        <li><strong>装新人</strong>: 不要在第 1 天就秀技术 / 提改进意见, 先听先看。</li>
+      </ul>
+
+      <h2>第 1 周 · 抓 3 件事</h2>
+
+      <h3>① 见所有上下游</h3>
+      <p>让 buddy 帮你列「需要见的人」: 直属老板 / 同事 / 上游 PM / 下游运维 / 跨团队对接人。<strong>第 1 周见 8-12 个人</strong>, 每人聊 15 分钟。</p>
+      <p>每个人都问相同的 3 个问题:</p>
+      <ol>
+        <li>「您目前最关注的事是什么?」</li>
+        <li>「我这个岗位上, 您觉得我最该先关注什么?」</li>
+        <li>「您觉得团队/项目最大的挑战是什么?」</li>
+      </ol>
+
+      <h3>② 写「30 天计划」给老板</h3>
+      <p>第 1 周结束时, 给老板提交一份 1 页的「我未来 30 天怎么做」:</p>
+      <pre><span class="c"># 30 天计划 · &lt;你的名字&gt; &lt;入职日期&gt;</span>
+
+<span class="k">Week 1-2</span>: 学习 + 适应
+- 跑通本地开发环境
+- 读 [项目 X] / [项目 Y] 代码, 跟 mentor 过 1 次
+- 见完 8 个上下游
+
+<span class="k">Week 3</span>: 做第 1 个小任务
+- 接手 [小任务], 完成 + 跟你 review
+- 同时拉个文档汇总「我看到的疑问 / 改进建议」
+
+<span class="k">Week 4</span>: 独立产出
+- 拿下 [稍大任务], 独立完成 + code review
+- 提交 30 天小结 + 60 天计划
+
+<span class="c"># 我需要您的支持</span>
+- 给我安排 1 次 1-on-1 (15-30 min, 我有 8 个问题想请教)
+- 介绍下您对我这个岗位 6 个月 / 1 年的期望</pre>
+
+      <h3>③ 主动 1-on-1</h3>
+      <p>第 1 周必须有 1 次和直属老板的 1-on-1。准备 5-8 个问题:</p>
+      <ul>
+        <li>「您希望我 6 个月后产出什么样的成果?」</li>
+        <li>「团队过去 1 年最大的成就 / 最大的痛是什么?」</li>
+        <li>「您的 1-on-1 频率喜好? 周 / 双周?」</li>
+        <li>「您觉得我和团队磨合时, 最该注意什么?」</li>
+        <li>「我应该和团队哪些其他人多接触?」</li>
+      </ul>
+
+      <h2>常见新人坑</h2>
+
+      <h3>❌ 第 1 周就提改进 / 重构建议</h3>
+      <p>没看清现状, 第 1 周的建议 80% 是 naive 的。<strong>先看 30 天再提</strong>。</p>
+
+      <h3>❌ 沉默不问</h3>
+      <p>不主动提问, 老板会觉得「这个人不动脑」。准备<strong>问题清单</strong>, 每周 1-on-1 都过几个。</p>
+
+      <h3>❌ 一个人闷头干</h3>
+      <p>有问题 30 分钟自己 debug 不出来就问别人。<strong>新人 ask for help 不丢人</strong>, 一个人卡 3 天才丢人。</p>
+
+      <h3>❌ 不写文档不留痕</h3>
+      <p>第 1 周看过的代码 / 学到的东西<strong>立刻写 markdown 笔记</strong>, 30 天后是宝贵的 onboarding 文档 (给下个新人用)。</p>
+
+      <div class="callout ok">
+        <div class="ic">✅</div>
+        <p><strong>核心心法</strong>: 第 1 周做<strong>看见、被看见、记录</strong>。<br>看见: 见所有上下游, 看 5 个核心仓库。<br>被看见: 给老板 30 天计划 + 1-on-1 + 主动写周报。<br>记录: 学到什么写下来, 30 天后值千金。</p>
+      </div>
+    </article>
+
+    <article id="backup" class="article">
+      <div class="art-crumbs">offer 与谈薪 <span class="crumb-sep">/</span> PART 4 <span class="crumb-sep">/</span> <span class="crumb-active">反悔与 backup</span></div>
+      <h1>反悔与 backup 应对</h1>
+      <p class="art-lead">签了 offer 又想反悔？拒掉的 offer 现在又最香？公司突然 rescind offer？<strong>提前知道这些边界情况怎么处理</strong>。</p>
+
+      <h2>场景 1：签了 offer 又想反悔</h2>
+
+      <h3>未入职前反悔（可行但要快）</h3>
+      <ul>
+        <li><strong>没违约金</strong>: 国内劳动法不允许预签违约金。理论上你可以发邮件取消。</li>
+        <li><strong>礼貌邮件</strong>: 「由于不可抗力 [家庭原因 / 健康原因], 无法按时入职, 非常抱歉」。</li>
+        <li><strong>越早越好</strong>: 入职前 2 周以上取消, 公司还来得及重启招聘。</li>
+        <li><strong>不要解释新 offer</strong>: HR 圈子小, 不要透露你去了哪家。</li>
+      </ul>
+
+      <h3>入职后短期内离开</h3>
+      <ul>
+        <li><strong>试用期内离职</strong>: 提前 3 天通知, 法定权利。</li>
+        <li><strong>试用期外离职</strong>: 提前 30 天通知, 走正常流程。</li>
+        <li><strong>影响</strong>: 简历上「3 个月 X 公司」反而是减分项, 谨慎。</li>
+      </ul>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>注意</strong>: 即便<strong>没违约金, 仍可能被「行业拉黑」</strong>。一些大厂会和同行 HR 共享黑名单, 短期反复入职反悔会影响未来求职。<strong>能不反悔尽量不反悔, 决策时多想 24 小时</strong>。</p>
+      </div>
+
+      <h2>场景 2：拒掉的 offer 现在最香</h2>
+
+      <h3>能反悔（很难但可能）</h3>
+      <pre><span class="ok">你</span>: X 总您好, 之前因为 [合理理由] 拒掉了贵司的 offer.
+    经过这段时间的进一步考虑和了解贵司近期 [业务/团队/方向],
+    我发现这边才是更合适我的方向.
+    不知道您家这个岗位是否还有机会重新考虑?</pre>
+      <ul>
+        <li><strong>条件</strong>: 拒得越久 (&gt;1 个月)、岗位越紧、关系越好 → 越可能。</li>
+        <li><strong>态度</strong>: 主动承认上次决策不够慎重, 不要狡辩。</li>
+        <li><strong>结果</strong>: 50% 概率成功, 但<strong>谈判筹码归零</strong> (HR 知道你别无选择)。</li>
+      </ul>
+
+      <h2>场景 3：公司 rescind offer (撤回 offer)</h2>
+
+      <h3>什么情况下公司会撤回</h3>
+      <ul>
+        <li><strong>背调出问题</strong>: 学历 / 工作经历造假。</li>
+        <li><strong>HC 突然冻结</strong>: 公司业务调整 / 裁员潮。</li>
+        <li><strong>面试 final 决定推翻</strong>: 高层不同意, 罕见。</li>
+        <li><strong>背景调查发现负面</strong>: 上家给负面评价, 严重时撤回。</li>
+      </ul>
+
+      <h3>被撤回怎么办</h3>
+      <ol>
+        <li><strong>书面要求理由</strong>: 邮件请 HR 给出书面理由。</li>
+        <li><strong>背调原因</strong>: 要求看背调报告原文, 如有错误立刻申诉。</li>
+        <li><strong>HC 原因</strong>: 询问是否有其他类似岗位可调剂。</li>
+        <li><strong>赔偿</strong>: 国内劳动法对 rescind 的赔偿支持有限, 但<strong>已辞上家的可主张「期待利益损失」</strong>, 走仲裁或法律途径。</li>
+        <li><strong>同时重启找工作</strong>: 不要等公司回复, 立刻投其他家。</li>
+      </ol>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>预防</strong>: 在<strong>新家正式 offer letter 签字盖章后再辞上家</strong>。这是铁律。永远不要在「口头 offer」「面试 final 通过」阶段就辞职。</p>
+      </div>
+
+      <h2>场景 4：手持多 offer 时如何「养鱼」</h2>
+
+      <h3>策略：把决策时间拉到所有 offer 集齐</h3>
+      <ul>
+        <li><strong>对慢家</strong>: 「您家是我心目中前 3 选择, 但我手上有 X 家已经给 deadline, 能否加速?」</li>
+        <li><strong>对快家</strong>: 「非常想加入贵司, 还有一个流程进入 final, 能否给我 X 周决定?」</li>
+        <li><strong>对竞争对手</strong>: 「我手上有 A 公司 offer, 希望贵司 final 也能尽快, 以便我做综合考虑」。</li>
+      </ul>
+
+      <h3>礼貌拒绝的话术（保关系）</h3>
+      <pre><span class="ok">你</span>: X 总您好, 非常感谢贵司这段时间的沟通和给我的 offer.
+    经过认真考虑, 我最终选择了一个更匹配的方向.
+    这个决定不是关于薪资, 而是 [岗位 / 方向 / 地点] 考量.
+
+    特别感谢您 [过程中具体某件事 / 帮助].
+    希望未来有合适机会再合作, 期待保持联系.
+
+    祝贵司业务蒸蒸日上!</pre>
+
+      <h2>核心心法：保留所有可能性</h2>
+      <p>求职最难的不是 0 个 offer, 是<strong>2-3 个 offer 中怎么选</strong>。能多养几个鱼就多养几个：</p>
+      <ul>
+        <li><strong>面试期间</strong>: 不要因为某家进展快就拒掉其他家面试。</li>
+        <li><strong>口头 offer</strong>: 不是终点, 是新的起点 (用来 push 别家)。</li>
+        <li><strong>签字 offer</strong>: 才是真正的「决定」, 之前的所有动作都是 keep options open。</li>
+      </ul>
+
+      <div class="callout">
+        <div class="ic">🎯</div>
+        <p><strong>最后一句话</strong>: 求职这件事, 一辈子要做 5-10 次。每次都按这套流程走, 你会越来越游刃有余——不是运气, 是方法的复利。</p>
+      </div>
+    </article>
+
+    <div class="pager" id="pager"></div>
+
+  </main>
+
+</div>
+
+<footer>
+  <div>© 2026 llm-roadmap / interview-guide · offer && 谈薪</div>
+  <div>
+    <a href="index.html">首页</a> ·
+    <a href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  const tBtn = document.getElementById('themeBtn');
+  const tMenu = document.getElementById('themeMenu');
+  const tHtml = document.documentElement;
+  function applyTheme(name) {
+    tHtml.dataset.theme = name;
+    tBtn.querySelector('.tname').textContent = name;
+    tMenu.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.theme === name));
+    localStorage.setItem('theme', name);
+  }
+  applyTheme(localStorage.getItem('theme') || 'light');
+  tBtn.addEventListener('click', e => { e.stopPropagation(); tMenu.classList.toggle('open'); });
+  tMenu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { applyTheme(b.dataset.theme); tMenu.classList.remove('open'); }));
+  document.addEventListener('click', () => tMenu.classList.remove('open'));
+
+  const items = [...document.querySelectorAll('.side-item')];
+  const articles = [...document.querySelectorAll('.article')];
+  const order = items.map(el => el.dataset.id);
+  const titleMap = {};
+  items.forEach(el => { titleMap[el.dataset.id] = el.textContent.trim().replace(/^\d+/, '').trim(); });
+
+  function showArticle(id) {
+    if (!order.includes(id)) id = order[0];
+    articles.forEach(a => a.classList.toggle('active', a.id === id));
+    items.forEach(el => el.classList.toggle('active', el.dataset.id === id));
+    renderPager(id);
+    if (location.hash !== '#' + id) history.replaceState(null, '', '#' + id);
+    window.scrollTo({top:0, behavior:'instant'});
+    if (window.innerWidth <= 880) document.getElementById('side').classList.add('collapsed');
+  }
+
+  function renderPager(id) {
+    const i = order.indexOf(id);
+    const prev = i > 0 ? order[i-1] : null;
+    const next = i < order.length - 1 ? order[i+1] : null;
+    const pager = document.getElementById('pager');
+    pager.innerHTML =
+      (prev
+        ? '<a class="pager-btn prev" data-go="' + prev + '"><div class="pg-label">← 上一篇</div><div class="pg-title">' + titleMap[prev] + '</div></a>'
+        : '<span class="pager-btn prev disabled"><div class="pg-label">已是首篇</div><div class="pg-title">—</div></span>')
+      +
+      (next
+        ? '<a class="pager-btn next" data-go="' + next + '"><div class="pg-label">下一篇 →</div><div class="pg-title">' + titleMap[next] + '</div></a>'
+        : '<span class="pager-btn next disabled"><div class="pg-label">已是末篇</div><div class="pg-title">—</div></span>');
+  }
+
+  document.addEventListener('click', e => {
+    const it = e.target.closest('.side-item');
+    if (it) { showArticle(it.dataset.id); return; }
+    const pg = e.target.closest('.pager-btn[data-go]');
+    if (pg) { showArticle(pg.dataset.go); return; }
+    const tg = e.target.closest('#sideToggle');
+    if (tg) { document.getElementById('side').classList.toggle('collapsed'); return; }
+  });
+  window.addEventListener('hashchange', () => showArticle((location.hash || '').replace(/^#/, '')));
+
+  const initId = (location.hash || '').replace(/^#/, '') || order[0];
+  showArticle(initId);
+  if (window.innerWidth > 880) document.getElementById('side').classList.remove('collapsed');
+</script>
+</body>
+</html>

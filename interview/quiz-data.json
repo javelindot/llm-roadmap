@@ -1,0 +1,1646 @@
+[
+  {
+    "id": "q-1",
+    "company": "北京忆芯(B2B公司，AISSD)",
+    "companies": [
+      "北京忆芯(B2B公司，AISSD)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "RAG的耗时如何解决？",
+    "answer": "答：\n切分：离线预解析；\n存储：使用高速向量库；索引加速；\n召回：降低召回数量；轻量化rerank；\n推理：vllm或TensorRT推理加速；混合精度；流式返回；\n缓存：高频问题缓存答案和结果；多级记忆；\n返回：减少返回上下文，如相关性过滤、只返回摘要。",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "向量检索",
+      "vLLM"
+    ]
+  },
+  {
+    "id": "q-2",
+    "company": "北京忆芯(B2B公司，AISSD)",
+    "companies": [
+      "北京忆芯(B2B公司，AISSD)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "大模型推理的优化",
+    "answer": "答：标配是vllm + AWQ + FlashAttention2 + FastAPI + PD分离\n（1）模型量化方法AWQ，新一代INT4量化，与GPTQ相比，保留重要权重的精度；\n（2）Vllm核心是PagedAttention，将KVCache按页管理，解决内存碎片，提升GPU利用率；\n（3）FlashAttention2，高性能算子，把QKV切成小块，只在高速缓存里算，不再来回搬；\n（4）动态批处理，不用等整句生成完毕；\n（5）3D并行，数据并行是多份模型算一份数据，张量并行是一层计算分多张卡，流水线并\n行是一层计算分段执行；\n（6）提示词缓存，PD分离；\n（7）异步服务，FastAPI+async。",
+    "hasAnswer": true,
+    "tags": [
+      "vLLM",
+      "Transformer",
+      "推理优化"
+    ]
+  },
+  {
+    "id": "q-3",
+    "company": "北京忆芯(B2B公司，AISSD)",
+    "companies": [
+      "北京忆芯(B2B公司，AISSD)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "Attention公示每个字符代表什么意思？",
+    "answer": "答：Q相当于对本句的问题，K相当于本句的关键字，V相当于本句的信息。\nQKT计算相似度，dk按K的维度缩放，softmax归一化得到注意力权重，×V是用权重提取重要信息。\n常见实操问题（摘自连晓强）",
+    "hasAnswer": true,
+    "tags": [
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-4",
+    "company": "北京忆芯(B2B公司，AISSD)",
+    "companies": [
+      "北京忆芯(B2B公司，AISSD)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "NL2SQL/数据",
+    "title": "哪些维度，指标",
+    "answer": "维度：地区，商品，用户，订单，支付，物流。\n指标：uv，pv，gmv，aov，退单率，取消支付率，退货率，同比，环比，渠道引流成本，\n获客成本。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-5",
+    "company": "北京忆芯(B2B公司，AISSD)",
+    "companies": [
+      "北京忆芯(B2B公司，AISSD)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "怎么做压测的？",
+    "answer": "vllm自带的benchmark",
+    "hasAnswer": true,
+    "tags": [
+      "vLLM",
+      "评估"
+    ]
+  },
+  {
+    "id": "q-6",
+    "company": "北京忆芯(B2B公司，AISSD)",
+    "companies": [
+      "北京忆芯(B2B公司，AISSD)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "响应时间怎么算？",
+    "answer": "整体响应时间，tps，qps，ttft，tokens，\n输入1024token输出512token\nqwen8b-qps6-12，ttft一两百延迟，tokens6000\nqwen14b-qps4-8，ttft两三百延迟，tokens4000",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-7",
+    "company": "北京忆芯(B2B公司，AISSD)",
+    "companies": [
+      "北京忆芯(B2B公司，AISSD)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "图谱多少节点，多少边，有哪些属性？",
+    "answer": "十几张核心表，20多万条，80万条边。",
+    "hasAnswer": true,
+    "tags": [
+      "知识图谱"
+    ]
+  },
+  {
+    "id": "q-8",
+    "company": "北京忆芯(B2B公司，AISSD)",
+    "companies": [
+      "北京忆芯(B2B公司，AISSD)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "上游是怎么调用的你这个图谱的？",
+    "answer": "先查节点，再沿边查关系；用实体定位起点，用关系扩展结果，全程只查局部子图，不\n查全图。\n先在知识图谱中定位分类节点，再通过“属于”这条边关系，检索出所有关联的商品节点，返回商品ID给上游检索系统，最终展示商品列表。\n。",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "知识图谱"
+    ]
+  },
+  {
+    "id": "q-9",
+    "company": "北京忆芯(B2B公司，AISSD)",
+    "companies": [
+      "北京忆芯(B2B公司，AISSD)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "vllm的原理是什么？",
+    "answer": "核心原理：PagedAttention（分页注意力）\n核心思路：\n将KV Cache拆分成固定大小的page（比如16/32个tokens）；\n每个请求的KV Cache不再占用连续显存，而是由多个离散的page组成；\n用一个page table记录每个请求的KV Cache页存在显存的哪个位置。",
+    "hasAnswer": true,
+    "tags": [
+      "vLLM",
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-10",
+    "company": "北京忆芯(B2B公司，AISSD)",
+    "companies": [
+      "北京忆芯(B2B公司，AISSD)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "vllm调整过哪些参数来适配业务场景，比如qps1000+，延迟控制在5s？",
+    "answer": "tensor_parallel_size\nmax_num_batched_tokens\ngpu_memory_utilization",
+    "hasAnswer": true,
+    "tags": [
+      "vLLM",
+      "部署"
+    ]
+  },
+  {
+    "id": "q-11",
+    "company": "北京忆芯(B2B公司，AISSD)",
+    "companies": [
+      "北京忆芯(B2B公司，AISSD)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "vllm部署遇到的坑？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "vLLM",
+      "部署"
+    ]
+  },
+  {
+    "id": "q-12",
+    "company": "北京忆芯(B2B公司，AISSD)",
+    "companies": [
+      "北京忆芯(B2B公司，AISSD)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "如何降低vllm成本？",
+    "answer": "与“推理优化”是同一问题",
+    "hasAnswer": true,
+    "tags": [
+      "vLLM",
+      "推理优化"
+    ]
+  },
+  {
+    "id": "q-13",
+    "company": "北京慧博(B2B公司)",
+    "companies": [
+      "北京慧博(B2B公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "问数数系统90%准确率，怎么说服客户接受？毕竟已经有了成熟稳定的BI平台，问数系",
+    "answer": "统的价值在哪？\n答：\n一开始业务方确实期望能做到90%，这个目标主要是参考了市面上一些公开报告，很多\nNL2SQL产品宣称能达到95%左右的准确率。但是这是他们在一两个场景专门做微调得到的，\n这类高准确率基本都是在单一、标准化场景下，用大量问题-SQL对微调甚至直接注入样本\n得到的，泛化能力很弱，放到真实、多变的业务场景里根本达不到。\n我们对比过DataFocus、衡石ChatBot这类成熟产品，它们在通用场景下的复杂查询准\n确率，其实也就在75%~80%这个区间。而我们的方案是基于公司内部数据平台原生集成，\n最终复杂查询稳定做到80%准确率，简单查询更高。综合对比下来，这个结果已经超过行业\n平均水平，也完全满足业务方的真实使用需求，最终也得到了业务认可。\n问数的优势是极快的查询效率和极简的操作方法，BI平台虽然准确稳定但是也会存在误\n操作和延迟回复的问题，二者优势互补。",
+    "hasAnswer": true,
+    "tags": [
+      "微调",
+      "NL2SQL"
+    ]
+  },
+  {
+    "id": "q-14",
+    "company": "联想集团(人机交互岗)(线上一面)",
+    "companies": [
+      "联想集团(人机交互岗)(线上一面)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "嵌入模型的选择标准？存储向量与检索向量，用的嵌入模型是否一致",
+    "answer": "注：问问题时啰嗦一堆，把我绕晕了，回头整理才发现问题其实很简单",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "向量检索"
+    ]
+  },
+  {
+    "id": "q-15",
+    "company": "水木东方(机器人)",
+    "companies": [
+      "水木东方(机器人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "AB测试怎么做的？怎么衡量模型强化前后的性能提升？你这个提升30%是怎么界定的？",
+    "answer": "答：\n（1）AB实验设计\n蓝绿部署：其他环境一致，部署新旧版本两条系统\n灰度发放：先用5%小流量放进新版本，观察稳定性，再逐步扩到20%、50%。\n实验周期：保证足够样本量，一般观察1~3天，避免时段波动影响。\n（2）衡量维度分两类\n模型效果指标：人工评分、胜率、意图识别准确率、回答相关性。\n业务/性能指标：用户停留时长、解决率、转人工率、QPS、时延。\n（3）提升30%怎么界定（非常关键）\n我这个30%指的是相对提升，不是绝对提升。\n例：基线解决率50%，新版本65%，相对提升=(0.65-0.50)/0.50 = 30%。",
+    "hasAnswer": true,
+    "tags": [
+      "评估"
+    ]
+  },
+  {
+    "id": "q-16",
+    "company": "水木东方(机器人)",
+    "companies": [
+      "水木东方(机器人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "上线前如何确定可行？Benchmark离线评估？",
+    "answer": "答：上线前分4步验证，全部通过才上线。\n（1）离线评估Benchmark\n标准数据集：MMLU、C-Eval、GSM8K等。\n业务自定义评测集：构建领域内问答、意图识别、多轮对话数据集。\n（2）人工对齐评估\n双盲打分：相关性、有用性、安全性、流畅性。\n计算胜率：新版本胜率>55%才继续推进。\n（3）性能压测\n压测指标：QPS、P50/P95/P99时延、GPU利用率、OOM风险。\n满足业务要求才能进入线上实验。\n（4）小流量AB验证\n先5%流量观察监控：错误率、时延、服务稳定性。\n无异常再逐步放量，确认可行后全量。",
+    "hasAnswer": true,
+    "tags": [
+      "部署",
+      "安全",
+      "评估"
+    ]
+  },
+  {
+    "id": "q-17",
+    "company": "水木东方(机器人)",
+    "companies": [
+      "水木东方(机器人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "影响Agent成功率的是啥？",
+    "answer": "答：大模型基座能力、Prompt设计、工具能力、环境与反馈、流程架构、数据与评估。",
+    "hasAnswer": true,
+    "tags": [
+      "Agent",
+      "评估"
+    ]
+  },
+  {
+    "id": "q-18",
+    "company": "水木东方(机器人)",
+    "companies": [
+      "水木东方(机器人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "文档分治会有很多问题。",
+    "answer": "答：（1）问题\n上下文割裂：一个完整语义被强行切开，导致单块信息不完整。\n关键信息丢失：标题、总结、逻辑关系不在同一块，检索不到。\n冗余信息多：块之间重叠少了割裂，重叠多了浪费上下文、引入噪声。\n边界敏感：表格、代码、列表被切坏，完全无法理解。\n召回不准：小块容易语义模糊，大块又难以精准匹配。\n多跳问题无法回答：需要跨多块信息聚合时，单纯分块解决不了。\n（2）解决\n分层分块策略（Hierarchical Chunking）\n小块（512）用于精准检索\n大块/章节块用于上下文理解\n检索时先召回小块，再向上聚合父块\n语义分块代替固定长度分块\n用模型做语义分割，按段落、主题边界切分，不按固定字符硬切。\n增加元信息（Metadata）\n标题、章节、页码、层级结构，帮助重排与过滤。\n块重叠与滑动窗口\n合理设置重叠（如100~200 token），避免边界信息丢失。\n重排（Rerank）优化\n用bge-rerank等模型过滤低相关块，降低噪声。\n复杂文档特殊处理\n表格、代码单独抽取、单独建索引；\n结构化数据用SQL，非结构化用RAG混合查询。\n引入Agent做跨块多跳问答\n规划多个检索步骤，做信息融合，解决单块无法回答的复杂问题",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "Agent",
+      "NL2SQL"
+    ]
+  },
+  {
+    "id": "q-19",
+    "company": "水木东方(机器人)",
+    "companies": [
+      "水木东方(机器人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "一个实际开发问题，给你一个Agent需求你该怎么做？",
+    "answer": "答：这是个很模糊的问题，所以应该先问清干什么，然后评估硬件资源，确定软件架构。这些做完，才是按Agent架构一点点确定实现细节。\n世优科技（数字人）",
+    "hasAnswer": true,
+    "tags": [
+      "Agent",
+      "评估"
+    ]
+  },
+  {
+    "id": "q-20",
+    "company": "致远互联(B2B公司，政务军工)",
+    "companies": [
+      "致远互联(B2B公司，政务军工)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "元组能否作为字典的key",
+    "answer": "答：能。字典的key要求不可变。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-21",
+    "company": "致远互联(B2B公司，政务军工)",
+    "companies": [
+      "致远互联(B2B公司，政务军工)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "Python做一些web应用，实现接口的权限校验，用户有权限则正常调用，没有则返回",
+    "answer": "提示。如何实现？\n答：校验函数\n你工作怎么从大数据变更到大模型的\n项目里用到的RAG优化实现细节与效果？",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "Python",
+      "安全"
+    ]
+  },
+  {
+    "id": "q-22",
+    "company": "致远互联(B2B公司，政务军工)",
+    "companies": [
+      "致远互联(B2B公司，政务军工)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "FastAPI怎么加载环境变量？WebSocket怎么实现实时调用？异步隔离？",
+    "answer": "答：load_dotenv()加载.env文件；\n@app.websocket(“/ws”) async def func；\nFastAPI底层是Starlette+Asyncio，自带请求级隔离。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-23",
+    "company": "中电金信(银行驻场)",
+    "companies": [
+      "中电金信(银行驻场)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "LangGraph的State有个坑，大概说一下。",
+    "answer": "答：LangGraph的State是不可变设计，不能像普通字典那样直接append、赋值修改，必须\nreturn一个全新的状态字典来更新，否则状态不会发生任何变化。\n解决：实践中分两步，一是让State类继承TypedDict，强制约束State各个属性的键值类型；\n二是每个node执行完后，强制返回字典类型。",
+    "hasAnswer": true,
+    "tags": [
+      "LangGraph"
+    ]
+  },
+  {
+    "id": "q-24",
+    "company": "中电金信(银行驻场)",
+    "companies": [
+      "中电金信(银行驻场)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "State是怎么初始化的？",
+    "answer": "答：State用TypedDict定义字段结构，设置init函数，传入类对象，或业务规定的默认值，\n给各属性赋值，完成State初始化。\n初始化完成后，调用ainvoke(State)执行流程。\n在运行过程中，每个节点基于当前State计算，返回新字典覆盖更新，不会直接修改原\nState。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-25",
+    "company": "中电金信(银行驻场)",
+    "companies": [
+      "中电金信(银行驻场)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "（NL2SQL经典语义歧义问题）字段取值、字段、表之间往往是一对多的关系，用户输入",
+    "answer": "一个字段取值如“中信证券”，怎么确定取哪个字段、表？\n答：先通过元数据向量检索缩小范围，再通过真实值校验过滤错误，最后靠大模型结合意图\n做最终决策，实现从“用户输入值”到“精准表+字段”的匹配。\n注：我就是按项目里做的答得，这人揪着不放，认为无法从几十张维表确定到底该用哪个，\n而且这人从面试开始就很不耐烦，我也没耐心了直接打个哈哈不说话了，他也听出来了，干\n脆互道再见。",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "向量检索",
+      "NL2SQL"
+    ]
+  },
+  {
+    "id": "q-26",
+    "company": "中创实二面",
+    "companies": [
+      "中创实二面"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "上机操作，2道：创建删除文件夹；显卡查看Qwen模型进程并用Docker关闭。",
+    "answer": "答：nvidia-smi查看Qwen3进程，dockerstop进程号",
+    "hasAnswer": true,
+    "tags": [
+      "部署"
+    ]
+  },
+  {
+    "id": "q-27",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "为什么不用milvus？chrom、qdrant能承载多少数据？",
+    "answer": "答：\nMilvus是企业级、分布式、重架构的向量数据库。\n缺点：运维复杂、开发成本高、轻量级场景没必要。\n各数据库上限：\nChroma单机上限千万级向量，分布式不成熟，项目原型。\nQdrant单机上限亿级，分布式成熟，可达数亿级，中型RAG。\nMilvus单机上限亿级，分布式成熟，可达百亿级，大型RAG。\n选择标准：\n单商家、单店铺京东客服→99%情况选Chroma完全够用\n超大体量商家、多店、多品牌→Qdrant\n真正需要Milvus的京东商家极少（基本只有京东官方、大服务商才用）\n附：\n日活咨询用户（UV）：\n普通中小商家：200~1500咨询用户/天\n中大型商家：2000~8000咨询用户/天\n头部爆品店：1万~3万/天\n每日对话轮次：\n平均每用户3~6轮\n每日真实query量：1000~5万条/天\n京东商家客服知识库一般是（最关键）：\n商品FAQ：200~800条\n售后、订单、物流、退换货：200~500条\n活动规则、优惠券、售后政策：100~300条\n总知识库chunk数量：最多5000~2万块\n向量数量：1万~3万顶天了",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "向量检索",
+      "分块"
+    ]
+  },
+  {
+    "id": "q-28",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "LangChain和LangGraph的使用场景有什么不同？",
+    "answer": "答：LangChain：适合线性、一次性、简单流程的RAG/调用工具。\nLangGraph：适合带状态、循环、多智能体、复杂决策的对话/Agent。",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "Agent",
+      "LangGraph"
+    ]
+  },
+  {
+    "id": "q-29",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "Self-RAG？",
+    "answer": "答：Self-Retrieval-Augmented Generation，自检索增强生成，LLM主动控制整个RAG过程。\n核心4步：\nSelf-Retrieve，让大模型判读，要不要检索知识库，专业知识/业务问题；\nRetrieve，去向量数据库召回chunks；\nSelf-Refine/Rank，让大模型判断，哪些有用、哪些没用；\nSelf-Generate，让大模型生成，并自己检查。",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "向量检索",
+      "分块"
+    ]
+  },
+  {
+    "id": "q-30",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "Agentic RAG与传统RAG的区别？",
+    "answer": "答：传统RAG：固定流程、无脑检索、简单问答、不会思考。\nAgentic RAG：自主决策、查询优化、多步检索、反思校验、复杂问题更强。\n我们用的Agentic RAG让主智能体自主判断：\n是否需要检索、是否走FAQ、是否走意图、是否走图谱，\n并对检索结果做校验、过滤、拒识，\n还支持多轮、多跳、多工具协同，\n更适合企业级复杂客服场景，更准确、更可控、更合规。",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "Agent",
+      "知识图谱"
+    ]
+  },
+  {
+    "id": "q-31",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "生产环境怎么监控评估RAG的性能？",
+    "answer": "答：生产环境我会从检索、生成、业务三层全链路监控RAG性能。\n检索层监控：Recall@TopK、相似度、时延、失败率（超时报错无召回）；\n生成层监控：幻觉率（无依据占比）、拒识率（无结果是否拒绝回答）、相关性、耗时；\n业务层关注：问题解决率、FAQ/RAG命中占比、转人工率、用户满意度。\n通过日志、监控大盘、BadCase平台、A/B测试、自动化抽检等方法持续评估。\n附：\nFAQ命中，能匹配到预设的标准问题。匹配不到，才会RAG检索知识库。\nFAQ能命中50%~70%，RAG能命中10%~20%，系统承接60%~80%，剩下的转人工。\n监控大盘，就是格里芬+普罗米修斯。\nBadCase平台，必有，自动入库无召回、地相似、差评、重复问题，便于优化系统。\nA/B测试，不同embedding、不同模型做对比。",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "向量检索",
+      "幻觉"
+    ]
+  },
+  {
+    "id": "q-32",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "你们RAG延迟有多少？我们做数字人追求毫秒级延迟。",
+    "answer": "答：客服RAG延迟在几百毫米到几秒。因为RAG涉及LLM生成，天生无法满足数字人。\n数字人RAG降低延迟的方法：FAQ全部走缓存；\n数字人RAG的首字要快，边生成边播送；\n检索层优化：小嵌入模型、轻量级向量数据库、关闭重排序、只要Top1等。\n推理加速：TensorRT-LLM、vllm等，首包延迟压到100ms以下。\n微调怎么避免过拟合？",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "向量检索",
+      "vLLM"
+    ]
+  },
+  {
+    "id": "q-33",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "有没有Agent的记忆系统？",
+    "answer": "答：短期滑动窗口记忆、结构化工作记忆、向量长期记忆、用户持久化记忆。",
+    "hasAnswer": true,
+    "tags": [
+      "向量检索",
+      "Agent",
+      "记忆"
+    ]
+  },
+  {
+    "id": "q-34",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent运行的安全问题？",
+    "answer": "答：输入安全，输入校验+注入拦截；\n工具安全，工具白名单；\n数据安全，数据权限最小化；\n行为安全，调用工具之前必须经过校验；\n输出安全，答案脱敏+合规审查；\n流程安全，限制思考步数，防止死循环；\n全链路日志与审计。",
+    "hasAnswer": true,
+    "tags": [
+      "Agent",
+      "安全"
+    ]
+  },
+  {
+    "id": "q-35",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "分布式部署？vllm和TensorRT有什么不同？",
+    "answer": "答：常用框架：\nTensorRT-LLM，英伟达官方，速度最快，高吞吐低延迟，企业级大模型推理首选。\nCTranslate2，轻量级、超小体积、速度快，适合边缘计算。\n（TGI，哈根菲斯官方，部署简单，适合快速上线、云原生。\nLightLLM，国产，比vllm更快、更省显存，适合Qwen、Llama、百川。\nONNX Runtime，通用模，可跨平台，适合小模型。）\n选择标准：\n高并发、低延迟场景用TensorRT-LLM；\n快速迭代、多模型兼容、高吞吐量场景用vLLM；\n小模型用CTranslate2。",
+    "hasAnswer": true,
+    "tags": [
+      "vLLM",
+      "推理优化"
+    ]
+  },
+  {
+    "id": "q-36",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "单张显卡，怎么分配，才能多跑几个模型或任务？",
+    "answer": "答：3D并行，数据、张量、流水线；\nZero3，将优化器状态、梯度、参数进行切片，不需切模型；\n模型量化；\n给每个任务设置最大显存；\n动态加载、分时复用；\n小模型如嵌入、重拍，放到小显存或者CPU；适用支持动态批处理、多任务复用的推理引擎。\n。",
+    "hasAnswer": true,
+    "tags": [
+      "推理优化"
+    ]
+  },
+  {
+    "id": "q-37",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "上家薪资，期望薪资，到岗时间？还有其他问题吗？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-38",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "多表多跳的RAG情景。有三张SQL表，AB公用一个字段，BC公用一个字段。怎么从A快",
+    "answer": "速找到C？至少有3种技术可以实现。\n答：图谱；NL2SQL；向量库+元数据过滤；SQL方法，如提前合并成宽表。",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "向量检索",
+      "知识图谱"
+    ]
+  },
+  {
+    "id": "q-39",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "有一本txt格式的专业教程，有很详细的目录，对这本教程设计RAG，不能用向量数据",
+    "answer": "库，不能用嵌入模型。\n答：基于目录的结构化分块，设置PageIndex给每个目录块分配固定编号，构建全文索引。\n可以用ES做。",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "向量检索",
+      "分块"
+    ]
+  },
+  {
+    "id": "q-40",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "多Agent系统，怎么设置失败回滚机制？大概4、5个方面。",
+    "answer": "答：5层保障\n状态快照：每步执行前保存完整状态；\n写前日志：记录所有操作，可追踪可恢复；\n补偿事务：对已执行操作做反向撤销；\n重试与降级：短暂失败自动重试，严重失败回滚；\n原子步骤：保证要么全成功，要么全回滚。",
+    "hasAnswer": true,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-41",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "多Agent系统，容易彼此调用和质疑，如何监测和打破死循环",
+    "answer": "大概5种。\n答：监测方法4种：\n步数计数；状态哈希检测；对话相似度检测；超时监测。\n打破方法5种：\n强制步数熔断；\n主Agent仲裁；\n随机选择+降级退出；\n给子Agent设置信任权重，低权重不许质疑；\n任务中断，转人工。",
+    "hasAnswer": true,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-42",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "LLM Ops了解吗？公司代码挪到现场部署会有各种问题，就算用Docker，之前也要做一",
+    "answer": "件事，防止逆向工程，顺带做一个加速处理。还有一个新出来的Agent Ops。\n答：",
+    "hasAnswer": true,
+    "tags": [
+      "Agent",
+      "推理优化",
+      "部署"
+    ]
+  },
+  {
+    "id": "q-43",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "多Agent并发调用同一工具或数据库时，如何处理争抢问题？",
+    "answer": "答：并发队列；全局互斥锁；并发度控制；读写锁分离；连接池。",
+    "hasAnswer": true,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-44",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "多Agent场景，如何处理共享记忆与私有记忆隔离？子Agent的记忆隔离，用什么实现？",
+    "answer": "答：独立State；独立CheckPoint，记忆前缀；独立对话历史，独立上下文",
+    "hasAnswer": true,
+    "tags": [
+      "Agent",
+      "记忆"
+    ]
+  },
+  {
+    "id": "q-45",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "如何解决记忆遗忘问题？主要是早期重要信息被挤出上下文的问题。",
+    "answer": "答：关键信息抽取，结构化保存；历史对话摘要压缩；向量化，长期记忆。",
+    "hasAnswer": true,
+    "tags": [
+      "向量检索",
+      "推理优化",
+      "记忆"
+    ]
+  },
+  {
+    "id": "q-46",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "每天TB级数据，怎么剔除假数据？比如非凸离散数据，怎么得到真实数据？实际都是现",
+    "answer": "场传感器数据，因为缺少维护，出现了很多假值、非凸，显得很离谱的数。\n答：降维；非凸问题转为凸优化问题。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-47",
+    "company": "杭州寰马(数字人)",
+    "companies": [
+      "杭州寰马(数字人)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "上下文膨胀问题和压缩策略？",
+    "answer": "答：上下文膨胀，是对话越聊越长，导致Prompt越来越大。\n压缩策略：\n滑动窗口压缩（只保留最近N轮）；\n结构化压缩（关键信息抽取）；\n摘要压缩（LLM提取摘要）；\n递归摘要压缩（超大文本，分块提取摘要，再把摘要再摘要）；\n召回式压缩（向量化保存）；\n选择性保留（业务规则打分）。\n附：Agent设计准则，尽量少调用LLM",
+    "hasAnswer": true,
+    "tags": [
+      "向量检索",
+      "Agent",
+      "推理优化"
+    ]
+  },
+  {
+    "id": "q-48",
+    "company": "软通动力 - 外包公司",
+    "companies": [
+      "软通动力 - 外包公司"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "理解节点的命令分哪几种？是以什么形式输出的？",
+    "answer": "答：\n（1）命令类型：\n- Flow相关: StartFlowCommand, CancelFlowCommand\n-回答相关: KnowledgeAnswerCommand,\nChitChatAnswerCommand, CannotHandleCommand\n-槽位相关: SetSlotCommand\n-会话相关: SessionStartCommand, ClarifyCommand\n-系统相关: ErrorCommand, HumanHandoffCommand\n（2）以“DSL/领域特定语言/文本格式”输出，让命令解析器，解析DSL，得到Command\n对象，传入策略节点。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-49",
+    "company": "软通动力 - 外包公司",
+    "companies": [
+      "软通动力 - 外包公司"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "理解节点的提示词是怎么约束的？",
+    "answer": "答：6部分。\n任务说明：分析当前对话和上下文，生成系统命令。\n可用命令清单：Flow控制的命令、回答控制的~、槽位收集的命令、会话控制的~\n命令生成规\n则：启动Flow的规则、设置槽位的~、知识检索的规则、通用规则\n决策规则表：输入的条件，与执行命令相对应\n槽位更新规则：根据当前对话状态，确定是否更新槽位，更新规则细节和示例\n例",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "记忆"
+    ]
+  },
+  {
+    "id": "q-50",
+    "company": "软通动力 - 外包公司",
+    "companies": [
+      "软通动力 - 外包公司"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "理解节点提示词需要哪些变量？",
+    "answer": "答：可用Flow、当前状态、历史对话",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-51",
+    "company": "软通动力 - 外包公司",
+    "companies": [
+      "软通动力 - 外包公司"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "怎么处理对话中断？",
+    "answer": "答：3种情况。核心组件“对话栈”是一个类对象，维护了一个栈帧列表。\n（1）用户插入新消息。把未完成对话保存到对话历史，保留对话栈不清空，压栈新命令。\n（2）用户取消Flow。解析得到取消命令，对话栈弹栈当前命令。\n（3）无法理解用户意图，系统降级处理，对话栈压栈闲聊命令。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-52",
+    "company": "软通动力 - 外包公司",
+    "companies": [
+      "软通动力 - 外包公司"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "怎么处理对话嵌套？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-53",
+    "company": "软通动力 - 外包公司",
+    "companies": [
+      "软通动力 - 外包公司"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "（嵌套问题变体）用户一次输入多个不相干任务，是否要创建新的对话栈？",
+    "answer": "答：可以创建新的，但本项目没有。一次图流程，创建一个State，读取持久化的Tracker信\n息，将解析出来的多个命令逐个压栈，逐个处理。添加栈深变量，监控栈深不要过长。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-54",
+    "company": "软通动力 - 外包公司",
+    "companies": [
+      "软通动力 - 外包公司"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "怎么处理对话回退",
+    "answer": "答：用户发送/back命令或LLM生成back命令，对话栈弹栈。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-55",
+    "company": "软通动力 - 外包公司",
+    "companies": [
+      "软通动力 - 外包公司"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "怎么决策是压栈还是弹栈？",
+    "answer": "答：大模型解析用户输入，如果是新消息，就压栈；如果是取消命令，就弹栈；如果无法理\n解，就降级。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-56",
+    "company": "软通动力 - 外包公司",
+    "companies": [
+      "软通动力 - 外包公司"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "怎么判断会话是连续的还是重启的？",
+    "answer": "答：主要看TrackerStore中是否存在该sender_id的DialogueStateTracker实例。\n（1）连续会话：如果store中已有该sender_id的tracker，说明是连续对话，会加载之前的\n状态（包括对话历史、对话栈、槽位值等）。\n（2）重启会话：有两种情况\n隐式重启：sender_id第一次出现，store中没有对应的tracker，会创建新的空白tracker\n显式重启：用户发送/restart命令或LLM生成restart命令，调用tracker.restart()，清空所有\n状态\n（3）持久化支持：系统支持多种TrackerStore实现（内存、数据库等），生产环境可以实\n现跨进程/跨服务器的会话状态共享。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-57",
+    "company": "软通动力 - 外包公司",
+    "companies": [
+      "软通动力 - 外包公司"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "怎么判断有没有关联的上下文信息？",
+    "answer": "答：Tracker保存着。",
+    "hasAnswer": true,
+    "tags": [
+      "记忆"
+    ]
+  },
+  {
+    "id": "q-58",
+    "company": "软通动力 - 外包公司",
+    "companies": [
+      "软通动力 - 外包公司"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "交叉熵损失和KL散度有什么区别？",
+    "answer": "答：（1）交叉熵衡量两组样本之间的距离，主要用于损失函数。\n（2）KL散度/相对熵衡量两个概率分布的差异，主要作为正则化项。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-59",
+    "company": "软通动力 - 外包公司",
+    "companies": [
+      "软通动力 - 外包公司"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "具体实现用了哪些框架？Accelarate底层用的什么？",
+    "answer": "答：（1）Transformer加载模型、Accelarate分布式训练、DeepSpeed训练加速、vLLM推理\n部署、LoRA微调、QLoRA微调；\n（2）Accelerate是Hugging Face推 出 的 分 布 式 训 练 封 装 库 ， 底 层 依 赖PyTorch的\ntorch.distributed，默认使用DDP+NCCL实现多卡加速，同时支持DeepSpeed作为扩展后端，\n让一套代码无缝运行在不同硬件环境上。",
+    "hasAnswer": true,
+    "tags": [
+      "vLLM",
+      "Transformer",
+      "微调"
+    ]
+  },
+  {
+    "id": "q-60",
+    "company": "软通动力 - 外包公司",
+    "companies": [
+      "软通动力 - 外包公司"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "FastAPI vs Flask？",
+    "answer": "答：Flask，老牌轻量Web框架，简单灵活，但性能一般、异步弱。\nFastAPI，现代高性能Web框架，天生异步、自动文档、速度接近Go，是大模型部署首选。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-61",
+    "company": "中恒博瑞(电器公司)",
+    "companies": [
+      "中恒博瑞(电器公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "视觉模型有哪些了解？",
+    "answer": "答：\n分类：ResNet、MobileNet、EfficientNet、ConvNeXt\n检测：YOLOv5/v8、Faster R-CNN、RT-DETR\n分割：U-Net、Mask R-CNN、MobileSAM、Segment Anything\n多模态：Qwen-VL、LLaVA、InternVL、LayoutLM、Donut\nOCR：DBNet+CRNN、PP-OCR、MMOCR\n应用：布局分析、表格识别、图纸结构提取、文本检测",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-62",
+    "company": "中恒博瑞(电器公司)",
+    "companies": [
+      "中恒博瑞(电器公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "PDF文档如何处理？表格如何提取？图像如何提取？",
+    "answer": "答：\nPDF解析：PyMuPDF、pdfplumber、PDFMiner、unstructured\n表格提取：\n规则式：pdfplumber、Camelot\n模型式：LayoutLM + TableTransformer、TableMaster\n多模态：Donut、Qwen-VL\n图像提取：PyMuPDF直接提取Pixmap，保存为高清图，再做OCR/布局分析",
+    "hasAnswer": true,
+    "tags": [
+      "Transformer"
+    ]
+  },
+  {
+    "id": "q-63",
+    "company": "中恒博瑞(电器公司)",
+    "companies": [
+      "中恒博瑞(电器公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "对视觉模型有没有微调经验？",
+    "answer": "答：\nYOLO微调：检测电气元件、图标、标注区域\n轻量分割微调：U-Net/MobileSAM做管线、拓扑分割\n多模态微调：LLaVA/Qwen-VL做领域指令微调\n工具：TorchVision、Transformers、PEFT（LoRA）",
+    "hasAnswer": true,
+    "tags": [
+      "Transformer",
+      "微调"
+    ]
+  },
+  {
+    "id": "q-64",
+    "company": "中恒博瑞(电器公司)",
+    "companies": [
+      "中恒博瑞(电器公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "处理过的最大分辨率的图像？PDF里的图像分辨率很大，包含很多复杂管线，还有水印",
+    "answer": "数字文字信息，用什么办法去理解这种大图的语义信息？前提资源不能无限扩张。\n答：核心：分层分治，不喂整张图\n矢量优先：PDF提取文字、线段，减少像素处理\n水印去除：FFT频域滤波+形态学，轻量UNet\n分级图像：全局小图看结构，局部高清块读文字\n轻量模型：YOLO检测元件，PP-OCR读标注\n拓扑结构化：输出三元组（设备-连接-设备）\n多模态只做最后融合，不处理大图\n资源可控、精度高。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-65",
+    "company": "中恒博瑞(电器公司)",
+    "companies": [
+      "中恒博瑞(电器公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "如果切块再向量化，会不会丢失语义信息？如何从向量化完整恢复成图片？",
+    "answer": "答：会丢，切块破坏全局拓扑，所以必须分层chunk+父块回溯+重排来弥补。\n向量是压缩特征，无法完整恢复原图，只能存原图+元数据+向量索引。",
+    "hasAnswer": true,
+    "tags": [
+      "向量检索",
+      "推理优化",
+      "分块"
+    ]
+  },
+  {
+    "id": "q-66",
+    "company": "中恒博瑞(电器公司)",
+    "companies": [
+      "中恒博瑞(电器公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "微调模型的数据集怎么创建？",
+    "answer": "答：\n采集：业务图纸、PDF、标注数据\n清洗：去重、去模糊、滤除噪声\n标注：检测用LabelStudio；分割用SAM辅助；多模态用对话格式\n增强：旋转、缩放、对比度、噪声\n格式：COCO、JSONL、ShareGPT",
+    "hasAnswer": true,
+    "tags": [
+      "微调"
+    ]
+  },
+  {
+    "id": "q-67",
+    "company": "中恒博瑞(电器公司)",
+    "companies": [
+      "中恒博瑞(电器公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "对于电气行业的这种大分辨率图像，怎么微调一个视觉模型？",
+    "answer": "答：\n基座选轻量：YOLOv8-tiny、MobileSAM、Qwen-VL-Tiny\n用LoRA低成本微调，冻结主干\n数据做分级采样：大图切块+全局图一起训\n任务：元件检测、拓扑分割、图标OCR、多模态问答\n评估：mAP、召回率、准确率、人工评测",
+    "hasAnswer": true,
+    "tags": [
+      "微调",
+      "评估"
+    ]
+  },
+  {
+    "id": "q-68",
+    "company": "中恒博瑞(电器公司)",
+    "companies": [
+      "中恒博瑞(电器公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "RAG会用哪些模型？",
+    "answer": "答：\n嵌入：bge-small/base、text2vec、m3e\n重排：bge-rerank\n生成：Qwen、Llama、InternLM\n多模态：Qwen-VL、InternVL",
+    "hasAnswer": true,
+    "tags": [
+      "RAG"
+    ]
+  },
+  {
+    "id": "q-69",
+    "company": "中恒博瑞(电器公司)",
+    "companies": [
+      "中恒博瑞(电器公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "常用的嵌入模型？有什么区别？",
+    "answer": "答：\nBGE：综合强，中文好，M3版最新最强\nGTE：阿里通义，中文比BGE还强\nNomic-embed：长本文专用，8k上下文无压力\n区别：维度、上下文长度、MTEB分数、速度、领域适配性。",
+    "hasAnswer": true,
+    "tags": [
+      "记忆"
+    ]
+  },
+  {
+    "id": "q-70",
+    "company": "中恒博瑞(电器公司)",
+    "companies": [
+      "中恒博瑞(电器公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "文档向量化时，怎么设置chunk？",
+    "answer": "答：\n固定chunk+重叠：通用文本\n语义chunk：按段落/主题切\n分层chunk：父块+子块，适合大图/长文档\n图纸：按元件/区域做语义块",
+    "hasAnswer": true,
+    "tags": [
+      "向量检索",
+      "推理优化",
+      "分块"
+    ]
+  },
+  {
+    "id": "q-71",
+    "company": "中恒博瑞(电器公司)",
+    "companies": [
+      "中恒博瑞(电器公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "大模型原理",
+    "title": "国产显卡的推理加速有没有做过？不让用N卡。",
+    "answer": "答：适配昇腾、沐曦、摩尔线程等国产显卡的方法：\n框架：MindSpore、Transformers++、定制runtime\n加速：图编译、算子融合、INT4/INT8\n引擎：定制TRT类似加速栈、vLLM移植版\n部署：FastAPI+国产runtime，保证QPS与时延",
+    "hasAnswer": true,
+    "tags": [
+      "vLLM",
+      "Transformer",
+      "推理优化"
+    ]
+  },
+  {
+    "id": "q-72",
+    "company": "中恒博瑞(电器公司)",
+    "companies": [
+      "中恒博瑞(电器公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "怎么处理大模型的幻觉？",
+    "answer": "答：\nRAG增强检索，提供证据\n指令约束：“只根据文档回答，不知道就说不知道”\n验证器模型二次校验\n高质量SFT+DPO\n引用溯源，展示来源片段",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "微调",
+      "对齐"
+    ]
+  },
+  {
+    "id": "q-73",
+    "company": "中恒博瑞(电器公司)",
+    "companies": [
+      "中恒博瑞(电器公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "有没有方案寻优？",
+    "answer": "答：有，从多维度做方案对比：\n模型大小、量化等级；\nchunk策略、检索方式；\n多模态/纯文本；\n国产卡/N卡部署成本；\n时延、QPS、准确率、成本；\n最终输出最优技术方案。",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "推理优化",
+      "分块"
+    ]
+  },
+  {
+    "id": "q-74",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "优化提示词调模型属于比较简单的，什么情况下不太好处理？或者说，用户先问订单再",
+    "answer": "临时插问物流，该怎么处理？",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-75",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "历史对话越来越长，会不会撑爆内存？",
+    "answer": "答：会。解决方法很多，\n设置保留最大轮次如10轮；\n用LLM将历史对话压缩成一段摘要，只保留用户信息、核心问题、关键槽位；\n提取关键信息，做成JSON给子Agent；\n历史对话直接存数据库，用RAG技术检索上下文。",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "Agent",
+      "记忆"
+    ]
+  },
+  {
+    "id": "q-76",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "介绍一下Tracker。",
+    "answer": "答：（1）Tracker是类对象，封装了对话业务状态。包含的内容有：\nSessionID、槽位字典、最大轮次等基础信息；\n对话历史列表、当前对话；\n对话栈类对象，核心是栈帧列表。\n（2）通过TrackerStore基类及其子类，Tracker可以持久化到不同的存储介质，如内存/数据\n库/文件系统，支持跨会话调用业务信息。\n（3）Tracker类对象，是State字典的一个元素。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-77",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "介绍一下State。",
+    "answer": "答：（1）State是LangGraph的传递状态。包含的内容有：\n追踪器Tracker、Flow列表、领域（包括槽位和固定响应）、\n输入输出数据、中间结果缓存、\n最大动作次数限制、当前动作次数、节点执行信息等等。\n（2）State仅在一次图流程中有效，是临时变量，不需要序列化。\n（3）State是字典对象，其中一个元素是Tracker",
+    "hasAnswer": true,
+    "tags": [
+      "LangGraph"
+    ]
+  },
+  {
+    "id": "q-78",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "主Agent和子Agent怎么划分边界？除了提示词，还有其他方法吗？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-79",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "结构化调度，主Agent只输出结构化指令，子Agent只接收固定格式。边界",
+    "answer": "由代码锁死，不可能越权；",
+    "hasAnswer": true,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-80",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "（如果答的好会追问）为什么要严格划分边界答：",
+    "answer": "企业服务必须可控；\n如果涉及敏感信息，Agent权限必须最小化；\n防止单Agent出错影响全局；\n便于迭代、排查问题；\n满足法务合规要求。",
+    "hasAnswer": true,
+    "tags": [
+      "Agent",
+      "安全"
+    ]
+  },
+  {
+    "id": "q-81",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "子Agent有并发/并行场景吗？怎么处理的？",
+    "answer": "答：\n并发场景：\n多用户同时请求系统；\n用户一次输入多个问题，解析后调用不同Agent同时处理；\n用户输入一个复杂问题，拆解成并行子任务，多跳或多知识源的。\n并发的问题：\n资源争抢、上下文混乱、结果返回顺序错乱、调用超出时间限制、死锁\n并发控制：\n子Agent异步并发+主Agent统一等待；\n给子Agent设置并发上限，如订单Agent最多同时跑10个，超时则排队；\nSessionID隔离会话，保证会话的上下文、返回结果不乱套；\n子Agent之间不许通信，只跟主Agent通信；\n并发超时，直接降级回答。",
+    "hasAnswer": true,
+    "tags": [
+      "Agent",
+      "记忆"
+    ]
+  },
+  {
+    "id": "q-82",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "标题注入是否会带来噪声？",
+    "answer": "答：会，但是噪声可控。\n首先，标题长度远低于chunk长度，还能设置正文权重大于标题权重；\n还可以，只注入必要层级，尽量保留名词性内容，去除修饰词和长难句；\n如果过长，还能提取摘要。",
+    "hasAnswer": true,
+    "tags": [
+      "分块"
+    ]
+  },
+  {
+    "id": "q-83",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "还有哪些方法减少语义丢失？",
+    "answer": "答：\n语义边界切分，最新的切分方式，SemanticChunker，对句子向量化，计算相邻句子的\n相似度，相似度低的句子之间就切开。\n递归字符切分，最常用，切分时允许重叠10%；\n结构层次切分，按文档的H1H2H3切分，并注入层级路径；\n每个chunk生成极短摘要，放在chunk最前面。",
+    "hasAnswer": true,
+    "tags": [
+      "向量检索",
+      "推理优化",
+      "分块"
+    ]
+  },
+  {
+    "id": "q-84",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "NL2SQL/数据",
+    "title": "NL2SQL安全边界怎么考虑？",
+    "answer": "答：7层设计\n只给select权限；\n只允许生成轻量级SQL，禁止嵌套过深、Join过多、union过多等；\n给每个生成的SQL强制添加UserID，只允许用户查自己的；\n只给白名单库表；\nSQL校验，不止检查正确性，更要检查合规性，禁止危险操作、SQL注入、敏感字段，\n必须添加limit和where，禁止全盘扫描；\n禁止自然语言直接生成SQL，要先提取关键字，构建Prompt或填充预定义SQL模板；\n监控SQL日志。",
+    "hasAnswer": true,
+    "tags": [
+      "NL2SQL",
+      "安全"
+    ]
+  },
+  {
+    "id": "q-85",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "RAG/检索",
+    "title": "知识图谱+向量检索+全文检索，什么情况需要这么复杂的混合查询？",
+    "answer": "答：\n三者综合使用场景：\n用户的问法极度不一致，有关键词查询、有口语化查询；\n含有大量多跳、关联的问题；\n既有结构化数据，又有非结构化文档；\n要求召回率较高，跟钱有关的；\n同时存在复杂逻辑、自由问答。\n三者使用场景不同可以互相补充：\n知识图谱，擅长多跳、逻辑推理、关联查询；\n向量检索，擅长口语化、相似度查询；\n全文检索，擅长关键词匹配、精确匹配。",
+    "hasAnswer": true,
+    "tags": [
+      "RAG",
+      "向量检索",
+      "知识图谱"
+    ]
+  },
+  {
+    "id": "q-86",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "知识图谱",
+    "title": "查询路径比较长的情况，也适用图谱吗？如用户问题从系统到服务、从文档到变更。",
+    "answer": "答：非常适合！查询路径越长、关联越深，越适合图谱。\n图谱三大要素：实体+关系+属性。\n变更记录、版本、历史、操作轨迹，完全可以保存在图谱。",
+    "hasAnswer": true,
+    "tags": [
+      "知识图谱"
+    ]
+  },
+  {
+    "id": "q-87",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "推理优化/部署",
+    "title": "FastAPI接口换成Jsink/DataFrame，会不会更快？",
+    "answer": "答：FastAPI底层是异步非阻塞的，本身非常快；Jsink/DF是批处理架构，适合离线、流处理。",
+    "hasAnswer": true,
+    "tags": []
+  },
+  {
+    "id": "q-88",
+    "company": "北京朗杰(培训公司)",
+    "companies": [
+      "北京朗杰(培训公司)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "NL2SQL/数据",
+    "title": "Python深浅拷贝",
+    "answer": "答：list[:]是浅拷贝，与.copy()、list(原列表)效果一样，浅拷贝的数据会共享，深的不会。深\n拷贝需要deepcopy(）",
+    "hasAnswer": true,
+    "tags": [
+      "Python"
+    ]
+  },
+  {
+    "id": "q-89",
+    "company": "来源未知(Agent工程化)",
+    "companies": [
+      "来源未知(Agent工程化)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "综合",
+    "title": "SKILL 是如何工作的？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": []
+  },
+  {
+    "id": "q-90",
+    "company": "来源未知(Agent工程化)",
+    "companies": [
+      "来源未知(Agent工程化)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "SubAgent 是什么？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-91",
+    "company": "来源未知(Agent工程化)",
+    "companies": [
+      "来源未知(Agent工程化)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent 如何创建工具？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-92",
+    "company": "来源未知(Agent工程化)",
+    "companies": [
+      "来源未知(Agent工程化)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent 如何长时间自主运作？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-93",
+    "company": "来源未知(Agent工程化)",
+    "companies": [
+      "来源未知(Agent工程化)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent 如何定时工作？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-94",
+    "company": "来源未知(Agent工程化)",
+    "companies": [
+      "来源未知(Agent工程化)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent 如何记忆？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent",
+      "记忆"
+    ]
+  },
+  {
+    "id": "q-95",
+    "company": "来源未知(Agent工程化)",
+    "companies": [
+      "来源未知(Agent工程化)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent 如何使用工具、SKILL",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-96",
+    "company": "来源未知(Agent工程化)",
+    "companies": [
+      "来源未知(Agent工程化)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent 如何知道自己是谁？",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-97",
+    "company": "来源未知(Agent工程化)",
+    "companies": [
+      "来源未知(Agent工程化)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "什么是大模型Agent",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-98",
+    "company": "来源未知(Agent工程化)",
+    "companies": [
+      "来源未知(Agent工程化)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent由哪些部分组成",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-99",
+    "company": "来源未知(Agent工程化)",
+    "companies": [
+      "来源未知(Agent工程化)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent类型",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-100",
+    "company": "来源未知(Agent工程化)",
+    "companies": [
+      "来源未知(Agent工程化)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "Agent创建方式",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  },
+  {
+    "id": "q-101",
+    "company": "来源未知(Agent工程化)",
+    "companies": [
+      "来源未知(Agent工程化)"
+    ],
+    "frequency": 1,
+    "hot": 0,
+    "category": "Agent/多智能体",
+    "title": "AgentExecutor的创建方式",
+    "answer": "",
+    "hasAnswer": false,
+    "tags": [
+      "Agent"
+    ]
+  }
+]

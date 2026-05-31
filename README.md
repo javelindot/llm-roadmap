@@ -13,15 +13,17 @@
   <img src="https://img.shields.io/badge/MCP-Model_Context-1ABC9C?style=flat-square" alt="MCP"/>
   <img src="https://img.shields.io/badge/Dify-Low_Code-3498DB?style=flat-square" alt="Dify"/>
   <img src="https://img.shields.io/badge/Coze-Platform-F39C12?style=flat-square" alt="Coze"/>
+  <img src="https://img.shields.io/badge/Interview-Job_Guide-E74C3C?style=flat-square" alt="Interview"/>
   <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License"/>
   <img src="https://img.shields.io/github/last-commit/javelindot/llm-roadmap?style=flat-square&label=Update" alt="Update"/>
 </p>
 
-<p><strong>应用开发｜ 模型优化微调 ｜ 强化学习对齐 </strong></p>
+<p><strong>应用开发｜ 模型优化微调 ｜ 强化学习对齐 ｜ 求职面试 </strong></p>
 
 <p>
   <a href="#/README?id=项目总览">项目总览</a> •
   <a href="#/README?id=构建体系">构建体系</a> •
+  <a href="./interview/index.html">🎯 面试指南</a> •
   <a href="#/README?id=快速开始">快速开始</a> •
   <a href="#/README?id=贡献指南">贡献指南</a>
 </p>
@@ -254,7 +256,83 @@ interface DeepLearning_System {
 
 ---
 
-### 📎 十一、附录资料与工具集
+### 🎯 十一、求职面试 · Interview Guide
+
+> **从简历到 offer** | 5 阶段全流程求职指南，应届生与社招通吃
+
+LLM 工程师独立的求职模块（[`interview/`](./interview/)），把找工作拆成 5 个清晰阶段，每个阶段对应一个**独立专题页**，主题清晰、零用户教育成本。
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                    找工作 5 阶段                              │
+├──────────────────────────────────────────────────────────────┤
+│  STAGE 01  🧭 定位 & 节奏  →  plan.html    (6 篇)            │
+│      看清岗位地图，定一个 30 天能跑通的备战节奏                │
+│                                                              │
+│  STAGE 02  📋 简历优化     →  resume.html  (12 篇)           │
+│      STAR + 项目模板 + 自我介绍，把卖点讲清楚                  │
+│                                                              │
+│  STAGE 03  📐 巩固能力     →  tech.html    (8 篇)            │
+│      LLM 八股 + 系统设计 + 算法考点矩阵                        │
+│                                                              │
+│  STAGE 04  🎤 面试实战     →  quiz.html    (101 真题 + 详情) │
+│      真实公司面经分类刷，标记已会/收藏/笔记，扛住追问           │
+│                                                              │
+│  STAGE 05  💰 拿 Offer     →  offer.html   (13 篇)           │
+│      多 offer 比较 + 谈薪四原则 + 签约入职                    │
+└──────────────────────────────────────────────────────────────┘
+```
+
+#### 模块详情
+
+| 模块 | 文章数 | 核心内容 |
+|------|--------|----------|
+| 🧭 **定位 & 节奏** | 6 | 岗位全景 / 选准方向 3 步 / 应届 vs 社招 / 30 天加速版 / 3 月稳健版 / 在职 vs 全职 |
+| 📋 **简历优化** | 12 | 5W 法 / 应届 vs 社招 / 1 页 vs 2 页 / STAR / 项目模板 / 教育实习 / 技能栏 / 自我介绍 / 应届坑 / 公司偏好 / 投递跟进 |
+| 📐 **巩固能力** | 8 | Transformer / 预训练 / RLHF / 系统设计 5 步法 / RAG / Agent / 算法必刷 / 算法应试 |
+| 🔥 **真题库** | 101 真题 | 真实公司面经 7 大分类 · 热度排序 · 列表+详情视图 · 标记已会/收藏/笔记 |
+| 💰 **offer && 谈薪** | 13 | offer 构成 / 股票期权 RSU / 公司类型对比 / TC 计算 / 5 维度比较 / 谈薪四原则 / 实战话术 / 期望薪资 / offer letter 8 项 / 离职交接 / 入职 7 天 / 反悔 backup |
+
+#### 技术亮点
+
+```typescript
+interface InterviewModule {
+  架构: "纯静态 HTML/CSS/JS, GitHub Pages 一键部署, 无构建步骤";
+  布局: "左侧 sidebar + 主区域单篇阅读, hash 路由切换文章, 上下页导航";
+  真题库: "Python 解析 _src/*.md → quiz-data.json, 跨公司去重 + 频次聚合 + 热度排序";
+  主题: "7 套 (light/dark/solarized/dracula/nord/tokyo-night/catppuccin) 全局生效";
+  状态: "已会/收藏/笔记本地 localStorage 持久化, 详情页操作实时同步";
+  扩展: "新增文章 = 加一个 <article> + sidebar 链接; 新增真题 = 跑 parse_questions.py";
+}
+```
+
+#### 快速进入
+
+| 入口 | 描述 |
+|------|------|
+| **[`interview/index.html`](./interview/index.html)** | 主入口 — 3 大 CTA + 5 阶段时间线 |
+| [`interview/plan.html`](./interview/plan.html) | 🧭 定位 & 节奏 |
+| [`interview/resume.html`](./interview/resume.html) | 📋 简历优化 |
+| [`interview/tech.html`](./interview/tech.html) | 📐 巩固能力 |
+| [`interview/quiz.html`](./interview/quiz.html) | 🔥 真题库（101 题） |
+| [`interview/offer.html`](./interview/offer.html) | 💰 offer && 谈薪 |
+
+#### 真题录入流程（贡献者）
+
+```bash
+# 1. 在 interview/_src/ 下新增题库 markdown 文件
+#    文件首行必须以 ## 公司名 开头（区别于带 frontmatter 的指南类文档）
+#    格式: 1. 题目 → 答 …
+
+# 2. 跑解析脚本重新生成 quiz-data.json
+cd interview && python3 parse_questions.py
+
+# 3. 同公司同问题会自动合并, 频次 ≥ 2 自动打 🔥 热度标
+```
+
+---
+
+### 📎 十二、附录资料与工具集
 
 > **持续学习** | 建立持续学习的资源体系
 
@@ -304,6 +382,14 @@ Month 3: NLP与预训练核心理论
 Month 4: 模型微调与定制化实战
 Month 5: 强化学习与模型对齐
 Month 6: 多模态技术前沿
+```
+
+**求职冲刺路径（30 天）**：
+```
+Week 1: 定位 & 节奏 → 简历优化  ([interview/plan.html] + [interview/resume.html])
+Week 2: 巩固能力 (八股+系统设计) ([interview/tech.html])
+Week 3: 真题刷起来               ([interview/quiz.html])
+Week 4: 模拟面 + 投递 + offer 谈判 ([interview/offer.html])
 ```
 
 ---

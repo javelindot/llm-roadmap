@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<title>定位 & 节奏 · Interview Guide</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="LLM 工程师求职定位与备战节奏 · 岗位全景 · 30 天计划 · 应届生友好" />
+<style>
+  :root, [data-theme="light"] {
+    --bg:#ffffff; --bg2:#fafafa; --bg3:#f4f4f5;
+    --card:#ffffff;
+    --text:#0a0a0a; --text2:#525252; --text3:#a3a3a3;
+    --border:#e5e5e5; --border2:#d4d4d4;
+    --accent:#2563eb; --accent2:#1d4ed8; --accent-soft:#eff6ff;
+    --nav-bg:rgba(255,255,255,.85);
+    --mono:'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;
+    --ok:#16a34a; --ok-soft:#dcfce7;
+    --warn:#ea580c; --warn-soft:#ffedd5;
+  }
+  [data-theme="dark"] {
+    --bg:#0a0a0a; --bg2:#111111; --bg3:#18181b; --card:#0f0f10;
+    --text:#fafafa; --text2:#a1a1aa; --text3:#71717a;
+    --border:#27272a; --border2:#3f3f46;
+    --accent:#60a5fa; --accent2:#93c5fd; --accent-soft:rgba(96,165,250,.08);
+    --nav-bg:rgba(10,10,10,.85);
+    --ok:#4ade80; --ok-soft:rgba(74,222,128,.12);
+    --warn:#fb923c; --warn-soft:rgba(251,146,60,.12);
+  }
+  [data-theme="solarized"] {
+    --bg:#fdf6e3; --bg2:#f5efd5; --bg3:#eee8d5; --card:#fdf6e3;
+    --text:#586e75; --text2:#657b83; --text3:#93a1a1;
+    --border:#eee8d5; --border2:#d8d2bf;
+    --accent:#268bd2; --accent2:#2aa198; --accent-soft:rgba(38,139,210,.10);
+    --nav-bg:rgba(253,246,227,.85);
+    --ok:#859900; --ok-soft:rgba(133,153,0,.12);
+    --warn:#cb4b16; --warn-soft:rgba(203,75,22,.10);
+  }
+  [data-theme="dracula"] {
+    --bg:#282a36; --bg2:#2d2f3d; --bg3:#383a4a; --card:#2d2f3d;
+    --text:#f8f8f2; --text2:#bcc1d3; --text3:#6272a4;
+    --border:#44475a; --border2:#565a73;
+    --accent:#bd93f9; --accent2:#ff79c6; --accent-soft:rgba(189,147,249,.12);
+    --nav-bg:rgba(40,42,54,.85);
+    --ok:#50fa7b; --ok-soft:rgba(80,250,123,.12);
+    --warn:#ffb86c; --warn-soft:rgba(255,184,108,.12);
+  }
+  [data-theme="nord"] {
+    --bg:#2e3440; --bg2:#353b48; --bg3:#3b4252; --card:#353b48;
+    --text:#eceff4; --text2:#d8dee9; --text3:#7b8497;
+    --border:#434c5e; --border2:#4c566a;
+    --accent:#88c0d0; --accent2:#5e81ac; --accent-soft:rgba(136,192,208,.12);
+    --nav-bg:rgba(46,52,64,.85);
+    --ok:#a3be8c; --ok-soft:rgba(163,190,140,.12);
+    --warn:#ebcb8b; --warn-soft:rgba(235,203,139,.12);
+  }
+  [data-theme="tokyo-night"] {
+    --bg:#1a1b26; --bg2:#16161e; --bg3:#1f2335; --card:#1f2335;
+    --text:#c0caf5; --text2:#a9b1d6; --text3:#565f89;
+    --border:#292e42; --border2:#3b4261;
+    --accent:#7aa2f7; --accent2:#bb9af7; --accent-soft:rgba(122,162,247,.12);
+    --nav-bg:rgba(26,27,38,.85);
+    --ok:#9ece6a; --ok-soft:rgba(158,206,106,.12);
+    --warn:#e0af68; --warn-soft:rgba(224,175,104,.12);
+  }
+  [data-theme="catppuccin"] {
+    --bg:#1e1e2e; --bg2:#181825; --bg3:#313244; --card:#181825;
+    --text:#cdd6f4; --text2:#bac2de; --text3:#7f849c;
+    --border:#313244; --border2:#45475a;
+    --accent:#cba6f7; --accent2:#f5c2e7; --accent-soft:rgba(203,166,247,.12);
+    --nav-bg:rgba(30,30,46,.85);
+    --ok:#a6e3a1; --ok-soft:rgba(166,227,161,.12);
+    --warn:#fab387; --warn-soft:rgba(250,179,135,.12);
+  }
+  *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.65;
+    font-size:15px; min-height:100vh; display:flex; flex-direction:column;
+    transition:background .2s,color .2s;
+  }
+  a { color:inherit; text-decoration:none; }
+
+  /* ── Nav ── */
+  .nav {
+    position:sticky; top:0; z-index:100;
+    background:var(--nav-bg); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+    padding:0 32px; height:56px;
+    display:flex; align-items:center; gap:4px;
+  }
+  .brand {
+    font-family:var(--mono); font-size:.92rem; font-weight:600;
+    color:var(--text); letter-spacing:-.02em; margin-right:24px;
+  }
+  .brand::before { content:'$ '; color:var(--text3); }
+  .nav-spacer { flex:1; }
+  .nav-link {
+    color:var(--text2); font-size:13.5px; font-weight:500;
+    padding:6px 11px; border-radius:6px;
+    transition:color .15s,background .15s;
+  }
+  .nav-link:hover { color:var(--text); background:var(--bg3); }
+  .theme-switcher { position:relative; margin-left:6px; }
+  .theme-btn {
+    height:30px; padding:0 10px;
+    background:transparent; border:1px solid var(--border); border-radius:6px;
+    color:var(--text2); cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--mono); font-size:12.5px;
+    transition:color .15s,border-color .15s,background .15s;
+  }
+  .theme-btn:hover { color:var(--text); background:var(--bg3); }
+  .theme-btn .dot { width:8px; height:8px; border-radius:50%; background:var(--accent); }
+  .theme-menu {
+    position:absolute; top:100%; right:0; margin-top:4px; z-index:200;
+    background:var(--card); border:1px solid var(--border); border-radius:6px;
+    padding:4px; min-width:148px; display:none;
+    box-shadow:0 4px 16px rgba(0,0,0,.08);
+  }
+  .theme-menu.open { display:block; }
+  .theme-menu button {
+    display:flex; align-items:center; gap:8px;
+    width:100%; padding:6px 10px; text-align:left;
+    background:transparent; border:none; cursor:pointer;
+    font-family:var(--mono); font-size:13px;
+    color:var(--text2); border-radius:4px;
+  }
+  .theme-menu button:hover { background:var(--bg3); color:var(--text); }
+  .theme-menu button.active { background:var(--bg3); color:var(--text); }
+  .theme-menu .dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .dot-light { background:linear-gradient(135deg,#fff 50%,#0a0a0a 50%); border:1px solid #d4d4d4; }
+  .dot-dark { background:#0a0a0a; border:1px solid #3f3f46; }
+  .dot-solarized { background:#b58900; }
+  .dot-dracula { background:#bd93f9; }
+  .dot-nord { background:#88c0d0; }
+  .dot-tokyo-night { background:#7aa2f7; }
+  .dot-catppuccin { background:#cba6f7; }
+
+  /* ── Layout ── */
+  .layout {
+    display:grid; grid-template-columns:260px minmax(0,1fr);
+    gap:28px; padding:24px 32px; max-width:1280px; margin:0 auto; width:100%; flex:1;
+    align-items:start;
+  }
+  .side {
+    position:sticky; top:72px;
+    max-height:calc(100vh - 88px); overflow-y:auto;
+    padding:18px 8px 18px 0;
+  }
+  .side::-webkit-scrollbar { width:5px; }
+  .side::-webkit-scrollbar-thumb { background:var(--border2); border-radius:3px; }
+  .side-brand {
+    font-family:var(--mono); font-size:11px; font-weight:700;
+    color:var(--text3); letter-spacing:.1em; text-transform:uppercase;
+    padding:0 12px; margin-bottom:14px;
+  }
+  .side-brand::before { content:'// '; }
+  .side-group { margin-bottom:18px; }
+  .side-group-head {
+    font-family:var(--mono); font-size:10.5px; font-weight:700;
+    color:var(--text3); letter-spacing:.14em;
+    padding:8px 12px 6px;
+  }
+  .side-item {
+    display:flex; align-items:center; gap:8px;
+    padding:7px 12px; border-radius:6px;
+    font-size:13.5px; color:var(--text2);
+    cursor:pointer; transition:all .12s;
+    border-left:2px solid transparent;
+  }
+  .side-item:hover { color:var(--text); background:var(--bg3); }
+  .side-item.active {
+    color:var(--accent); background:var(--accent-soft);
+    border-left-color:var(--accent); font-weight:600;
+  }
+  .side-item .si-num {
+    font-family:var(--mono); font-size:11px;
+    color:var(--text3); flex-shrink:0; min-width:18px;
+  }
+  .side-item.active .si-num { color:var(--accent); }
+
+  /* ── Main ── */
+  .main { min-width:0; padding:8px 0 48px; }
+
+  .article { display:none; }
+  .article.active { display:block; animation:fadeIn .2s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+
+  .art-crumbs {
+    font-family:var(--mono); font-size:11.5px; color:var(--text3);
+    margin-bottom:12px; letter-spacing:.04em;
+  }
+  .art-crumbs .crumb-sep { margin:0 6px; color:var(--text3); }
+  .art-crumbs .crumb-active { color:var(--text2); }
+
+  .article h1 {
+    font-size:clamp(1.6rem,3vw,2.05rem);
+    font-weight:700; letter-spacing:-.025em; line-height:1.2;
+    margin-bottom:14px; color:var(--text);
+  }
+  .article .art-lead {
+    font-size:15.5px; color:var(--text2);
+    margin-bottom:24px; line-height:1.75;
+    padding-bottom:20px; border-bottom:1px solid var(--border);
+  }
+  .article h2 {
+    font-size:1.18rem; font-weight:700;
+    color:var(--text); margin:32px 0 12px;
+    letter-spacing:-.01em;
+  }
+  .article h3 {
+    font-size:1rem; font-weight:700;
+    color:var(--text); margin:20px 0 8px;
+  }
+  .article p {
+    color:var(--text2); margin-bottom:14px;
+    font-size:14.5px; line-height:1.8;
+  }
+  .article p strong { color:var(--text); }
+  .article ul, .article ol {
+    margin:0 0 18px 22px;
+    color:var(--text2);
+    font-size:14.5px; line-height:1.85;
+  }
+  .article ul li, .article ol li { margin-bottom:4px; }
+  .article ul li::marker { color:var(--text3); }
+  .article ol li::marker { color:var(--text3); font-family:var(--mono); }
+  .article li strong { color:var(--text); }
+  .article code {
+    background:var(--bg3); color:var(--accent);
+    padding:1px 6px; border-radius:4px;
+    font-family:var(--mono); font-size:.92em;
+  }
+  .article pre {
+    background:var(--bg2); border:1px solid var(--border);
+    border-radius:10px; padding:16px 18px;
+    overflow-x:auto; margin-bottom:18px;
+    font-family:var(--mono); font-size:12.5px;
+    color:var(--text); line-height:1.75;
+    white-space:pre-wrap;
+  }
+  .article pre .n { color:var(--warn); font-weight:600; }
+  .article pre .k { color:var(--accent); }
+  .article pre .c { color:var(--text3); }
+  .article pre .ok { color:var(--ok); }
+
+  .callout {
+    display:flex; align-items:flex-start; gap:12px;
+    padding:14px 16px; border-radius:10px;
+    background:var(--accent-soft); border:1px solid var(--accent-soft);
+    margin:8px 0 22px;
+  }
+  .callout .ic { font-size:1.05rem; line-height:1.5; flex-shrink:0; }
+  .callout p { margin:0; color:var(--text); font-size:14px; line-height:1.7; }
+  .callout p strong { color:var(--accent); }
+  .callout.warn { background:var(--warn-soft); border-color:var(--warn-soft); }
+  .callout.warn p strong { color:var(--warn); }
+  .callout.ok { background:var(--ok-soft); border-color:var(--ok-soft); }
+  .callout.ok p strong { color:var(--ok); }
+
+  table {
+    width:100%; border-collapse:collapse; margin-bottom:20px;
+    font-size:13.5px;
+    border:1px solid var(--border); border-radius:10px;
+    overflow:hidden;
+  }
+  th, td {
+    padding:9px 14px; text-align:left;
+    border-bottom:1px solid var(--border);
+    vertical-align:top;
+  }
+  th {
+    background:var(--bg2); color:var(--text2);
+    font-family:var(--mono); font-size:12px;
+    font-weight:600; letter-spacing:.02em;
+  }
+  td { color:var(--text2); }
+  tbody tr:last-child td { border-bottom:none; }
+
+  .pager {
+    display:flex; gap:10px; justify-content:space-between;
+    margin-top:48px; padding-top:24px;
+    border-top:1px solid var(--border);
+  }
+  .pager-btn {
+    flex:1; max-width:50%;
+    padding:14px 16px; border-radius:10px;
+    border:1px solid var(--border); background:var(--card);
+    color:var(--text2); cursor:pointer;
+    transition:all .15s; display:block;
+  }
+  .pager-btn:hover {
+    border-color:var(--accent); background:var(--accent-soft);
+    transform:translateY(-1px);
+  }
+  .pager-btn .pg-label {
+    font-family:var(--mono); font-size:11px;
+    color:var(--text3); margin-bottom:4px;
+  }
+  .pager-btn .pg-title {
+    font-size:13.5px; color:var(--text); font-weight:600;
+    line-height:1.4;
+  }
+  .pager-btn:hover .pg-title { color:var(--accent); }
+  .pager-btn.next { text-align:right; }
+  .pager-btn.disabled { opacity:.35; pointer-events:none; }
+
+  footer {
+    border-top:1px solid var(--border);
+    padding:24px 32px;
+    display:flex; justify-content:space-between; align-items:center;
+    color:var(--text3); font-size:12.5px;
+    flex-wrap:wrap; gap:12px;
+    font-family:var(--mono);
+  }
+  footer a { color:var(--text2); }
+  footer a:hover { color:var(--accent); }
+
+  .side-toggle {
+    display:none;
+    width:100%; padding:10px 14px;
+    background:var(--bg2); border:1px solid var(--border); border-radius:8px;
+    color:var(--text); font-size:13.5px; cursor:pointer;
+    font-family:inherit; margin-bottom:10px;
+    text-align:left;
+  }
+  .side-toggle::before { content:'☰  '; color:var(--text3); }
+
+  @media (max-width:880px) {
+    .layout { grid-template-columns:1fr; gap:12px; padding:14px 16px; }
+    .side { position:static; max-height:none; padding:0; }
+    .side.collapsed { display:none; }
+    .side-toggle { display:block; }
+    .nav { padding:0 12px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="index.html">job-plan</a>
+  <div class="nav-spacer"></div>
+  <a class="nav-link" href="index.html">首页</a>
+  <a class="nav-link" href="resume.html">📋 简历</a>
+  <a class="nav-link" href="tech.html">📐 巩固能力</a>
+  <a class="nav-link" href="quiz.html">🔥 真题库</a>
+  <a class="nav-link" href="offer.html">💰 offer</a>
+  <a class="nav-link" href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
+  <div class="theme-switcher">
+    <button class="theme-btn" id="themeBtn" aria-label="切换主题">
+      <span class="dot"></span><span class="tname">light</span><span style="color:var(--text3);margin-left:2px;">▾</span>
+    </button>
+    <div class="theme-menu" id="themeMenu">
+      <button data-theme="light"><span class="dot dot-light"></span>light</button>
+      <button data-theme="dark"><span class="dot dot-dark"></span>dark</button>
+      <button data-theme="solarized"><span class="dot dot-solarized"></span>solarized</button>
+      <button data-theme="dracula"><span class="dot dot-dracula"></span>dracula</button>
+      <button data-theme="nord"><span class="dot dot-nord"></span>nord</button>
+      <button data-theme="tokyo-night"><span class="dot dot-tokyo-night"></span>tokyo-night</button>
+      <button data-theme="catppuccin"><span class="dot dot-catppuccin"></span>catppuccin</button>
+    </div>
+  </div>
+</nav>
+
+<div class="layout">
+
+  <aside class="side" id="side">
+    <div class="side-brand">定位 & 节奏</div>
+
+    <div class="side-group">
+      <div class="side-group-head">PART 1 · 看清市场</div>
+      <a class="side-item" data-id="landscape"><span class="si-num">01</span>LLM 岗位全景</a>
+      <a class="side-item" data-id="direction"><span class="si-num">02</span>选准方向 3 步</a>
+      <a class="side-item" data-id="grad-vs-pro"><span class="si-num">03</span>应届 vs 社招路径</a>
+    </div>
+
+    <div class="side-group">
+      <div class="side-group-head">PART 2 · 制定节奏</div>
+      <a class="side-item" data-id="plan-30"><span class="si-num">04</span>30 天加速版</a>
+      <a class="side-item" data-id="plan-long"><span class="si-num">05</span>3 个月稳健版</a>
+      <a class="side-item" data-id="in-job"><span class="si-num">06</span>在职 vs 全职准备</a>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <button class="side-toggle" id="sideToggle">目录</button>
+
+    <article id="landscape" class="article">
+      <div class="art-crumbs">定位 & 节奏 <span class="crumb-sep">/</span> PART 1 <span class="crumb-sep">/</span> <span class="crumb-active">LLM 岗位全景</span></div>
+      <h1>LLM 岗位全景</h1>
+      <p class="art-lead">2025–2026，「大模型」三个字下面其实是 3 个截然不同的方向。先搞清楚自己要打哪一个，再决定怎么打。</p>
+
+      <h2>三大主流方向</h2>
+      <table>
+        <thead>
+          <tr><th>方向</th><th>核心技能</th><th>面试重点</th><th>代表公司 / 岗位</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>① 算法 / 训练</strong></td>
+            <td>预训练、SFT、RLHF、对齐、Scaling Law</td>
+            <td>八股深度 + 论文 + 调参实战</td>
+            <td>OpenAI/Anthropic 中国分部、月之暗面、智谱、阶跃</td>
+          </tr>
+          <tr>
+            <td><strong>② 应用 / Agent</strong></td>
+            <td>Prompt、RAG、Agent、工具集成、Eval</td>
+            <td>项目深挖 + 系统设计</td>
+            <td>大厂业务线、独角兽、垂直 SaaS</td>
+          </tr>
+          <tr>
+            <td><strong>③ 基建 / 推理</strong></td>
+            <td>vLLM、TensorRT、量化、分布式、CUDA</td>
+            <td>性能优化 + 工程实战</td>
+            <td>云厂商、芯片公司、大厂基础架构</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>每个方向更细的细分</h2>
+
+      <h3>① 算法 / 训练方向细分</h3>
+      <ul>
+        <li><strong>预训练 (Pretrain)</strong>: 数据清洗、模型架构、训练 infra。岗位极少, 顶级公司。</li>
+        <li><strong>对齐 (Alignment)</strong>: SFT / DPO / RLHF / 奖励模型。岗位中等, 各家都在做。</li>
+        <li><strong>评测 (Eval)</strong>: 评测集设计、自动评测、Red Team。岗位较多, 容易切入。</li>
+        <li><strong>领域微调</strong>: 行业垂直 LoRA / 数据合成。岗位多, 但单价相对低。</li>
+      </ul>
+
+      <h3>② 应用 / Agent 方向细分</h3>
+      <ul>
+        <li><strong>RAG 工程师</strong>: 企业知识库、智能问答。<strong>岗位最多 + 应届友好</strong>。</li>
+        <li><strong>Agent / 工作流</strong>: 多智能体、自动化编排。岗位中等, 新方向, 简历快速升值。</li>
+        <li><strong>LLM 应用开发</strong>: 业务系统 + LLM 集成。最容易转过来, 但工资天花板较低。</li>
+        <li><strong>Prompt 工程</strong>: 复杂 prompt 设计、效果调优。岗位少, 多作为兼职职能。</li>
+      </ul>
+
+      <h3>③ 基建 / 推理方向细分</h3>
+      <ul>
+        <li><strong>推理引擎开发</strong>: vLLM / SGLang / 自研引擎。门槛极高, 应届基本进不去。</li>
+        <li><strong>推理优化</strong>: 量化、KV cache、PagedAttention 等。门槛较高, 需要 CUDA。</li>
+        <li><strong>分布式训练</strong>: 多卡 / 多机训练、并行策略。门槛极高 + 岗位少。</li>
+        <li><strong>模型部署</strong>: K8s + Docker + 监控。最容易切入, 偏运维但好上手。</li>
+      </ul>
+
+      <h2>2025-2026 行情</h2>
+      <ul>
+        <li><strong>最热门</strong>: 应用 / Agent。各行各业都在做 LLM 应用, 岗位最多。</li>
+        <li><strong>最高薪</strong>: 算法 / 训练。顶级公司应届 SP 价能到 70-100w。</li>
+        <li><strong>最稀缺</strong>: 推理优化。会写 CUDA + 懂 vLLM 的人极少, 工资虚高。</li>
+        <li><strong>最稳定</strong>: 大厂业务 LLM 集成。岗位多, 不卷, 但成长慢。</li>
+      </ul>
+
+      <div class="callout">
+        <div class="ic">🎯</div>
+        <p><strong>应届生建议</strong>: 没有强算法背景 (没顶会论文 / 数学不强) 就别冲算法方向, 大概率被刷。<strong>从 RAG / Agent / 部署</strong>切入最稳, 1-2 年后再决定向算法还是基建深挖。</p>
+      </div>
+    </article>
+
+    <article id="direction" class="article">
+      <div class="art-crumbs">定位 & 节奏 <span class="crumb-sep">/</span> PART 1 <span class="crumb-sep">/</span> <span class="crumb-active">选准方向 3 步</span></div>
+      <h1>选准方向 · 3 步法</h1>
+      <p class="art-lead">「我到底该投算法岗、应用岗还是基建岗?」—— 不用纠结, 3 步走完, 答案就出来了。</p>
+
+      <h2>第 1 步 · 评估自己当前能力</h2>
+      <table>
+        <thead><tr><th>能力</th><th>算法</th><th>应用</th><th>基建</th></tr></thead>
+        <tbody>
+          <tr><td>数学 / 论文阅读</td><td>★★★★★ 必须</td><td>★★ 一般</td><td>★★ 一般</td></tr>
+          <tr><td>大型分布式系统</td><td>★★★ 重要</td><td>★★ 一般</td><td>★★★★★ 必须</td></tr>
+          <tr><td>CUDA / 性能优化</td><td>★★★ 重要</td><td>★ 不需</td><td>★★★★★ 必须</td></tr>
+          <tr><td>业务理解 / 产品思维</td><td>★ 不需</td><td>★★★★★ 必须</td><td>★ 不需</td></tr>
+          <tr><td>Python / API 开发</td><td>★★★ 重要</td><td>★★★★★ 必须</td><td>★★★ 重要</td></tr>
+          <tr><td>Java / Go 后端</td><td>★ 不需</td><td>★★★★ 重要</td><td>★★ 一般</td></tr>
+        </tbody>
+      </table>
+      <p>对照打分, 在哪一列「必须」项最齐, 就有「打这个方向」的资格。</p>
+
+      <h2>第 2 步 · 评估自己的兴趣 / 偏好</h2>
+      <ul>
+        <li><strong>喜欢看论文 + 调参实验</strong> → 算法方向。</li>
+        <li><strong>喜欢做产品 + 解决真实问题</strong> → 应用方向。</li>
+        <li><strong>喜欢性能优化 + 系统底层</strong> → 基建方向。</li>
+        <li><strong>三个都喜欢</strong> → 选应用 (转其他方向最容易)。</li>
+        <li><strong>三个都不喜欢</strong> → 重新想想是不是真的要做 LLM。</li>
+      </ul>
+
+      <h2>第 3 步 · 评估岗位匹配度</h2>
+      <p>找<strong>10 个你感兴趣的 JD</strong>, 对照每条要求打分:</p>
+      <pre><span class="c"># JD 评估模板</span>
+公司: ___ | 岗位: ___ | 级别: ___
+
+要求 1: ___ → 我的匹配度: 0-5 分
+要求 2: ___ → 0-5 分
+要求 3: ___ → 0-5 分
+...
+─────────────────
+总分: __/__
+
+<span class="c"># 决策</span>
+- 60% 以上 → 直接投, 大概率有面试
+- 40-60% → 投 + 准备 1-2 个项目补短板
+- 40% 以下 → 暂时跳过, 选更匹配的</pre>
+
+      <h2>常见纠结及破解</h2>
+
+      <h3>「算法岗工资高, 但我没论文」</h3>
+      <p>3 条路:</p>
+      <ol>
+        <li><strong>不去顶级</strong>: 二三线算法岗也能接受 1-2 篇水会 + 项目证明。</li>
+        <li><strong>转应用</strong>: 应用岗虽然工资比顶级算法低 30%, 但比头部应用岗高 0%。</li>
+        <li><strong>先去做应用, 1-2 年后转算法</strong>: 工作中发论文 + 攒经验, 再跳。</li>
+      </ol>
+
+      <h3>「应用岗听起来很 low, 想做算法」</h3>
+      <p>2 条提示:</p>
+      <ol>
+        <li><strong>应用岗不 low</strong>: ChatGPT、Cursor、Claude 这些产品的应用工程师工资和算法持平甚至更高。</li>
+        <li><strong>「真应用工程师」</strong>: 能从产品端反推模型需求 + 设计 RAG/Agent 架构, 比纯调参的算法岗还稀缺。</li>
+      </ol>
+
+      <h3>「我想做基建但没 CUDA 经验」</h3>
+      <p>3 条路:</p>
+      <ol>
+        <li><strong>先做模型部署</strong>: K8s / Docker / 监控相对好上手, 1-2 年后可以转性能优化。</li>
+        <li><strong>自学 vLLM 源码</strong>: 读 PagedAttention 实现 + 改一个小 bug 提 PR, 简历神器。</li>
+        <li><strong>大学算法竞赛 / CUDA 课程</strong>: 应届生这个是硬门票, 已工作的不太来得及。</li>
+      </ol>
+
+      <div class="callout ok">
+        <div class="ic">✅</div>
+        <p><strong>最终建议</strong>: 不要追风口, 选你能在 3 年内做到「头部 10%」的方向。在自己最擅长的领域做到顶级, 比在风口方向做到平均收入更高、更稳定。</p>
+      </div>
+    </article>
+
+    <article id="grad-vs-pro" class="article">
+      <div class="art-crumbs">定位 & 节奏 <span class="crumb-sep">/</span> PART 1 <span class="crumb-sep">/</span> <span class="crumb-active">应届 vs 社招</span></div>
+      <h1>应届 vs 社招路径差异</h1>
+      <p class="art-lead">应届校招和社招是两套截然不同的游戏规则。<strong>选错赛道再努力都白搭</strong>。</p>
+
+      <h2>核心差异对照</h2>
+      <table>
+        <thead><tr><th>维度</th><th>应届校招</th><th>社招</th></tr></thead>
+        <tbody>
+          <tr><td>时间窗口</td><td>9-11 月秋招主战 / 3-4 月春招补</td><td>全年皆可, 但 3-5 月最活跃</td></tr>
+          <tr><td>HC 池</td><td>大批量, HC 多但竞争激烈</td><td>按需开放, HC 少但匹配度高</td></tr>
+          <tr><td>简历重点</td><td>教育 + 实习 + 项目</td><td>工作经历 + 项目 + 量化产出</td></tr>
+          <tr><td>笔试比重</td><td>★★★★★ 算法笔试硬门票</td><td>★★ 有些公司也有, 但易跳过</td></tr>
+          <tr><td>面试轮次</td><td>HR + 群面 + 2-3 技术面</td><td>1-2 技术面 + 老板面 + HR</td></tr>
+          <tr><td>谈薪空间</td><td>较小 (HC 价基本固定)</td><td>较大 (按个人议价)</td></tr>
+          <tr><td>关注点</td><td>潜力、学习能力、可塑性</td><td>已有产出、能否立刻干活</td></tr>
+          <tr><td>入职时间</td><td>毕业当年 7 月统一入职</td><td>2-4 周内入职</td></tr>
+        </tbody>
+      </table>
+
+      <h2>应届校招独有套路</h2>
+
+      <h3>① 必须刷算法题</h3>
+      <p>大厂校招 80%+ 都有算法笔试 (LeetCode 难度), 不刷题直接出局。</p>
+      <ul>
+        <li><strong>必刷题量</strong>: Hot 100 + 大厂高频 50 题 = 150 题左右。</li>
+        <li><strong>时间投入</strong>: 暑假 2-3 个月专项刷, 每天 3-5 题。</li>
+        <li><strong>语言选择</strong>: Python 最快, C++ 在硬核公司加分。</li>
+      </ul>
+
+      <h3>② 必拿核心实习</h3>
+      <p>没有实习的应届生在大厂校招中竞争力大幅下降:</p>
+      <ul>
+        <li><strong>大厂实习留用</strong>: 转正率 50-70%, 是性价比最高的校招路径。</li>
+        <li><strong>实习时机</strong>: 大三暑假 / 研一暑假 / 研二寒暑假, 至少 1 段 3+ 月实习。</li>
+        <li><strong>没拿大厂实习</strong>: 用顶会论文 / 大型开源 / Kaggle 名次替代。</li>
+      </ul>
+
+      <h3>③ 注意秋招节奏</h3>
+      <pre><span class="k">7-8 月</span> 暑期实习 + 暑假留用通知
+<span class="k">8-9 月</span> 提前批 (大厂 SSP 通常在这阶段)
+<span class="k">9-10 月</span> 正式秋招 + 主流 HC
+<span class="k">11-12 月</span> 秋招补录 + 春招准备
+<span class="k">2-4 月</span> 春招 + 校招最后机会</pre>
+
+      <h2>社招独有套路</h2>
+
+      <h3>① 简历要可量化</h3>
+      <p>「3 年经验」不重要, 「线上 CTR +0.8%」才重要。社招简历每条<strong>必须有数字</strong>。</p>
+
+      <h3>② 重视内推</h3>
+      <p>社招 60%+ 通过内推, 内推回复率是官网 5-10 倍。<strong>没内推就先建立人脉</strong>:</p>
+      <ul>
+        <li>知乎 / 即刻 / V2EX 上的从业者私信。</li>
+        <li>过去同事 / 学长学姐。</li>
+        <li>技术社区 / 大会上认识的人。</li>
+        <li>LinkedIn / 脉脉 - 业内招聘官。</li>
+      </ul>
+
+      <h3>③ 关注「黄金跳槽点」</h3>
+      <ul>
+        <li><strong>3 月 - 4 月</strong>: 年终发完, 大批人开始动。</li>
+        <li><strong>9 月 - 10 月</strong>: 校招 + 社招同时开启, 公司预算多。</li>
+        <li><strong>避开 12-1 月</strong>: 年终未发, 很多人犹豫不跳。</li>
+      </ul>
+
+      <h2>两条路径的转换</h2>
+      <p>实习留用 → 直接成为社招中的「校招生」, 不走校招渠道。第 1 年薪资介于校招和社招之间, 通常更接近社招。</p>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>应届生最大坑</strong>: 不要把应届身份浪费。应届 offer 失败可以再读 1 年 (gap year), 但<strong>应届身份用过了就没了</strong>, 后面所有招聘都按社招走 (要求工作年限和工资证明)。</p>
+      </div>
+    </article>
+
+    <article id="plan-30" class="article">
+      <div class="art-crumbs">定位 & 节奏 <span class="crumb-sep">/</span> PART 2 <span class="crumb-sep">/</span> <span class="crumb-active">30 天加速版</span></div>
+      <h1>30 天备战计划 · 加速版</h1>
+      <p class="art-lead">手上有 30 天集中准备 (在职 / 待业)？这个节奏适合<strong>3-5 年经验 + 想跳大厂</strong>的社招同学。应届生看下面的 3 个月版本。</p>
+
+      <h2>4 周节奏概览</h2>
+      <pre><span class="k">Week 1</span>: 盘点简历 + 项目复盘
+<span class="k">Week 2</span>: LLM 八股 + 系统设计
+<span class="k">Week 3</span>: 算法刷题 提高篇
+<span class="k">Week 4</span>: 模拟面试 + 投递 + 复盘</pre>
+
+      <h2>Week 1 · 简历 + 项目复盘</h2>
+      <h3>每日任务</h3>
+      <ul>
+        <li><strong>Day 1-2</strong>: 简历重构 (STAR 化, 见 <a href="resume.html#star" style="color:var(--accent);">简历优化</a>)。</li>
+        <li><strong>Day 3-4</strong>: 项目 1 深度复盘, 写出 STAR + 3 层追问预案。</li>
+        <li><strong>Day 5-6</strong>: 项目 2 + 项目 3 同样深度复盘。</li>
+        <li><strong>Day 7</strong>: 自我介绍 1 分钟版 + 3 分钟版录音, 自己听 3 遍。</li>
+      </ul>
+      <h3>产出</h3>
+      <ul>
+        <li>✅ 1 份新简历 (STAR + 量化)。</li>
+        <li>✅ 3 个项目的「2 分钟讲法 + 10 分钟深挖 + 反问 list」。</li>
+        <li>✅ 2 个版本的自我介绍音频备份。</li>
+      </ul>
+
+      <h2>Week 2 · LLM 八股 + 系统设计</h2>
+      <h3>每日任务</h3>
+      <ul>
+        <li><strong>Day 8-9</strong>: Transformer 细节 (Self-Attention, 位置编码, MHA), 见 <a href="tech.html#transformer" style="color:var(--accent);">tech 文档</a>。</li>
+        <li><strong>Day 10-11</strong>: 预训练 + 微调 (Pretrain, SFT, LoRA, QLoRA)。</li>
+        <li><strong>Day 12</strong>: 对齐 (RLHF, DPO, GRPO)。</li>
+        <li><strong>Day 13</strong>: 系统设计 · RAG (按 5 步法走一遍完整答案)。</li>
+        <li><strong>Day 14</strong>: 系统设计 · Agent 平台。</li>
+      </ul>
+      <h3>产出</h3>
+      <ul>
+        <li>✅ 八股 7 个核心主题各能讲 5 分钟。</li>
+        <li>✅ 2 个系统设计题能在 25 分钟内画完架构 + 讲清关键决策。</li>
+      </ul>
+
+      <h2>Week 3 · 算法刷题</h2>
+      <h3>每日任务</h3>
+      <ul>
+        <li><strong>Day 15-18</strong>: 必刷 7 大题型 (每天 1 题型 4-5 题): 双指针、滑窗、BFS/DFS、动规、堆、回溯、图。</li>
+        <li><strong>Day 19-20</strong>: LeetCode Hot 100 高频 30 题。</li>
+        <li><strong>Day 21</strong>: 复盘做错的题, 整理「错题集」反复看。</li>
+      </ul>
+      <h3>产出</h3>
+      <ul>
+        <li>✅ Hot 100 中至少 70 题能在 25 分钟内 ac。</li>
+        <li>✅ 错题集 ~20 题, 自己能讲出最优解和复杂度。</li>
+      </ul>
+
+      <h2>Week 4 · 模拟面试 + 投递</h2>
+      <h3>每日任务</h3>
+      <ul>
+        <li><strong>Day 22-23</strong>: 找朋友模拟 2 场技术面 (1 算法 + 1 项目 + 系统设计)。</li>
+        <li><strong>Day 24-25</strong>: 用 Claude/GPT 模拟 2 场问答, 把所有八股问一遍。</li>
+        <li><strong>Day 26-27</strong>: 投递 8-10 家公司 (大厂 4-5 + 独角兽 2-3 + 备胎 2)。</li>
+        <li><strong>Day 28</strong>: 跟进面试时间, 准备每家公司的针对性问题。</li>
+        <li><strong>Day 29-30</strong>: 完成第一轮面试 1-2 家, 复盘改进。</li>
+      </ul>
+      <h3>产出</h3>
+      <ul>
+        <li>✅ 至少 2 场完整模拟面试经验。</li>
+        <li>✅ 投递 ≥ 8 家, 进入面试流程 ≥ 3 家。</li>
+        <li>✅ 1 份「面试问题汇总 + 自己的答案」笔记。</li>
+      </ul>
+
+      <h2>每周日小计 (固定动作)</h2>
+      <ol>
+        <li>列下周「Top 3 重点」, 不超过 3 件事。</li>
+        <li>整理本周错题 / 答得不好的题, 第 2 天最先重过。</li>
+        <li>记录本周遇到的真实面试题 → 加到下周复习清单。</li>
+        <li>给自己写 1 段反馈: 哪里做得好 / 哪里有进步空间。</li>
+      </ol>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>大忌</strong>: 不要把 30 天全用来「学新东西」。<strong>简历 + 项目复盘是 ROI 最高的</strong>, 必须 Week 1 优先做。技术深挖永远学不完, 但简历做好可以让你直接拿面试。</p>
+      </div>
+    </article>
+
+    <article id="plan-long" class="article">
+      <div class="art-crumbs">定位 & 节奏 <span class="crumb-sep">/</span> PART 2 <span class="crumb-sep">/</span> <span class="crumb-active">3 个月稳健版</span></div>
+      <h1>3 个月备战计划 · 稳健版</h1>
+      <p class="art-lead">手上有 3 个月时间 (应届校招提前 / 在职从容跳)？这个节奏适合<strong>需要补强短板</strong>的同学, 每天投入 2-4 小时即可跑完。</p>
+
+      <h2>3 个月节奏概览</h2>
+      <pre><span class="k">Month 1</span>: 基础 + 简历 (打牢底子)
+<span class="k">Month 2</span>: 八股 + 系统设计 + 项目 (能力建设)
+<span class="k">Month 3</span>: 算法 + 投递 + 面试 (实战收割)</pre>
+
+      <h2>Month 1 · 基础 + 简历</h2>
+      <h3>Week 1-2 · 简历 + 自我介绍</h3>
+      <ul>
+        <li>简历重构 (按 <a href="resume.html" style="color:var(--accent);">简历优化</a>所有 12 篇看一遍, 做笔记)。</li>
+        <li>列出 5-8 段实习/项目经历, 全部 STAR 化。</li>
+        <li>1 分钟 + 3 分钟自我介绍, 录音改 3 遍。</li>
+      </ul>
+      <h3>Week 3-4 · 选方向 + 调研行情</h3>
+      <ul>
+        <li>对照「<a href="#direction" style="color:var(--accent);">选准方向 3 步法</a>」, 确定主投方向 (算法/应用/基建)。</li>
+        <li>找 20+ 个目标 JD, 提取常见技术栈和高频考点。</li>
+        <li>用「岗位关键字」反向更新简历。</li>
+      </ul>
+
+      <h2>Month 2 · 八股 + 系统设计 + 项目</h2>
+      <h3>Week 5-6 · LLM 八股</h3>
+      <ul>
+        <li>Transformer 系列 (Self-Attention, 位置编码, MHA): 每个能讲 5 分钟。</li>
+        <li>预训练 + 微调 (Pretrain, SFT, LoRA/QLoRA, DPO): 各能讲 5 分钟。</li>
+        <li>读 1 篇高频论文 (例如 LoRA / DPO 原文)。</li>
+      </ul>
+      <h3>Week 7 · 系统设计</h3>
+      <ul>
+        <li>5 步答题法练习: 澄清需求 → 架构 → 关键决策 → 工程 → 扩展。</li>
+        <li>RAG 系统 + Agent 平台 2 个经典题各画 3 遍架构图。</li>
+        <li>录音演讲, 每个题控制在 25 分钟内。</li>
+      </ul>
+      <h3>Week 8 · 项目深挖</h3>
+      <ul>
+        <li>3 个最强项目, 写出「2 分钟版 + 10 分钟版 + 3 层反问」预案。</li>
+        <li>跟同学/前辈对练, 互相挑刺。</li>
+        <li>把答得不好的点回到代码 / 文档里查清楚。</li>
+      </ul>
+
+      <h2>Month 3 · 算法 + 投递 + 面试</h2>
+      <h3>Week 9-10 · 算法刷题</h3>
+      <ul>
+        <li>Hot 100 第一遍刷完 (每天 5 题, 50 题 / 周)。</li>
+        <li>大厂高频 30 题第二遍 (重点公司针对性刷)。</li>
+        <li>整理「错题集」+ 模板代码 (BFS / 二分 / 滑窗等)。</li>
+      </ul>
+      <h3>Week 11 · 投递 + 第一轮面</h3>
+      <ul>
+        <li>批量投递 (大厂 6-8 + 独角兽 3-5 + 备胎 2-3)。</li>
+        <li>第 1 周做 2-3 家技术面, 复盘每场后立刻改进。</li>
+        <li>每场面后 30 分钟内写「面试复盘」: 哪里好/哪里差/改进点。</li>
+      </ul>
+      <h3>Week 12 · 收割 + 谈薪</h3>
+      <ul>
+        <li>聚焦 2-3 家最匹配的公司, push 加速。</li>
+        <li>开始有口头 offer, 按「<a href="offer.html#principles" style="color:var(--accent);">谈薪四原则</a>」拉锯。</li>
+        <li>对照 TC 计算模板, 横向比较多 offer。</li>
+        <li>签字, 走离职流程, 入职准备。</li>
+      </ul>
+
+      <h2>每周固定动作</h2>
+      <table>
+        <thead><tr><th>日</th><th>任务</th></tr></thead>
+        <tbody>
+          <tr><td>周一</td><td>列本周 Top 3 重点 (≤3 件), 拒绝其他诱惑</td></tr>
+          <tr><td>周二-周五</td><td>按周计划推进, 每日 2-4 小时</td></tr>
+          <tr><td>周六</td><td>1 场模拟面 (找朋友 / 用 Claude / 录音自演)</td></tr>
+          <tr><td>周日</td><td>复盘: 完成情况 + 调下周计划 + 错题重过</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <div class="ic">💡</div>
+        <p><strong>3 个月版的好处</strong>: 每周只用 10-15 小时, 在职完全可控。劣势: 时间长容易拖延。<strong>关键是「周日复盘」不能省</strong>, 强制让自己跟上节奏。</p>
+      </div>
+    </article>
+
+    <article id="in-job" class="article">
+      <div class="art-crumbs">定位 & 节奏 <span class="crumb-sep">/</span> PART 2 <span class="crumb-sep">/</span> <span class="crumb-active">在职 vs 全职准备</span></div>
+      <h1>在职 vs 全职准备策略</h1>
+      <p class="art-lead">「我应该裸辞备战, 还是边工作边面?」—— 取决于你的<strong>财务安全垫</strong>和<strong>时间利用效率</strong>。</p>
+
+      <h2>两种模式对比</h2>
+      <table>
+        <thead><tr><th>维度</th><th>在职准备</th><th>裸辞全职</th></tr></thead>
+        <tbody>
+          <tr><td>时间投入</td><td>每天 2-4 小时</td><td>每天 6-10 小时</td></tr>
+          <tr><td>备战周期</td><td>3-6 个月</td><td>1-2 个月</td></tr>
+          <tr><td>压力</td><td>低 (有收入兜底)</td><td>高 (时间 + 金钱双压力)</td></tr>
+          <tr><td>谈薪筹码</td><td>★★★★★ 上家薪资作锚</td><td>★★ 已无收入, 被动</td></tr>
+          <tr><td>面试灵活度</td><td>★★ 请假难、面试时间紧</td><td>★★★★★ 随时面</td></tr>
+          <tr><td>身体 / 心态</td><td>累, 但收入稳</td><td>不上班反而容易焦虑</td></tr>
+          <tr><td>简历空窗期</td><td>无</td><td>有 (建议 ≤2 个月)</td></tr>
+        </tbody>
+      </table>
+
+      <h2>在职准备建议</h2>
+
+      <h3>① 时间分配</h3>
+      <pre><span class="k">工作日早晨</span>: 30 分钟刷题 (起床 / 早餐时)
+<span class="k">工作日晚上</span>: 1.5-2 小时学习 (按周计划推进)
+<span class="k">周六上午</span>: 1 场模拟面试 (4-6 小时, 含复盘)
+<span class="k">周六下午</span>: 休息 / 玩
+<span class="k">周日上午</span>: 2-3 小时实战面试 (公司面试或线上)
+<span class="k">周日下午</span>: 复盘 + 列下周计划</pre>
+      <p>每周 ~15 小时, 3 个月 ~180 小时, 足够准备一份 LLM 工程师面试。</p>
+
+      <h3>② 上家工作策略</h3>
+      <ul>
+        <li><strong>不松懈</strong>: 工作上别明显怠惰, 等 offer 签字后再松。</li>
+        <li><strong>不抱怨</strong>: 不在工作中表现不满, HR 圈子小, 容易传到下家。</li>
+        <li><strong>留好关系</strong>: 走时给老板和 1-2 个同事留长期联系, 未来背调 / 行业八卦都用得上。</li>
+      </ul>
+
+      <h3>③ 面试时间安排</h3>
+      <ul>
+        <li><strong>优先早晨 / 晚上</strong>: 8:00 / 19:00 起的电话面, 不影响工作。</li>
+        <li><strong>需请假时</strong>: 一次性请 1-2 天集中面 3-4 家, 不要分散。</li>
+        <li><strong>HR 排面试时</strong>: 主动给 2-3 个时段供 HR 选, 而不是问「您什么时候方便」 (主动权在自己)。</li>
+      </ul>
+
+      <h2>裸辞全职准备建议</h2>
+
+      <h3>① 财务安全垫</h3>
+      <p><strong>至少存 6 个月生活费</strong> (含房租 / 吃 / 备用), 否则 2-3 个月没拿到 offer 就会焦虑乱投。</p>
+
+      <h3>② 时间投入</h3>
+      <pre><span class="k">9:00-12:00</span> 上午 (高效时段)
+   学习新内容 (八股 / 系统设计)
+<span class="k">14:00-17:00</span> 下午
+   刷题 / 项目复盘 / 简历改
+<span class="k">19:00-21:00</span> 晚上
+   面试 / 模拟面 / 复盘
+<span class="k">21:00 后</span> 放松, 必须休息</pre>
+
+      <h3>③ 心态管理</h3>
+      <ul>
+        <li><strong>每天保持「外出」</strong>: 在家容易抑郁, 哪怕去咖啡馆学习也好。</li>
+        <li><strong>每周面试 ≥ 2 场</strong>: 否则会陷入「准备-准备-准备」死循环。</li>
+        <li><strong>设置 deadline</strong>: 「2 个月内必须有 offer」, 避免无限延期。</li>
+        <li><strong>有规律运动</strong>: 每周 3 次, 不然身体和精神都会下滑。</li>
+      </ul>
+
+      <h2>关键决策点：什么时候裸辞？</h2>
+      <p>下面 3 个条件<strong>同时满足</strong>再裸辞:</p>
+      <ol>
+        <li><strong>财务</strong>: 存款 ≥ 6 个月生活费。</li>
+        <li><strong>市场</strong>: 行业不在大裁员周期, 你目标方向 HC 充足。</li>
+        <li><strong>动机</strong>: 上家工作严重影响备战 (例如 996 完全没时间), 而不是仅仅「不想上班」。</li>
+      </ol>
+
+      <h3>不建议裸辞的情况</h3>
+      <ul>
+        <li>存款 ≤ 3 个月。</li>
+        <li>行业寒冬 (2022-2023 互联网寒冬时, 裸辞失业 6+ 个月的人很多)。</li>
+        <li>上家工作还可以, 只是「想换换」 → 边工作边面更稳。</li>
+        <li>家庭有较大经济压力 (房贷 / 养孩子)。</li>
+      </ul>
+
+      <div class="callout warn">
+        <div class="ic">⚠️</div>
+        <p><strong>裸辞最大坑</strong>: 简历空窗期超过 3 个月, 后续公司会反复追问「这段时间在做什么」。准备好可信的答案 (项目 / 学习 / 健康原因 / 家庭原因), 别让空窗成为减分项。</p>
+      </div>
+    </article>
+
+    <div class="pager" id="pager"></div>
+
+  </main>
+
+</div>
+
+<footer>
+  <div>© 2026 llm-roadmap / interview-guide · 定位 & 节奏</div>
+  <div>
+    <a href="index.html">首页</a> ·
+    <a href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  const tBtn = document.getElementById('themeBtn');
+  const tMenu = document.getElementById('themeMenu');
+  const tHtml = document.documentElement;
+  function applyTheme(name) {
+    tHtml.dataset.theme = name;
+    tBtn.querySelector('.tname').textContent = name;
+    tMenu.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.theme === name));
+    localStorage.setItem('theme', name);
+  }
+  applyTheme(localStorage.getItem('theme') || 'light');
+  tBtn.addEventListener('click', e => { e.stopPropagation(); tMenu.classList.toggle('open'); });
+  tMenu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { applyTheme(b.dataset.theme); tMenu.classList.remove('open'); }));
+  document.addEventListener('click', () => tMenu.classList.remove('open'));
+
+  const items = [...document.querySelectorAll('.side-item')];
+  const articles = [...document.querySelectorAll('.article')];
+  const order = items.map(el => el.dataset.id);
+  const titleMap = {};
+  items.forEach(el => { titleMap[el.dataset.id] = el.textContent.trim().replace(/^\d+/, '').trim(); });
+
+  function showArticle(id) {
+    if (!order.includes(id)) id = order[0];
+    articles.forEach(a => a.classList.toggle('active', a.id === id));
+    items.forEach(el => el.classList.toggle('active', el.dataset.id === id));
+    renderPager(id);
+    if (location.hash !== '#' + id) history.replaceState(null, '', '#' + id);
+    window.scrollTo({top:0, behavior:'instant'});
+    if (window.innerWidth <= 880) document.getElementById('side').classList.add('collapsed');
+  }
+
+  function renderPager(id) {
+    const i = order.indexOf(id);
+    const prev = i > 0 ? order[i-1] : null;
+    const next = i < order.length - 1 ? order[i+1] : null;
+    const pager = document.getElementById('pager');
+    pager.innerHTML =
+      (prev
+        ? '<a class="pager-btn prev" data-go="' + prev + '"><div class="pg-label">← 上一篇</div><div class="pg-title">' + titleMap[prev] + '</div></a>'
+        : '<span class="pager-btn prev disabled"><div class="pg-label">已是首篇</div><div class="pg-title">—</div></span>')
+      +
+      (next
+        ? '<a class="pager-btn next" data-go="' + next + '"><div class="pg-label">下一篇 →</div><div class="pg-title">' + titleMap[next] + '</div></a>'
+        : '<span class="pager-btn next disabled"><div class="pg-label">已是末篇</div><div class="pg-title">—</div></span>');
+  }
+
+  document.addEventListener('click', e => {
+    const it = e.target.closest('.side-item');
+    if (it) { showArticle(it.dataset.id); return; }
+    const pg = e.target.closest('.pager-btn[data-go]');
+    if (pg) { showArticle(pg.dataset.go); return; }
+    const tg = e.target.closest('#sideToggle');
+    if (tg) { document.getElementById('side').classList.toggle('collapsed'); return; }
+  });
+  window.addEventListener('hashchange', () => showArticle((location.hash || '').replace(/^#/, '')));
+
+  const initId = (location.hash || '').replace(/^#/, '') || order[0];
+  showArticle(initId);
+  if (window.innerWidth > 880) document.getElementById('side').classList.remove('collapsed');
+</script>
+</body>
+</html>
