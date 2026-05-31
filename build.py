@@ -364,13 +364,13 @@ def build_module(name, cfg):
         content_parts.append("    </section>")
     content_html = "\n".join(content_parts)
 
-    # 生成右侧 TOC（层级：章节 → h2 → h3）
+    # 生成右侧 TOC（按章节分组，每个项标记 data-section 供 JS 过滤）
     toc_parts = []
     for c in chapters:
-        toc_parts.append(f'    <a class="toc-item toc-h1" href="#{c["id"]}">{c["toc"]}</a>')
+        toc_parts.append(f'    <a class="toc-item toc-h1" href="#{c["id"]}" data-section="{c["id"]}">{c["toc"]}</a>')
         for h in c["headings"]:
             indent_class = "toc-h3" if h["level"] == 3 else "toc-h2"
-            toc_parts.append(f'    <a class="toc-item {indent_class}" href="#{h["id"]}">{h["text"]}</a>')
+            toc_parts.append(f'    <a class="toc-item {indent_class}" href="#{h["id"]}" data-section="{c["id"]}">{h["text"]}</a>')
     toc_html = "\n".join(toc_parts)
 
     # 模板替换

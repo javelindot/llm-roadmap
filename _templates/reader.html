@@ -359,17 +359,52 @@ $toc
   const headings = document.querySelectorAll('main h2[id], main h3[id]');
   const tocLinks = document.querySelectorAll('.side-r .toc-item');
   const chapLinks = document.querySelectorAll('.side-l .chap-item');
-  function setActive(id) {
+
+  let currentSectionId = null;
+
+  function filterTocBySection(sectionId) {
+    currentSectionId = sectionId;
+    tocLinks.forEach(a => {
+      const sec = a.getAttribute('data-section');
+      a.style.display = sec === sectionId ? '' : 'none';
+      a.classList.remove('active');
+    });
+  }
+
+  function setActiveHeading(id) {
     tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+  }
+
+  function setActiveChapter(id) {
     chapLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
   }
-  const io = new IntersectionObserver(entries => {
+
+  // Section IO：决定当前活跃章节 → 过滤右栏 + 高亮左栏
+  const sectionIO = new IntersectionObserver(entries => {
     const visible = entries.filter(e => e.isIntersecting)
       .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-    if (visible[0]) setActive(visible[0].target.id);
+    if (visible[0]) {
+      const id = visible[0].target.id;
+      setActiveChapter(id);
+      filterTocBySection(id);
+    }
   }, { rootMargin: '-80px 0px -55% 0px', threshold: 0 });
-  sections.forEach(s => io.observe(s));
-  headings.forEach(h => io.observe(h));
+  sections.forEach(s => sectionIO.observe(s));
+
+  // Heading IO：决定右栏高亮哪个子标题
+  const headingIO = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting)
+      .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    if (visible[0]) setActiveHeading(visible[0].target.id);
+  }, { rootMargin: '-80px 0px -55% 0px', threshold: 0 });
+  headings.forEach(h => headingIO.observe(h));
+
+  // 初始化：默认显示第一个 section 的 TOC
+  if (sections.length > 0) {
+    const firstId = sections[0].id;
+    setActiveChapter(firstId);
+    filterTocBySection(firstId);
+  }
 </script>
 </body>
 </html>
