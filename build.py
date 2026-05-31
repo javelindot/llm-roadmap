@@ -464,10 +464,10 @@ def build_module(name, cfg):
         nav_parts.append('      </div>')
         nav_html = "\n".join(nav_parts)
 
-        toc_parts_chap = [f'    <a class="toc-item toc-h1" href="#{c["id"]}">{c["toc"]}</a>']
+        toc_parts_chap = [f'    <a class="toc-item toc-h1" href="#{c["id"]}" data-section="{c["id"]}">{c["toc"]}</a>']
         for h in c["headings"]:
             indent_class = "toc-h3" if h["level"] == 3 else "toc-h2"
-            toc_parts_chap.append(f'    <a class="toc-item {indent_class}" href="#{h["id"]}">{h["text"]}</a>')
+            toc_parts_chap.append(f'    <a class="toc-item {indent_class}" href="#{h["id"]}" data-section="{c["id"]}">{h["text"]}</a>')
         toc_html_chap = "\n".join(toc_parts_chap)
 
         out_text_chap = string.Template(tpl_text).safe_substitute(
