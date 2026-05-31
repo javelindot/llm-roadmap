@@ -420,17 +420,24 @@ def build_module(name, cfg):
 
     tpl_text = TPL.read_text(encoding="utf-8")
 
-    # 单页 docs.html
-    out_text = string.Template(tpl_text).safe_substitute(
-        sidebar=sidebar_html,
-        content=single_content,
-        toc=toc_html,
-        **cfg,
-    )
+    # docs.html 改为重定向页，自动跳转到多页第一章
+    first_chapter = chapters[0]["file"].replace(".md", ".html")
+    redirect_html = f'''<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="0; url=chapter/{first_chapter}">
+<title>Redirecting...</title>
+<style>body{{font-family:system-ui,sans-serif;text-align:center;padding:40vh 20px;color:#666;}}a{{color:#6366f1;}}</style>
+</head>
+<body>
+<p>正在跳转至 <a href="chapter/{first_chapter}">chapter/{first_chapter}</a>...</p>
+</body>
+</html>'''
     out_path = ROOT / name / "docs.html"
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(out_text, encoding="utf-8")
-    print(f"  ✓ {out_path.relative_to(ROOT)}  ({len(chapters)} 章节, {sum(len(v) for v in groups.values())} 项, {len(group_order)} 组)")
+    out_path.write_text(redirect_html, encoding="utf-8")
+    print(f"  ✓ {out_path.relative_to(ROOT)}  → chapter/{first_chapter}  (重定向页)")
 
     # ── 多页版本（每章独立页面）──
     chapter_dir = ROOT / name / "chapter"
