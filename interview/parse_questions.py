@@ -2,6 +2,8 @@
 """
 面试题解析脚本 —— MD 内容源 + JSON 索引层 分离架构
 
+Windows 编码兼容：若 stdout 不是 utf-8，自动重配置
+
 用法:
   python parse_questions.py                  # 解析 _src/ 下所有 quiz-*.md
   python parse_questions.py quiz-main.md     # 只解析指定文件
@@ -18,6 +20,10 @@
     status（可选）: pending 表示待补充答案
 """
 
+import sys
+if sys.platform == "win32" and hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 import json
 import re
 import sys
@@ -31,17 +37,38 @@ OUTPUT_FULL = OUT_DIR / "quiz-data.json"
 OUTPUT_INDEX = OUT_DIR / "quiz-index.json"
 QUESTIONS_DIR = OUT_DIR / "questions"
 
-# 分类映射：中文名称 → 英文 key
+# 分类映射：中文名称 → 英文 key（支持完整名称及子分类）
 category_key_map = {
     "RAG/检索": "rag",
+    "RAG": "rag",
+    "检索": "rag",
     "Agent/多智能体": "agent",
+    "Agent": "agent",
+    "多智能体": "agent",
     "大模型原理": "llm-theory",
     "推理优化/部署": "deploy",
+    "推理优化": "deploy",
+    "部署": "deploy",
     "NL2SQL/数据": "nl2sql",
+    "NL2SQL": "nl2sql",
+    "数据": "nl2sql",
     "知识图谱": "kg",
     "编程基础": "coding",
     "系统设计": "system-design",
     "综合": "mixed",
+}
+
+# key → 显示名称（聚合索引用）
+category_display_map = {
+    "rag": "RAG/检索",
+    "agent": "Agent/多智能体",
+    "llm-theory": "大模型原理",
+    "deploy": "推理优化/部署",
+    "nl2sql": "NL2SQL/数据",
+    "kg": "知识图谱",
+    "coding": "编程基础",
+    "system-design": "系统设计",
+    "mixed": "综合",
 }
 
 
@@ -61,7 +88,7 @@ def classify(question: str, answer: str) -> str:
         ("推理优化/部署", ["vllm", "推理", "部署", "tensorrt", "加速", "显存", "gpu", "并行", "flashattention", "kv cache", "docker", "k8s", "fastapi", "flask", "websocket", "sse", "流式", "延迟", "qps", "tps", "压测"]),
         ("NL2SQL/数据", ["sql", "nl2sql", "数据库", "hive", "mysql", "binlog", "表", "字段", "元数据", "指标", "维度"]),
         ("知识图谱", ["图谱", "graphrag", "neo4j", "节点", "边", "关系", "实体", "属性", "多跳"]),
-        ("编程基础", ["python", "list", "dict", "set", "tuple", "线程", "进程", "协程", "深浅拷贝", "装饰器", "算法", "leetcode", "排序", "数组"]),
+        ("编程基础", ["python", "list", "dict", "set", "tuple", "线程", "进程", "协程", "深浅拷贝", "装饰器", "leetcode", "排序算法", "手撕", "代码:", "code:", "秒撕", "二叉树", "链表", "数组与"]),
         ("系统设计", ["设计模式", "架构", "微服务", "并发", "锁", "连接池", "限流", "熔断", "消息队列", "kafka", "redis", "缓存"]),
     ]
     for cat, keywords in rules:
@@ -179,8 +206,7 @@ def parse_markdown(filepath: Path) -> list:
             answer = "\n".join(answer_lines)
             answer = re.sub(r'\*\*', '', answer)
 
-            is_unknown_source = current_company and any(k in current_company for k in ["其他", "来源未知", "图片", "截图"])
-            if answer or is_unknown_source:
+            if True:  # 保留所有题目，无论是否有答案
                 questions.append({
                     "company": current_company or "未知",
                     "category": current_category or "综合",
@@ -204,7 +230,9 @@ def slugify_category(name: str) -> str:
 def write_question_md(qid: str, rec: dict, out_path: Path):
     """生成单题独立 Markdown 文件。"""
     cat = rec["category"]
-    cat_key = slugify_category(cat)
+    cat_arr = [p.strip() for p in cat.split("/")]
+    cat_key = slugify_category(cat_arr[0])
+    cat_yaml = ", ".join(f'"{c}"' for c in cat_arr)
     tags = ", ".join(f'"{t}"' for t in rec["tags"])
     companies = ", ".join(f'"{c}"' for c in rec["companies"])
     has_answer = "true" if rec["hasAnswer"] else "false"
@@ -213,7 +241,7 @@ def write_question_md(qid: str, rec: dict, out_path: Path):
     fm = f"""---
 id: {qid}
 title: {rec["question"]}
-category: {cat}
+category: [{cat_yaml}]
 categoryKey: {cat_key}
 tags: [{tags}]
 companies: [{companies}]
@@ -267,6 +295,8 @@ def main():
     for q in all_raw:
         key = q["question"][:60]
         company = q["company"].replace("（", "(").replace("）", ")")
+        if company == "通用题库":
+            company = "其他"
         if key not in merged:
             merged[key] = {
                 "question": q["question"],
@@ -293,11 +323,12 @@ def main():
         rec = merged[key]
         qid = f"q-{idx}"
         cat = classify(rec["question"], rec["answer"])
+        cat_arr = [p.strip() for p in cat.split("/")]
         tags = extract_tags(rec["question"], rec["answer"])
         has_answer = len(rec["answer"].strip()) > 10
         freq = len(rec["companies"])
         hot = 2 if freq >= 4 else (1 if freq >= 2 else 0)
-        cat_key = slugify_category(cat)
+        cat_key = slugify_category(cat_arr[0])
         md_path = f"questions/{qid}.md"
 
         # 写入单题 MD
@@ -321,7 +352,7 @@ def main():
             "companies": rec["companies"] or ["未知"],
             "frequency": freq if freq > 0 else 1,
             "hot": hot,
-            "category": cat,
+            "category": cat_arr,
             "title": rec["question"],
             "answer": rec["answer"] if has_answer else "",
             "hasAnswer": has_answer,
@@ -334,7 +365,7 @@ def main():
             "title": rec["question"],
             "mdPath": md_path,
             "categoryKey": cat_key,
-            "categoryName": cat,
+            "categoryName": cat_arr,
             "companies": rec["companies"] or ["未知"],
             "frequency": freq if freq > 0 else 1,
             "hot": hot,
@@ -351,9 +382,13 @@ def main():
     tags_idx = defaultdict(lambda: {"name": "", "questionIds": []})
 
     for q in index_questions:
-        ck = q["categoryKey"]
-        categories[ck]["name"] = q["categoryName"]
-        categories[ck]["questionIds"].append(q["id"])
+        seen_cat_keys = set()
+        for c in q["categoryName"]:
+            ck = slugify_category(c)
+            if ck not in seen_cat_keys:
+                seen_cat_keys.add(ck)
+                categories[ck]["name"] = category_display_map.get(ck, c)
+                categories[ck]["questionIds"].append(q["id"])
 
         for co in q["companies"]:
             companies_idx[co]["name"] = co
@@ -430,7 +465,7 @@ def main():
     print(f"✅ questions/        — {len(full_results)} 个独立 Markdown 内容源")
 
     # 统计
-    cat_counter = Counter(q["category"] for q in full_results)
+    cat_counter = Counter("/".join(q["category"]) for q in full_results)
     print("\n📊 分类分布:")
     for c, n in cat_counter.most_common():
         print(f"   {c}: {n}")

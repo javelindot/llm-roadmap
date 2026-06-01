@@ -191,6 +191,20 @@
     color:var(--accent); font-weight:600;
   }
 
+  /* ── Collapsible filter tags ── */
+  .filter-tags-wrap.collapsed .filter-tags {
+    max-height: 76px;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
+  }
+  .filter-more-btn {
+    font-size: 11px; color: var(--accent); cursor: pointer;
+    margin-top: 4px; display: inline-flex; align-items: center; gap: 2px;
+    user-select: none;
+  }
+  .filter-more-btn:hover { text-decoration: underline; }
+
   /* ── Main ── */
   .main { min-width:0; }
   .top-bar {
@@ -589,7 +603,10 @@
 
     <div class="filter-group">
       <span class="filter-label">公司</span>
-      <div class="filter-tags" id="companyFilters"></div>
+      <div class="filter-tags-wrap collapsed" id="companyFiltersWrap">
+        <div class="filter-tags" id="companyFilters"></div>
+        <div class="filter-more-btn" data-action="toggle-company-expand">展开更多 <span>▼</span></div>
+      </div>
     </div>
 
     <div class="filter-group">
@@ -704,7 +721,7 @@ let state = {
   favorited: new Set(),
   expanded: new Set(),
   filterCompany: null,
-  filterCategory: null,
+  filterCategory: new Set(),
   filterStatus: 'all',
   filterCompleteness: 'all',
   searchQuery: '',
@@ -720,6 +737,7 @@ function loadState() {
       const parsed = JSON.parse(raw);
       state.completed = new Set(parsed.completed || []);
       state.favorited = new Set(parsed.favorited || []);
+      state.filterCategory = new Set(parsed.filterCategory || []);
     }
     const ua = localStorage.getItem('quiz-user-answers');
     if (ua) userAnswers = JSON.parse(ua);
@@ -729,7 +747,8 @@ function loadState() {
 function saveState() {
   localStorage.setItem('quiz-state', JSON.stringify({
     completed: [...state.completed],
-    favorited: [...state.favorited]
+    favorited: [...state.favorited],
+    filterCategory: [...state.filterCategory]
   }));
 }
 
@@ -743,15 +762,26 @@ function renderFilters() {
   const coSet = new Set();
   ALL_QUESTIONS.forEach(q => (q.companies || [q.company]).forEach(c => c && coSet.add(c)));
   const companies = [...coSet].sort();
-  const categories = [...new Set(ALL_QUESTIONS.map(q => q.category))].sort();
+  const categories = [...new Set(ALL_QUESTIONS.flatMap(q => q.category))].sort();
 
   const cf = document.getElementById('companyFilters');
   cf.innerHTML = '<span class="filter-tag' + (!state.filterCompany ? ' active' : '') + '" data-company="">全部</span>' +
     companies.map(c => '<span class="filter-tag' + (state.filterCompany === c ? ' active' : '') + '" data-company="' + c + '">' + c + '</span>').join('');
 
+  // 如果选中了某个公司，自动展开公司筛选
+  const wrap = document.getElementById('companyFiltersWrap');
+  const moreBtn = wrap.querySelector('.filter-more-btn');
+  if (state.filterCompany) {
+    wrap.classList.remove('collapsed');
+    if (moreBtn) moreBtn.innerHTML = '收起 <span>▲</span>';
+  } else {
+    wrap.classList.add('collapsed');
+    if (moreBtn) moreBtn.innerHTML = '展开更多 <span>▼</span>';
+  }
+
   const catf = document.getElementById('categoryFilters');
-  catf.innerHTML = '<span class="filter-tag' + (!state.filterCategory ? ' active' : '') + '" data-category="">全部</span>' +
-    categories.map(c => '<span class="filter-tag' + (state.filterCategory === c ? ' active' : '') + '" data-category="' + c + '">' + c + '</span>').join('');
+  catf.innerHTML = '<span class="filter-tag' + (state.filterCategory.size === 0 ? ' active' : '') + '" data-category="">' + (state.filterCategory.size === 0 ? '全部' : '清除') + '</span>' +
+    categories.map(c => '<span class="filter-tag' + (state.filterCategory.has(c) ? ' active' : '') + '" data-category="' + c + '">' + c + '</span>').join('');
 
   document.querySelectorAll('#statusFilters .filter-tag').forEach(el => {
     el.classList.toggle('active', el.dataset.status === state.filterStatus);
@@ -766,7 +796,7 @@ function getFiltered() {
   const filtered = ALL_QUESTIONS.filter(q => {
     const companies = q.companies || [q.company];
     if (state.filterCompany && !companies.includes(state.filterCompany)) return false;
-    if (state.filterCategory && q.category !== state.filterCategory) return false;
+    if (state.filterCategory.size > 0 && !q.category.some(c => state.filterCategory.has(c))) return false;
     if (state.filterStatus === 'completed' && !state.completed.has(q.id)) return false;
     if (state.filterStatus === 'unlearned' && state.completed.has(q.id)) return false;
     if (state.filterStatus === 'favorited' && !state.favorited.has(q.id)) return false;
@@ -774,7 +804,7 @@ function getFiltered() {
     if (state.filterCompleteness === 'pending' && (q.hasAnswer || userAnswers[q.id])) return false;
     if (state.searchQuery) {
       const s = state.searchQuery.toLowerCase();
-      const text = (q.title + ' ' + companies.join(' ') + ' ' + q.category + ' ' + (q.tags||[]).join(' ')).toLowerCase();
+      const text = (q.title + ' ' + companies.join(' ') + ' ' + q.category.join(' ') + ' ' + (q.tags||[]).join(' ')).toLowerCase();
       if (!text.includes(s)) return false;
     }
     return true;
@@ -788,10 +818,12 @@ function getFiltered() {
   } else if (state.sortBy === 'category') {
     // 按分类：分类频次大者优先，类内保持原序
     const catCount = {};
-    ALL_QUESTIONS.forEach(q => { catCount[q.category] = (catCount[q.category]||0) + 1; });
-    filtered.sort((a,b) => (catCount[b.category]||0) - (catCount[a.category]||0)
-      || a.category.localeCompare(b.category)
-      || idx(a.id) - idx(b.id));
+    ALL_QUESTIONS.forEach(q => { q.category.forEach(c => { catCount[c] = (catCount[c]||0) + 1; }); });
+    filtered.sort((a,b) => {
+      const aMax = Math.max(...a.category.map(c => catCount[c]||0));
+      const bMax = Math.max(...b.category.map(c => catCount[c]||0));
+      return bMax - aMax || a.category.join(',').localeCompare(b.category.join(',')) || idx(a.id) - idx(b.id);
+    });
   } else if (state.sortBy === 'pending') {
     filtered.sort((a,b) => {
       const ap = (a.hasAnswer || userAnswers[a.id]) ? 1 : 0;
@@ -805,7 +837,7 @@ function getFiltered() {
 // 同分类的相关题目（最多 3 条，排除自己）
 function relatedFor(q) {
   return ALL_QUESTIONS
-    .filter(o => o.category === q.category && o.id !== q.id)
+    .filter(o => o.category.some(c => q.category.includes(c)) && o.id !== q.id)
     .slice(0, 3);
 }
 
@@ -849,7 +881,7 @@ function renderQuestions() {
           freqBadge +
         '</div>' +
         '<div class="q-badges">' +
-          '<span class="q-badge category">' + escapeHtml(q.category) + '</span>' +
+          '<span class="q-badge category">' + escapeHtml(JSON.stringify(q.category)) + '</span>' +
           (hasAns ? '' : '<span class="q-badge pending-tag">待补充</span>') +
           tags.map(t => '<span class="q-badge tag">#' + escapeHtml(t) + '</span>').join('') +
           (quickMarks ? '<span class="q-quick">' + quickMarks + '</span>' : '') +
@@ -925,7 +957,7 @@ function renderDetail(id) {
     '<div class="detail-card' + hotCls + '">' +
       '<div class="detail-crumbs">' +
         '<a data-action="back">题库</a> / ' +
-        '<a data-action="filter-category" data-value="' + escapeHtml(q.category) + '">' + escapeHtml(q.category) + '</a> / ' +
+        q.category.map(c => '<a data-action="filter-category" data-value="' + escapeHtml(c) + '">' + escapeHtml(c) + '</a>').join(' · ') + ' / ' +
         '<span style="color:var(--text3);font-family:var(--mono);">' + escapeHtml(q.id) + '</span>' +
       '</div>' +
       '<h1 class="detail-title">' +
@@ -934,7 +966,7 @@ function renderDetail(id) {
         (freq >= 2 ? '<span class="q-freq">频次 ' + freq + '</span>' : '') +
       '</h1>' +
       '<div class="detail-meta-row">' +
-        '<span class="q-badge category">' + escapeHtml(q.category) + '</span>' +
+        '<span class="q-badge category">' + escapeHtml(JSON.stringify(q.category)) + '</span>' +
         tags.map(t => '<span class="q-badge tag">#' + escapeHtml(t) + '</span>').join('') +
       '</div>' +
       '<div class="q-meta" style="margin-bottom:14px;">公司：' + companiesHtml + '</div>' +
@@ -979,9 +1011,9 @@ function renderStats() {
 
   // 分类分布
   const catMap = {};
-  ALL_QUESTIONS.forEach(q => { catMap[q.category] = (catMap[q.category] || 0) + 1; });
+  ALL_QUESTIONS.forEach(q => { q.category.forEach(c => { catMap[c] = (catMap[c] || 0) + 1; }); });
   document.getElementById('categoryStats').innerHTML = Object.entries(catMap).sort((a,b) => b[1]-a[1]).map(([c,n]) => {
-    const doneInCat = ALL_QUESTIONS.filter(q => q.category === c && state.completed.has(q.id)).length;
+    const doneInCat = ALL_QUESTIONS.filter(q => q.category.includes(c) && state.completed.has(q.id)).length;
     return '<div class="stat-row"><span class="stat-label">' + escapeHtml(c) + '</span><span class="stat-val">' + doneInCat + '/' + n + '</span></div>';
   }).join('');
 
@@ -1082,7 +1114,8 @@ document.addEventListener('click', e => {
       return;
     }
     if (action === 'filter-category') {
-      state.filterCategory = detailBtn.dataset.value;
+      state.filterCategory.clear();
+      state.filterCategory.add(detailBtn.dataset.value);
       renderFilters();
       navigate(null);
       return;
@@ -1103,6 +1136,15 @@ document.addEventListener('click', e => {
     return;
   }
 
+  // 展开/收起公司筛选
+  const moreBtn = e.target.closest('.filter-more-btn');
+  if (moreBtn) {
+    const wrap = document.getElementById('companyFiltersWrap');
+    const isCollapsed = wrap.classList.toggle('collapsed');
+    moreBtn.innerHTML = isCollapsed ? '展开更多 <span>▼</span>' : '收起 <span>▲</span>';
+    return;
+  }
+
   // 筛选标签
   const ft = e.target.closest('.filter-tag');
   if (ft) {
@@ -1113,7 +1155,16 @@ document.addEventListener('click', e => {
       return;
     }
     if (ft.dataset.category !== undefined) {
-      state.filterCategory = ft.dataset.category || null;
+      const cat = ft.dataset.category;
+      if (!cat) {
+        state.filterCategory.clear();
+      } else {
+        if (state.filterCategory.has(cat)) {
+          state.filterCategory.delete(cat);
+        } else {
+          state.filterCategory.add(cat);
+        }
+      }
       renderFilters();
       if (currentView === 'detail') navigate(null); else refresh();
       return;
