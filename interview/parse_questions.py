@@ -166,6 +166,13 @@ def parse_markdown(filepath: Path) -> list:
         elif not is_list_item and re.match(r'^[^\d\*#\-].+(公司|科技|集团|互联|动力|医疗|财经|数字人|机器人)$', line) and len(line) < 30:
             company_match = line
 
+        # 过滤纯数字/日期等无效公司名
+        if company_match and len(company_match) < 40:
+            if re.match(r'^\d+(\.\d+)?$', company_match):
+                company_match = None
+            elif re.match(r'^\d{1,2}[\.\-/]\d{1,2}$', company_match):
+                company_match = None
+
         if company_match and len(company_match) < 40:
             current_company = company_match
             current_category = None
