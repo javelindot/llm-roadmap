@@ -432,6 +432,59 @@
     white-space:pre-wrap; word-wrap:break-word;
     font-family:inherit; line-height:1.85;
   }
+  /* ---- Markdown 渲染区样式 ---- */
+  .detail-answer.md > *:first-child { margin-top:0; }
+  .detail-answer.md > *:last-child { margin-bottom:0; }
+  .detail-answer.md h1, .detail-answer.md h2, .detail-answer.md h3,
+  .detail-answer.md h4 {
+    color:var(--text); margin:22px 0 10px;
+    font-weight:700; line-height:1.35;
+  }
+  .detail-answer.md h1 { font-size:18px; }
+  .detail-answer.md h2 { font-size:16.5px; }
+  .detail-answer.md h3 { font-size:15px; color:var(--accent); }
+  .detail-answer.md h4 { font-size:14px; }
+  .detail-answer.md p { margin:10px 0; }
+  .detail-answer.md strong { color:var(--text); font-weight:700; }
+  .detail-answer.md em { font-style:italic; color:var(--text); }
+  .detail-answer.md a { color:var(--accent); text-decoration:underline; }
+  .detail-answer.md ul, .detail-answer.md ol {
+    margin:10px 0; padding-left:24px;
+  }
+  .detail-answer.md li { margin:4px 0; }
+  .detail-answer.md li > p { margin:4px 0; }
+  .detail-answer.md code {
+    font-family:var(--mono); font-size:13px;
+    background:var(--bg); border:1px solid var(--border);
+    padding:1px 6px; border-radius:4px; color:var(--text);
+  }
+  .detail-answer.md pre {
+    background:var(--bg); border:1px solid var(--border);
+    border-radius:8px; padding:12px 14px; overflow-x:auto;
+    margin:12px 0; font-size:13px;
+  }
+  .detail-answer.md pre code {
+    background:transparent; border:0; padding:0; font-size:13px;
+    color:var(--text); white-space:pre;
+  }
+  .detail-answer.md blockquote {
+    border-left:3px solid var(--accent); background:var(--bg);
+    margin:14px 0; padding:8px 14px; color:var(--text2);
+    border-radius:0 6px 6px 0;
+  }
+  .detail-answer.md blockquote > *:first-child { margin-top:0; }
+  .detail-answer.md blockquote > *:last-child { margin-bottom:0; }
+  .detail-answer.md table {
+    border-collapse:collapse; margin:12px 0; font-size:13px;
+    width:100%; display:block; overflow-x:auto;
+  }
+  .detail-answer.md th, .detail-answer.md td {
+    border:1px solid var(--border); padding:6px 10px; text-align:left;
+  }
+  .detail-answer.md th { background:var(--bg); font-weight:700; color:var(--text); }
+  .detail-answer.md hr {
+    border:0; border-top:1px dashed var(--border); margin:18px 0;
+  }
   .detail-empty-ans {
     padding:18px 22px; background:var(--bg2);
     border:1px dashed var(--border); border-radius:10px;
@@ -554,6 +607,7 @@
     .q-badges { justify-content:flex-start; }
   }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 </head>
 <body>
 
@@ -917,7 +971,7 @@ function renderDetail(id) {
 
   // 答案区 / 我的笔记区
   const refAnsHtml = hasRefAns
-    ? '<div class="detail-section"><div class="detail-section-label">📖 参考答案</div><div class="detail-answer"><pre>' + escapeHtml(q.answer) + '</pre></div></div>'
+    ? '<div class="detail-section"><div class="detail-section-label">📖 参考答案</div><div class="detail-answer md">' + renderMarkdown(q.answer) + '</div></div>'
     : '<div class="detail-section"><div class="detail-section-label">📖 参考答案</div><div class="detail-empty-ans">暂无参考答案，先写下你自己的笔记吧 ↓</div></div>';
 
   const notesHtml =
@@ -1025,6 +1079,22 @@ function renderStats() {
 
 function escapeHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Markdown → HTML（marked.js 加载成功则用它，否则降级到 <pre>escapeHtml）
+let _markedConfigured = false;
+function renderMarkdown(src) {
+  if (typeof window !== 'undefined' && window.marked) {
+    if (!_markedConfigured) {
+      try {
+        window.marked.setOptions({ gfm:true, breaks:false, mangle:false, headerIds:false });
+      } catch (e) {}
+      _markedConfigured = true;
+    }
+    try { return window.marked.parse(src || ''); }
+    catch (e) { return '<pre>' + escapeHtml(src || '') + '</pre>'; }
+  }
+  return '<pre>' + escapeHtml(src || '') + '</pre>';
 }
 
 // 当前视图：list | detail

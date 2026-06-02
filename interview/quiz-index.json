@@ -3,7 +3,7 @@
     "version": "1.0",
     "schema": "interview-quiz-index",
     "description": "LLM 工程师面试题库索引 —— JSON 负责列表/筛选/搜索，MD 负责内容承载",
-    "lastUpdated": "2026-06-01"
+    "lastUpdated": "2026-06-02"
   },
   "stats": {
     "totalQuestions": 1589,
@@ -11,9 +11,9 @@
     "totalCategories": 9,
     "totalTags": 19,
     "highFrequencyQuestions": 1,
-    "answeredQuestions": 83,
-    "pendingQuestions": 1506,
-    "lastUpdated": "2026-06-01"
+    "answeredQuestions": 503,
+    "pendingQuestions": 1086,
+    "lastUpdated": "2026-06-02"
   },
   "categories": [
     {
@@ -4502,7 +4502,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-agent-pending"
@@ -4522,7 +4522,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -4544,7 +4544,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -4566,7 +4566,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -4588,7 +4588,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -4610,7 +4610,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent",
         "记忆"
@@ -4633,7 +4633,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -4655,7 +4655,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -4677,7 +4677,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -4699,7 +4699,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -4721,7 +4721,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -4743,7 +4743,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -4765,7 +4765,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -4786,7 +4786,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -4805,7 +4805,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -4824,7 +4824,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -4843,7 +4843,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -4864,7 +4864,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -4885,7 +4885,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -4906,7 +4906,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -4927,7 +4927,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调"
       ],
@@ -4948,7 +4948,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -4969,7 +4969,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -4988,7 +4988,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -5009,7 +5009,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5028,7 +5028,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -5049,7 +5049,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -5070,7 +5070,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -5091,7 +5091,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -5112,7 +5112,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -5133,7 +5133,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -5154,7 +5154,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -5175,7 +5175,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调",
         "推理优化"
@@ -5198,7 +5198,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "推理优化"
       ],
@@ -5219,7 +5219,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调",
         "对齐"
@@ -5241,7 +5241,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5261,7 +5261,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5281,7 +5281,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5301,7 +5301,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5321,7 +5321,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5341,7 +5341,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5361,7 +5361,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5380,7 +5380,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5399,7 +5399,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5418,7 +5418,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5437,7 +5437,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调"
       ],
@@ -5458,7 +5458,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调"
       ],
@@ -5480,7 +5480,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5499,7 +5499,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5518,7 +5518,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5537,7 +5537,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5556,7 +5556,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5575,7 +5575,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5594,7 +5594,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5613,7 +5613,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5632,7 +5632,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -5653,7 +5653,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5672,7 +5672,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5691,7 +5691,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5710,7 +5710,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5729,7 +5729,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5748,7 +5748,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5767,7 +5767,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5786,7 +5786,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -5807,7 +5807,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -5828,7 +5828,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5847,7 +5847,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5866,7 +5866,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5885,7 +5885,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5904,7 +5904,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5923,7 +5923,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5942,7 +5942,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5961,7 +5961,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -5980,7 +5980,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调"
       ],
@@ -6001,7 +6001,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -6022,7 +6022,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6041,7 +6041,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -6062,7 +6062,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6081,7 +6081,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6100,7 +6100,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6119,7 +6119,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6138,7 +6138,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调"
       ],
@@ -6159,7 +6159,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6178,7 +6178,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6197,7 +6197,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6216,7 +6216,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6235,7 +6235,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6254,7 +6254,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6273,7 +6273,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6292,7 +6292,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6311,7 +6311,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6330,7 +6330,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6349,7 +6349,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6368,7 +6368,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6387,7 +6387,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6406,7 +6406,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6425,7 +6425,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6444,7 +6444,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6463,7 +6463,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6482,7 +6482,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6501,7 +6501,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6521,7 +6521,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6541,7 +6541,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "向量检索"
       ],
@@ -6562,7 +6562,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6581,7 +6581,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6600,7 +6600,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6619,7 +6619,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6638,7 +6638,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6657,7 +6657,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6676,7 +6676,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6695,7 +6695,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6714,7 +6714,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6733,7 +6733,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6752,7 +6752,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6771,7 +6771,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-core-pending"
@@ -6791,7 +6791,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -6813,7 +6813,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "向量检索"
       ],
@@ -6834,7 +6834,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -6853,7 +6853,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -6873,7 +6873,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "分块"
       ],
@@ -6895,7 +6895,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "分块"
       ],
@@ -6917,7 +6917,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -6939,7 +6939,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -6961,7 +6961,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -6980,7 +6980,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7000,7 +7000,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -7022,7 +7022,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -7044,7 +7044,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -7066,7 +7066,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -7088,7 +7088,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -7109,7 +7109,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7128,7 +7128,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7148,7 +7148,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -7170,7 +7170,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -7192,7 +7192,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG",
         "评估"
@@ -7215,7 +7215,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG",
         "评估"
@@ -7237,7 +7237,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7256,7 +7256,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7275,7 +7275,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7295,7 +7295,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "向量检索",
         "记忆"
@@ -7317,7 +7317,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7336,7 +7336,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7355,7 +7355,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7374,7 +7374,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7393,7 +7393,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -7414,7 +7414,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -7435,7 +7435,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -7456,7 +7456,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -7477,7 +7477,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -7498,7 +7498,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -7519,7 +7519,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7538,7 +7538,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7557,7 +7557,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7576,7 +7576,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调"
       ],
@@ -7597,7 +7597,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -7619,7 +7619,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "评估"
       ],
@@ -7641,7 +7641,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7661,7 +7661,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7680,7 +7680,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7699,7 +7699,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7718,7 +7718,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -7740,7 +7740,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7759,7 +7759,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7778,7 +7778,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7797,7 +7797,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7816,7 +7816,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7835,7 +7835,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7854,7 +7854,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7873,7 +7873,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7892,7 +7892,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-foundation-pending"
@@ -7911,7 +7911,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -7931,7 +7931,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -7953,7 +7953,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -7975,7 +7975,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -7996,7 +7996,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8015,7 +8015,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8034,7 +8034,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8053,7 +8053,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8072,7 +8072,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8091,7 +8091,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8111,7 +8111,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8130,7 +8130,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8150,7 +8150,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8169,7 +8169,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8188,7 +8188,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8207,7 +8207,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8226,7 +8226,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8245,7 +8245,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8264,7 +8264,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8283,7 +8283,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8302,7 +8302,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8322,7 +8322,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -8343,7 +8343,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8362,7 +8362,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8382,7 +8382,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8402,7 +8402,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8422,7 +8422,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "安全"
       ],
@@ -8444,7 +8444,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "安全"
       ],
@@ -8465,7 +8465,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Python"
       ],
@@ -8487,7 +8487,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "LangChain"
       ],
@@ -8509,7 +8509,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -8530,7 +8530,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8549,7 +8549,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8569,7 +8569,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -8591,7 +8591,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG",
         "Python"
@@ -8613,7 +8613,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Python"
       ],
@@ -8635,7 +8635,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8654,7 +8654,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8673,7 +8673,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8693,7 +8693,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -8715,7 +8715,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -8736,7 +8736,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8756,7 +8756,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG",
         "向量检索"
@@ -8779,7 +8779,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8799,7 +8799,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -8820,7 +8820,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "记忆"
       ],
@@ -8842,7 +8842,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG",
         "Agent"
@@ -8865,7 +8865,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8884,7 +8884,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8903,7 +8903,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8922,7 +8922,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -8941,7 +8941,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "评估"
       ],
@@ -8962,7 +8962,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "评估"
       ],
@@ -8984,7 +8984,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "向量检索"
       ],
@@ -9005,7 +9005,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "记忆"
       ],
@@ -9026,7 +9026,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "记忆"
       ],
@@ -9048,7 +9048,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9068,7 +9068,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -9089,7 +9089,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9108,7 +9108,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9127,7 +9127,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9147,7 +9147,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "推理优化"
       ],
@@ -9168,7 +9168,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9187,7 +9187,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9206,7 +9206,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9226,7 +9226,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9246,7 +9246,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "评估"
       ],
@@ -9267,7 +9267,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9287,7 +9287,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG",
         "评估"
@@ -9334,7 +9334,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -9378,7 +9378,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -9575,7 +9575,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "vLLM",
         "部署"
@@ -9620,7 +9620,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9639,7 +9639,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9658,7 +9658,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9677,7 +9677,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "知识图谱"
       ],
@@ -9699,7 +9699,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "LangGraph"
       ],
@@ -9742,7 +9742,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9761,7 +9761,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9804,7 +9804,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -9825,7 +9825,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9844,7 +9844,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9863,7 +9863,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9882,7 +9882,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9901,7 +9901,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9921,7 +9921,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "NL2SQL"
       ],
@@ -9943,7 +9943,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -9964,7 +9964,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -9983,7 +9983,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10002,7 +10002,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10021,7 +10021,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -10064,7 +10064,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10106,7 +10106,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调",
         "对齐"
@@ -10128,7 +10128,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10148,7 +10148,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent",
         "LangGraph"
@@ -10194,7 +10194,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -10216,7 +10216,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -10284,7 +10284,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10304,7 +10304,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -10325,7 +10325,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10345,7 +10345,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "部署"
       ],
@@ -10366,7 +10366,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10385,7 +10385,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "幻觉"
       ],
@@ -10407,7 +10407,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -10429,7 +10429,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -10450,7 +10450,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10470,7 +10470,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10489,7 +10489,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -10510,7 +10510,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -10531,7 +10531,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "知识图谱"
       ],
@@ -10553,7 +10553,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "知识图谱"
       ],
@@ -10637,7 +10637,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10656,7 +10656,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10676,7 +10676,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -10697,7 +10697,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10716,7 +10716,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10736,7 +10736,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10755,7 +10755,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10774,7 +10774,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10881,7 +10881,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10901,7 +10901,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -10922,7 +10922,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -10942,7 +10942,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -11010,7 +11010,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -11128,7 +11128,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -11149,7 +11149,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调",
         "对齐"
@@ -11264,7 +11264,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "vLLM"
       ],
@@ -11285,7 +11285,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -11533,7 +11533,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "LangGraph",
         "LangChain"
@@ -11639,7 +11639,7 @@
       "frequency": 2,
       "hot": 1,
       "isHighFrequency": true,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -11759,7 +11759,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -11823,7 +11823,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "NL2SQL"
       ],
@@ -11845,7 +11845,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -11864,7 +11864,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -11884,7 +11884,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -11905,7 +11905,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -11925,7 +11925,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -11966,7 +11966,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -11985,7 +11985,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "知识图谱"
       ],
@@ -12006,7 +12006,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -12245,7 +12245,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -12289,7 +12289,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -12356,7 +12356,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -12375,7 +12375,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -12394,7 +12394,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -12432,7 +12432,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "记忆"
       ],
@@ -12520,7 +12520,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -12564,7 +12564,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent",
         "记忆"
@@ -12587,7 +12587,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -12609,7 +12609,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent",
         "安全"
@@ -12632,7 +12632,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent",
         "记忆"
@@ -12655,7 +12655,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent",
         "微调"
@@ -12723,7 +12723,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -12811,7 +12811,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "NL2SQL"
       ],
@@ -12941,7 +12941,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -12979,7 +12979,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -13019,7 +13019,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13059,7 +13059,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -13101,7 +13101,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调"
       ],
@@ -13142,7 +13142,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -13182,7 +13182,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13222,7 +13222,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13260,7 +13260,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13298,7 +13298,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13336,7 +13336,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13374,7 +13374,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13412,7 +13412,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调"
       ],
@@ -13456,7 +13456,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG"
       ],
@@ -13498,7 +13498,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13538,7 +13538,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13576,7 +13576,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13614,7 +13614,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -13654,7 +13654,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13694,7 +13694,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13733,7 +13733,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13775,7 +13775,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13814,7 +13814,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "评估"
       ],
@@ -13854,7 +13854,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -13896,7 +13896,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "推理优化"
       ],
@@ -13938,7 +13938,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调"
       ],
@@ -13981,7 +13981,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "评估"
       ],
@@ -14021,7 +14021,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14063,7 +14063,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "对齐"
       ],
@@ -14105,7 +14105,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调"
       ],
@@ -14145,7 +14145,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14184,7 +14184,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14222,7 +14222,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -14264,7 +14264,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14303,7 +14303,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent",
         "评估"
@@ -14346,7 +14346,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -14386,7 +14386,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14426,7 +14426,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14464,7 +14464,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14503,7 +14503,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14541,7 +14541,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14580,7 +14580,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调"
       ],
@@ -14622,7 +14622,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -14662,7 +14662,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "微调"
       ],
@@ -14702,7 +14702,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14740,7 +14740,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14781,7 +14781,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14819,7 +14819,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "评估"
       ],
@@ -14859,7 +14859,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14897,7 +14897,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14935,7 +14935,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -14973,7 +14973,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15011,7 +15011,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15049,7 +15049,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15091,7 +15091,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -15133,7 +15133,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15173,7 +15173,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15214,7 +15214,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15254,7 +15254,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -15294,7 +15294,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15336,7 +15336,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15374,7 +15374,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15413,7 +15413,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -15455,7 +15455,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15496,7 +15496,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15534,7 +15534,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15572,7 +15572,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15610,7 +15610,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15648,7 +15648,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15686,7 +15686,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "评估"
       ],
@@ -15726,7 +15726,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15764,7 +15764,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15802,7 +15802,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15843,7 +15843,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "RAG",
         "Agent",
@@ -15888,7 +15888,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Agent"
       ],
@@ -15930,7 +15930,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -15968,7 +15968,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16006,7 +16006,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16046,7 +16046,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16087,7 +16087,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer",
         "推理优化"
@@ -16130,7 +16130,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -16170,7 +16170,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [
         "Transformer"
       ],
@@ -16210,7 +16210,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16248,7 +16248,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16286,7 +16286,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16324,7 +16324,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16362,7 +16362,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16400,7 +16400,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16441,7 +16441,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16484,7 +16484,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16525,7 +16525,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16563,7 +16563,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16601,7 +16601,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16639,7 +16639,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16677,7 +16677,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
@@ -16715,7 +16715,7 @@
       "frequency": 1,
       "hot": 0,
       "isHighFrequency": false,
-      "hasAnswer": false,
+      "hasAnswer": true,
       "tags": [],
       "variants": [],
       "source": "quiz-main"
