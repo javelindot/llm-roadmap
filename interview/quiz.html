@@ -6,6 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="../img/favicon.svg" />
 <meta name="description" content="LLM 工程师面试真题 —— 带解析、可筛选、可自测" />
+<script>
+  (function(){
+    try {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <style>
   :root, [data-theme="light"] {
     --bg:#ffffff; --bg2:#fafafa; --bg3:#f4f4f5;
@@ -94,7 +103,7 @@
     font-family:var(--mono); font-size:.92rem; font-weight:600;
     color:var(--text); letter-spacing:-.02em; margin-right:24px;
   }
-  .brand::before { content:''; }
+  .brand::before { content:'$ '; color:var(--text3); }
   .nav-spacer { flex:1; }
   .nav-link {
     color:var(--text2); font-size:13.5px; font-weight:500;
@@ -595,16 +604,78 @@
   .empty .ic { font-size:2.5rem; margin-bottom:14px; display:block; }
   .empty p { font-size:14px; }
 
+  /* ── Loading skeleton ── */
+  @keyframes shimmer { 0% { background-position:-300px 0; } 100% { background-position:300px 0; } }
+  .skeleton {
+    background:linear-gradient(90deg, var(--bg3) 0%, var(--bg2) 50%, var(--bg3) 100%);
+    background-size:600px 100%;
+    animation:shimmer 1.4s linear infinite;
+    border-radius:6px;
+  }
+  .sk-card {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:12px; padding:20px 22px;
+    margin-bottom:12px;
+  }
+  .sk-line { height:14px; margin:6px 0; }
+  .sk-title { height:18px; width:65%; margin-bottom:14px; }
+  .sk-meta { height:12px; width:35%; margin-top:10px; }
+
+  /* ── Scroll-to-top ── */
+  .scroll-top {
+    position:fixed; right:24px; bottom:24px; z-index:90;
+    width:42px; height:42px; border-radius:50%;
+    background:var(--card); border:1px solid var(--border2);
+    color:var(--text); cursor:pointer;
+    display:none; align-items:center; justify-content:center;
+    font-size:18px; line-height:1;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    transition:opacity .15s, transform .15s, background .15s;
+  }
+  .scroll-top:hover { background:var(--accent); color:#fff; border-color:var(--accent); transform:translateY(-2px); }
+  .scroll-top.visible { display:flex; }
+
+  /* ── Mobile filter toggle ── */
+  .mobile-filter-toggle {
+    display:none;
+    align-items:center; gap:6px;
+    padding:8px 14px; border-radius:8px;
+    border:1px solid var(--border2); background:var(--card);
+    color:var(--text); font-size:13px; font-family:inherit;
+    cursor:pointer; font-weight:500;
+  }
+  .mobile-filter-toggle:active { background:var(--bg3); }
+  .filter-badge {
+    background:var(--accent); color:#fff;
+    font-family:var(--mono); font-size:10.5px; font-weight:700;
+    padding:1px 6px; border-radius:8px; min-width:18px; text-align:center;
+  }
+  .side-backdrop {
+    display:none; position:fixed; inset:0; z-index:150;
+    background:rgba(0,0,0,.45); backdrop-filter:blur(2px);
+  }
+  .side-backdrop.open { display:block; }
+
   @media (max-width:1100px) {
     .layout { grid-template-columns:200px minmax(0,1fr); }
     .side-r { display:none; }
   }
   @media (max-width:760px) {
-    .layout { grid-template-columns:1fr; padding:16px; }
-    .side-l { position:static; max-height:none; margin-bottom:16px; }
+    .layout { grid-template-columns:1fr; padding:16px; gap:12px; }
     .nav { padding:0 16px; }
     .q-header { flex-direction:column; }
     .q-badges { justify-content:flex-start; }
+    /* 左侧筛选改为抽屉 */
+    .side-l {
+      position:fixed; top:0; left:0; bottom:0;
+      width:88%; max-width:340px;
+      z-index:160; border-radius:0;
+      transform:translateX(-100%); transition:transform .22s ease;
+      max-height:none; overflow-y:auto;
+    }
+    .side-l.open { transform:translateX(0); }
+    .mobile-filter-toggle { display:inline-flex; }
+    .top-bar h1 { font-size:1.25rem; }
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
@@ -636,8 +707,11 @@
 
 <div class="layout">
 
+  <!-- 移动端筛选抽屉遮罩 -->
+  <div class="side-backdrop" id="sideBackdrop"></div>
+
   <!-- 左侧筛选 -->
-  <aside class="side-l">
+  <aside class="side-l" id="sideLeft">
     <div class="side-title">🔍 筛选</div>
 
     <div class="search-wrap">
@@ -684,6 +758,9 @@
     <div class="list-view" id="listView">
       <div class="top-bar">
         <h1>面试真题库</h1>
+        <button class="mobile-filter-toggle" id="mobileFilterToggle" aria-label="打开筛选">
+          🔍 筛选<span class="filter-badge" id="filterBadge" style="display:none">0</span>
+        </button>
         <div class="meta">
           共 <span id="totalCount">0</span> 题 · 已会 <span id="doneCount">0</span> · 未学 <span id="unlearnedCount">0</span> · 收藏 <span id="favCount">0</span>
         </div>
@@ -695,7 +772,12 @@
         <button class="sort-btn" data-sort="category">按分类</button>
         <button class="sort-btn" data-sort="pending">待补充优先</button>
       </div>
-      <div id="questionList"></div>
+      <div id="questionList">
+        <div class="sk-card"><div class="skeleton sk-title"></div><div class="skeleton sk-line"></div><div class="skeleton sk-meta"></div></div>
+        <div class="sk-card"><div class="skeleton sk-title" style="width:78%"></div><div class="skeleton sk-line" style="width:88%"></div><div class="skeleton sk-meta" style="width:42%"></div></div>
+        <div class="sk-card"><div class="skeleton sk-title" style="width:55%"></div><div class="skeleton sk-line" style="width:72%"></div><div class="skeleton sk-meta" style="width:30%"></div></div>
+        <div class="sk-card"><div class="skeleton sk-title" style="width:70%"></div><div class="skeleton sk-line"></div><div class="skeleton sk-meta" style="width:38%"></div></div>
+      </div>
     </div>
 
     <!-- 详情视图 -->
@@ -704,7 +786,7 @@
   </main>
 
   <!-- 右侧统计 -->
-  <aside class="side-r">
+  <aside class="side-r" id="sideRight">
     <div class="side-title">📊 进度</div>
 
     <div class="stat-row">
@@ -745,6 +827,8 @@
   </aside>
 
 </div>
+
+<button class="scroll-top" id="scrollTop" aria-label="返回顶部" title="返回顶部 (Esc)">↑</button>
 
 <script>
 // ==================== 数据 ====================
@@ -1103,6 +1187,7 @@ let currentDetailId = null;
 
 function refresh() {
   renderStats();
+  updateFilterBadge();
   if (currentView === 'detail' && currentDetailId) {
     renderDetail(currentDetailId);
   } else {
@@ -1282,15 +1367,83 @@ function applyTheme(name) {
   tMenu.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.theme === name));
   localStorage.setItem('theme', name);
 }
-applyTheme(localStorage.getItem('theme') || 'light');
+applyTheme(localStorage.getItem('theme') || tHtml.dataset.theme || 'light');
 tBtn.addEventListener('click', e => { e.stopPropagation(); tMenu.classList.toggle('open'); });
 tMenu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { applyTheme(b.dataset.theme); tMenu.classList.remove('open'); }));
 document.addEventListener('click', () => tMenu.classList.remove('open'));
+
+// ==================== 移动端筛选抽屉 ====================
+const sideLeft = document.getElementById('sideLeft');
+const sideBackdrop = document.getElementById('sideBackdrop');
+const mobileFilterBtn = document.getElementById('mobileFilterToggle');
+function openFilterDrawer() {
+  sideLeft.classList.add('open');
+  sideBackdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeFilterDrawer() {
+  sideLeft.classList.remove('open');
+  sideBackdrop.classList.remove('open');
+  document.body.style.overflow = '';
+}
+mobileFilterBtn.addEventListener('click', openFilterDrawer);
+sideBackdrop.addEventListener('click', closeFilterDrawer);
+function updateFilterBadge() {
+  let count = 0;
+  if (state.filterCompany) count++;
+  count += state.filterCategory.size;
+  if (state.filterStatus !== 'all') count++;
+  if (state.filterCompleteness !== 'all') count++;
+  if (state.searchQuery) count++;
+  const badge = document.getElementById('filterBadge');
+  if (count > 0) { badge.textContent = count; badge.style.display = ''; }
+  else { badge.style.display = 'none'; }
+}
+
+// ==================== 滚动顶部按钮 ====================
+const scrollTopBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 400) scrollTopBtn.classList.add('visible');
+  else scrollTopBtn.classList.remove('visible');
+}, { passive: true });
+scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// ==================== 键盘快捷键 ====================
+document.addEventListener('keydown', e => {
+  const isInputFocused = ['INPUT','TEXTAREA'].includes(document.activeElement.tagName);
+  if (e.key === '/' && !isInputFocused) {
+    e.preventDefault();
+    const si = document.getElementById('searchInput');
+    si.focus(); si.select();
+    return;
+  }
+  if (e.key === 'Escape') {
+    if (sideLeft.classList.contains('open')) {
+      closeFilterDrawer();
+      return;
+    }
+    if (isInputFocused && document.activeElement.id === 'searchInput') {
+      document.activeElement.blur();
+      if (state.searchQuery) {
+        state.searchQuery = '';
+        document.getElementById('searchInput').value = '';
+        refresh();
+      }
+      return;
+    }
+    if (currentView === 'detail') {
+      navigate(null);
+      return;
+    }
+    if (window.scrollY > 200) window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
 
 // ==================== 初始化 ====================
 function init() {
   loadState();
   renderFilters();
+  updateFilterBadge();
   router();         // 根据 hash 决定列表/详情
 }
 loadQuestions();

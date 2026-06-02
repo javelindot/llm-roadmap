@@ -5,7 +5,24 @@
 <title>llm-roadmap · 大模型全栈知识体系</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
-<meta name="description" content="LLM 全栈学习路线 —— 自顶向下，从应用到底层" />
+<meta name="description" content="LLM 全栈学习路线 —— 自顶向下，从应用到底层。Prompt / RAG / Agent / MCP / 多模态 / 微调 / 求职面试一站式中文教程。" />
+<meta name="keywords" content="LLM,大模型,Prompt工程,RAG,Agent,MCP,多模态,模型微调,AI面试,LLM工程师" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="LLM Roadmap · 大模型全栈知识体系" />
+<meta property="og:description" content="自顶向下从应用到底层 —— Prompt / RAG / Agent / MCP / 多模态 / 求职面试一站式中文教程。" />
+<meta property="og:image" content="img/llm-ar.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="LLM Roadmap · 大模型全栈知识体系" />
+<meta name="twitter:description" content="自顶向下从应用到底层 —— Prompt / RAG / Agent / MCP / 多模态 / 求职面试一站式中文教程。" />
+<script>
+  (function(){
+    try {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <style>
   :root, [data-theme="light"] {
     --bg:#ffffff; --bg2:#fafafa; --bg3:#f4f4f5; --card:#ffffff;
@@ -550,7 +567,7 @@
     tMenu.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.theme === name));
     localStorage.setItem('theme', name);
   }
-  applyTheme(localStorage.getItem('theme') || 'light');
+  applyTheme(localStorage.getItem('theme') || tHtml.dataset.theme || 'light');
   tBtn.addEventListener('click', e => { e.stopPropagation(); tMenu.classList.toggle('open'); });
   tMenu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { applyTheme(b.dataset.theme); tMenu.classList.remove('open'); }));
   document.addEventListener('click', () => tMenu.classList.remove('open'));

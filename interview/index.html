@@ -5,7 +5,24 @@
 <title>interview-guide · LLM Roadmap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="../img/favicon.svg" />
-<meta name="description" content="LLM 工程师全栈面试 · 算法 / 八股 / 系统设计 / 行为面 / 谈薪" />
+<meta name="description" content="LLM 工程师全栈面试 · 算法 / 八股 / 系统设计 / 行为面 / 谈薪。100+ 真题、5 阶段全流程，应届与社招通吃。" />
+<meta name="keywords" content="LLM面试,大模型面试,AI工程师面试,LLM真题,八股,系统设计,谈薪" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="LLM 工程师求职导航 · interview-guide" />
+<meta property="og:description" content="从简历到 offer，5 阶段全流程指南 + 100+ 真题。任何人进来都能立刻找到下一步。" />
+<meta property="og:image" content="../img/llm-ar.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="LLM 工程师求职导航" />
+<meta name="twitter:description" content="从简历到 offer，5 阶段全流程指南 + 100+ 真题。" />
+<script>
+  (function(){
+    try {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <style>
   :root, [data-theme="light"] {
     --bg:#ffffff; --bg2:#fafafa; --bg3:#f4f4f5;
@@ -437,7 +454,7 @@
     tMenu.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.theme === name));
     localStorage.setItem('theme', name);
   }
-  applyTheme(localStorage.getItem('theme') || 'light');
+  applyTheme(localStorage.getItem('theme') || tHtml.dataset.theme || 'light');
   tBtn.addEventListener('click', e => { e.stopPropagation(); tMenu.classList.toggle('open'); });
   tMenu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { applyTheme(b.dataset.theme); tMenu.classList.remove('open'); }));
   document.addEventListener('click', () => tMenu.classList.remove('open'));

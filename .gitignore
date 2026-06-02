@@ -7,8 +7,10 @@
 # Build outputs（由 build.py 从 <module>/_src/ 自动生成，部署时由 Actions 实时构建）
 app-dev/docs.html
 app-dev/chapter/*.html
+app-dev/chapters.json
 interview/docs.html
 interview/chapter/*.html
+interview/chapters.json
 _site/
 
 # OS
