@@ -81,6 +81,8 @@ KEYWORDS = {
     "python": set("def class if else elif return import from as for while in not and or is async await try except finally raise pass break continue lambda with yield global nonlocal None True False self".split()),
 }
 
+PLACEHOLDER_BASE = 0xE000
+
 
 def highlight(code, lang="generic"):
     """对已 HTML 转义的代码做朴素高亮。"""
@@ -89,15 +91,15 @@ def highlight(code, lang="generic"):
     def keep(s):
         i = len(stash)
         stash.append(s)
-        return f"\x00{i}\x00"
+        return chr(PLACEHOLDER_BASE + i)
 
-    # 1. 注释（# 或 //）
-    code = re.sub(r"(#[^\n]*)", lambda m: keep(f'<span class="c">{m.group(1)}</span>'), code)
-    code = re.sub(r"(//[^\n]*)", lambda m: keep(f'<span class="c">{m.group(1)}</span>'), code)
-
-    # 2. 字符串（HTML 转义后是 &quot; / &#x27;）
+    # 1. 字符串（HTML 转义后是 &quot; / &#x27;）
     code = re.sub(r"(&quot;[^&\n]*?&quot;)", lambda m: keep(f'<span class="s">{m.group(1)}</span>'), code)
     code = re.sub(r"(&#x27;[^&\n]*?&#x27;)", lambda m: keep(f'<span class="s">{m.group(1)}</span>'), code)
+
+    # 2. 注释（# 或 //）
+    code = re.sub(r"(#[^\n]*)", lambda m: keep(f'<span class="c">{m.group(1)}</span>'), code)
+    code = re.sub(r"(//[^\n]*)", lambda m: keep(f'<span class="c">{m.group(1)}</span>'), code)
 
     # 3. 关键字
     if lang in KEYWORDS:
@@ -109,8 +111,9 @@ def highlight(code, lang="generic"):
     # 4. 数字
     code = re.sub(r"(?<!\w)(\d+\.?\d*)(?!\w)", r'<span class="n">\1</span>', code)
 
-    for i, s in enumerate(stash):
-        code = code.replace(f"\x00{i}\x00", s)
+    for i in range(len(stash) - 1, -1, -1):
+        s = stash[i]
+        code = code.replace(chr(PLACEHOLDER_BASE + i), s)
     return code
 
 
@@ -124,7 +127,7 @@ def render_inline(text):
     def keep(s):
         i = len(stash)
         stash.append(s)
-        return f"\x00{i}\x00"
+        return chr(PLACEHOLDER_BASE + i)
 
     # 行内代码先抽出，避免内部被其他规则匹配
     text = re.sub(r"`([^`\n]+)`", lambda m: keep(f"<code>{htmllib.escape(m.group(1))}</code>"), text)
@@ -139,8 +142,9 @@ def render_inline(text):
     # 链接
     text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2" target="_blank" rel="noopener">\1</a>', text)
 
-    for i, s in enumerate(stash):
-        text = text.replace(f"\x00{i}\x00", s)
+    for i in range(len(stash) - 1, -1, -1):
+        s = stash[i]
+        text = text.replace(chr(PLACEHOLDER_BASE + i), s)
     return text
 
 
@@ -479,6 +483,24 @@ def build_module(name, cfg):
         out_path_chap = chapter_dir / c["file"].replace(".md", ".html")
         out_path_chap.write_text(out_text_chap, encoding="utf-8")
     print(f"  ✓ {chapter_dir.relative_to(ROOT)}/*  ({len(chapters)} 个独立章节页)")
+
+    # ── 章节清单 chapters.json（供 cover 页 fetch）──
+    import json as _json
+    manifest = {
+        "total": len(chapters),
+        "groups": []
+    }
+    for g in group_order:
+        manifest["groups"].append({
+            "name": g,
+            "chapters": [
+                {"id": c["id"], "file": c["file"].replace(".md", ".html"), "title": c["title"]}
+                for c in groups[g]
+            ]
+        })
+    manifest_path = ROOT / name / "chapters.json"
+    manifest_path.write_text(_json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"  ✓ {manifest_path.relative_to(ROOT)}  ({len(chapters)} 章, {len(group_order)} 组)")
 
 
 # ─────────────────────────────────────────────────────────────

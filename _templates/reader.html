@@ -5,6 +5,15 @@
 <title>$title</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="../../img/favicon.svg" />
+<script>
+  (function(){
+    try {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <style>
   :root, [data-theme="light"] {
     --bg:#f0f4f8; --bg2:#e8edf5; --bg3:#e2e8f0;
@@ -237,7 +246,7 @@
     margin:18px 0; color:var(--text2);
   }
   main blockquote p:last-child { margin-bottom:0; }
-  main table { width:100%; border-collapse:collapse; margin:18px 0; font-size:.9rem; }
+  main table { display:block; width:100%; max-width:100%; overflow-x:auto; border-collapse:collapse; margin:18px 0; font-size:.9rem; }
   main th, main td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--border); }
   main th { color:var(--text); font-weight:700; background:var(--accent-soft); }
   main td { color:var(--text2); }
@@ -346,7 +355,7 @@ $toc
     tMenu.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.theme === name));
     localStorage.setItem('theme', name);
   }
-  applyTheme(localStorage.getItem('theme') || 'light');
+  applyTheme(localStorage.getItem('theme') || tHtml.dataset.theme || 'light');
   tBtn.addEventListener('click', e => { e.stopPropagation(); tMenu.classList.toggle('open'); });
   tMenu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { applyTheme(b.dataset.theme); tMenu.classList.remove('open'); }));
   document.addEventListener('click', () => tMenu.classList.remove('open'));
@@ -355,6 +364,10 @@ $toc
   const headings = document.querySelectorAll('main h2[id], main h3[id]');
   const tocLinks = document.querySelectorAll('.side-r .toc-item');
   const chapLinks = document.querySelectorAll('.side-l .chap-item');
+  const isPageSidebar = Array.from(chapLinks).some(a => {
+    const href = a.getAttribute('href') || '';
+    return href && !href.startsWith('#');
+  });
 
   let currentSectionId = null;
 
@@ -372,19 +385,38 @@ $toc
   }
 
   function setActiveChapter(id) {
+    if (isPageSidebar) {
+      highlightCurrentPage();
+      return;
+    }
     chapLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
   }
 
-  function highlightCurrentPage() {
+  function scrollActiveChapterIntoView() {
+    const side = document.querySelector('.side-l');
+    const active = document.querySelector('.side-l .chap-item.active');
+    if (!side || !active || side.scrollHeight <= side.clientHeight) return;
+    const sideRect = side.getBoundingClientRect();
+    const activeRect = active.getBoundingClientRect();
+    side.scrollTop += activeRect.top - sideRect.top - side.clientHeight / 2 + activeRect.height / 2;
+  }
+
+  function highlightCurrentPage(options = {}) {
     const current = location.pathname.split('/').pop();
+    let found = false;
     chapLinks.forEach(a => {
       const href = a.getAttribute('href');
       if (!href.startsWith('#')) {
-        a.classList.toggle('active', href === current || href === './' + current);
+        const file = href.split('/').pop();
+        const active = href === current || href === './' + current || file === current;
+        a.classList.toggle('active', active);
+        if (active) found = true;
       }
     });
+    if (found && options.scroll) scrollActiveChapterIntoView();
+    return found;
   }
-  highlightCurrentPage();
+  highlightCurrentPage({ scroll: true });
 
   // Section IO：决定当前活跃章节 → 过滤右栏 + 高亮左栏
   const sectionIO = new IntersectionObserver(entries => {
@@ -409,9 +441,32 @@ $toc
   // 初始化：默认显示第一个 section 的 TOC
   if (sections.length > 0) {
     const firstId = sections[0].id;
-    setActiveChapter(firstId);
+    if (!isPageSidebar) setActiveChapter(firstId);
     filterTocBySection(firstId);
   }
+
+  // ── 阅读追踪（仅 app-dev 章节页）──
+  (function() {
+    const path = location.pathname;
+    if (!path.includes('/app-dev/chapter/')) return;
+    const file = path.split('/').pop();
+    if (!file) return;
+    const id = file.replace('.html', '');
+    let title = id;
+    const cur = document.querySelector('.side-l .chap-item.active');
+    if (cur && !cur.getAttribute('href').startsWith('#')) {
+      title = cur.textContent.trim();
+    }
+    try {
+      localStorage.setItem('app-dev-last', JSON.stringify({ id: id, title: title, t: Date.now() }));
+      const raw = localStorage.getItem('app-dev-read');
+      const set = new Set(raw ? JSON.parse(raw) : []);
+      if (!set.has(id)) {
+        set.add(id);
+        localStorage.setItem('app-dev-read', JSON.stringify([...set]));
+      }
+    } catch(e) {}
+  })();
 </script>
 </body>
 </html>

@@ -5,7 +5,20 @@
 <title>app-dev-guide · LLM Roadmap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="../img/favicon.svg" />
-<meta name="description" content="从 Prompt 到 Agent — AI 应用开发完整执行手册" />
+<meta name="description" content="从 Context 到 Agent — AI 应用开发完整执行手册。8 阶段路线、6 个核心模块、38 个章节。" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="大模型应用开发 · app-dev-guide" />
+<meta property="og:description" content="从 Context 到 Agent —— 一站式覆盖大模型应用开发全链路。" />
+<meta name="twitter:card" content="summary" />
+<script>
+  (function(){
+    try {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <style>
   :root, [data-theme="light"] {
     --bg:#ffffff; --bg2:#fafafa; --bg3:#f4f4f5; --card:#ffffff;
@@ -79,7 +92,6 @@
     color:var(--text); letter-spacing:-.02em;
     margin-right:24px;
   }
-  .brand::before { content:'$ '; color:var(--text3); }
   .nav-spacer { flex:1; }
   .nav-link {
     color:var(--text2); font-size:13.5px; font-weight:500;
@@ -125,32 +137,34 @@
   .dot-tokyo-night { background:#7aa2f7; }
   .dot-catppuccin { background:#cba6f7; }
 
-  .wrap { max-width:920px; margin:0 auto; padding:0 32px; }
+  .wrap { max-width:1040px; margin:0 auto; padding:0 32px; }
 
   /* ── Hero ── */
-  .hero { padding:96px 0 56px; }
+  .hero { padding:66px 0 48px; max-width:760px; }
+  .hero-top {
+    display:flex; align-items:center; gap:12px;
+    margin-bottom:16px; flex-wrap:wrap;
+  }
   .kicker {
     font-family:var(--mono); font-size:12px;
     color:var(--text3); letter-spacing:.02em;
-    margin-bottom:18px;
   }
   .hero h1 {
-    font-size:clamp(2rem,4vw,2.75rem);
+    font-size:clamp(2.25rem,5vw,3.8rem);
     font-weight:700; letter-spacing:-.025em; line-height:1.1;
-    margin-bottom:16px; color:var(--text);
+    margin-bottom:14px; color:var(--text);
   }
   .typer {
+    display:inline-flex; align-items:center; min-height:26px;
     font-family:var(--mono); color:var(--accent);
-    border-bottom:2px solid var(--accent);
+    border:1px solid var(--border2); border-radius:999px;
+    background:var(--accent-soft);
+    padding:4px 10px;
+    font-size:12px; font-weight:700;
   }
-  .typer::after {
-    content:'_'; margin-left:2px;
-    animation:blink 1s infinite;
-  }
-  @keyframes blink { 0%,49% { opacity:1; } 50%,100% { opacity:0; } }
   .hero p.sub {
     font-size:17px; color:var(--text2);
-    max-width:620px; margin-top:14px;
+    max-width:680px; margin-top:10px;
   }
   .hero .meta {
     font-family:var(--mono); font-size:13px;
@@ -158,10 +172,11 @@
   }
   .hero .meta b { color:var(--text); font-weight:600; }
 
-  .hero-cta { margin-top:28px; }
+  .hero-cta { margin-top:24px; }
   .btn {
     display:inline-flex; align-items:center; gap:6px;
-    padding:10px 18px; border-radius:6px;
+    min-height:44px;
+    padding:10px 18px; border-radius:7px;
     font-size:14px; font-weight:500; cursor:pointer;
     font-family:inherit;
     transition:background .15s,border-color .15s,opacity .15s;
@@ -177,50 +192,73 @@
     margin-left:8px;
   }
   .btn-ghost:hover { background:var(--bg3); }
+  .btn-continue {
+    background:var(--accent-soft); color:var(--accent);
+    border:1px solid var(--accent);
+    font-weight:700;
+    padding-inline:14px;
+  }
+  .btn-continue:hover { background:var(--accent); color:#fff; }
+  .btn-continue #continueTitle {
+    display:inline-block; max-width:120px;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    vertical-align:bottom;
+  }
+  .hero-cta { display:flex; flex-wrap:wrap; gap:8px; }
+  .hero-cta .btn { margin-left:0 !important; }
+
+  /* ── Progress strip ── */
+  .progress-strip {
+    height:4px; background:var(--bg3); border-radius:2px;
+    margin-top:14px; max-width:420px; overflow:hidden;
+  }
+  .progress-fill {
+    height:100%; background:var(--accent); border-radius:2px;
+    transition:width .35s ease;
+  }
 
   /* ── Section heading ── */
   .sec-head {
-    font-family:var(--mono); font-size:12px;
-    color:var(--text3); margin:64px 0 14px;
-    letter-spacing:.02em;
+    font-size:15px; font-weight:700;
+    color:var(--text); margin:64px 0 14px;
   }
-  .sec-head::before { content:'// '; }
 
   /* ── Pipeline cards ── */
   .pipeline {
     display:grid;
     grid-template-columns:repeat(6,1fr);
-    gap:12px;
+    gap:20px;
   }
   .pipe-step {
+    position:relative;
     background:var(--card); border:1px solid var(--border);
-    border-radius:10px; padding:26px 20px;
+    border-radius:10px; padding:22px 18px 18px;
     box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);
     transition:border-color .15s,box-shadow .2s,transform .15s;
+    display:block;
   }
   .pipe-step:hover {
-    border-color:var(--border2);
+    border-color:var(--accent);
     transform:translateY(-3px);
-    box-shadow:0 4px 8px rgba(0,0,0,.06),0 12px 24px rgba(0,0,0,.07);
+    box-shadow:0 4px 8px rgba(37,99,235,.06),0 12px 24px rgba(37,99,235,.10);
   }
   .pipe-step .ic {
-    font-size:1.7rem; margin-bottom:16px;
+    font-size:1.6rem; margin-bottom:10px;
     display:block; line-height:1;
   }
   .pipe-step .n {
     font-family:var(--mono); font-size:10.5px;
     color:var(--accent); letter-spacing:.10em;
-    margin-bottom:8px; font-weight:600;
+    margin-bottom:6px; font-weight:600;
   }
   .pipe-step h4 {
-    font-size:1.05rem; font-weight:700;
-    color:var(--text); margin-bottom:4px;
+    font-size:1rem; font-weight:700;
+    color:var(--text); margin-bottom:3px;
   }
   .pipe-step .sub {
-    font-family:var(--mono); font-size:12px;
-    color:var(--accent2); margin-bottom:10px;
+    font-family:var(--mono); font-size:11.5px;
+    color:var(--accent2);
   }
-  .pipe-step p { font-size:12.5px; color:var(--text2); line-height:1.55; }
 
   /* ── Modules list ── */
   .mods {
@@ -229,34 +267,97 @@
     box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.04);
   }
   .mod {
-    display:flex; align-items:flex-start; gap:18px;
-    padding:22px 26px;
     border-bottom:1px solid var(--border);
-    transition:background .15s;
+    scroll-margin-top:80px;
   }
   .mod:last-child { border-bottom:none; }
-  .mod:hover { background:var(--bg2); }
-  .mod .ic {
+  .mod-head {
+    display:flex; align-items:flex-start; gap:18px;
+    padding:22px 26px;
+    cursor:pointer; user-select:none;
+    transition:background .15s;
+  }
+  .mod-head:hover { background:var(--bg2); }
+  .mod-head .ic {
     font-size:1.4rem; line-height:1; padding-top:2px;
     flex-shrink:0;
   }
-  .mod .idx {
+  .mod-head .idx {
     font-family:var(--mono); font-size:12px;
     color:var(--text3); padding-top:5px;
     min-width:32px;
   }
-  .mod .body { flex:1; min-width:0; }
-  .mod h3 { font-size:15px; font-weight:600; color:var(--text); margin-bottom:4px; }
-  .mod p { font-size:13.5px; color:var(--text2); line-height:1.55; }
-  .mod .meta {
+  .mod-body { flex:1; min-width:0; }
+  .mod-body h3 { font-size:15.5px; font-weight:600; margin-bottom:4px; }
+  .mod-body h3 a { color:var(--text); transition:color .15s; }
+  .mod-body h3 a:hover { color:var(--accent); }
+  .mod-body p { font-size:13.5px; color:var(--text2); line-height:1.55; margin-bottom:10px; }
+  .mod-meta { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .mod-tag {
+    font-family:var(--mono); font-size:11px; font-weight:600;
+    padding:3px 9px; border-radius:5px;
+    background:var(--bg3); color:var(--text2);
+    letter-spacing:.02em;
+  }
+  .mod-tag.star-1 { color:#0d8a4f; background:rgba(16,185,129,.10); }
+  .mod-tag.star-2 { color:#b45309; background:rgba(245,158,11,.12); }
+  .mod-tag.star-3 { color:#b91c1c; background:rgba(239,68,68,.12); }
+  [data-theme="dark"] .mod-tag.star-1, [data-theme="dracula"] .mod-tag.star-1,
+  [data-theme="nord"] .mod-tag.star-1, [data-theme="tokyo-night"] .mod-tag.star-1,
+  [data-theme="catppuccin"] .mod-tag.star-1 { color:#34d399; background:rgba(16,185,129,.15); }
+  [data-theme="dark"] .mod-tag.star-2, [data-theme="dracula"] .mod-tag.star-2,
+  [data-theme="nord"] .mod-tag.star-2, [data-theme="tokyo-night"] .mod-tag.star-2,
+  [data-theme="catppuccin"] .mod-tag.star-2 { color:#fbbf24; background:rgba(245,158,11,.15); }
+  [data-theme="dark"] .mod-tag.star-3, [data-theme="dracula"] .mod-tag.star-3,
+  [data-theme="nord"] .mod-tag.star-3, [data-theme="tokyo-night"] .mod-tag.star-3,
+  [data-theme="catppuccin"] .mod-tag.star-3 { color:#f87171; background:rgba(239,68,68,.15); }
+
+  .mod-chevron {
+    flex-shrink:0;
+    width:30px; height:30px; border-radius:6px;
+    background:transparent; border:1px solid var(--border);
+    color:var(--text3); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px;
+    transition:transform .2s, border-color .15s, color .15s;
+  }
+  .mod.open .mod-chevron { transform:rotate(180deg); }
+  .mod-chevron:hover { color:var(--accent); border-color:var(--accent); }
+
+  .mod-chapters {
+    max-height:0; overflow:hidden;
+    transition:max-height .25s ease;
+    background:var(--bg2);
+  }
+  .mod.open .mod-chapters {
+    max-height:700px;
+    border-top:1px solid var(--border);
+  }
+  .mod-chapter {
+    display:flex; align-items:center; gap:12px;
+    padding:10px 26px 10px 78px;
+    font-size:13.5px; color:var(--text2);
+    border-top:1px solid transparent;
+    transition:color .15s, background .15s;
+  }
+  .mod-chapter:not(:first-child) { border-top:1px solid var(--border); }
+  .mod-chapter:hover { color:var(--accent); background:var(--bg3); }
+  .mod-chapter .ch-id {
     font-family:var(--mono); font-size:11.5px;
-    color:var(--text3); margin-top:8px;
+    color:var(--text3); min-width:34px;
   }
-  .mod::after {
-    content:'→'; color:var(--text3); padding-top:2px;
-    transition:color .15s,transform .15s;
+  .mod-chapter.read { color:var(--text3); }
+  .mod-chapter.read .ch-id::after {
+    content:' ✓'; color:#16a34a;
   }
-  .mod:hover::after { color:var(--accent); transform:translateX(2px); }
+  [data-theme="dark"] .mod-chapter.read .ch-id::after,
+  [data-theme="dracula"] .mod-chapter.read .ch-id::after,
+  [data-theme="nord"] .mod-chapter.read .ch-id::after,
+  [data-theme="tokyo-night"] .mod-chapter.read .ch-id::after,
+  [data-theme="catppuccin"] .mod-chapter.read .ch-id::after { color:#4ade80; }
+  @media (max-width:760px) {
+    .mod-chapter { padding-left:54px; }
+  }
 
   /* ── Practices ── */
   .pracs {
@@ -264,14 +365,16 @@
     gap:12px;
   }
   .prac {
+    position:relative; display:block;
     background:var(--card); border:1px solid var(--border);
     border-radius:10px; padding:24px;
     box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.04);
-    transition:border-color .15s,box-shadow .2s;
+    transition:border-color .15s,box-shadow .2s,transform .15s;
   }
   .prac:hover {
-    border-color:var(--border2);
-    box-shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.05);
+    border-color:var(--accent);
+    transform:translateY(-2px);
+    box-shadow:0 4px 8px rgba(37,99,235,.06),0 12px 24px rgba(37,99,235,.08);
   }
   .prac .ic { font-size:1.4rem; margin-bottom:10px; display:block; line-height:1; }
   .prac h4 {
@@ -281,6 +384,13 @@
   .prac.do h4::before { content:'✓ '; color:#16a34a; font-weight:700; }
   .prac.dont h4::before { content:'✗ '; color:#dc2626; font-weight:700; }
   .prac p { font-size:13.5px; color:var(--text2); line-height:1.6; }
+  .prac-link {
+    margin-top:10px;
+    font-family:var(--mono); font-size:11.5px;
+    color:var(--text3);
+    transition:color .15s,transform .15s;
+  }
+  .prac:hover .prac-link { color:var(--accent); }
 
   /* ── Footer ── */
   footer {
@@ -295,9 +405,14 @@
   footer a:hover { color:var(--accent); }
 
   @media (max-width:760px) {
-    .pipeline { grid-template-columns:repeat(2,1fr); }
+    .pipeline { grid-template-columns:repeat(2,1fr); gap:12px; }
     .pracs { grid-template-columns:1fr; }
-    .hero { padding:64px 0 40px; }
+    .wrap { padding:0 20px; }
+    .hero { padding:48px 0 38px; }
+    .hero h1 { font-size:2.25rem; }
+    .hero-cta { gap:8px; }
+    .hero-cta .btn { flex:1 1 auto; justify-content:center; }
+    .btn-continue { flex-basis:100%; }
   }
 </style>
 </head>
@@ -330,128 +445,109 @@
 <div class="wrap">
 
   <section class="hero">
-    <div class="kicker">app-dev-guide / v1.0</div>
-    <h1>大模型应用开发<span class="typer" id="typer">先跑通</span></h1>
-    <p class="sub">从 Prompt 工程到 AI Agent —— 一站式覆盖大模型应用开发全链路。先把 MVP 跑起来，再回头精修。</p>
-    <div class="meta"><b>6</b> 大主题 · <b>36</b> 章节 · 持续更新</div>
+    <div class="hero-top">
+      <div class="kicker">app-dev-guide / v1.0</div>
+      <span class="typer" id="typer">8 阶段路线</span>
+    </div>
+    <h1>大模型应用开发</h1>
+    <p class="sub">从 Context Engineering 到 AI Agent —— 一站式覆盖大模型应用开发全链路。先把 MVP 跑起来，再用评测和工程治理精修。</p>
+    <div class="meta"><b>8</b> 阶段路线 · <b>6</b> 核心模块 · <b>38</b> 章节 · 已读 <b id="readCount">0</b>/<b>38</b> · 持续更新</div>
+    <div class="progress-strip"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="chapter/000-overview.html">开始阅读 →</a>
+      <a class="btn btn-continue" id="continueBtn" href="#" style="display:none;">继续 <span id="continueTitle"></span></a>
+      <a class="btn btn-primary" id="startBtn" href="chapter/000-overview.html">开始阅读</a>
       <a class="btn btn-ghost" href="#pipeline">查看工作流</a>
+      <button class="btn btn-ghost" id="resetBtn" style="display:none;" title="清除本机的阅读进度">重置进度</button>
     </div>
   </section>
 
-  <div class="sec-head" id="pipeline">工作流 · 六阶段</div>
+  <div class="sec-head" id="pipeline">工作流 · 八阶段</div>
   <div class="pipeline">
-    <div class="pipe-step">
+    <a class="pipe-step" href="#mod-prompt">
       <span class="ic">✍️</span>
       <div class="n">阶段 01</div>
       <h4>Prompt</h4>
       <div class="sub">提示词工程</div>
-      <p>结构化指令、CoT、Few-shot 让输出稳定 3–5 倍</p>
-    </div>
-    <div class="pipe-step">
+    </a>
+    <a class="pipe-step" href="#mod-fc">
       <span class="ic">🔧</span>
       <div class="n">阶段 02</div>
       <h4>Function Call</h4>
       <div class="sub">工具调用</div>
-      <p>JSON Schema 让模型按需调用外部能力</p>
-    </div>
-    <div class="pipe-step">
+    </a>
+    <a class="pipe-step" href="#mod-rag">
       <span class="ic">📚</span>
       <div class="n">阶段 03</div>
       <h4>RAG</h4>
       <div class="sub">检索增强生成</div>
-      <p>向量召回 + Reranker 注入私域知识</p>
-    </div>
-    <div class="pipe-step">
+    </a>
+    <a class="pipe-step" href="#mod-mcp">
       <span class="ic">🔌</span>
       <div class="n">阶段 04</div>
       <h4>MCP</h4>
       <div class="sub">模型上下文协议</div>
-      <p>统一工具/数据源对接，插件生态化</p>
-    </div>
-    <div class="pipe-step">
+    </a>
+    <a class="pipe-step" href="#mod-skills">
       <span class="ic">⭐</span>
       <div class="n">阶段 05</div>
       <h4>Skills</h4>
       <div class="sub">技能开发</div>
-      <p>领域能力包，介于 Prompt 与 Tool 之间的轻量扩展</p>
-    </div>
-    <div class="pipe-step">
+    </a>
+    <a class="pipe-step" href="#mod-agent">
       <span class="ic">🤖</span>
       <div class="n">阶段 06</div>
-      <h4>Agent</h4>
+      <h4>AI Agent</h4>
       <div class="sub">智能体编排</div>
-      <p>规划、记忆、反思、自主多步执行</p>
-    </div>
-  </div>
-
-  <div class="sec-head" id="modules">核心模块 · 六大主题</div>
-  <div class="mods">
-    <a class="mod" href="chapter/100-prompt-basics.html">
-      <span class="ic">✍️</span>
-      <span class="idx">01</span>
-      <div class="body">
-        <h3>Prompt Engineering</h3>
-        <p>从「模糊指令」到「结构化提示词」—— 角色、目标、约束、输出四要素让模型输出稳定 3–5 倍。</p>
-        <div class="meta">100-107 · 8 章节 →</div>
-      </div>
     </a>
-    <a class="mod" href="chapter/200-fc-concept.html">
-      <span class="ic">🔧</span>
-      <span class="idx">02</span>
-      <div class="body">
-        <h3>Function Call</h3>
-        <p>从纯文本输出进化到结构化调用，模型按 JSON Schema 决定何时调用、传什么参数。</p>
-        <div class="meta">200-204 · 5 章节 →</div>
-      </div>
+    <a class="pipe-step" href="chapter/606-agent-eval.html">
+      <span class="ic">🧪</span>
+      <div class="n">阶段 07</div>
+      <h4>Evals</h4>
+      <div class="sub">评测与治理</div>
     </a>
-    <a class="mod" href="chapter/300-rag-overview.html">
-      <span class="ic">📚</span>
-      <span class="idx">03</span>
-      <div class="body">
-        <h3>RAG 检索增强</h3>
-        <p>把外部知识库的相关片段作为上下文，让模型基于事实回答。覆盖 chunking、Reranker、GraphRAG 等。</p>
-        <div class="meta">300-306 · 7 章节 →</div>
-      </div>
-    </a>
-    <a class="mod" href="chapter/400-mcp-overview.html">
-      <span class="ic">🔌</span>
-      <span class="idx">04</span>
-      <div class="body">
-        <h3>MCP 模型上下文协议</h3>
-        <p>Anthropic 提出的标准协议，统一「大模型 ↔ 工具/数据源」对接，让插件生态可组合、可移植。</p>
-        <div class="meta">400-403 · 4 章节 →</div>
-      </div>
-    </a>
-    <a class="mod" href="chapter/500-skills-overview.html">
-      <span class="ic">⭐</span>
-      <span class="idx">05</span>
-      <div class="body">
-        <h3>Skills 技能开发</h3>
-        <p>Claude Skills 新特性 —— 让模型按需加载领域能力包，介于 Prompt 与 Tool 之间的轻量扩展机制。</p>
-        <div class="meta">500-503 · 4 章节 →</div>
-      </div>
-    </a>
-    <a class="mod" href="chapter/600-agent-concept.html">
-      <span class="ic">🤖</span>
-      <span class="idx">06</span>
-      <div class="body">
-        <h3>AI Agent</h3>
-        <p>规划、记忆、反思与工具使用 —— LangGraph / Claude Agent SDK 是主流栈。</p>
-        <div class="meta">600-604 · 5 章节 →</div>
-      </div>
+    <a class="pipe-step" href="chapter/001-roadmap.html">
+      <span class="ic">🧩</span>
+      <div class="n">阶段 08</div>
+      <h4>AI App</h4>
+      <div class="sub">全栈产品整合</div>
     </a>
   </div>
 
-  <div class="sec-head">实战准则 · 6 条经验</div>
+  <div class="sec-head" id="modules">核心模块 · 六大主题（点章节标题进入）</div>
+  <div class="mods" id="modsList"></div>
+
+  <div class="sec-head">实战准则 · 6 条经验（点击跳到对应章节）</div>
   <div class="pracs">
-    <div class="prac do"><span class="ic">🚀</span><h4>先跑通再优化</h4><p>能用就赢一半。先 happy path 走通，再迭代 edge cases。别一开始追求完美架构。</p></div>
-    <div class="prac do"><span class="ic">📝</span><h4>把 Prompt 当代码</h4><p>版本管理、单元测试、A/B 对比。所有线上 prompt 进 Git，每次改动留 changelog。</p></div>
-    <div class="prac do"><span class="ic">🧪</span><h4>评测先于优化</h4><p>没有评测集就别谈优化 —— 不然你不知道每次改动是「变好」还是「换坏」。</p></div>
-    <div class="prac dont"><span class="ic">💰</span><h4>迷信顶级模型</h4><p>90% 场景 Haiku / Mini 已经够用，省下成本可以做 10 倍流量。</p></div>
-    <div class="prac dont"><span class="ic">🛠️</span><h4>RAG 自造轮子</h4><p>切片、Embedding、Reranker 都有成熟方案。先用现成的跑通，再针对性优化。</p></div>
-    <div class="prac dont"><span class="ic">⚠️</span><h4>不约束 Agent</h4><p>无约束 Agent 容易陷入无限循环或工具滥用。给步数上限、给工具白名单。</p></div>
+    <a class="prac do" href="chapter/001-roadmap.html">
+      <span class="ic">🚀</span><h4>先跑通再优化</h4>
+      <p>能用就赢一半。先 happy path 走通，再迭代 edge cases。别一开始追求完美架构。</p>
+      <div class="prac-link">001 · 学习路径</div>
+    </a>
+    <a class="prac do" href="chapter/105-prompt-as-code.html">
+      <span class="ic">📝</span><h4>把 Prompt 当代码</h4>
+      <p>版本管理、单元测试、A/B 对比。所有线上 prompt 进 Git，每次改动留 changelog。</p>
+      <div class="prac-link">105 · Prompt · 工程化</div>
+    </a>
+    <a class="prac do" href="chapter/606-agent-eval.html">
+      <span class="ic">🧪</span><h4>评测先于优化</h4>
+      <p>没有评测集就别谈优化 —— 不然你不知道每次改动是「变好」还是「换坏」。</p>
+      <div class="prac-link">606 · Agent · 评估与部署</div>
+    </a>
+    <a class="prac dont" href="chapter/104-model-types.html">
+      <span class="ic">💰</span><h4>迷信顶级模型</h4>
+      <p>先用小模型、路由和缓存跑通闭环；只有评测证明需要时，再升级到更强模型。</p>
+      <div class="prac-link">104 · 指令模型 vs 推理模型</div>
+    </a>
+    <a class="prac dont" href="chapter/305-hybrid-rerank.html">
+      <span class="ic">🛠️</span><h4>RAG 自造轮子</h4>
+      <p>切片、Embedding、Reranker 都有成熟方案。先用现成的跑通，再针对性优化。</p>
+      <div class="prac-link">305 · 混合检索 + Reranker</div>
+    </a>
+    <a class="prac dont" href="chapter/603-agent-planning.html">
+      <span class="ic">⚠️</span><h4>不约束 Agent</h4>
+      <p>无约束 Agent 容易陷入无限循环或工具滥用。给步数上限、给工具白名单。</p>
+      <div class="prac-link">603 · Agent · 规划与反思循环</div>
+    </a>
   </div>
 
 </div>
@@ -475,29 +571,267 @@
     tMenu.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.theme === name));
     localStorage.setItem('theme', name);
   }
-  applyTheme(localStorage.getItem('theme') || 'light');
+  applyTheme(localStorage.getItem('theme') || tHtml.dataset.theme || 'light');
   tBtn.addEventListener('click', e => { e.stopPropagation(); tMenu.classList.toggle('open'); });
   tMenu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { applyTheme(b.dataset.theme); tMenu.classList.remove('open'); }));
   document.addEventListener('click', () => tMenu.classList.remove('open'));
 
-  /* Typewriter */
-  const phrases = ['先跑通', '构建 Agent', '从 Prompt 到生产', 'Ship It', '开始动手'];
-  const el = document.getElementById('typer');
-  let pi = 0, ci = phrases[0].length, deleting = false;
-  function tick() {
-    const p = phrases[pi];
-    if (!deleting) {
-      ci++;
-      el.textContent = p.slice(0, ci);
-      if (ci >= p.length) { deleting = true; setTimeout(tick, 1800); return; }
-    } else {
-      ci--;
-      el.textContent = p.slice(0, ci);
-      if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
-    }
-    setTimeout(tick, deleting ? 45 : 110);
+  /* ── Modules data ── */
+  const APPDEV_MODULES = [
+    { id:'prompt', icon:'✍️', idx:'01', title:'Prompt Engineering',
+      desc:'从「模糊指令」到「结构化提示词」—— 角色、目标、约束、输出四要素让模型输出稳定 3–5 倍。',
+      range:'100-107', difficulty:1, time:90,
+      chapters:[
+        {id:'100-prompt-basics', title:'Prompt · 基础四要素'},
+        {id:'101-prompt-principles', title:'Prompt · 5 大设计原则'},
+        {id:'102-zero-few-shot', title:'Prompt · Zero-shot vs Few-shot'},
+        {id:'103-cot-reasoning', title:'Prompt · CoT 链式思维'},
+        {id:'104-model-types', title:'Prompt · 指令模型 vs 推理模型'},
+        {id:'105-prompt-as-code', title:'Prompt · 工程化'},
+        {id:'106-meta-prompting', title:'Prompt · Meta-Prompting'},
+        {id:'107-real-cases', title:'Prompt · 6 大实战案例'},
+      ]},
+    { id:'fc', icon:'🔧', idx:'02', title:'Function Call',
+      desc:'从纯文本输出进化到结构化调用，模型按 JSON Schema 决定何时调用、传什么参数。',
+      range:'200-204', difficulty:2, time:60,
+      chapters:[
+        {id:'200-fc-concept', title:'Function Call · 工作原理'},
+        {id:'201-fc-openai', title:'Function Call · OpenAI 实战'},
+        {id:'202-fc-anthropic', title:'Function Call · Anthropic 实战'},
+        {id:'203-parallel-errors', title:'Function Call · 并行调用与错误处理'},
+        {id:'204-structured-outputs', title:'Function Call · Structured Outputs'},
+      ]},
+    { id:'rag', icon:'📚', idx:'03', title:'RAG 检索增强',
+      desc:'把外部知识库的相关片段作为上下文，让模型基于事实回答。覆盖 chunking、Reranker、GraphRAG 等。',
+      range:'300-306', difficulty:2, time:120,
+      chapters:[
+        {id:'300-rag-overview', title:'RAG · 概览与典型场景'},
+        {id:'301-rag-pipeline', title:'RAG · 标准流水线'},
+        {id:'302-chunking', title:'RAG · 切片策略'},
+        {id:'303-embedding', title:'RAG · Embedding 选型'},
+        {id:'304-vector-db', title:'RAG · 向量数据库'},
+        {id:'305-hybrid-rerank', title:'RAG · 混合检索 + Reranker'},
+        {id:'306-advanced-rag', title:'RAG · 进阶模式'},
+      ]},
+    { id:'mcp', icon:'🔌', idx:'04', title:'MCP 模型上下文协议',
+      desc:'Anthropic 提出的标准协议，统一「大模型 ↔ 工具/数据源」对接，让插件生态可组合、可移植。',
+      range:'400-403', difficulty:2, time:60,
+      chapters:[
+        {id:'400-mcp-overview', title:'MCP · 协议概览'},
+        {id:'401-mcp-spec', title:'MCP · 协议规范'},
+        {id:'402-mcp-server', title:'MCP · 编写 Server'},
+        {id:'403-mcp-client', title:'MCP · Client 集成与生态'},
+      ]},
+    { id:'skills', icon:'⭐', idx:'05', title:'Skills 技能开发',
+      desc:'Claude Skills 新特性 —— 让模型按需加载领域能力包，介于 Prompt 与 Tool 之间的轻量扩展机制。',
+      range:'500-503', difficulty:1, time:45,
+      chapters:[
+        {id:'500-skills-overview', title:'Skills · 概览'},
+        {id:'501-skills-vs-tools', title:'Skills · vs Tool / MCP'},
+        {id:'502-skills-build', title:'Skills · 编写第一个 Skill'},
+        {id:'503-skills-deploy', title:'Skills · 部署与最佳实践'},
+      ]},
+    { id:'agent', icon:'🤖', idx:'06', title:'AI Agent',
+      desc:'规划、记忆、反思与工具使用 —— LangGraph / Claude Agent SDK 是主流栈。',
+      range:'600-606', difficulty:3, time:150,
+      chapters:[
+        {id:'600-agent-concept', title:'Agent · 概念与四要素'},
+        {id:'601-agent-tools', title:'Agent · 工具调用与 MCP 集成'},
+        {id:'602-agent-memory', title:'Agent · 记忆机制设计'},
+        {id:'603-agent-planning', title:'Agent · 规划与反思循环'},
+        {id:'604-projects', title:'Agent · 实战项目'},
+        {id:'605-agent-multi', title:'Agent · Multi-Agent 架构与协作'},
+        {id:'606-agent-eval', title:'Agent · 评估与部署'},
+      ]},
+  ];
+  const DIFF_LABEL = {1:'入门 ★', 2:'进阶 ★★', 3:'专家 ★★★'};
+  const READ_KEY = 'app-dev-read';
+  const LAST_KEY = 'app-dev-last';
+
+  /* 组名 → 模块视觉/难度配置（chapters.json 提供章节，这里提供 meta） */
+  const MODULE_META_BY_GROUP = {
+    '1. Prompt 工程':    { id:'prompt', icon:'✍️', idx:'01', title:'Prompt Engineering',
+                          desc:'从「模糊指令」到「结构化提示词」—— 角色、目标、约束、输出四要素让模型输出稳定 3–5 倍。',
+                          difficulty:1, time:90 },
+    '2. Function Call':  { id:'fc', icon:'🔧', idx:'02', title:'Function Call',
+                          desc:'从纯文本输出进化到结构化调用，模型按 JSON Schema 决定何时调用、传什么参数。',
+                          difficulty:2, time:60 },
+    '3. RAG 检索增强':   { id:'rag', icon:'📚', idx:'03', title:'RAG 检索增强',
+                          desc:'把外部知识库的相关片段作为上下文，让模型基于事实回答。覆盖 chunking、Reranker、GraphRAG 等。',
+                          difficulty:2, time:120 },
+    '4. MCP 协议':       { id:'mcp', icon:'🔌', idx:'04', title:'MCP 模型上下文协议',
+                          desc:'Anthropic 提出的标准协议，统一「大模型 ↔ 工具/数据源」对接，让插件生态可组合、可移植。',
+                          difficulty:2, time:60 },
+    '5. Skills':         { id:'skills', icon:'⭐', idx:'05', title:'Skills 技能开发',
+                          desc:'Claude Skills 新特性 —— 让模型按需加载领域能力包，介于 Prompt 与 Tool 之间的轻量扩展机制。',
+                          difficulty:1, time:45 },
+    '6. AI Agent':       { id:'agent', icon:'🤖', idx:'06', title:'AI Agent',
+                          desc:'规划、记忆、反思与工具使用 —— LangGraph / Claude Agent SDK 是主流栈。',
+                          difficulty:3, time:150 },
+  };
+
+  function modulesFromManifest(manifest) {
+    return manifest.groups
+      .filter(g => MODULE_META_BY_GROUP[g.name])
+      .map(g => {
+        const meta = MODULE_META_BY_GROUP[g.name];
+        const chapters = g.chapters.map(c => ({
+          id: c.file.replace('.html', ''),
+          title: c.title,
+        }));
+        const first = chapters[0].id.slice(0,3);
+        const last = chapters[chapters.length - 1].id.slice(0,3);
+        return {
+          ...meta,
+          range: first === last ? first : (first + '-' + last),
+          chapters,
+        };
+      });
   }
-  setTimeout(tick, 1500);
+
+  function getReadSet() {
+    try { return new Set(JSON.parse(localStorage.getItem(READ_KEY) || '[]')); }
+    catch(e) { return new Set(); }
+  }
+  function getLastChapter() {
+    try {
+      const raw = localStorage.getItem(LAST_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch(e) { return null; }
+  }
+  function escapeHTML(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function totalChapters() {
+    return APPDEV_MODULES.reduce((s, m) => s + m.chapters.length, 0);
+  }
+
+  function renderModules() {
+    const readSet = getReadSet();
+    const lastCh = getLastChapter();
+    const container = document.getElementById('modsList');
+    if (!container) return;
+    container.innerHTML = APPDEV_MODULES.map(m => {
+      const diffCls = 'star-' + m.difficulty;
+      const diffLbl = DIFF_LABEL[m.difficulty];
+      const readInMod = m.chapters.filter(c => readSet.has(c.id)).length;
+      const firstCh = m.chapters[0];
+      const chapters = m.chapters.map(c => {
+        const isRead = readSet.has(c.id);
+        const isLast = lastCh && lastCh.id === c.id;
+        const lastBadge = isLast ? '<span style="font-family:var(--mono);font-size:10.5px;color:var(--accent);margin-left:auto;">最近</span>' : '';
+        return '<a class="mod-chapter' + (isRead ? ' read' : '') + '" href="chapter/' + c.id + '.html">' +
+          '<span class="ch-id">' + c.id.slice(0,3) + '</span>' +
+          '<span>' + escapeHTML(c.title) + '</span>' +
+          lastBadge +
+          '</a>';
+      }).join('');
+      const progressTag = readInMod > 0
+        ? '<span class="mod-tag" style="background:var(--accent-soft);color:var(--accent);">已读 ' + readInMod + '/' + m.chapters.length + '</span>'
+        : '';
+      return '<div class="mod" id="mod-' + m.id + '" data-mod="' + m.id + '">' +
+        '<div class="mod-head">' +
+          '<span class="ic">' + m.icon + '</span>' +
+          '<span class="idx">' + m.idx + '</span>' +
+          '<div class="mod-body">' +
+            '<h3><a href="chapter/' + firstCh.id + '.html">' + escapeHTML(m.title) + '</a></h3>' +
+            '<p>' + escapeHTML(m.desc) + '</p>' +
+            '<div class="mod-meta">' +
+              '<span class="mod-tag ' + diffCls + '">' + diffLbl + '</span>' +
+              '<span class="mod-tag">⏱ 约 ' + m.time + ' min</span>' +
+              '<span class="mod-tag">' + m.range + ' · ' + m.chapters.length + ' 章节</span>' +
+              progressTag +
+            '</div>' +
+          '</div>' +
+          '<button class="mod-chevron" aria-label="展开章节" title="展开章节">▾</button>' +
+        '</div>' +
+        '<div class="mod-chapters">' + chapters + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  /* 点击 mod 头部展开/收起（点 a 链接除外） */
+  document.getElementById('modsList').addEventListener('click', e => {
+    if (e.target.closest('a')) return;
+    const head = e.target.closest('.mod-head');
+    if (!head) return;
+    head.parentElement.classList.toggle('open');
+  });
+
+  /* 如果 URL 带 #mod-xxx，自动展开该模块 */
+  function autoOpenFromHash() {
+    const h = (location.hash || '').replace('#','');
+    if (h.startsWith('mod-')) {
+      const el = document.getElementById(h);
+      if (el) {
+        el.classList.add('open');
+        setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'start'}), 50);
+      }
+    }
+  }
+  function applyReadState() {
+    const read = getReadSet();
+    const last = getLastChapter();
+    const total = totalChapters();
+    const cnt = document.getElementById('readCount');
+    if (cnt) cnt.textContent = read.size;
+    const fill = document.getElementById('progressFill');
+    if (fill) fill.style.width = total ? (read.size / total * 100).toFixed(1) + '%' : '0%';
+    const cont = document.getElementById('continueBtn');
+    const ttl = document.getElementById('continueTitle');
+    if (cont && ttl) {
+      if (last && last.id) {
+        cont.href = 'chapter/' + last.id + '.html';
+        const shortTitle = (last.title && last.title.length <= 10) ? last.title : last.id.slice(0, 3);
+        ttl.textContent = shortTitle;
+        cont.title = '继续上次：' + (last.title || last.id);
+        cont.style.display = '';
+      } else {
+        cont.style.display = 'none';
+      }
+    }
+    const reset = document.getElementById('resetBtn');
+    if (reset) reset.style.display = (read.size > 0 || last) ? '' : 'none';
+  }
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    if (!confirm('确定清除本机的所有 app-dev 阅读进度吗？此操作不可撤销。')) return;
+    localStorage.removeItem('app-dev-read');
+    localStorage.removeItem('app-dev-last');
+    renderModules();
+    applyReadState();
+    // 把所有已展开的模块收起
+    document.querySelectorAll('.mod.open').forEach(el => el.classList.remove('open'));
+  });
+
+  /* 优先从 chapters.json 加载（build.py 生成）；失败回退到 hardcoded */
+  function bootstrap() {
+    renderModules();        // 先用 hardcoded 渲染一次（保证 SSR / 离线可用）
+    applyReadState();
+    autoOpenFromHash();
+    fetch('chapters.json', { cache:'no-store' })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (!data || !Array.isArray(data.groups)) return;
+        const fresh = modulesFromManifest(data);
+        if (fresh.length === APPDEV_MODULES.length) {
+          // 检查是否真的变化（标题/章节数量）
+          const stale = fresh.some((m, i) => m.chapters.length !== APPDEV_MODULES[i].chapters.length);
+          if (!stale) return;
+        }
+        APPDEV_MODULES.length = 0;
+        fresh.forEach(m => APPDEV_MODULES.push(m));
+        renderModules();
+        applyReadState();
+        autoOpenFromHash();
+      })
+      .catch(() => {});
+  }
+  bootstrap();
+  window.addEventListener('hashchange', autoOpenFromHash);
+  window.addEventListener('pageshow', () => { renderModules(); applyReadState(); });
+  window.addEventListener('storage', e => {
+    if (e.key === 'app-dev-read' || e.key === 'app-dev-last') { renderModules(); applyReadState(); }
+  });
 </script>
 </body>
 </html>
