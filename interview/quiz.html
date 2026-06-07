@@ -836,7 +836,7 @@ let ALL_QUESTIONS = [];
 
 async function loadQuestions() {
   try {
-    const res = await fetch('quiz-data.json');
+    const res = await fetch('quiz-data.json', { cache: 'no-store' });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     ALL_QUESTIONS = await res.json();
     init();

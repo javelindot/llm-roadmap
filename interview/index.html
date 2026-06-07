@@ -5,15 +5,15 @@
 <title>interview-guide · LLM Roadmap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="../img/favicon.svg" />
-<meta name="description" content="LLM 工程师全栈面试 · 算法 / 八股 / 系统设计 / 行为面 / 谈薪。100+ 真题、5 阶段全流程，应届与社招通吃。" />
+<meta name="description" content="LLM 工程师全栈面试指南：岗位定位、简历、算法、LLM 原理、RAG、Agent、系统设计、项目深挖、行为面与谈薪。1500+ 真题、5 阶段全流程，应届与社招均可使用。" />
 <meta name="keywords" content="LLM面试,大模型面试,AI工程师面试,LLM真题,八股,系统设计,谈薪" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="LLM 工程师求职导航 · interview-guide" />
-<meta property="og:description" content="从简历到 offer，5 阶段全流程指南 + 100+ 真题。任何人进来都能立刻找到下一步。" />
+<meta property="og:description" content="从岗位定位、简历和技术准备到面试实战、offer 谈判，5 阶段全流程指南 + 1500+ 真题。" />
 <meta property="og:image" content="../img/llm-ar.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="LLM 工程师求职导航" />
-<meta name="twitter:description" content="从简历到 offer，5 阶段全流程指南 + 100+ 真题。" />
+<meta name="twitter:description" content="从岗位定位到 offer，5 阶段全流程指南 + 1500+ LLM 工程师面试题。" />
 <script>
   (function(){
     try {
@@ -192,6 +192,9 @@
     color:var(--text); letter-spacing:-.02em;
     font-feature-settings:"tnum";
   }
+  .stat .hint {
+    font-size:11px; color:var(--text3); margin-top:7px;
+  }
 
   /* ── Lead CTA (置顶三卡) ── */
   .lead-cta {
@@ -305,6 +308,125 @@
   }
   .flow-stage:hover .flow-cta { color:var(--accent); }
 
+  /* ── Content sections ── */
+  .section { margin:0 0 64px; }
+  .section-head { margin-bottom:22px; }
+  .section-kicker {
+    font-family:var(--mono); font-size:12px;
+    color:var(--text3); letter-spacing:.02em;
+    margin-bottom:6px;
+  }
+  .section-kicker::before { content:'// '; }
+  .section-title {
+    font-size:1.55rem; line-height:1.3; letter-spacing:-.02em;
+    margin-bottom:8px;
+  }
+  .section-desc {
+    font-size:14px; color:var(--text2); max-width:680px;
+  }
+  .role-grid, .path-grid {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+  }
+  .role-card, .path-card, .coverage-card {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:12px; padding:24px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 14px rgba(0,0,0,.035);
+  }
+  .role-top {
+    display:flex; align-items:flex-start; justify-content:space-between;
+    gap:12px; margin-bottom:14px;
+  }
+  .role-no {
+    font-family:var(--mono); color:var(--accent);
+    font-size:11px; font-weight:700; letter-spacing:.12em;
+  }
+  .role-demand {
+    font-family:var(--mono); color:var(--text3);
+    font-size:10.5px; border:1px solid var(--border);
+    border-radius:999px; padding:3px 8px;
+  }
+  .role-card h3, .path-card h3 {
+    font-size:1.05rem; margin-bottom:8px; letter-spacing:-.01em;
+  }
+  .role-card > p, .path-card > p {
+    color:var(--text2); font-size:13px; line-height:1.7;
+  }
+  .role-meta {
+    border-top:1px solid var(--border); margin-top:16px; padding-top:14px;
+    display:grid; gap:10px;
+  }
+  .role-meta div { font-size:12.5px; color:var(--text2); line-height:1.55; }
+  .role-meta strong {
+    color:var(--text); font-size:11px; font-family:var(--mono);
+    display:block; margin-bottom:3px;
+  }
+  .coverage-card { padding:26px; }
+  .coverage-summary {
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:20px; padding-bottom:20px; margin-bottom:20px;
+    border-bottom:1px solid var(--border);
+  }
+  .coverage-summary strong {
+    display:block; font-size:1.3rem; letter-spacing:-.02em;
+    margin-bottom:4px;
+  }
+  .coverage-summary p { color:var(--text2); font-size:13px; }
+  .coverage-updated {
+    font-family:var(--mono); font-size:11px; color:var(--text3);
+    white-space:nowrap;
+  }
+  .category-list {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:12px 20px;
+  }
+  .category-item {
+    min-width:0; padding:2px 0;
+  }
+  .category-line {
+    display:flex; justify-content:space-between; gap:10px;
+    font-size:12.5px; margin-bottom:7px;
+  }
+  .category-name {
+    color:var(--text2); overflow:hidden;
+    text-overflow:ellipsis; white-space:nowrap;
+  }
+  .category-count {
+    color:var(--text); font-family:var(--mono); font-size:11.5px;
+    flex-shrink:0;
+  }
+  .category-track {
+    height:5px; border-radius:999px; overflow:hidden;
+    background:var(--bg3);
+  }
+  .category-fill {
+    height:100%; width:0; border-radius:999px;
+    background:var(--accent); transition:width .35s ease;
+  }
+  .path-label {
+    font-family:var(--mono); color:var(--accent);
+    font-size:10.5px; letter-spacing:.1em; font-weight:700;
+    margin-bottom:10px;
+  }
+  .path-steps {
+    margin-top:16px; display:grid; gap:9px;
+    counter-reset:path-step;
+  }
+  .path-steps a {
+    counter-increment:path-step;
+    display:flex; align-items:baseline; gap:8px;
+    color:var(--text2); font-size:12.5px;
+  }
+  .path-steps a::before {
+    content:counter(path-step, decimal-leading-zero);
+    font-family:var(--mono); color:var(--text3); font-size:10px;
+  }
+  .path-steps a:hover { color:var(--accent); }
+  .start-note {
+    margin-top:14px; padding:16px 18px;
+    background:var(--accent-soft); border:1px solid var(--border);
+    border-radius:10px; color:var(--text2); font-size:13px;
+  }
+  .start-note strong { color:var(--text); }
+
   /* ── Footer ── */
   footer {
     border-top:1px solid var(--border);
@@ -321,14 +443,22 @@
     .flow { grid-template-columns:repeat(3,1fr); }
     .flow-stage::after { display:none; }
   }
+  @media (max-width:960px) {
+    .nav-link.secondary { display:none; }
+  }
   @media (max-width:820px) {
     .flow { grid-template-columns:repeat(2,1fr); }
+    .role-grid, .path-grid, .category-list { grid-template-columns:repeat(2,1fr); }
   }
   @media (max-width:760px) {
+    .nav { padding:0 16px; overflow:hidden; }
+    .nav-link { display:none; }
+    .brand { margin-right:0; }
     .stats { grid-template-columns:repeat(2,1fr); }
     .stat:nth-child(2) { border-right:none; }
     .stat:nth-child(1),.stat:nth-child(2) { border-bottom:1px solid var(--border); }
-    .flow, .lead-cta { grid-template-columns:1fr; }
+    .flow, .lead-cta, .role-grid, .path-grid, .category-list { grid-template-columns:1fr; }
+    .coverage-summary { align-items:flex-start; flex-direction:column; gap:8px; }
     .hero { padding:64px 0 40px; }
   }
 </style>
@@ -338,12 +468,13 @@
 <nav class="nav">
   <a class="brand" href="../index.html">interview-guide</a>
   <div class="nav-spacer"></div>
-  <a class="nav-link" href="../index.html">首页</a>
-  <a class="nav-link" href="#flow">5 阶段</a>
+  <a class="nav-link secondary" href="../index.html">首页</a>
+  <a class="nav-link secondary" href="#flow">5 阶段</a>
+  <a class="nav-link secondary" href="#roles">岗位地图</a>
   <a class="nav-link" href="resume.html">📋 简历</a>
   <a class="nav-link" href="quiz.html">🔥 真题库</a>
   <a class="nav-link" href="offer.html">💰 offer</a>
-  <a class="nav-link" href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
+  <a class="nav-link secondary" href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
   <div class="theme-switcher">
     <button class="theme-btn" id="themeBtn" aria-label="切换主题">
       <span class="dot"></span><span class="tname">light</span><span class="caret">▾</span>
@@ -363,9 +494,9 @@
 <div class="wrap">
 
   <section class="hero">
-    <div class="kicker">interview-guide / v1.0</div>
+    <div class="kicker">interview-guide / 2026</div>
     <h1>LLM 工程师求职导航</h1>
-    <p class="sub">从简历到 offer，5 阶段全流程指南。任何人进来，都能立刻找到下一步。</p>
+    <p class="sub">覆盖应用 / Agent、算法 / 训练、基建 / 推理三类岗位，从定位、简历和技术准备一路走到面试、谈薪与入职。</p>
   </section>
 
   <div class="lead-cta">
@@ -380,7 +511,7 @@
       <div class="lead-ic">🔥</div>
       <div class="lead-tag">面试中 · QUIZ</div>
       <h3>真题库</h3>
-      <p>100+ 真实公司面经，按热度 / 分类筛选，标记已会、收藏、写笔记。</p>
+      <p><span data-total-questions>1,589</span> 道真实面经，按公司 / 分类筛选，支持标记已会、收藏和写笔记。</p>
       <div class="lead-arrow">→ 进入刷题</div>
     </a>
     <a class="lead-card" href="offer.html">
@@ -393,10 +524,10 @@
   </div>
 
   <div class="stats">
-    <div class="stat"><div class="lbl">章节数</div><div class="num">15</div></div>
-    <div class="stat"><div class="lbl">题型分类</div><div class="num">7</div></div>
-    <div class="stat"><div class="lbl">真题数</div><div class="num">100+</div></div>
-    <div class="stat"><div class="lbl">系统设计</div><div class="num">8</div></div>
+    <div class="stat"><div class="lbl">真题总数</div><div class="num" data-total-questions>1,589</div><div class="hint">持续扩充</div></div>
+    <div class="stat"><div class="lbl">参考答案</div><div class="num" id="answeredQuestions">503</div><div class="hint">可直接复习</div></div>
+    <div class="stat"><div class="lbl">题型分类</div><div class="num" id="totalCategories">9</div><div class="hint">覆盖核心方向</div></div>
+    <div class="stat"><div class="lbl">面经公司</div><div class="num" id="totalCompanies">36</div><div class="hint">多来源聚合</div></div>
   </div>
 
   <div class="flow-head" id="flow">找工作 5 个阶段</div>
@@ -423,7 +554,7 @@
     <a class="flow-stage" href="quiz.html">
       <div class="flow-num">STAGE 04</div>
       <div class="flow-name"><span class="emoji">🎤</span>面试实战</div>
-      <div class="flow-desc">100+ 真实公司面经分类刷，扛住面试官追问。</div>
+      <div class="flow-desc"><span data-total-questions>1,589</span> 道真实面经分类刷，扛住面试官追问。</div>
       <div class="flow-cta">→ 进真题库</div>
     </a>
     <a class="flow-stage" href="offer.html">
@@ -433,6 +564,118 @@
       <div class="flow-cta">→ 看 offer 攻略</div>
     </a>
   </div>
+
+  <section class="section" id="roles">
+    <div class="section-head">
+      <div class="section-kicker">先选主战场</div>
+      <h2 class="section-title">三类 LLM 岗位地图</h2>
+      <p class="section-desc">岗位名称经常混用，判断重点应看 JD 中的实际交付物。先选一个主方向深入，再补相邻能力。</p>
+    </div>
+    <div class="role-grid">
+      <article class="role-card">
+        <div class="role-top"><span class="role-no">ROLE 01</span><span class="role-demand">工程落地</span></div>
+        <h3>应用 / Agent 工程师</h3>
+        <p>把模型接入真实业务，交付 RAG、Agent、工作流、智能客服或 Copilot 类产品。</p>
+        <div class="role-meta">
+          <div><strong>核心能力</strong>Prompt、RAG、Agent、评测、后端工程、业务抽象</div>
+          <div><strong>面试重点</strong>项目深挖、系统设计、bad case、效果与成本权衡</div>
+          <div><strong>优先入口</strong><a href="tech.html#sys-rag">RAG / Agent 系统设计 →</a></div>
+        </div>
+      </article>
+      <article class="role-card">
+        <div class="role-top"><span class="role-no">ROLE 02</span><span class="role-demand">算法研究</span></div>
+        <h3>算法 / 训练工程师</h3>
+        <p>围绕数据、预训练、SFT、偏好优化和模型评测，提升模型能力或垂域效果。</p>
+        <div class="role-meta">
+          <div><strong>核心能力</strong>Transformer、训练范式、LoRA、RLHF / DPO、实验设计</div>
+          <div><strong>面试重点</strong>原理推导、论文理解、训练调参、数据与评测闭环</div>
+          <div><strong>优先入口</strong><a href="tech.html#transformer">LLM 原理与微调 →</a></div>
+        </div>
+      </article>
+      <article class="role-card">
+        <div class="role-top"><span class="role-no">ROLE 03</span><span class="role-demand">性能基建</span></div>
+        <h3>基建 / 推理工程师</h3>
+        <p>负责模型服务、推理加速、资源调度和稳定性，让模型跑得更快、更稳、更省。</p>
+        <div class="role-meta">
+          <div><strong>核心能力</strong>vLLM、KV Cache、量化、并行计算、GPU / K8s</div>
+          <div><strong>面试重点</strong>吞吐与延迟、显存估算、压测、故障定位、容量规划</div>
+          <div><strong>优先入口</strong><a href="quiz.html">推理优化 / 部署题库 →</a></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="coverage">
+    <div class="section-head">
+      <div class="section-kicker">题库覆盖</div>
+      <h2 class="section-title">九类考点，一处筛选</h2>
+      <p class="section-desc">题目来自多家公司面经并做了去重聚合。建议先按目标岗位刷主分类，再用综合题检验表达与迁移能力。</p>
+    </div>
+    <div class="coverage-card">
+      <div class="coverage-summary">
+        <div>
+          <strong><span data-total-questions>1,589</span> 道题 · <span id="coverageAnswered">503</span> 道含参考答案</strong>
+          <p>分类、公司、标签可组合筛选；学习进度保存在浏览器本地。</p>
+        </div>
+        <div class="coverage-updated" id="coverageUpdated">数据更新 2026-06-02</div>
+      </div>
+      <div class="category-list" id="categoryList">
+        <div class="category-item"><div class="category-line"><span class="category-name">综合</span><span class="category-count">678</span></div><div class="category-track"><div class="category-fill" style="width:100%"></div></div></div>
+        <div class="category-item"><div class="category-line"><span class="category-name">大模型原理</span><span class="category-count">353</span></div><div class="category-track"><div class="category-fill" style="width:52%"></div></div></div>
+        <div class="category-item"><div class="category-line"><span class="category-name">RAG / 检索</span><span class="category-count">215</span></div><div class="category-track"><div class="category-fill" style="width:32%"></div></div></div>
+        <div class="category-item"><div class="category-line"><span class="category-name">Agent / 多智能体</span><span class="category-count">131</span></div><div class="category-track"><div class="category-fill" style="width:19%"></div></div></div>
+        <div class="category-item"><div class="category-line"><span class="category-name">推理优化 / 部署</span><span class="category-count">88</span></div><div class="category-track"><div class="category-fill" style="width:13%"></div></div></div>
+        <div class="category-item"><div class="category-line"><span class="category-name">NL2SQL / 数据</span><span class="category-count">77</span></div><div class="category-track"><div class="category-fill" style="width:11%"></div></div></div>
+        <div class="category-item"><div class="category-line"><span class="category-name">知识图谱</span><span class="category-count">23</span></div><div class="category-track"><div class="category-fill" style="width:4%"></div></div></div>
+        <div class="category-item"><div class="category-line"><span class="category-name">系统设计</span><span class="category-count">21</span></div><div class="category-track"><div class="category-fill" style="width:3%"></div></div></div>
+        <div class="category-item"><div class="category-line"><span class="category-name">编程基础</span><span class="category-count">3</span></div><div class="category-track"><div class="category-fill" style="width:1%"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="paths">
+    <div class="section-head">
+      <div class="section-kicker">按背景开始</div>
+      <h2 class="section-title">不要从第 1 页顺序背到最后</h2>
+      <p class="section-desc">不同背景的短板不同。下面三条路径能把内容压缩成一条可执行路线。</p>
+    </div>
+    <div class="path-grid">
+      <article class="path-card">
+        <div class="path-label">CAMPUS · 应届 / 校招</div>
+        <h3>先建立面试基本盘</h3>
+        <p>重点证明基础、学习能力和项目潜力，算法与自我介绍不能留明显短板。</p>
+        <div class="path-steps">
+          <a href="plan.html">确定岗位方向与 30 天节奏</a>
+          <a href="resume.html">重写课程 / 实习 / 毕设经历</a>
+          <a href="tech.html">补 LLM 原理与算法题型</a>
+          <a href="quiz.html">按分类完成第一轮真题</a>
+        </div>
+      </article>
+      <article class="path-card">
+        <div class="path-label">EXPERIENCED · 社招</div>
+        <h3>把经验转成可验证价值</h3>
+        <p>重点准备项目决策、业务结果、复杂故障和规模化经验，避免只罗列技术名词。</p>
+        <div class="path-steps">
+          <a href="resume.html">量化最近 3 年核心成果</a>
+          <a href="tech.html">准备系统设计与扩容方案</a>
+          <a href="quiz.html">围绕目标 JD 定向刷题</a>
+          <a href="offer.html">计算 TC 并准备谈薪筹码</a>
+        </div>
+      </article>
+      <article class="path-card">
+        <div class="path-label">SWITCH · 转型 AI</div>
+        <h3>保留原领域优势再补 AI</h3>
+        <p>不要把过去经验清零。用原行业知识构造一个可演示、可评测、可追问的 LLM 项目。</p>
+        <div class="path-steps">
+          <a href="plan.html">选择最接近原能力的岗位</a>
+          <a href="resume.html">重组可迁移能力与项目故事</a>
+          <a href="tech.html">补齐 RAG / Agent 工程链路</a>
+          <a href="quiz.html">用真题暴露知识盲区</a>
+        </div>
+      </article>
+    </div>
+    <div class="start-note"><strong>最小行动：</strong>今天只做三件事：选定目标岗位、写出一个 1 分钟自我介绍、从对应分类随机刷 10 题。完成后再扩展计划。</div>
+  </section>
 
 </div>
 
@@ -458,6 +701,70 @@
   tBtn.addEventListener('click', e => { e.stopPropagation(); tMenu.classList.toggle('open'); });
   tMenu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { applyTheme(b.dataset.theme); tMenu.classList.remove('open'); }));
   document.addEventListener('click', () => tMenu.classList.remove('open'));
+
+  function formatNumber(value) {
+    return Number(value).toLocaleString('zh-CN');
+  }
+
+  fetch('quiz-index.json', { cache: 'no-store' })
+    .then(response => {
+      if (!response.ok) throw new Error('quiz index unavailable');
+      return response.json();
+    })
+    .then(index => {
+      const stats = index.stats || {};
+      const questions = Array.isArray(index.questions) ? index.questions : [];
+      const categories = Array.isArray(index.categories) ? index.categories : [];
+      const total = stats.totalQuestions || questions.length;
+      const answered = stats.answeredQuestions || questions.filter(q => q.hasAnswer).length;
+
+      document.querySelectorAll('[data-total-questions]').forEach(el => {
+        el.textContent = formatNumber(total);
+      });
+      document.getElementById('answeredQuestions').textContent = formatNumber(answered);
+      document.getElementById('coverageAnswered').textContent = formatNumber(answered);
+      document.getElementById('totalCategories').textContent = formatNumber(stats.totalCategories || categories.length);
+      document.getElementById('totalCompanies').textContent = formatNumber(stats.totalCompanies || 0);
+
+      const updated = (index.meta && index.meta.lastUpdated) || stats.lastUpdated;
+      if (updated) document.getElementById('coverageUpdated').textContent = '数据更新 ' + updated;
+
+      if (categories.length) {
+        const maxCount = Math.max(...categories.map(cat => cat.questionCount || 0), 1);
+        const answeredByCategory = questions.reduce((result, question) => {
+          if (question.hasAnswer) result[question.categoryKey] = (result[question.categoryKey] || 0) + 1;
+          return result;
+        }, {});
+        const sorted = [...categories].sort((a, b) => b.questionCount - a.questionCount);
+        const list = document.getElementById('categoryList');
+        list.textContent = '';
+        sorted.forEach(category => {
+          const item = document.createElement('div');
+          item.className = 'category-item';
+          const line = document.createElement('div');
+          line.className = 'category-line';
+          const name = document.createElement('span');
+          name.className = 'category-name';
+          name.textContent = category.name;
+          const count = document.createElement('span');
+          count.className = 'category-count';
+          const answeredCount = answeredByCategory[category.key] || 0;
+          count.textContent = formatNumber(category.questionCount) + ' / 已答 ' + formatNumber(answeredCount);
+          line.append(name, count);
+          const track = document.createElement('div');
+          track.className = 'category-track';
+          const fill = document.createElement('div');
+          fill.className = 'category-fill';
+          fill.style.width = Math.max((category.questionCount / maxCount) * 100, 1) + '%';
+          track.appendChild(fill);
+          item.append(line, track);
+          list.appendChild(item);
+        });
+      }
+    })
+    .catch(() => {
+      document.getElementById('coverageUpdated').textContent = '当前显示内置统计';
+    });
 </script>
 </body>
 </html>
