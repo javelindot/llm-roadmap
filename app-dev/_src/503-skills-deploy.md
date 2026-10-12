@@ -5,450 +5,81 @@ title: Skills · 部署与最佳实践
 toc: Skills · 部署
 ---
 
-写好 Skill 只是第一步，**怎么让团队用起来 + 在生产环境跑稳**才是难点。这一章讲部署和运维。
+**部署技能就是分发经过验证的文件与依赖，再由宿主配置发现路径、工具权限和运行环境。** 技能注册中心、Python entry point 或远程下载 API 都需要自行实现，不能当作 SDK 默认能力。
 
-## 部署模式 1：本地嵌入（最简单）
+## 三种分发方式
 
-Skill 直接放进应用代码库。
+| 方式 | 适用情况 | 必要约束 |
+|------|----------|----------|
+| 跟随应用 Git 仓库 | 单应用、少量技能 | 固定 commit，代码审阅 |
+| 内部版本包/制品仓库 | 多应用共享 | 固定版本、校验摘要、依赖清单 |
+| 自建技能目录服务 | 多团队治理 | 身份权限、签名、回滚和兼容性 |
 
-```
-my_app/
-├── app.py
-├── skills/
-│   ├── csv_analyzer/
-│   ├── code_reviewer/
-│   └── report_writer/
-└── requirements.txt
-```
+生产不要每次请求自动下载“最新”技能。先下载到隔离目录、检查内容与校验值，通过评测后进入新的部署版本。脚本依赖和参考文件也必须一起版本化。
+
+## 接入 MCP
+
+Skill 说明任务方法；MCP Server 提供数据或业务能力。发现服务后，客户端保存服务/工具身份映射，模型选择工具只是提出请求，最终由权限层决定执行。
+
+Python SDK 的 MCP 配置使用 ClaudeAgentOptions 的 mcp_servers。以下是配置结构，远程地址为示例值：
 
 ```python
-# app.py
-from claude_agent_sdk import Agent, Skill
-from pathlib import Path
+from claude_agent_sdk import ClaudeAgentOptions
 
-# 自动加载 skills/ 下所有 Skill
-skill_dir = Path(__file__).parent / "skills"
-skills = [Skill.from_directory(d) for d in skill_dir.iterdir() if d.is_dir()]
-
-agent = Agent(model="claude-sonnet-4-5", skills=skills)
-
-@app.post("/chat")
-def chat(message: str):
-    return agent.run(message)
+options = ClaudeAgentOptions(
+    setting_sources=["project"],
+    mcp_servers={
+        "company-data": {
+            "type": "http",
+            "url": "https://mcp.example.com/mcp",
+        }
+    },
+    max_turns=8,
+)
 ```
 
-✅ **优点**：零运维、即时生效、版本随应用走
-❌ **缺点**：Skills 跨应用复用困难
+实际接入还需对应服务的认证和工具决策。不要把访问令牌写进技能正文，或让模型从输入中指定任意服务地址。连接成功不等于已通过业务权限检查。
 
-适合：单应用、Skill 数量 < 20。
+## 权限与隔离
 
-## 部署模式 2：Skill 包仓库（团队级）
+| 层 | 实际控制 |
+|----|----------|
+| 文件 | 授权目录、文件大小、路径/符号链接与租户 |
+| 进程 | 容器/沙箱、CPU/内存/时限、执行白名单 |
+| 网络 | 目标域名、端口、出站策略与凭证 |
+| 工具 | 当前用户、资源、参数、业务状态 |
+| 写操作 | 明确授权、审批、幂等与审计 |
 
-把 Skill 发布为 Python 包。
+SKILL.md 中的文字与实验性 allowed-tools 字段不能替代这些控制。设置工作目录也不等于文件系统隔离；脚本读取路径的检查只是防线的一部分。
 
-```
-my_company_skills/
-├── csv_analyzer/
-├── code_reviewer/
-└── pyproject.toml
-```
+## 观测与错误处理
 
-```toml
-# pyproject.toml
-[project]
-name = "mycompany-skills"
-version = "0.1.0"
+记录技能名称与版本、任务 id、工具名、耗时、状态、模型成本与最终验收。敏感输入默认脱敏，避免把整份文件或访问令牌写入 trace。
 
-[project.entry-points."claude_agent_sdk.skills"]
-csv_analyzer = "mycompany_skills.csv_analyzer:SKILL"
-code_reviewer = "mycompany_skills.code_reviewer:SKILL"
-```
+SDK 消息流和工具结果可作为应用埋点的输入；Langfuse/Phoenix 等集成要按其实际版本接入，不能假定 SDK 自带 tracer、cache_skills 或任意自定义异常类型。
 
-发布到内部 PyPI：
+加载失败、缺失依赖、工具超时和业务拒绝分别处理：修正制品、降级或返回可解释错误。写操作超时不代表没有发生，先查询状态，不可盲目重试。
+
+## 缓存与性能
+
+缓存稳定的参考材料或模型前缀时，检查供应商支持、最小长度、有效期与计费。命中率和总成本需实测，不能将某一缓存价格推广到所有调用。
+
+技能索引避免长篇重复描述，正文只包含必要步骤，详细规则按需引用。多个技能组合时保持资源与工具契约清晰，不要让其中一个的文档覆盖应用权限。
+
+## 发布验收
+
+1. 校验元数据、文件引用与脚本依赖。
+2. 在本地测试正常、缺失、非法和越界输入。
+3. 用固定任务集比较技能选择、最终正确性和成本。
+4. 在受控环境检查工具授权、提示注入与恢复。
+5. 固定版本灰度发布，保留上一个制品与回归记录。
+
+本仓库的无账户验证入口：
 
 ```bash
-uv publish --repository internal-pypi
+python -m unittest discover -s app-dev/examples -v
 ```
 
-各应用用：
+这些测试验证本地控制逻辑；不能据此声称模型一定选择正确技能。模型行为还需要有认证环境下的集成评测，见 [评测与生产治理](700-evals.html)。
 
-```python
-# 任何应用
-pip install mycompany-skills
-
-from claude_agent_sdk import Agent, discover_skills
-agent = Agent(model="...", skills=discover_skills(package="mycompany_skills"))
-```
-
-✅ **优点**：Skill 跨应用复用、版本独立管理、CI/CD 友好
-❌ **缺点**：需要包管理基础设施
-
-适合：中等规模公司、Skill > 10 + 多个应用。
-
-## 部署模式 3：Skill 注册中心（企业级）
-
-中心化的 Skill 服务器：
-
-```
-┌──────────────────────────────────────┐
-│       Skill Registry Service          │
-│  (类似 npm registry / Docker Hub)     │
-│                                       │
-│  GET  /skills              列出所有   │
-│  GET  /skills/{name}       获取 Skill │
-│  POST /skills              发布       │
-│  PATCH /skills/{name}      更新       │
-└────────────────┬─────────────────────┘
-                 │ HTTPS
-                 ↓
-┌────────────────────────────────────────┐
-│       各应用 / 各团队 / 个人           │
-│       动态拉取 Skill 使用              │
-└────────────────────────────────────────┘
-```
-
-```python
-from claude_agent_sdk import Agent, RemoteSkill
-
-# 从远程注册中心拉取
-agent = Agent(
-    model="claude-sonnet-4-5",
-    skills=[
-        RemoteSkill("https://skills.company.com/skills/csv_analyzer"),
-        RemoteSkill("https://skills.company.com/skills/code_reviewer")
-    ]
-)
-```
-
-✅ **优点**：全公司统一管理、热更新、可治理
-❌ **缺点**：基础设施成本
-
-适合：大型公司、跨团队、合规要求高。
-
-## 部署模式 4：Skills + MCP 混合
-
-Skills 内部调用 MCP Server，**Skill 提供方法论、MCP 提供工具实现**。
-
-```markdown
-<!-- SKILL.md -->
-## Tools available
-
-直接使用以下 MCP Servers 暴露的工具：
-
-- `github` (MCP server: `@modelcontextprotocol/server-github`)
-- `slack` (MCP server: `@modelcontextprotocol/server-slack`)
-- `postgres` (MCP server: `@modelcontextprotocol/server-postgres`)
-```
-
-```python
-# Agent 端
-from claude_agent_sdk import Agent, Skill, MCPServer
-
-agent = Agent(
-    model="claude-sonnet-4-5",
-    skills=[Skill.from_directory("./skills/incident_handler")],
-    mcp_servers=[
-        MCPServer(name="github", url="npx -y @modelcontextprotocol/server-github"),
-        MCPServer(name="slack", url="npx -y @modelcontextprotocol/server-slack")
-    ]
-)
-```
-
-✅ **优点**：MCP 工具生态 + Skill 方法论复用
-❌ **缺点**：架构稍复杂
-
-适合：希望最大化复用社区资源的团队。
-
-## 生产环境必备：可观测性
-
-### 1. Trace 每次 Skill 调用
-
-```python
-from langfuse import Langfuse
-from claude_agent_sdk import Agent
-
-lf = Langfuse()
-
-agent = Agent(
-    model="claude-sonnet-4-5",
-    skills=skills,
-    tracer=lf  # 自动 trace
-)
-
-# 每次 agent.run() 都会记录:
-# - 哪些 Skills 被加载
-# - 每步调用了哪些 tool
-# - 每个 tool 的 input/output/耗时
-# - LLM token 消耗
-# - 最终输出
-```
-
-在 Langfuse / Phoenix / LangSmith 面板能看完整调用链。
-
-### 2. 关键指标监控
-
-| 指标 | 目标 | 告警阈值 |
-|------|------|---------|
-| Skill 加载成功率 | >99% | <95% |
-| Tool 调用成功率 | >95% | <90% |
-| 单次任务平均耗时 | <30s | >60s |
-| 单次任务 token 消耗 | <10K | >50K |
-| Skill 加载次数（每 Skill） | 监控分布 | 长尾 Skill 考虑下线 |
-| 用户满意度（👍/👎）| >85% | <70% |
-
-### 3. 错误分类
-
-```python
-# 在 Agent 层 wrap
-try:
-    result = agent.run(message)
-except SkillLoadError as e:
-    # Skill 定义有问题
-    log.error(f"Skill load failed: {e.skill_name}")
-    fallback_response()
-except ToolCallError as e:
-    # 工具执行失败
-    log.error(f"Tool failed: {e.tool_name}, args: {e.args}")
-    if e.is_retryable:
-        retry()
-except LLMRateLimitError:
-    # 模型限流
-    backoff_and_retry()
-```
-
-## 性能优化
-
-### 1. Skill 索引最小化
-
-每个 Skill 在「索引」阶段只占几百 token —— 控制好 Skill 的 description / when to use 长度。
-
-```markdown
-# ❌ 啰嗦
-description: This skill is designed to help users perform comprehensive data 
-analysis tasks including but not limited to statistical analysis, data 
-visualization, anomaly detection, trend identification, correlation analysis, 
-and the generation of detailed analytical reports based on user-provided CSV 
-or Excel files...
-
-# ✅ 简洁
-description: 分析 CSV/Excel 数据，输出统计指标、可视化和洞察报告
-```
-
-### 2. 按需加载策略
-
-只在该 Skill 真正需要时才加载完整内容：
-
-```python
-# Agent SDK 自动按需加载，但你可以显式控制
-agent = Agent(
-    model="...",
-    skills=skills,
-    skill_loading="lazy"  # 默认。"eager" 会全部预加载
-)
-```
-
-### 3. Prompt Caching
-
-Skill 的 system prompt 通常重复 → 用 Anthropic Prompt Caching：
-
-```python
-agent = Agent(
-    model="claude-sonnet-4-5",
-    skills=skills,
-    cache_skills=True  # 加载的 Skill prompt 自动加 cache_control
-)
-# 同样的 Skill 第 2 次起便宜 90%
-```
-
-### 4. 并行 Skill 评估
-
-如果用户问题不明确，模型可能要"试探"多个 Skill：
-
-```python
-# 并行加载多个候选 Skill 描述（不是完整内容）
-candidate_skills = agent.shortlist_skills(message, top_k=3)
-# 让模型从 3 个候选中选最匹配的，再加载完整内容
-```
-
-## 安全考虑
-
-### 1. Skill 信任分级
-
-不是所有 Skill 都同样安全：
-
-```python
-agent = Agent(
-    skills=[
-        Skill.from_directory("./skills/csv_analyzer", trust="high"),  # 内部开发
-        Skill.from_url("...", trust="medium"),                        # 公司内部分享
-        RemoteSkill("...", trust="low")                               # 外部下载
-    ],
-    confirmation_required_for=["medium", "low"]  # 低信任 Skill 调用要用户确认
-)
-```
-
-### 2. Skill 沙箱化
-
-Skill 内的工具运行在受限环境：
-
-```python
-agent = Agent(
-    skills=skills,
-    sandbox={
-        "filesystem": ["/workspace"],  # 只能访问指定目录
-        "network": ["*.company.com"],  # 只能访问内网
-        "max_memory_mb": 1024,
-        "max_runtime_sec": 300
-    }
-)
-```
-
-### 3. 审计日志
-
-记录所有 Skill 加载和工具调用：
-
-```python
-audit_log.append({
-    "user_id": user.id,
-    "skill": skill_name,
-    "tool": tool_name,
-    "args": tool_args,
-    "result": tool_result,
-    "timestamp": now()
-})
-```
-
-对合规要求高的行业（金融、医疗）必备。
-
-## CI/CD 流程
-
-完整的 Skill 发布流程：
-
-```
-开发者改 Skill
-   ↓
-本地测试 (pytest tests/)
-   ↓
-提交 PR
-   ↓ 触发
-CI:
-  1. Skill 格式校验 (SKILL.md 必须字段)
-  2. 单元测试 Skill 内工具
-  3. 集成测试 (用测试 prompt 跑通 Skill)
-  4. 评测对比 (新版 vs 老版的关键指标)
-   ↓ 通过
-Code Review
-   ↓
-Merge
-   ↓ 自动
-发布到 Skill Registry
-   ↓ 通知
-各应用拉取最新版
-```
-
-### 评测脚本示例
-
-```python
-# tests/eval_csv_analyzer.py
-EVAL_CASES = [
-    {
-        "input": "分析 /test/sales.csv，找异常订单",
-        "expected_tools": ["load_csv", "detect_outliers"],
-        "expected_keywords": ["异常", "订单", "建议"]
-    },
-    ...
-]
-
-def test_csv_analyzer_v2():
-    agent = Agent(skills=[Skill.from_directory("./skills/csv_analyzer")])
-    
-    for case in EVAL_CASES:
-        result = agent.run(case["input"])
-        
-        # 检查工具调用
-        called_tools = [c.name for c in agent.trace.tool_calls]
-        for expected_tool in case["expected_tools"]:
-            assert expected_tool in called_tools
-        
-        # 检查关键词
-        for kw in case["expected_keywords"]:
-            assert kw in result
-```
-
-PR 自动跑 → 准确率 / 工具调用准确率必须 ≥ 老版本，否则阻塞合入。
-
-## 治理：Skill 数量增长的应对
-
-当 Skills 数量 > 50 后会遇到问题：
-- 模型加载选择变慢
-- Skill 间能力重叠
-- 维护混乱
-
-### 应对策略
-
-1. **分类标签**
-   ```yaml
-   tags: [data, finance, internal]
-   ```
-   按 tags 给 Agent 创建时只加载相关分类。
-
-2. **使用统计**
-   监控每个 Skill 的使用频次，**长尾未使用的考虑下线**。
-
-3. **重叠检测**
-   定期评估 Skills 的 description 相似度，重叠的合并或拆分。
-
-4. **分层架构**
-   ```
-   核心 Skills（全员可用）  ← 10 个
-   部门 Skills（按团队）    ← 各 5-10 个
-   个人 Skills（用户自建）  ← 任意
-   ```
-
-## 最佳实践清单
-
-```
-开发:
-  ☐ SKILL.md 字段完整
-  ☐ When to use 清晰
-  ☐ Tools 描述详尽
-  ☐ 有 examples
-  ☐ 单元测试覆盖
-
-发布:
-  ☐ 版本号语义化（semver）
-  ☐ CHANGELOG 维护
-  ☐ CI 自动评测
-  ☐ Code Review 通过
-
-部署:
-  ☐ 接入 trace
-  ☐ 配置 prompt caching
-  ☐ 设置沙箱限制
-  ☐ 监控告警接入
-
-运维:
-  ☐ 每周看使用统计
-  ☐ 每月清理长尾 Skill
-  ☐ 每季度审视架构
-  ☐ 安全审计日志归档
-```
-
-## 总结：Skills 学完后
-
-完成本章后你应该能：
-
-✅ 判断什么场景该用 Skills（vs Prompt / FC / MCP）
-✅ 设计一个清晰的 Skill 结构
-✅ 编写可生产的 Skill（含 tools / templates / examples）
-✅ 集成进 Claude Agent SDK
-✅ 部署 Skills 给团队 / 公司使用
-✅ 监控、评测、迭代 Skills
-
-## 下一站：AI Agent
-
-学完 Skills，你已经掌握了**所有「能力封装」层的技术**。
-
-下一模块讲 [AI Agent](#agent-concept) —— **如何让模型自主编排这些能力完成复杂任务**。Skills 是 Agent 的「能力库」，Agent 是 Skills 的「调度器」，两者天作之合。
-
-学完 Agent 模块，你就掌握了 2026 年 LLM 应用开发的**完整技术栈**。
+下一模块：[Agent 运行时](600-agent-concept.html)。

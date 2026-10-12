@@ -8,6 +8,8 @@
   - [MCP 协议](/app-dev/chapter/400-mcp-overview.html)
   - [Skills](/app-dev/chapter/500-skills-overview.html)
   - [AI Agent](/app-dev/chapter/600-agent-concept.html)
+  - [评测与生产治理](/app-dev/chapter/700-evals.html)
+  - [全栈 AI App](/app-dev/chapter/800-streaming-ui.html)
 
 - Vibe Coding 教程
   - [Vibe Coding 教程](/vibe-coding/README.md)

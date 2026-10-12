@@ -43,7 +43,9 @@
 
 > **逆向工程式学习法**：先上手做生产级应用，再深挖底层原理
 
-本项目采用「自顶向下」的学习路径，从大模型应用实战开始，逐步深入到底层理论基础：
+本项目采用「自顶向下」的学习路径，从大模型应用实战开始，逐步深入到底层理论基础。
+
+应用开发指南现有 **44 章、8 个核心模块**，包含评测与生产治理、全栈 AI App，以及 Prompt、工具、RAG、MCP、Skills、Agent 的实践与验收内容。面试题库现有 **1,589 题，全部已有参考答案**，覆盖 **37 家公司、9 类索引主题**（2026-10-12）。题库的实时统计以 `interview/quiz-index.json` 为准。项目经历类题目提供回答框架，具体经历和指标需使用真实资料。
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -109,8 +111,8 @@ interface LLM_Agent {
 
 ```typescript
 interface MCP_Protocol {
-  核心组件: "Model Server | Client Application | Protocol Specification";
-  核心优势: "标准化模型交互 | 提升开发效率 | 增强系统灵活性";
+  核心组件: "Host | Client | Server | Tools / Resources / Prompts";
+  核心优势: "标准化外部能力交互 | 工具服务复用 | 统一连接与治理";
   应用场景: "SaaS产品集成 | 跨模型统一调用 | 企业级AI中台";
 }
 ```
@@ -275,7 +277,7 @@ LLM 工程师独立的求职模块（[`interview/`](./interview/)），把找工
 │  STAGE 03  📐 巩固能力     →  tech.html    (8 篇)            │
 │      LLM 八股 + 系统设计 + 算法考点矩阵                        │
 │                                                              │
-│  STAGE 04  🎤 面试实战     →  quiz.html    (101 真题 + 详情) │
+│  STAGE 04  🎤 面试实战     →  quiz.html   (1,589 真题+详情) │
 │      真实公司面经分类刷，标记已会/收藏/笔记，扛住追问           │
 │                                                              │
 │  STAGE 05  💰 拿 Offer     →  offer.html   (13 篇)           │
@@ -290,19 +292,19 @@ LLM 工程师独立的求职模块（[`interview/`](./interview/)），把找工
 | 🧭 **定位 & 节奏** | 6 | 岗位全景 / 选准方向 3 步 / 应届 vs 社招 / 30 天加速版 / 3 月稳健版 / 在职 vs 全职 |
 | 📋 **简历优化** | 12 | 5W 法 / 应届 vs 社招 / 1 页 vs 2 页 / STAR / 项目模板 / 教育实习 / 技能栏 / 自我介绍 / 应届坑 / 公司偏好 / 投递跟进 |
 | 📐 **巩固能力** | 8 | Transformer / 预训练 / RLHF / 系统设计 5 步法 / RAG / Agent / 算法必刷 / 算法应试 |
-| 🔥 **真题库** | 101 真题 | 真实公司面经 7 大分类 · 热度排序 · 列表+详情视图 · 标记已会/收藏/笔记 |
+| 🔥 **真题库** | 1,589 真题 | 37 家公司 · 9 类索引主题 · 多选筛选 · 已会/收藏/笔记 · 待答题筛选 |
 | 💰 **offer && 谈薪** | 13 | offer 构成 / 股票期权 RSU / 公司类型对比 / TC 计算 / 5 维度比较 / 谈薪四原则 / 实战话术 / 期望薪资 / offer letter 8 项 / 离职交接 / 入职 7 天 / 反悔 backup |
 
 #### 技术亮点
 
 ```typescript
 interface InterviewModule {
-  架构: "纯静态 HTML/CSS/JS, GitHub Pages 一键部署, 无构建步骤";
-  布局: "左侧 sidebar + 主区域单篇阅读, hash 路由切换文章, 上下页导航";
-  真题库: "Python 解析 _src/*.md → quiz-data.json, 跨公司去重 + 频次聚合 + 热度排序";
+  架构: "纯静态 HTML/CSS/JS, Python 构建指南章节, GitHub Pages 自动部署";
+  布局: "专题页 hash 路由, 指南独立章节页, sidebar 与上下页导航";
+  真题库: "questions/q-*.md 为内容源, quiz-index.json 为索引, quiz-data.json 为页面数据";
   主题: "7 套 (light/dark/solarized/dracula/nord/tokyo-night/catppuccin) 全局生效";
   状态: "已会/收藏/笔记本地 localStorage 持久化, 详情页操作实时同步";
-  扩展: "新增文章 = 加一个 <article> + sidebar 链接; 新增真题 = 跑 parse_questions.py";
+  扩展: "指南章节写 _src/ 后运行 build.py; 新题增量导入保留旧题号和人工答案";
 }
 ```
 
@@ -314,21 +316,27 @@ interface InterviewModule {
 | [`interview/plan.html`](./interview/plan.html) | 🧭 定位 & 节奏 |
 | [`interview/resume.html`](./interview/resume.html) | 📋 简历优化 |
 | [`interview/tech.html`](./interview/tech.html) | 📐 巩固能力 |
-| [`interview/quiz.html`](./interview/quiz.html) | 🔥 真题库（101 题） |
+| [`interview/quiz.html`](./interview/quiz.html) | 🔥 真题库（1,589 题） |
 | [`interview/offer.html`](./interview/offer.html) | 💰 offer && 谈薪 |
 
 #### 真题录入流程（贡献者）
 
 ```bash
-# 1. 在 interview/_src/ 下新增题库 markdown 文件
+# 1. 安装题库脚本的依赖（文档 build.py 本身仍是零依赖）
+python -m pip install -r interview/requirements.txt
+
+# 2. 在 interview/_src/ 下新增题库 markdown 文件
 #    文件首行必须以 ## 公司名 开头（区别于带 frontmatter 的指南类文档）
 #    格式: 1. 题目 → 答 …
 
-# 2. 跑解析脚本重新生成 quiz-data.json
-cd interview && python3 parse_questions.py
+# 3. 增量导入新题，重建索引与页面数据
+python interview/parse_questions.py
 
-# 3. 同公司同问题会自动合并, 频次 ≥ 2 自动打 🔥 热度标
+# 4. 编辑 questions/q-*.md 补答案，并将 hasAnswer 改为 true
+python interview/sync_answers.py
 ```
+
+首次导入的新题会跨公司合并，已有单题的答案、公司、分类和题号由 Markdown 保持。修改已有题的标题、分类或公司后，运行 `parse_questions.py` 重建全部索引；原题标题别名会保留。指定源文件导入也不会删除其他题目，浏览器中的已会、收藏和笔记继续关联原题号。
 
 ---
 
@@ -358,11 +366,14 @@ cd interview && python3 parse_questions.py
 git clone https://github.com/javelindot/llm-roadmap.git
 cd llm-roadmap
 
-# 2. 本地预览（可选）
+# 2. 构建独立章节页
+python build.py
+
+# 3. 本地预览
 npx docsify-cli serve -p 3000
 # 访问 http://localhost:3000
 
-# 3. 开始学习
+# 4. 开始学习
 # 建议从「大模型应用实战」开始，自顶向下学习
 ```
 

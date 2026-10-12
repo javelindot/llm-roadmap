@@ -5,7 +5,7 @@ title: MCP · 协议概览
 toc: MCP · 概览
 ---
 
-**MCP**（Model Context Protocol）= **大模型的「USB-C 协议」**。Anthropic 2024 年 11 月开源，**2025 年成为事实标准** —— 几乎所有主流模型厂商（OpenAI / Google / DeepSeek / Mistral）和 IDE（Cursor / VSCode / Zed）都已支持。
+**MCP**（Model Context Protocol）是宿主应用连接外部工具与数据服务的协议。客户端实现负责连接与能力协商；模型通过宿主提供的接口使用能力，不能仅凭模型名称判断是否支持 MCP。
 
 ## 一句话理解 MCP
 
@@ -48,8 +48,7 @@ tools = [Tool(function_declarations=[FunctionDeclaration(...)])]
 
 ### 痛点 2：工具复用难
 
-你为公司写的「查订单」工具，**只能用在你的应用里**。
-其他人/团队/产品想用 → 必须重新实现一遍。
+你为公司写的「查订单」工具可以通过内部 API 复用，但各客户端仍需要适配连接、工具声明与错误处理。MCP 提供统一的交互约定，减少重复适配工作。
 
 ### 痛点 3：用户切换 IDE 痛苦
 
@@ -112,8 +111,8 @@ MCP 不绑死任何传输方式：
 | Transport | 适合 | 典型场景 |
 |-----------|------|---------|
 | **stdio** | 本地 Server | Claude Desktop 启动子进程通信 |
-| **HTTP + SSE** | 远程 Server | Web 服务、跨机器调用 |
-| **Streamable HTTP** | 高吞吐 | 2025 新增，替代 SSE |
+| **旧 HTTP + SSE** | 兼容旧版远程 Server | 按旧协议维护连接 |
+| **Streamable HTTP** | 远程 Server | 可使用 SSE 流，按协商版本接入 |
 
 ```python
 # stdio 示例（本地子进程）

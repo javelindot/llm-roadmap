@@ -5,7 +5,7 @@
 <title>app-dev-guide · LLM Roadmap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="../img/favicon.svg" />
-<meta name="description" content="从 Context 到 Agent — AI 应用开发完整执行手册。8 阶段路线、6 个核心模块、38 个章节。" />
+<meta name="description" content="从 Context 到 AI App — AI 应用开发完整执行手册。8 阶段路线、8 个核心模块、44 个章节。" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="大模型应用开发 · app-dev-guide" />
 <meta property="og:description" content="从 Context 到 Agent —— 一站式覆盖大模型应用开发全链路。" />
@@ -405,6 +405,17 @@
   footer a:hover { color:var(--accent); }
 
   @media (max-width:760px) {
+    .nav { padding:0 16px; }
+    .brand { white-space:nowrap; margin-right:8px; letter-spacing:0; }
+    .nav .nav-link { display:none; }
+    .nav .nav-link[href="chapter/000-overview.html"] { display:block; white-space:nowrap; }
+    .theme-btn { width:34px; height:34px; padding:0; justify-content:center; }
+    .theme-btn .tname, .theme-btn .caret { display:none; }
+    .mod-head { padding:18px 16px; gap:10px; }
+    .mod-head .idx { min-width:20px; }
+    .mod-chapter { padding:10px 16px; gap:10px; align-items:flex-start; }
+    .mod-chapter .ch-id { flex-shrink:0; }
+    .mod-chapter span:not(.ch-id) { min-width:0; overflow-wrap:anywhere; }
     .pipeline { grid-template-columns:repeat(2,1fr); gap:12px; }
     .pracs { grid-template-columns:1fr; }
     .wrap { padding:0 20px; }
@@ -427,7 +438,7 @@
   <a class="nav-link" href="chapter/000-overview.html">文档</a>
   <a class="nav-link" href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
   <div class="theme-switcher">
-    <button class="theme-btn" id="themeBtn" aria-label="切换主题">
+    <button class="theme-btn" id="themeBtn" aria-label="切换主题" title="切换主题">
       <span class="dot"></span><span class="tname">light</span><span class="caret">▾</span>
     </button>
     <div class="theme-menu" id="themeMenu">
@@ -451,7 +462,7 @@
     </div>
     <h1>大模型应用开发</h1>
     <p class="sub">从 Context Engineering 到 AI Agent —— 一站式覆盖大模型应用开发全链路。先把 MVP 跑起来，再用评测和工程治理精修。</p>
-    <div class="meta"><b>8</b> 阶段路线 · <b>6</b> 核心模块 · <b>38</b> 章节 · 已读 <b id="readCount">0</b>/<b>38</b> · 持续更新</div>
+    <div class="meta"><b>8</b> 阶段路线 · <b>8</b> 核心模块 · <b data-chapter-total>44</b> 章节 · 已读 <b id="readCount">0</b>/<b data-chapter-total>44</b> · 持续更新</div>
     <div class="progress-strip"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     <div class="hero-cta">
       <a class="btn btn-continue" id="continueBtn" href="#" style="display:none;">继续 <span id="continueTitle"></span></a>
@@ -499,13 +510,13 @@
       <h4>AI Agent</h4>
       <div class="sub">智能体编排</div>
     </a>
-    <a class="pipe-step" href="chapter/606-agent-eval.html">
+    <a class="pipe-step" href="#mod-governance">
       <span class="ic">🧪</span>
       <div class="n">阶段 07</div>
       <h4>Evals</h4>
       <div class="sub">评测与治理</div>
     </a>
-    <a class="pipe-step" href="chapter/001-roadmap.html">
+    <a class="pipe-step" href="#mod-app">
       <span class="ic">🧩</span>
       <div class="n">阶段 08</div>
       <h4>AI App</h4>
@@ -513,7 +524,7 @@
     </a>
   </div>
 
-  <div class="sec-head" id="modules">核心模块 · 六大主题（点章节标题进入）</div>
+  <div class="sec-head" id="modules">核心模块 · 八大主题</div>
   <div class="mods" id="modsList"></div>
 
   <div class="sec-head">实战准则 · 6 条经验（点击跳到对应章节）</div>
@@ -565,6 +576,7 @@
   const tBtn = document.getElementById('themeBtn');
   const tMenu = document.getElementById('themeMenu');
   const tHtml = document.documentElement;
+  /* 应用用户选择的主题并保存，以便跨章节保持一致。 */
   function applyTheme(name) {
     tHtml.dataset.theme = name;
     tBtn.querySelector('.tname').textContent = name;
@@ -623,7 +635,7 @@
         {id:'403-mcp-client', title:'MCP · Client 集成与生态'},
       ]},
     { id:'skills', icon:'⭐', idx:'05', title:'Skills 技能开发',
-      desc:'Claude Skills 新特性 —— 让模型按需加载领域能力包，介于 Prompt 与 Tool 之间的轻量扩展机制。',
+      desc:'用开放技能格式沉淀任务步骤与资源，按需加载，配合执行权限、评测和版本发布。',
       range:'500-503', difficulty:1, time:45,
       chapters:[
         {id:'500-skills-overview', title:'Skills · 概览'},
@@ -643,7 +655,24 @@
         {id:'605-agent-multi', title:'Agent · Multi-Agent 架构与协作'},
         {id:'606-agent-eval', title:'Agent · 评估与部署'},
       ]},
+    { id:'governance', icon:'🧪', idx:'07', title:'评测与生产治理',
+      desc:'评测数据集、链路观测、权限约束与灰度发布。',
+      range:'700-702', difficulty:3, time:90,
+      chapters:[
+        {id:'700-evals', title:'Evals · 数据集与发布门槛'},
+        {id:'701-observability', title:'Observability · 链路、延迟与成本'},
+        {id:'702-safety-release', title:'Guardrails · 权限、恢复与灰度发布'},
+      ]},
+    { id:'app', icon:'🧩', idx:'08', title:'全栈 AI App',
+      desc:'流式协议、实时语音、多模态与企业知识助手验收项目。',
+      range:'800-802', difficulty:3, time:120,
+      chapters:[
+        {id:'800-streaming-ui', title:'AI App · 流式协议与交互状态'},
+        {id:'801-realtime-multimodal', title:'AI App · 实时语音与多模态'},
+        {id:'802-fullstack-project', title:'AI App · 企业知识助手验收项目'},
+      ]},
   ];
+  const INTRO_CHAPTER_IDS = ['000-overview', '001-roadmap', '002-prerequisites'];
   const DIFF_LABEL = {1:'入门 ★', 2:'进阶 ★★', 3:'专家 ★★★'};
   const READ_KEY = 'app-dev-read';
   const LAST_KEY = 'app-dev-last';
@@ -663,13 +692,20 @@
                           desc:'Anthropic 提出的标准协议，统一「大模型 ↔ 工具/数据源」对接，让插件生态可组合、可移植。',
                           difficulty:2, time:60 },
     '5. Skills':         { id:'skills', icon:'⭐', idx:'05', title:'Skills 技能开发',
-                          desc:'Claude Skills 新特性 —— 让模型按需加载领域能力包，介于 Prompt 与 Tool 之间的轻量扩展机制。',
+                          desc:'用开放技能格式沉淀任务步骤与资源，按需加载，配合执行权限、评测和版本发布。',
                           difficulty:1, time:45 },
     '6. AI Agent':       { id:'agent', icon:'🤖', idx:'06', title:'AI Agent',
                           desc:'规划、记忆、反思与工具使用 —— LangGraph / Claude Agent SDK 是主流栈。',
                           difficulty:3, time:150 },
+    '7. 评测与生产治理': { id:'governance', icon:'🧪', idx:'07', title:'评测与生产治理',
+                          desc:'评测数据集、链路观测、权限约束与灰度发布。',
+                          difficulty:3, time:90 },
+    '8. 全栈 AI App':    { id:'app', icon:'🧩', idx:'08', title:'全栈 AI App',
+                          desc:'流式协议、实时语音、多模态与企业知识助手验收项目。',
+                          difficulty:3, time:120 },
   };
 
+  /* 从构建清单读取章节，复用封面已有的模块展示配置。 */
   function modulesFromManifest(manifest) {
     return manifest.groups
       .filter(g => MODULE_META_BY_GROUP[g.name])
@@ -689,23 +725,28 @@
       });
   }
 
+  /* 读取本机已读章节，损坏的存储按空进度处理。 */
   function getReadSet() {
     try { return new Set(JSON.parse(localStorage.getItem(READ_KEY) || '[]')); }
     catch(e) { return new Set(); }
   }
+  /* 读取上次章节，兼容首次访问或存储不可用的情况。 */
   function getLastChapter() {
     try {
       const raw = localStorage.getItem(LAST_KEY);
       return raw ? JSON.parse(raw) : null;
     } catch(e) { return null; }
   }
+  /* 转义展示文本，避免章节标题被解释为 HTML。 */
   function escapeHTML(s) {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
+  /* 导读也属于可阅读章节，计入总数与进度分母。 */
   function totalChapters() {
-    return APPDEV_MODULES.reduce((s, m) => s + m.chapters.length, 0);
+    return INTRO_CHAPTER_IDS.length + APPDEV_MODULES.reduce((s, m) => s + m.chapters.length, 0);
   }
 
+  /* 根据当前章节与阅读状态生成模块目录。 */
   function renderModules() {
     const readSet = getReadSet();
     const lastCh = getLastChapter();
@@ -769,14 +810,18 @@
       }
     }
   }
+  /* 仅统计当前有效章节，并同步封面上的总数与进度条。 */
   function applyReadState() {
     const read = getReadSet();
     const last = getLastChapter();
     const total = totalChapters();
+    const validIds = new Set(INTRO_CHAPTER_IDS.concat(APPDEV_MODULES.flatMap(m => m.chapters.map(c => c.id))));
+    const readCount = [...read].filter(id => validIds.has(id)).length;
+    document.querySelectorAll('[data-chapter-total]').forEach(el => { el.textContent = total; });
     const cnt = document.getElementById('readCount');
-    if (cnt) cnt.textContent = read.size;
+    if (cnt) cnt.textContent = readCount;
     const fill = document.getElementById('progressFill');
-    if (fill) fill.style.width = total ? (read.size / total * 100).toFixed(1) + '%' : '0%';
+    if (fill) fill.style.width = total ? (readCount / total * 100).toFixed(1) + '%' : '0%';
     const cont = document.getElementById('continueBtn');
     const ttl = document.getElementById('continueTitle');
     if (cont && ttl) {

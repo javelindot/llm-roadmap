@@ -9,7 +9,7 @@ build.py — 零依赖 Markdown → HTML 构建脚本
 
 输入：<module>/_src/*.md  （带 YAML 风格 frontmatter）
 模板：_templates/reader.html
-输出：<module>/docs.html
+输出：<module>/chapter/*.html、chapters.json，以及 docs.html 重定向入口
 
 Markdown frontmatter 示例：
     ---
@@ -41,7 +41,9 @@ import re
 import html as htmllib
 import sys
 import string
+from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).parent
 TPL = ROOT / "_templates" / "reader.html"
@@ -89,6 +91,7 @@ def highlight(code, lang="generic"):
     stash = []
 
     def keep(s):
+        """暂存行内代码，避免内容被后续格式规则再次解析。"""
         i = len(stash)
         stash.append(s)
         return chr(PLACEHOLDER_BASE + i)
@@ -139,8 +142,15 @@ def render_inline(text):
     text = re.sub(r"\*\*([^*\n]+)\*\*", r"<strong>\1</strong>", text)
     # 斜体（避开加粗的残余）
     text = re.sub(r"(?<![*\w])\*([^*\n]+)\*(?![*\w])", r"<em>\1</em>", text)
-    # 链接
-    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2" target="_blank" rel="noopener">\1</a>', text)
+    def render_link(match):
+        """站内链接保持当前页导航，外部网页在新标签打开并转义属性。"""
+        url = htmllib.unescape(match.group(2))
+        parsed = urlparse(url)
+        external = parsed.scheme in ("http", "https") or bool(parsed.netloc)
+        extra = ' target="_blank" rel="noopener"' if external else ""
+        return f'<a href="{htmllib.escape(url, quote=True)}"{extra}>{match.group(1)}</a>'
+
+    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", render_link, text)
 
     for i in range(len(stash) - 1, -1, -1):
         s = stash[i]
@@ -208,9 +218,10 @@ def render_blocks(md_text, heading_prefix=None):
             continue
 
         # Callout 自定义块
-        m = re.match(r"^:::callout\s+(.+?)\s*$", line)
+        m = re.match(r"^:::callout(?:\s+(.+?))?\s*$", line)
         if m:
-            icon = m.group(1)
+            # 图标可省略，块起始标记必须被消费，避免解析停滞。
+            icon = m.group(1) or "💡"
             inner = []
             i += 1
             while i < n and lines[i].strip() != ":::":
@@ -275,6 +286,10 @@ def render_blocks(md_text, heading_prefix=None):
         while i < n and lines[i].strip() and not BLOCK_START_RE.match(lines[i]):
             para.append(lines[i])
             i += 1
+        # 未识别的块语法按普通文本处理，每轮至少推进一行。
+        if not para:
+            para.append(lines[i])
+            i += 1
         out.append(f"<p>{render_inline(' '.join(para).strip())}</p>")
 
     return "\n".join(out)
@@ -305,7 +320,45 @@ def parse_frontmatter(text):
 # ─────────────────────────────────────────────────────────────
 # 单模块构建
 # ─────────────────────────────────────────────────────────────
+def resolve_chapter_links(html_text, targets):
+    """将旧全文章节锚点转换为独立章节链接，保留代码和未知锚点。"""
+    offsets = [0]
+    for line in html_text.split("\n"):
+        offsets.append(offsets[-1] + len(line) + 1)
+    replacements = []
+
+    class LinkParser(HTMLParser):
+        """只记录真实链接标签的位置，避免误改代码块中的示例文本。"""
+
+        def handle_starttag(self, tag, attrs):
+            """依据解析后的 href 找目标，其他标签和属性保留原样。"""
+            href = dict(attrs).get("href") or ""
+            if tag != "a" or not href.startswith("#"):
+                return
+            target = targets.get(unquote(href[1:]))
+            if target is None:
+                return
+            rewritten = [(key, target if key == "href" else value) for key, value in attrs]
+            attributes = "".join(
+                f' {key}="{htmllib.escape(value, quote=True)}"' if value is not None else f" {key}"
+                for key, value in rewritten)
+            original = self.get_starttag_text()
+            suffix = "/>" if original.endswith("/>") else ">"
+            line, column = self.getpos()
+            start = offsets[line - 1] + column
+            replacements.append((start, start + len(original), f"<{tag}{attributes}{suffix}"))
+
+    parser = LinkParser(convert_charrefs=False)
+    parser.feed(html_text)
+    parser.close()
+    # 从后往前替换，前面的字符偏移不会因链接长度变化失效。
+    for start, end, replacement in reversed(replacements):
+        html_text = html_text[:start] + replacement + html_text[end:]
+    return html_text
+
+
 def build_module(name, cfg):
+    """从模块源文件生成独立章节、目录清单及兼容重定向页。"""
     src_dir = ROOT / name / "_src"
     if not src_dir.exists():
         print(f"  ⚠ {src_dir} 不存在，跳过")
@@ -446,11 +499,19 @@ def build_module(name, cfg):
     # ── 多页版本（每章独立页面）──
     chapter_dir = ROOT / name / "chapter"
     chapter_dir.mkdir(parents=True, exist_ok=True)
+    chapter_targets = {}
+    for chapter in chapters:
+        filename = chapter["file"].replace(".md", ".html")
+        chapter_targets[chapter["id"]] = f'{filename}#{chapter["id"]}'
+        for heading in chapter["headings"]:
+            chapter_targets[heading["id"]] = f'{filename}#{heading["id"]}'
     for i, c in enumerate(chapters):
         prev_url = chapters[i - 1]["file"].replace(".md", ".html") if i > 0 else ""
         next_url = chapters[i + 1]["file"].replace(".md", ".html") if i < len(chapters) - 1 else ""
 
-        section_html = f'    <section id="{c["id"]}">\n      <h2>{c["title"]}</h2>\n      ' + c["html"].replace("\n", "\n      ") + '\n    </section>'
+        chapter_html = resolve_chapter_links(c["html"], chapter_targets)
+        # HTML 外层不逐行加缩进，否则会污染 pre/code 内可复制的代码。
+        section_html = f'    <section id="{c["id"]}">\n      <h2>{c["title"]}</h2>\n      ' + chapter_html + '\n    </section>'
 
         nav_parts = ['      <div class="chap-nav">']
         if prev_url:
@@ -474,11 +535,15 @@ def build_module(name, cfg):
             toc_parts_chap.append(f'    <a class="toc-item {indent_class}" href="#{h["id"]}" data-section="{c["id"]}">{h["text"]}</a>')
         toc_html_chap = "\n".join(toc_parts_chap)
 
+        # 章节位于 chapter/，返回模块与主站的链接都要再上移一级。
+        chapter_cfg = dict(cfg)
+        chapter_cfg["cover_url"] = "../" + cfg["cover_url"]
+        chapter_cfg["main_url"] = "../" + cfg["main_url"]
         out_text_chap = string.Template(tpl_text).safe_substitute(
             sidebar=sidebar_html_multi,
             content=section_html + "\n" + nav_html,
             toc=toc_html_chap,
-            **cfg,
+            **chapter_cfg,
         )
         out_path_chap = chapter_dir / c["file"].replace(".md", ".html")
         out_path_chap.write_text(out_text_chap, encoding="utf-8")
@@ -507,6 +572,7 @@ def build_module(name, cfg):
 # 入口
 # ─────────────────────────────────────────────────────────────
 def main():
+    """按命令行选择模块，默认构建所有已配置模块。"""
     targets = sys.argv[1:] or list(MODULES.keys())
     print(f"⚙ 构建中...")
     for name in targets:
@@ -518,4 +584,7 @@ def main():
 
 
 if __name__ == "__main__":
+    # Windows 终端可能默认使用 GBK，统一日志编码以支持中文与状态符号。
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     main()

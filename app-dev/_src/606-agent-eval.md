@@ -31,7 +31,7 @@ Agent 输出：{prediction}
 
 请判断 Agent 是否完成了用户请求。只回答"是"或"否"。
 """
-    return "是" in llm.generate(prompt)
+    return llm.generate(prompt).strip() == "是"
 ```
 
 **更精细的指标**：
@@ -55,12 +55,13 @@ actual_calls = trace["tool_calls"]
 
 # 评估：名字和关键参数是否匹配
 def match_score(expected, actual):
+    """检查关键参数；无参数工具在名称匹配时视为完全匹配。"""
     if expected["name"] != actual["name"]:
         return 0.0
     # 关键参数匹配度
     keys = set(expected["args"].keys())
     matched = sum(1 for k in keys if actual["args"].get(k) == expected["args"][k])
-    return matched / len(keys)
+    return matched / len(keys) if keys else 1.0
 ```
 
 ### 3. 效率指标
@@ -140,8 +141,9 @@ Phase 3: Rollout（全量）
 生产环境不要完全自动，关键操作给人确认：
 
 ```python
-async def execute_with_guardrails(action, tools):
-    if action["risk_level"] == "high":
+async def execute_with_guardrails(action, tools, policies):
+    """按服务端工具策略决定审批，执行层继续校验身份、资源和参数。"""
+    if policies[action["tool"]].requires_approval:
         # 高敏感操作：发审批通知
         approval = await request_human_approval(action)
         if not approval:
@@ -189,3 +191,26 @@ Shadow Mode 验证 → 灰度发布 → 全量上线
 :::callout 🚀
 **Agent 上线不是终点，而是起点**。上线后的真实用户反馈才是最好的评估数据——持续收集、迭代优化。
 :::
+
+## 持久化与故障恢复验收
+
+任务状态应包括任务 id、版本、已完成步骤、工具请求/结果、预算和审批状态。外部副作用与 checkpoint 之间并非天然原子：工具执行成功但状态写入前崩溃，恢复时可能重复执行。
+
+本仓库 [checkpoint 示例](../examples/core_patterns.py) 用 SQLite 持久化状态，并以 expected_version 进行原子比较更新。两个 worker 同时读到版本0时，只允许其中一个提交版本1，另一个必须重新读取，而不能覆盖新状态。
+
+| 故障注入 | 应有行为 |
+|----------|----------|
+| 进程重启 | 从最近 checkpoint 恢复，不依赖内存对话 |
+| 两个 worker 竞争 | 旧版本提交失败，不产生状态覆盖 |
+| 写工具成功后崩溃 | 用同一幂等键查询/恢复，避免重复写入 |
+| 审批后参数变化 | 原审批失效，重新确认确定参数 |
+| 取消任务但工具仍运行 | 状态不接受过期结果，核对副作用 |
+| 预算耗尽 | 明确停止原因，保留可恢复状态 |
+
+checkpoint 解决状态持久化和并发覆盖，不提供外部工具的 exactly-once 保证。真实系统还需任务租约、业务幂等与必要的 outbox/补偿流程；不可回滚动作要在执行前限制权限。
+
+所有核心示例可通过以下命令验证，不需要模型账户：
+
+```bash
+python -m unittest discover -s app-dev/examples -v
+```

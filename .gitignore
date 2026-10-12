@@ -15,3 +15,6 @@ _site/
 
 # OS
 .DS_Store
+
+# Python 运行和测试缓存
+__pycache__/

@@ -43,9 +43,9 @@ class CodeReviewPrompt:
 任务: 审查以下代码的 $review_type 问题。
 
 代码:
-```$lang
+~~~$lang
 $code
-```
+~~~
 
 要求:
 - 只关注 $review_type，不评论其他问题
@@ -55,6 +55,7 @@ $code
 
     def render(self, code: str, lang: str, review_type: str = "安全",
                role: str = "资深安全工程师") -> str:
+        """渲染版本化模板；参数来源仍需由应用校验。"""
         return self.template.substitute(
             role=role, review_type=review_type,
             lang=lang, code=code
@@ -110,6 +111,7 @@ test_cases = [
 
 # 跑评测
 def evaluate(prompt_fn, test_cases):
+    """按统一规则评价样本，实际使用前提供 judge 并检查非空输入。"""
     results = []
     for case in test_cases:
         output = prompt_fn(case["input"])
@@ -129,6 +131,7 @@ def evaluate(prompt_fn, test_cases):
 
 ```python
 def ab_test(prompt_v1, prompt_v2, test_cases, n_runs=3):
+    """对相同用例重复采样，比较候选模板的评测分数。"""
     scores = {"v1": [], "v2": []}
     for case in test_cases:
         for _ in range(n_runs):  # 多跑几次降方差
@@ -147,7 +150,7 @@ def ab_test(prompt_v1, prompt_v2, test_cases, n_runs=3):
 
 ## 5. Prompt Caching（2024 后必修）
 
-Anthropic / OpenAI 都支持 prompt 缓存 —— **相同前缀重复调用，第二次起省 90%**。
+部分模型服务支持相同前缀缓存。收益取决于支持的模型、前缀长度、命中率、有效期及读写价格；以下为缓存概念示例，不能把一次命中的折扣当作整个任务的节省比例。
 
 ```python
 from anthropic import Anthropic
@@ -179,7 +182,7 @@ resp = client.messages.create(
 | 第 2–N 次 | $0.06 每次 | **$0.006 每次** （**↓ 90%**）|
 | 适合场景 | 一次性查询 | 多轮对话、长系统 prompt、知识库 |
 
-缓存有效期：Anthropic 5 分钟（最近活跃刷新），OpenAI 1 小时左右。
+上表的价格只是计算示例。实际价格、缓存有效期与配置应核对所用服务及模型版本，再用真实流量统计命中率和总成本。
 
 ## 6. 在线监控
 
@@ -187,11 +190,11 @@ resp = client.messages.create(
 
 ```python
 # 用 Langfuse / Phoenix 自动 trace
-from langfuse import Langfuse
-lf = Langfuse()
+from langfuse import observe
 
-@lf.observe()  # 装饰器自动记录 input / output / latency / cost
+@observe()  # Langfuse 的具体接入方式需与已安装版本对应
 def my_prompt(user_input):
+    """记录模型调用跨度，生产环境需配置密钥与敏感数据脱敏。"""
     return client.messages.create(...).content[0].text
 ```
 
@@ -223,7 +226,7 @@ prompt = f"""
 """
 ```
 
-进阶：用 **structured output** 强制 schema（FC / JSON mode）—— 模型必须按格式输出，注入难度大增。
+分隔符和结构化输出有助于区分数据与指令、检查格式，但不能作为注入防护的充分条件。符合 schema 的工具请求仍可能越权；权限、目标资源与最终状态必须在执行层验证。不要把密钥等秘密放进模型上下文。
 
 ## 工程化检查清单
 
@@ -240,4 +243,20 @@ prompt = f"""
 ☐ 有 fallback（模型 / prompt 都要有）
 ```
 
-下一节：[Meta-Prompting](#meta-prompting) —— 用 LLM 自动优化 Prompt。
+## 8. Context Engineering：预算与证据生命周期
+
+上下文应分别管理稳定指令、当前问题、会话状态、检索证据与工具结果。先给输出预留预算，再选择完整证据块，避免任意截断后失去出处或留下半个工具调用。
+
+仓库的 [build_context 示例](../examples/core_patterns.py) 接受外部计数器，保留问题、去重证据，并跳过超预算块。生产计数器应使用模型对应 tokenizer 与消息模板，包含角色/工具定义的额外开销。测试采用字符计数模拟预算边界，不能把字符数直接视为 token 数。
+
+| 内容 | 维护方式 | 验收 |
+|------|----------|------|
+| 当前任务 | 必须保留，超预算则拒绝或拆分 | 不被历史挤掉 |
+| 检索证据 | 来源、版本、文档与 chunk id | 引用能回到原文 |
+| 历史对话 | 近期原文加可修正摘要 | 未完成动作和关键约束不丢 |
+| 工具结果 | 按请求 id 配对，限制大小 | 成功/失败明确 |
+| 长期记忆 | 时间、来源、租户与有效期 | 过期/冲突事实可更新 |
+
+改变模型、模板、预算或摘要策略时，用长对话、问题超长、超长证据和恶意证据回归。预算控制验证的是装载逻辑；生成是否忠实仍需模型评测。
+
+下一节：[Meta-Prompting](106-meta-prompting.html)。

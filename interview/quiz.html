@@ -663,6 +663,11 @@
   @media (max-width:760px) {
     .layout { grid-template-columns:1fr; padding:16px; gap:12px; }
     .nav { padding:0 16px; }
+    .brand { white-space:nowrap; margin-right:8px; letter-spacing:0; }
+    .nav .nav-link { display:none; }
+    .nav .nav-link[href="../index.html"] { display:block; white-space:nowrap; }
+    .theme-btn { width:34px; height:34px; padding:0; justify-content:center; }
+    .theme-btn span:not(.dot) { display:none; }
     .q-header { flex-direction:column; }
     .q-badges { justify-content:flex-start; }
     /* 左侧筛选改为抽屉 */
@@ -690,7 +695,7 @@
   <a class="nav-link" href="docs.html">文档</a>
   <a class="nav-link" href="https://github.com/javelindot/llm-roadmap" target="_blank" rel="noopener">GitHub</a>
   <div class="theme-switcher">
-    <button class="theme-btn" id="themeBtn" aria-label="切换主题">
+    <button class="theme-btn" id="themeBtn" aria-label="切换主题" title="切换主题">
       <span class="dot"></span><span class="tname">light</span><span style="color:var(--text3);margin-left:2px;">▾</span>
     </button>
     <div class="theme-menu" id="themeMenu">

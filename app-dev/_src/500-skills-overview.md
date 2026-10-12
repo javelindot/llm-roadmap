@@ -5,262 +5,60 @@ title: Skills · 概览
 toc: Skills · 概览
 ---
 
-**Skills**（技能）= Claude 4.5 引入的「**按需加载的领域能力包**」。介于 **Prompt 工程**（最轻量）和 **Tool / MCP**（最重型）之间，填补了一个长期空白。
+**Skill 是以 SKILL.md 为入口的任务说明与资源包。** 它沉淀适用条件、工作步骤、验证规则、脚本和输出模板，由支持它的 Agent 运行时发现并按需读取。
 
-## 一个简单认知：Skills = 「**配方书**」
+## 技能包解决什么问题
 
-```
-Prompt Engineering   →  一道道单独的菜
-Function Call / Tool →  厨房工具（刀、锅）
-MCP                  →  接外卖（外部能力）
-Skills               →  整本菜谱书（带配料 + 步骤 + 工具调用 + 输出格式）
-```
+同一种报告、代码审查或数据清洗任务，往往反复需要相同流程和验收标准。把这些内容维护在一个目录中，可以随代码版本发布，并减少每次复制长提示词的工作。
 
-Skill 不是一个工具，而是**完成某类任务的完整能力包**，包含：
-- 该任务的系统 prompt
-- 该任务用到的工具列表
-- 该任务的中间步骤模板
-- 该任务的输出格式约定
-- （可选）该任务的预置资源（如示例、参考数据）
+技能描述告诉运行时何时考虑该技能；正文说明如何完成；资源提供详细参考和实现。模型仍可能选错技能、漏读资源或违反流程，所以必须保留评测与执行层限制。
 
-## 为什么需要 Skills
+## 标准目录
 
-### 痛点 1：Prompt + Tool 组合太分散
-
-做一个「PDF 报告生成」功能，传统做法：
-
-```python
-# 系统 prompt
-SYSTEM_PROMPT = "你是报告生成助手..."
-
-# 工具 1: 读 PDF
-def read_pdf(path): ...
-# 工具 2: 抽取关键数据
-def extract_data(text): ...
-# 工具 3: 生成图表
-def create_chart(data): ...
-# 工具 4: 输出 PDF
-def write_pdf(content): ...
-
-# 业务代码
-def generate_report(input_pdf):
-    # 一堆胶水代码组装 prompt + tools
-    ...
+```text
+csv-analyzer/
+  SKILL.md
+  scripts/       # 可选，确定性计算
+  references/    # 可选，按需读取的详细规则
+  assets/        # 可选，模板等资源
 ```
 
-**问题**：换个场景（如「数据分析报告」），整套又要重写。
+Agent Skills 已有开放格式规范，不能将它描述为某个 Claude 型号专有能力。各产品支持的发现路径、权限字段与执行方式仍可能不同，移植前需检查兼容性。
 
-### 痛点 2：复用难
+## 渐进式加载
 
-公司有 10 个团队都在做"基于客户数据生成洞察报告"，每个团队都从零写一套 prompt + tool 组合。
+| 阶段 | 内容 | 工程关注点 |
+|------|------|------------|
+| 发现 | name、description 等元数据 | 描述准确、避免能力重叠 |
+| 选择 | 读取 SKILL.md 正文 | 触发条件、步骤和停止条件 |
+| 执行 | 按需读取参考文件或运行脚本 | 工具授权、依赖、资源预算 |
+| 验证 | 检查结果与证据 | 任务成功、格式、错误与回归 |
 
-### 痛点 3：Prompt 太长
+按需读取可以减少无关内容，但实际 token 数取决于技能数量、描述和运行时。读取的内容是否从后续上下文移除、是否命中缓存，也取决于运行时，不能假定任务结束即自动卸载。
 
-复杂任务的 prompt 动辄上千行。塞在主 prompt 里：
-- 每次调用都付全文 token 费
-- 主 prompt 越长，模型越容易"跑偏"
+## 技能文件与执行权限
 
-### Skills 的解决方案
+SKILL.md 是说明文件，不会把一个 Python 文件自动注册成工具，也不会自行开启网络、Shell 或数据库权限。运行时需要提供读取/执行能力，并由服务端或宿主控制授权。
 
-把**完整能力**封装成 Skill，按需加载：
+例如“核对销售报表”的技能可以要求读取数据、运行金额汇总脚本、生成报告；如果没有计算工具，它应请求已有统计结果，不能凭文本猜出数值。退款或发消息则还需要独立业务工具和明确权限。
 
-```python
-# 不用每次写一长串 prompt 和工具
-agent = ClaudeAgent(
-    skills=["pdf_report_generator", "data_analyst", "customer_insight"]
-)
-result = agent.run("基于上月销售数据生成季度报告")
-# Claude 自动判断: 这需要 pdf_report_generator + data_analyst
-# 按需加载这两个 Skill，复用其 prompt 和工具
-```
+## Claude Agent SDK 的接入方式
 
-## Skills 的核心特性
+Python SDK 使用 query 或 ClaudeSDKClient，以及 ClaudeAgentOptions。项目技能通常放在 .claude/skills/ 下，接入时明确配置发现来源、可用工具与权限。完整示例见 [编写技能](502-skills-build.html)。
 
-### 1. 按需加载（Lazy Loading）
+教程中 SDK 接口根据官方源码核对；集成时固定包版本并检查对应文档。不要使用未经验证的 Agent、Skill.from_directory 或 RemoteSkill 等类名当作真实 SDK API。
 
-Skill 只在**模型判断需要时**才加载到 context：
+## 适用条件
 
-```
-对话开始: 只有基础 system prompt + Skill 索引（每个 Skill 几句话描述）
-   ↓
-用户问"帮我生成销售报告" → 模型决定加载 pdf_report_generator
-   ↓
-该 Skill 的完整 prompt + 工具 + 模板被注入 context
-   ↓
-执行任务
-   ↓
-任务完成，Skill 退出 context（节省后续 token）
-```
+适合重复的多步骤任务、有可共享方法和输出标准的团队流程。简单单次请求可能只需普通提示词；必须精确遵循顺序的事务流程，仍应使用程序或状态机控制。
 
-**省 token**：100 个 Skills 的索引可能只占几百 token，而每个 Skill 单独完整可能上千。
+验收至少包含：应触发与不应触发的请求、缺失资源、错误数据、工具失败，以及工具不可用时是否诚实降级。
 
-### 2. 自包含（Self-Contained）
+## 参考资料
 
-一个 Skill 包含所有它需要的东西：
+- [Agent Skills 格式规范](https://agentskills.io/specification)
+- [Anthropic 技能示例](https://github.com/anthropics/skills)
+- [Claude Agent SDK Python](https://github.com/anthropics/claude-agent-sdk-python)
+- [SDK 技能接入文档](https://platform.claude.com/docs/en/agent-sdk/skills)
 
-```
-skills/pdf_report_generator/
-├── SKILL.md             ← Skill 主定义（prompt + 元信息）
-├── tools/               ← 该 Skill 用到的工具
-│   ├── extract_pdf.py
-│   └── render_chart.py
-├── templates/           ← 输出模板
-│   └── report.jinja2
-├── examples/            ← Few-shot 示例
-│   ├── good_report.md
-│   └── bad_report.md
-└── resources/           ← 静态资源
-    └── style_guide.md
-```
-
-可移动、可分享、可版本化。
-
-### 3. 可组合（Composable）
-
-多个 Skills 可以组合：
-
-```python
-agent = ClaudeAgent(skills=[
-    "data_analyst",      # 提取数据
-    "chart_generator",   # 画图
-    "report_writer",     # 写文字
-    "pdf_exporter"       # 导出 PDF
-])
-# 模型自主决定调用顺序和组合方式
-```
-
-### 4. 模型自主选择
-
-Claude 自动决定**用不用、用哪些 Skill**：
-
-```
-用户: "帮我看看 sales.csv"
-   ↓
-Claude 扫描可用 Skills:
-  - data_analyst: 处理 CSV ✓
-  - pdf_generator: 不需要
-  - email_sender: 不需要
-   ↓
-加载 data_analyst Skill → 分析数据 → 回答
-```
-
-## Skills vs Prompt / Tool / MCP
-
-| 维度 | Prompt | Function Call | MCP | **Skills** |
-|------|--------|--------------|-----|----------|
-| **粒度** | 一句话指令 | 单个函数 | 服务集合 | 完整能力包 |
-| **包含** | 文字 | 函数定义 | 多个 tools | prompt + tools + templates + 示例 |
-| **加载方式** | 全程在 context | 全程在 context | 全程在 context | **按需加载** |
-| **复用粒度** | 难复用 | 单工具复用 | Server 级复用 | **任务级复用** |
-| **决策权** | 用户写 | 模型选工具 | 模型选工具 | **模型选 Skill 再选工具** |
-| **典型用途** | 单次任务 | 调 API | 集成生态 | 复杂业务能力 |
-
-**总结**：
-- **Prompt**：原子级，最轻量
-- **Function Call**：函数级，调能力
-- **MCP**：协议级，分享能力
-- **Skills**：任务级，封装方法论
-
-## 真实应用场景
-
-### 场景 1：客服全栈助手
-
-```python
-skills = [
-    "intent_classifier",     # 意图分类
-    "knowledge_base_qa",    # 基于知识库回答
-    "refund_processor",     # 退款流程
-    "escalate_to_human"     # 转人工
-]
-agent = ClaudeAgent(skills=skills)
-# 一句话搞定所有客服场景
-```
-
-### 场景 2：数据分析师
-
-```python
-skills = [
-    "csv_analyzer",          # CSV 数据处理
-    "sql_query_writer",      # 写 SQL
-    "chart_generator",       # 生成可视化
-    "insight_extractor",     # 提取业务洞察
-    "report_writer"          # 生成报告
-]
-agent = ClaudeAgent(skills=skills)
-agent.run("分析这份用户行为数据，找出留存关键因素")
-```
-
-### 场景 3：开发者助手
-
-```python
-skills = [
-    "code_reviewer",         # Code review
-    "bug_diagnosis",         # 故障诊断
-    "test_generator",        # 生成测试
-    "refactor_assistant"     # 重构建议
-]
-```
-
-## Skills 在 Claude 生态的位置
-
-```
-┌─────────────────────────────────────────┐
-│       Claude Agent SDK / Console        │
-│  ┌────────────────────────────────────┐ │
-│  │       Skills (高层能力包)            │ │
-│  │   ┌─────┬──────┬──────────┐        │ │
-│  │   │     │      │          │        │ │
-│  │   ↓     ↓      ↓          ↓        │ │
-│  │  使用   使用   使用       使用      │ │
-│  └────────────────────────────────────┘ │
-│        │              │                 │
-│        ↓              ↓                 │
-│  ┌──────────┐  ┌─────────────┐          │
-│  │ Tool/FC  │  │ MCP Servers │          │
-│  └──────────┘  └─────────────┘          │
-│        │              │                 │
-│        ↓              ↓                 │
-│      Python       NPM / Docker          │
-│      自定义        全网生态              │
-└─────────────────────────────────────────┘
-```
-
-Skills 是**最高层抽象**，下游可以用 Tool / FC / MCP 任意组合实现。
-
-## Skills 与 Claude Agent SDK
-
-Anthropic 2025 发布的 **Claude Agent SDK** 把 Skills 作为一等公民：
-
-```python
-from claude_agent_sdk import Agent, Skill
-
-agent = Agent(
-    model="claude-sonnet-4-5",
-    skills=[Skill.from_directory("./skills/data_analyst")]
-)
-agent.run("分析这份销售数据")
-```
-
-如果你用 Claude 做生产级应用，**Skills 应该是默认架构**。
-
-## Skills 不适合什么场景
-
-❌ **简单一次性任务**：直接写 prompt 更快
-❌ **纯对话场景**：不需要复杂能力组合
-❌ **不用 Claude 的项目**：Skills 目前是 Claude 生态特有
-
-## 入门路径
-
-| 章节 | 内容 |
-|------|------|
-| [Skills vs Tool / MCP](#skills-vs-tools) | 三者差异 & 何时用 |
-| [编写 Skill](#skills-build) | 第一个 Skill 实战 |
-| [部署与最佳实践](#skills-deploy) | 生产级 Skill |
-
-## 业界资源
-
-- [Anthropic Skills 官方文档](https://docs.claude.com/skills) (2025)
-- [Claude Agent SDK GitHub](https://github.com/anthropics/claude-agent-sdk)
-- [Awesome Claude Skills](https://github.com/anthropics/awesome-skills) ← 官方示例库
-
-下一节：[Skills vs Tools](#skills-vs-tools) —— 彻底搞清楚这三者的关系。
+下一节：[Skills、Tool 与 MCP 的职责](501-skills-vs-tools.html)。

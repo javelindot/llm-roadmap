@@ -11,57 +11,24 @@
 """
 from pathlib import Path
 from datetime import datetime
-import re
 import json
 import sys
-import yaml
+from question_bank import load_question_bank, read_question
 
 ROOT = Path(__file__).parent
 QUESTIONS_DIR = ROOT / "questions"
 DATA_JSON = ROOT / "quiz-data.json"
 INDEX_JSON = ROOT / "quiz-index.json"
 
-FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n(.*)$", re.DOTALL)
-ANSWER_HEADING_RE = re.compile(r"^##\s*答案\s*$", re.MULTILINE)
-
 
 def parse_md(path: Path):
-    """返回 (id, hasAnswer, answer_text) 或 None"""
-    text = path.read_text(encoding="utf-8")
-    m = FRONTMATTER_RE.match(text)
-    if not m:
-        return None
-    fm_str, body = m.group(1), m.group(2)
-    try:
-        fm = yaml.safe_load(fm_str) or {}
-    except yaml.YAMLError as e:
-        print(f"⚠️  {path.name}: frontmatter 解析失败: {e}", file=sys.stderr)
-        return None
-
-    qid = fm.get("id")
-    has_answer = bool(fm.get("hasAnswer"))
-
-    # 取 "## 答案" 之后到下一个 H1/H2（或文件结束）的所有内容
-    ans_match = ANSWER_HEADING_RE.search(body)
-    if not ans_match:
-        return qid, has_answer, ""
-    after = body[ans_match.end():].lstrip("\n")
-
-    # 截断到下一个一级或二级标题（如果有）
-    next_h = re.search(r"^(#|##)\s+\S", after, re.MULTILINE)
-    if next_h:
-        after = after[: next_h.start()]
-
-    answer = after.strip()
-
-    # frontmatter 标 true 但正文是"（待补充）"的情况，强制 false
-    if answer in ("（待补充）", "(待补充)", ""):
-        return qid, False, ""
-
-    return qid, has_answer, answer
+    """兼容原入口，返回题号、完成状态和不截断的完整答案。"""
+    meta, answer = read_question(path)
+    return meta["id"], meta["hasAnswer"], answer
 
 
 def main():
+    """校验所有单题后同步答案与统计，保留题号、分类和浏览器学习记录。"""
     if not DATA_JSON.exists():
         print(f"❌ 找不到 {DATA_JSON}", file=sys.stderr)
         sys.exit(1)
@@ -79,22 +46,21 @@ def main():
         elif isinstance(index, list):
             by_id_index = {q["id"]: q for q in index}
 
-    md_files = sorted(QUESTIONS_DIR.glob("q-*.md"))
-    print(f"📄 扫描 {len(md_files)} 个 markdown 文件…")
+    bank = load_question_bank(QUESTIONS_DIR)
+    if len(by_id_data) != len(data):
+        raise ValueError("quiz-data.json 存在重复题号，请先运行 parse_questions.py")
+    if set(bank) != set(by_id_data):
+        raise ValueError("Markdown 与 JSON 题号不一致，请先运行 parse_questions.py")
+    if by_id_index is not None and set(by_id_index) != set(by_id_data):
+        raise ValueError("两个 JSON 题号不一致，请先运行 parse_questions.py")
+    print(f"📄 扫描 {len(bank)} 个 markdown 文件…")
 
     updated_data = 0
     updated_index = 0
-    added_data = 0
-    missing_in_data = []
     answered_total = 0
 
-    for md in md_files:
-        parsed = parse_md(md)
-        if not parsed:
-            continue
-        qid, has_answer, answer = parsed
-        if not qid:
-            continue
+    for qid, (meta, answer) in bank.items():
+        has_answer = meta["hasAnswer"]
         if has_answer:
             answered_total += 1
 
@@ -105,8 +71,6 @@ def main():
                 q["hasAnswer"] = has_answer
                 q["answer"] = answer
                 updated_data += 1
-        else:
-            missing_in_data.append(qid)
 
         # 更新 quiz-index.json（如果存在）
         if by_id_index is not None and qid in by_id_index:
@@ -142,9 +106,9 @@ def main():
         print(f"✅ 写回 quiz-index.json：更新 {updated_index} 题")
 
     print(f"📊 已答题总数（按 frontmatter hasAnswer:true 算）：{answered_total}")
-    if missing_in_data:
-        print(f"⚠️  {len(missing_in_data)} 个 md 在 quiz-data.json 里找不到（前 5 个）：{missing_in_data[:5]}")
 
 
 if __name__ == "__main__":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     main()

@@ -14,6 +14,9 @@ Windows 编码兼容：若 stdout 不是 utf-8，自动重配置
   2. quiz-index.json        — 轻量索引（列表/筛选/搜索）
   3. quiz-data.json         — 完整数据（兼容现有 quiz.html）
 
+已有题目的内容与元数据以 questions/q-*.md 为准。重复导入不覆盖人工答案，
+旧题保留原编号，新题在最大编号之后追加；标题别名保存在 quiz-index.json。
+
 题库文件命名规范：
   quiz-[scope]-[status].md
     scope: 主题范围，如 main / agent / rag / deploy / algo
@@ -26,10 +29,11 @@ if sys.platform == "win32" and hasattr(sys.stdout, "reconfigure"):
 
 import json
 import re
-import sys
+import yaml
 from pathlib import Path
 from collections import Counter, defaultdict
 from datetime import datetime
+from question_bank import load_question_bank
 
 SRC_DIR = Path(__file__).parent / "_src"
 OUT_DIR = Path(__file__).parent
@@ -73,6 +77,7 @@ category_display_map = {
 
 
 def clean_html(s: str) -> str:
+    """清理导入题目中的 HTML 标签，保留可用于匹配的正文。"""
     s = re.sub(r'<font[^>]*>', '', s)
     s = re.sub(r'</font>', '', s)
     s = re.sub(r'<[^>]+>', '', s)
@@ -80,6 +85,7 @@ def clean_html(s: str) -> str:
 
 
 def classify(question: str, answer: str) -> str:
+    """为首次导入的题目推断分类，旧题的分类由单题 Markdown 决定。"""
     text = (question + " " + answer).lower()
     rules = [
         ("RAG/检索", ["rag", "检索", "向量", "召回", "embedding", "chunk", "分块", "索引", "es", "elasticsearch", "milvus", "chroma", "qdrant", "rerank", "嵌入", "相似度"]),
@@ -98,6 +104,7 @@ def classify(question: str, answer: str) -> str:
 
 
 def extract_tags(question: str, answer: str) -> list:
+    """根据新题关键词提取少量标签，避免答案编辑导致旧题标签漂移。"""
     text = (question + " " + answer).lower()
     tag_map = {
         "RAG": ["rag", "检索"],
@@ -235,36 +242,21 @@ def slugify_category(name: str) -> str:
 
 
 def write_question_md(qid: str, rec: dict, out_path: Path):
-    """生成单题独立 Markdown 文件。"""
+    """用 YAML 序列化生成新题，正确转义标题里的冒号、引号和换行。"""
     cat = rec["category"]
     cat_arr = [p.strip() for p in cat.split("/")]
     cat_key = slugify_category(cat_arr[0])
-    cat_yaml = ", ".join(f'"{c}"' for c in cat_arr)
-    tags = ", ".join(f'"{t}"' for t in rec["tags"])
-    companies = ", ".join(f'"{c}"' for c in rec["companies"])
-    has_answer = "true" if rec["hasAnswer"] else "false"
     created = rec.get("created", datetime.now().strftime("%Y-%m-%d"))
-
-    fm = f"""---
-id: {qid}
-title: {rec["question"]}
-category: [{cat_yaml}]
-categoryKey: {cat_key}
-tags: [{tags}]
-companies: [{companies}]
-frequency: {rec["frequency"]}
-hot: {rec["hot"]}
-hasAnswer: {has_answer}
-source: {rec["source"]}
-created: "{created}"
----
-
-# {rec["question"]}
-
-## 答案
-
-{rec["answer"] if rec["answer"] else "（待补充）"}
-"""
+    meta = {
+        "id": qid, "title": rec["question"], "category": cat_arr,
+        "categoryKey": cat_key, "tags": rec["tags"],
+        "companies": rec["companies"], "frequency": rec["frequency"],
+        "hot": rec["hot"], "hasAnswer": rec["hasAnswer"],
+        "source": rec["source"], "created": created,
+    }
+    fm = "---\n" + yaml.safe_dump(meta, allow_unicode=True, sort_keys=False)
+    fm += f'---\n\n# {rec["question"]}\n\n## 答案\n\n'
+    fm += (rec["answer"] or "（待补充）") + "\n"
     out_path.write_text(fm, encoding="utf-8")
 
 
@@ -281,13 +273,17 @@ def is_question_dump(path: Path) -> bool:
 
 
 def main():
+    """增量导入题目：单题 Markdown 优先，保留旧题号，新题使用递增题号。"""
+    bank = load_question_bank(QUESTIONS_DIR)
     if len(sys.argv) > 1:
         md_files = [SRC_DIR / f for f in sys.argv[1:]]
     else:
         md_files = [f for f in sorted(SRC_DIR.glob("*.md")) if is_question_dump(f)]
 
-    md_files = [f for f in md_files if f.exists()]
-    if not md_files:
+    missing_files = [f.name for f in md_files if not f.exists()]
+    if missing_files:
+        raise ValueError(f"找不到题库文件: {', '.join(missing_files)}")
+    if not md_files and not bank:
         print(f"❌ 未找到 .md 文件")
         sys.exit(1)
 
@@ -296,11 +292,11 @@ def main():
         print(f"📄 解析: {f.name}")
         all_raw.extend(parse_markdown(f))
 
-    # 跨公司合并：相同题目（前 60 字符为 key）聚合 companies + 取最长答案
+    # 使用完整题目匹配，避免超过 60 字的不同场景题被错误合并。
     merged = {}
     order = []
     for q in all_raw:
-        key = q["question"][:60]
+        key = q["question"]
         company = q["company"].replace("（", "(").replace("）", ")")
         if company == "通用题库":
             company = "其他"
@@ -321,36 +317,61 @@ def main():
     # 准备输出目录
     QUESTIONS_DIR.mkdir(parents=True, exist_ok=True)
 
+    # 已有单题是人工维护的内容源，导入旧 dump 时不改答案、分类和创建日期。
+    existing_by_title = {}
+    previous = {}
+    if OUTPUT_INDEX.exists():
+        previous = {q["id"]: q for q in json.loads(OUTPUT_INDEX.read_text(encoding="utf-8"))["questions"]}
+    variants_by_id = {}
+    for qid, (meta, answer) in bank.items():
+        title = meta["title"]
+        old = previous.get(qid, {})
+        variants = list(old.get("variants", []))
+        if old.get("title") and old["title"] != title:
+            alias = {"title": old["title"], "source": old.get("source", "manual")}
+            if alias not in variants:
+                variants.append(alias)
+        variants_by_id[qid] = variants
+        # 标题润色后仍按历史别名匹配原题，避免重复导入或重置学习记录。
+        for name in [title] + [variant["title"] for variant in variants]:
+            if name in existing_by_title and existing_by_title[name] != qid:
+                raise ValueError(f"已有单题包含重复标题或别名: {name}")
+            existing_by_title[name] = qid
+    next_id = max((int(qid[2:]) for qid in bank), default=0) + 1
+    for key in order:
+        if key in existing_by_title:
+            continue
+        rec = merged[key]
+        qid = f"q-{next_id}"
+        next_id += 1
+        cat = classify(rec["question"], rec["answer"])
+        freq = max(len(rec["companies"]), 1)
+        has_answer = len(rec["answer"].strip()) > 10
+        write_question_md(qid, {
+            **rec, "category": cat,
+            "companies": rec["companies"] or ["未知"],
+            "tags": extract_tags(rec["question"], rec["answer"]),
+            "frequency": freq, "hot": 2 if freq >= 4 else (1 if freq >= 2 else 0),
+            "hasAnswer": has_answer, "answer": rec["answer"] if has_answer else "",
+        }, QUESTIONS_DIR / f"{qid}.md")
+    bank = load_question_bank(QUESTIONS_DIR)
+
     # 生成完整数据 + 索引
     full_results = []
     index_questions = []
     created_date = datetime.now().strftime("%Y-%m-%d")
 
-    for idx, key in enumerate(order, 1):
-        rec = merged[key]
-        qid = f"q-{idx}"
-        cat = classify(rec["question"], rec["answer"])
-        cat_arr = [p.strip() for p in cat.split("/")]
-        tags = extract_tags(rec["question"], rec["answer"])
-        has_answer = len(rec["answer"].strip()) > 10
-        freq = len(rec["companies"])
-        hot = 2 if freq >= 4 else (1 if freq >= 2 else 0)
-        cat_key = slugify_category(cat_arr[0])
+    for qid, (meta, answer) in bank.items():
+        rec = {"question": meta["title"], "answer": answer,
+               "companies": meta.get("companies", ["未知"]),
+               "source": meta.get("source", "manual")}
+        cat_arr = meta.get("category", ["综合"])
+        tags = meta.get("tags", [])
+        has_answer = meta["hasAnswer"]
+        freq = meta.get("frequency", max(len(rec["companies"]), 1))
+        hot = meta.get("hot", 0)
+        cat_key = meta.get("categoryKey", slugify_category(cat_arr[0]))
         md_path = f"questions/{qid}.md"
-
-        # 写入单题 MD
-        write_question_md(qid, {
-            "question": rec["question"],
-            "category": cat,
-            "tags": tags,
-            "companies": rec["companies"],
-            "frequency": freq if freq > 0 else 1,
-            "hot": hot,
-            "hasAnswer": has_answer,
-            "source": rec["source"],
-            "answer": rec["answer"] if has_answer else "",
-            "created": created_date,
-        }, QUESTIONS_DIR / f"{qid}.md")
 
         # 完整数据（兼容 quiz.html）
         full_results.append({
@@ -361,7 +382,7 @@ def main():
             "hot": hot,
             "category": cat_arr,
             "title": rec["question"],
-            "answer": rec["answer"] if has_answer else "",
+            "answer": rec["answer"],
             "hasAnswer": has_answer,
             "tags": tags,
         })
@@ -379,7 +400,7 @@ def main():
             "isHighFrequency": hot >= 1,
             "hasAnswer": has_answer,
             "tags": tags,
-            "variants": [],
+            "variants": variants_by_id.get(qid, []),
             "source": rec["source"],
         })
 

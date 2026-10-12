@@ -441,4 +441,23 @@ async def call_tool(name, arguments):
 ✅ 设计企业级 MCP 平台
 ✅ 评估 Function Call / MCP / Skills 的技术选型
 
-下一模块：[Skills 技能开发](#skills-overview) —— Claude 4.5 引入的新机制，介于 Prompt 和 Tool 之间的轻量扩展。
+## 接入验收：身份、生命周期与同名工具
+
+MCP 接入需按服务保存连接与能力清单，模型侧工具别名映射到明确的 (server, tool) 二元组。两个服务都提供 search 时，不能用工具名作为唯一字典键，否则会静默覆盖。
+
+本仓库 [mcp_aliases](../examples/core_patterns.py) 使用会话内短别名保留服务身份。别名表应跟随当次工具清单，不能把旧会话的 tool_0 当作稳定的全局工具标识。
+
+| 验收项 | 检查方式 |
+|--------|----------|
+| 初始化 | 协议版本、能力协商、认证失败 |
+| 工具发现 | 分页、同名、动态清单变化 |
+| 调用 | 参数验证、业务权限、isError 与不同内容类型 |
+| 连接 | 超时、断开、取消、清理子进程和会话 |
+| 远程地址 | 只接入批准的服务，拒绝任意输入地址 |
+| 凭证 | 不进入模型上下文，按服务绑定并审计 |
+
+stdio 的 stdout 应留给协议，诊断日志写 stderr；远程使用所选版本支持的 Streamable HTTP，旧 HTTP+SSE 是兼容方式。Streamable HTTP 本身也可能使用 SSE，因此不应将两者描述为完全互斥的传输原理。
+
+服务返回的文字、资源和工具描述属于外部输入。连接 MCP 不代表获得所有操作授权；同样，客户端确认也不能替代 Server 的业务权限检查。
+
+下一模块：[Skills 技能开发](500-skills-overview.html)。

@@ -33,6 +33,7 @@ async def execute_tools_parallel(tool_calls: list, tool_handlers: dict):
     """并行执行所有工具调用"""
 
     async def run_one(tc):
+        """基础并发示意；生产执行前还需授权、验参及限流。"""
         try:
             args = json.loads(tc.function.arguments)  # OpenAI 格式
             handler = tool_handlers[tc.function.name]
@@ -69,7 +70,7 @@ async def execute_tools_parallel(tool_calls: list, tool_handlers: dict):
 | 串行 | 5s + 推理 | 6 次（每工具 1 次 + 总结）|
 | 并行 | 1s + 推理 | 2 次（决策 + 总结）|
 
-**并行 = 5× 加速 + ⅓ LLM 成本**。
+表格是理想化示例：工具彼此独立且耗时相近时可降低等待时间；实际加速、模型调用次数与费用取决于调度、限流和回答长度，应实测。
 
 ## 2. 错误处理：让模型知道失败了
 
@@ -318,8 +319,9 @@ class ToolExecutor:
                 sig = f"{tu.name}:{json.dumps(tu.input, sort_keys=True)}"
                 seen_calls.append(sig)
 
-            if seen_calls.count(seen_calls[-1]) >= 3:
-                raise RuntimeError(f"Loop detected: {seen_calls[-1]}")
+            repeated = next((sig for sig in seen_calls if seen_calls.count(sig) >= 3), None)
+            if repeated is not None:
+                raise RuntimeError(f"Loop detected: {repeated}")
 
             # 并行执行
             tool_results = await asyncio.gather(*[
@@ -344,4 +346,21 @@ class ToolExecutor:
 ☐ 工具调用打点（成功率、延迟分布）
 ```
 
-下一节：[Structured Outputs](#structured-outputs) —— 让普通 LLM 调用也能返回严格 JSON。
+## 4. 受控工具执行边界
+
+上面的模型 SDK 示例演示消息流，不能直接作为完整权限层。服务端从认证会话取得允许的工具和资源，使用注册表验证参数，模型不得自行声明工具是“低风险”。
+
+可运行的 [execute_readonly_calls](../examples/core_patterns.py) 示例只处理彼此独立的异步只读调用：验证调用 id 唯一、检查工具白名单与参数、限制并发、设置执行超时，并把稳定错误码按原调用顺序返回。测试覆盖未授权、写操作、非法参数、超时和重复 id。
+
+| 情况 | 处理方式 |
+|------|----------|
+| 同名同参数反复失败 | 停止或重新规划，不无限重试 |
+| 工具存在依赖 | 等上一步结果后调用，不能直接 gather |
+| 网络短暂失败 | 只对允许重试的只读操作限次退避 |
+| 写操作超时 | 先按幂等键查询状态，再决定恢复 |
+| 同步函数在线程中超时 | 超时不终止底层线程；需工具自身时限 |
+| 多步循环 | 除单次超时外还要总步数、总耗时与费用预算 |
+
+写操作另走受控事务流程：授权绑定当前用户与资源，审批绑定确定参数，使用幂等键并记录提交状态。不要对依赖动作或有副作用操作盲目并行。
+
+下一节：[Structured Outputs](204-structured-outputs.html)。
