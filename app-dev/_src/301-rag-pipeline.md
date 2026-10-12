@@ -5,7 +5,7 @@ title: RAG · 标准流水线
 toc: RAG · 流水线
 ---
 
-最小可跑的 RAG。**100 行 Python 完成端到端**，跑通后再考虑优化。
+本章展示单租户 RAG 教学原型。示例不实现完整授权、文档更新或可靠引用，生产要求见[证据生命周期](307-rag-production.html)。外部 SDK 示例未在认证环境实测，安装时应固定版本与模型能力。
 
 ## 标准 4 步
 
@@ -16,21 +16,22 @@ toc: RAG · 流水线
 
 前 3 步通常是**离线/异步**，第 4 步是**实时**响应用户。
 
-## 最小代码（30 行）
+## 最小检索与生成示例
 
 依赖：`pip install sentence-transformers chromadb anthropic`
 
 ```python
+import os
 from sentence_transformers import SentenceTransformer
 import chromadb
 from anthropic import Anthropic
 
-# === 一次性：构建知识库 ===
+# 全部政策为虚构演示，不代表实际企业制度或法律规定。
 docs = [
-    "公司年假政策：入职满 1 年享 5 天，满 3 年享 10 天，满 5 年享 15 天。",
-    "病假政策：每年累计不超过 15 天，超过需提交医院证明并扣 50% 工资。",
-    "婚假政策：法定 3 天，晚婚（25 岁后）额外加 10 天。",
-    "丧假政策：直系亲属去世可享 3 天，非直系 1 天。",
+    "示例服务规则：普通工单在两个工作日内首次响应。",
+    "示例服务规则：催办需要订单编号，并由客户确认提交。",
+    "示例服务规则：缺失材料时先补问，不能直接关闭问题。",
+    "示例服务规则：涉及规则例外的申请交给人工复核。",
 ]
 
 # Embedding 模型（中文友好的开源模型）
@@ -47,6 +48,11 @@ col.add(
 
 # === 查询时：检索 + 生成 ===
 def ask(question: str, top_k: int = 2) -> str:
+    """先检索模拟规则，再请求模型回答；不执行任何业务写入。
+
+    top_k 控制候选数量，不保证材料与问题相关。
+    生成内容需要独立评测，模型文字不代表工单已经创建。
+    """
     # 1. 检索
     q_emb = embedder.encode([question]).tolist()
     res = col.query(query_embeddings=q_emb, n_results=top_k)
@@ -55,7 +61,7 @@ def ask(question: str, top_k: int = 2) -> str:
     # 2. 生成
     client = Anthropic()
     msg = client.messages.create(
-        model="claude-sonnet-4-5",
+        model=os.environ["ANTHROPIC_MODEL"],
         max_tokens=500,
         messages=[{
             "role": "user",
@@ -67,16 +73,21 @@ def ask(question: str, top_k: int = 2) -> str:
 问题: {question}"""
         }]
     )
-    return msg.content[0].text
+    # 截断或其他停机原因不能作为完整答案直接交付。
+    if msg.stop_reason != "end_turn":
+        raise RuntimeError("incomplete_or_unhandled_response")
+    text = "\n".join(block.text for block in msg.content if block.type == "text")
+    if not text:
+        raise RuntimeError("missing_text")
+    return text
 
 # 测试
-print(ask("入职 2 年能休几天年假？"))
-# → "根据公司政策，入职满 1 年享 5 天年假..."
-print(ask("可以请陪产假吗？"))
-# → "未在公司政策中查到陪产假相关信息。"
+print(ask("催办需要提供什么？"))
+print(ask("是否支持取消订单？"))
+# 第二个问题的材料没有规定，应说明缺失；这只是预期，不是实测输出。
 ```
 
-跑通了？恭喜，你已经实现了一个 RAG。接下来讲每一步要注意什么。
+运行前设置 ANTHROPIC_API_KEY 和 ANTHROPIC_MODEL；Embedding 模型首次使用可能需要下载。检索接口能返回材料，不等于回答正确，接下来分别检查每一步。
 
 ## 第 1 步：加载文档
 
@@ -103,14 +114,14 @@ text = "\n\n".join([str(e) for e in elements])
 | 数据库 | 直接查 + 拼成自然语言 |
 
 **多模态文档（PDF 含表格/图）**：
-- 2024 后推荐 `llamaparse`（LlamaIndex 出品）—— 用 GPT-4V 解析复杂 PDF
-- 或 `marker`（开源、本地）
-- 表格用 `pandas` 提取后转 Markdown
+- `llamaparse` 等托管解析器需核对当前接口、数据区域与费用。
+- `marker` 等本地方案需在自己的扫描、表格与多栏文档上检查解析质量。
+- 表格解析应保留行列、合并单元格与页码，不能仅根据转换后的文本长度判断成功。
 
 ## 第 2 步：切片（最关键的一步）
 
 **为什么要切**：
-1. Embedding 模型有最大输入长度（512–8192 token）
+1. Embedding 模型有输入上限，应按具体版本核对
 2. LLM context 有限，不能塞全文
 3. 检索粒度 = 切片粒度，切太大会包含无关内容
 

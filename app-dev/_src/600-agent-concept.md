@@ -1,7 +1,7 @@
 ---
 group: 6. AI Agent
 id: agent-concept
-title: Agent · 概念与四要素
+title: Agent · 模型与运行系统
 toc: Agent · 概念
 ---
 
@@ -10,6 +10,8 @@ Agent 不是「LLM + 工具」这么简单。真正能上线的 Agent，是一�
 一句话理解：
 
 > **Agent = 模型决策 + 状态管理 + 工具执行 + 运行时控制 + 评测治理。**
+
+也可以从 Model + Harness 理解：模型提供理解与选择，运行系统组织上下文、约束执行、核验结果并恢复故障。详见[可靠业务执行](607-agent-harness.html)。
 
 ## Agent 解决什么问题
 
@@ -78,7 +80,8 @@ Agent 不是「LLM + 工具」这么简单。真正能上线的 Agent，是一�
 | OpenAI Agents SDK | Agent、tool、handoff、guardrail、trace 的一体化开发 | OpenAI 生态、快速搭建工具型 Agent |
 | Claude Agent SDK | Claude 生态、Skills、MCP、长上下文任务 | 文档/代码/办公自动化、能力包复用 |
 | LlamaIndex Workflows | RAG 与 Agentic RAG 工作流 | 知识库、研究助手、数据检索型 Agent |
-| Google ADK / A2A | Agent 开发与跨 Agent 通信 | 多 Agent 系统、企业内部 Agent 协作 |
+| Google ADK | Agent 开发框架 | Google 生态的应用与编排 |
+| A2A | 跨 Agent 交互协议，非运行时框架 | 独立系统间的任务与产物交换 |
 | AutoGen | 多 Agent 对话与实验 | 研究原型、角色协作探索 |
 | CrewAI | 角色和任务驱动 | 内容生产、调研、轻量协作 |
 
@@ -91,7 +94,7 @@ Prompt / Context
   → 决定 Agent 的任务理解和输出稳定性
 
 Function Call / Structured Outputs
-  → 决定 Agent 能否安全地产生工具参数
+  → 表达可校验的候选参数，执行安全还需业务授权
 
 RAG
   → 给 Agent 提供可追溯的知识来源
@@ -126,6 +129,7 @@ Evals / Observability
 from typing import Literal, TypedDict
 
 class AgentState(TypedDict):
+    """表示概念执行状态，不替代业务 Case 与动作账本。"""
     user_goal: str
     plan: list[str]
     step_index: int
@@ -157,3 +161,4 @@ Agent 是强能力，不是默认架构。默认先做简单系统，复杂度�
 4. [实战项目](#agent-projects)：用项目把 Prompt、RAG、MCP、Agent 串起来。
 5. [Multi-Agent 架构](#agent-multi)：在必要时拆分角色协作。
 6. [评估与部署](#agent-eval)：把 Agent 从 demo 推到生产。
+7. [Harness 与可靠执行](607-agent-harness.html)：区分问题、执行、动作、回执和恢复。

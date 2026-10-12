@@ -5,207 +5,54 @@ title: Agent · Multi-Agent 架构与协作
 toc: Agent · Multi-Agent
 ---
 
-**单个 Agent 有天花板**。让它同时写代码、做设计、审合同、管项目？能力边界和上下文窗口都不允许。
+多 Agent 的理由来自任务、证据、权限或并行边界。跨系统、流程长或工具多，本身不能证明需要多个模型决策者。
 
-**Multi-Agent = 多个专职 Agent 分工协作**，像一个小团队：产品经理提需求、架构师做设计、开发写代码、测试找 bug。
+## 建立单 Agent 基线
 
-## 什么时候需要 Multi-Agent
+单 Agent 可以按需加载不同 Skills，使用受控工具完成多步任务。多角色审批也可以通过确定性流程与人工任务实现，不必给每个节点创建 Agent。
 
-| 单 Agent 够用的场景 | 需要 Multi-Agent 的场景 |
-|---------------------|------------------------|
-| 查天气、算数学题、写封邮件 | 完整软件开发（需求→设计→编码→测试） |
-| 单次信息检索 + 总结 | 深度研报（数据收集→分析→撰写→审核） |
-| 工具调用 ≤ 3 步的简单任务 | 复杂业务工作流（跨系统、多角色审批） |
-| 个人助手 | 企业级自动化（客服、销售、运营联动） |
+| 拆分理由 | 可验证收益 | 新增成本 |
+|----------|------------|----------|
+| 独立证据 | 审核取得原执行者没有的材料 | 证据共享与冲突处理 |
+| 权限或环境隔离 | 子任务仅有必要权限 | 委托身份、归属与审计 |
+| 独立并行 | 减少总完成时间 | 并发预算、合并与取消 |
+| 专业处理差异 | 固定任务集上改善结果 | 模型、Prompt 与工具版本增加 |
+| 上下文隔离 | 减少无关探索干扰 | 摘要损失与重复查询 |
 
-## 核心架构模式
+同模型看同材料并换个角色名称，不产生独立事实。评审者需要明确证据、判据和可执行检查。
 
-### 模式 1：层级式（Hierarchical）
+## 协作模式
 
-一个「主管 Agent」分配任务，多个「执行 Agent」干活。
+| 模式 | 控制关系 | 风险 |
+|------|----------|------|
+| Agent 作为工具 | 主 Agent 保留任务与用户答复控制 | 汇总遗漏结果或错误 |
+| Handoff | 明确转移任务或交互责任 | 所有权不清产生重复执行 |
+| 流程节点 | 工作流安排不同处理器 | 固定流水线被误当自主协商 |
 
-```
-        ┌─────────────┐
-        │  Supervisor  │  ← 拆解任务、分配、汇总
-        │   Agent      │
-        └──────┬──────┘
-               │
-    ┌─────────┼─────────┐
-    ↓         ↓         ↓
-┌───────┐ ┌───────┐ ┌───────┐
-│Research│ │ Code  │ │ Review│  ← 各干各的
-│ Agent  │ │ Agent │ │ Agent │
-└───────┘ └───────┘ └───────┘
-```
+函数并行、模型角色和跨系统 Agent 是不同概念，应选择满足要求的最小控制结构。
 
-**优点**：结构清晰， supervisor 能控制整体质量。
-**缺点**：supervisor 是瓶颈，所有信息过它手。
+## 委托契约
 
-### 模式 2：对等网络（Peer-to-Peer）
+子任务至少包含 ID、父 Case/Run、目标、证据及版本、允许工具、预算、截止时间、输出 schema、完成条件与结果去向。
 
-Agent 之间直接对话、协商，没有中心节点。
+返回来源、状态、产物、未完成项、已发生动作和费用。父任务验证后合并，不能只接收“处理完毕”文字。
 
-```
-┌─────────┐ ←────→ ┌─────────┐
-│  Writer │        │ Reviewer│
-│  Agent  │ ←────→ │  Agent  │
-└────┬────┘        └────┬────┘
-     └──────────────────┘
-```
+子 Agent 不因自然语言委托获得更多权限，共享记忆也不能突破租户边界。写入通过统一受控执行器去重与协调。
 
-**优点**：灵活，适合创意碰撞类任务。
-**缺点**：容易发散、陷入无效讨论，需要终止条件。
+## 并行与接管
 
-### 模式 3：流水线（Pipeline）
+纯读取探索可并行，依赖步骤等待前置结果。父任务取消时分别处理子任务停止、迟到结果和已发生副作用。人工接管后明确负责人，避免执行者争用同一 Case。
 
-像工厂流水线，前一环节的输出是后一环节的输入。
+## 框架与协议
 
-```
-Input → [Agent A] → [Agent B] → [Agent C] → Output
-         数据清洗      特征提取      报告生成
-```
+Agent SDK 组织工具和 handoff，图运行时表达状态与等待，角色型框架表达分工。持久化、恢复与观测能力用固定版本的故障原型验收。
 
-**优点**：高效、可预测，适合标准化流程。
-**缺点**：环节之间耦合紧，前面错了后面全错。
+A2A 交换独立系统的能力、消息、任务与产物；MCP 连接工具和数据服务。它们不替代业务状态与授权，见[互操作边界](404-mcp-security.html)。
 
-## 通信协议：Agent 之间怎么对话
+## 对照实验
 
-Multi-Agent 的核心挑战不是「写多个 Agent」，而是**它们之间怎么传递信息**。
+固定质量要求、工具、权限、案例和总预算，比较单 Agent、单 Agent 加 Skills 与候选多 Agent。报告正确解决、严重违规、费用、P95 时间、重复工作与接管质量。
 
-### 方式 1：共享消息队列
+独立并行可能改善时间；串行依赖和共享上下文较多时，协调可能抵消收益。不要使用没有来源的固定比例或工具数量阈值。
 
-```python
-class MessageBus:
-    def __init__(self):
-        self.channels = defaultdict(list)
-
-    def publish(self, channel: str, message: dict):
-        self.channels[channel].append(message)
-
-    def subscribe(self, channel: str, agent_id: str):
-        """返回该 channel 中 agent_id 未读的消息"""
-        msgs = [m for m in self.channels[channel] if agent_id not in m.get("read_by", [])]
-        for m in msgs:
-            m.setdefault("read_by", []).append(agent_id)
-        return msgs
-
-# Agent 循环中读取消息
-async def agent_loop(agent_id: str, bus: MessageBus):
-    while True:
-        msgs = bus.subscribe("project_alpha", agent_id)
-        if msgs:
-            action = await llm.decide(msgs)  # 基于消息决定下一步
-            bus.publish("project_alpha", {"from": agent_id, "content": action})
-```
-
-### 方式 2：结构化 Handoff
-
-一个 Agent 把任务「交接」给另一个 Agent，附带完整上下文：
-
-```python
-class Handoff:
-    def __init__(self, from_agent: str, to_agent: str, context: dict):
-        self.from_agent = from_agent
-        self.to_agent = to_agent
-        self.context = context  # 包含已完成结果 + 下一步指令
-
-async def handoff_task(handoff: Handoff, registry: dict):
-    agent = registry[handoff.to_agent]
-    # 新 Agent 拿到完整上下文，无缝接续
-    return await agent.run(handoff.context)
-```
-
-## 主流框架实现
-
-### AutoGen（Microsoft）
-
-对话驱动：Agent 之间通过「群聊」协作。
-
-```python
-from autogen import ConversableAgent, GroupChat
-
-# 定义两个角色
-writer = ConversableAgent("writer", llm_config={...})
-editor = ConversableAgent("editor", llm_config={...})
-
-# 群聊：writer 写完给 editor 审
-groupchat = GroupChat(agents=[writer, editor], messages=[])
-manager = GroupChatManager(groupchat=groupchat, llm_config={...})
-
-writer.initiate_chat(manager, message="写一篇关于 RAG 的技术文章")
-# → writer 写 → editor 提修改意见 → writer 改 → ... 直到 editor 通过
-```
-
-### CrewAI
-
-角色驱动：给每个 Agent 定义「角色、目标、背景故事」，让它们像团队成员一样协作。
-
-```python
-from crewai import Agent, Task, Crew
-
-researcher = Agent(
-    role="技术研究员",
-    goal="收集最新大模型评测数据",
-    backstory="你是一位资深 AI 研究员...",
-    allow_delegation=False
-)
-
-writer = Agent(
-    role="技术写手",
-    goal="把研究数据写成通俗易懂的报告",
-    backstory="你擅长把复杂技术讲清楚...",
-    allow_delegation=False
-)
-
-# 定义任务 + 执行顺序
-task1 = Task(description="收集 2025 年 Q1 国产大模型评测数据", agent=researcher)
-task2 = Task(description="基于数据撰写对比分析报告", agent=writer, context=[task1])
-
-crew = Crew(agents=[researcher, writer], tasks=[task1, task2])
-result = crew.kickoff()
-```
-
-### LangGraph
-
-状态机驱动：用图（Graph）定义 Agent 之间的流转关系。
-
-```python
-from langgraph.graph import StateGraph, END
-
-# 定义状态
-class State(dict):
-    messages: list
-    current_agent: str
-
-# 定义节点（Agent）
-def researcher_node(state):
-    result = researcher_agent.run(state["messages"])
-    return {"messages": state["messages"] + [result], "current_agent": "writer"}
-
-def writer_node(state):
-    result = writer_agent.run(state["messages"])
-    return {"messages": state["messages"] + [result], "current_agent": "END"}
-
-# 建图
-graph = StateGraph(State)
-graph.add_node("researcher", researcher_node)
-graph.add_node("writer", writer_node)
-graph.set_entry_point("researcher")
-graph.add_edge("researcher", "writer")
-graph.add_edge("writer", END)
-
-app = graph.compile()
-app.invoke({"messages": ["调研国产大模型"], "current_agent": "researcher"})
-```
-
-## 设计 Multi-Agent 系统的 checklist
-
-- [ ] **角色边界清晰**：每个 Agent 的职责不重叠
-- [ ] **通信格式统一**：约定好消息结构（JSON Schema）
-- [ ] **有终止条件**：防止无限循环对话
-- [ ] **错误传播可控**：一个 Agent 挂了不影响全局，或能优雅降级
-- [ ] **状态可观测**：中间结果能被记录、回放、调试
-
-:::callout 👥
-**Multi-Agent 不是银弹**。90% 的场景单 Agent + 好工具就够了。只有当任务确实需要多个独立视角、多个专业领域、或多个并行流水线时，才值得引入 Multi-Agent 的复杂度。
-:::
+参考：[AI Agent 设计原理与工程实践](https://bojieli.github.io/ai-agent-book/astro/)、[OpenAI 运行时](https://developers.openai.com/api/docs/guides/agents-sdk)、[A2A](https://a2a-protocol.org/latest/specification/)。下一节：[评估与部署](606-agent-eval.html)。

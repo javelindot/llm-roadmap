@@ -61,8 +61,11 @@ python -m http.server 3000
 
 `app-dev/examples/core_patterns.py` 提供上下文预算、只读工具执行、租户/版本过滤、MCP 工具身份、CSV 金额统计和 SQLite checkpoint 示例，仅依赖 Python 3.10+ 标准库。
 
+`app-dev/examples/business_runtime.py` 补充能力/区域/预算路由与 SQLite 动作账本，验证参数绑定、审批过期、并发领取和未知结果核对。全部数据为虚构，不连接模型或外部业务，不提供完整鉴权、租约或跨服务 exactly-once。
+
 ```bash
 python -m unittest discover -s app-dev/examples -v
+python app-dev/examples/business_runtime.py
 python -m unittest discover -s interview -p 'test_*.py' -v
 python -m unittest test_build -v
 ```

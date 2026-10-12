@@ -5,7 +5,7 @@ title: MCP · 编写 Server
 toc: MCP · Server
 ---
 
-用 Python 写一个真实可跑的 MCP Server，**接入 Claude Desktop 验证**。这章是 MCP 学习中最实操的一节。
+本章展示连接级 Python SDK 的 Server 形态，未验证 2026-07-28 兼容。先固定 mcp 包版本，确认双方协议年代后再集成；新版差异见[规范](401-mcp-spec.html)。代码占位值与凭证由实际应用提供。
 
 ## 开发环境
 
@@ -14,7 +14,7 @@ toc: MCP · Server
 uv add mcp[cli]
 
 # 验证
-python -c "import mcp; print(mcp.__version__)"  # ≥ 1.0.0
+python -c "from importlib.metadata import version; print(version('mcp'))"
 ```
 
 ## 最小可跑 Server（30 行）
@@ -373,6 +373,8 @@ async def call_tool(name, arguments):
 Claude Desktop 会把 Server 的 stderr 日志显示在「Developer」面板里。
 
 ## 进阶：sampling（让 Client 帮忙调 LLM）
+
+以下是较早规范的服务端请求机制，不适用于 2026-07-28 的请求方向约定。用于理解历史集成，新版按固定 SDK 与能力机制重新验收。
 
 Server 不需要自己的 API key，可以**反向请求 Client 调 LLM**：
 

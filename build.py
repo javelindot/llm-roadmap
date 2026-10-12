@@ -59,7 +59,7 @@ MODULES = {
         "main_url": "../index.html",
         "cover_label": "封面",
         "h1": "大模型应用开发",
-        "lead": "从 Prompt 工程到 AI Agent，一站式覆盖大模型应用开发全链路 —— 让你能在 1 周内跑出生产级 MVP。",
+        "lead": "从上下文与工具到 Agent 业务执行，结合可重复实验、故障恢复和业务验收组织应用开发。",
         "eyebrow": "Docs · App Dev Guide",
         "back_label": "应用开发封面",
     },

@@ -151,33 +151,21 @@ chunks = splitter.create_documents([text])
 
 适合：质量优先、不在乎离线计算时间。
 
-### 策略 6：Late Chunking（2024 新方法）
+### 策略 6：Late Chunking（2024 研究方向）
 
-**Jina AI 2024 提出的新范式** —— 颠覆传统流程：
+Late Chunking 先获得包含文档语境的 token 表征，再按片段池化成向量；区别在于切片池化发生在编码之后：
 
 ```
 传统流程:
 切片 → 每片单独 Embed → 入库
 
 Late Chunking:
-整篇 Embed（保留全文上下文）→ 在向量层面切 → 入库
+文档在模型输入上限内编码 → 按 chunk 范围池化 token 表征 → 入库
 ```
 
-效果：每个 chunk 的向量都"知道"全文上下文，**召回准确率提升 5-15%**。
+候选模型需要提供适用的 token 表征或对应接口，不能对任意句向量模型的最终向量再切片。长文仍受输入上限约束，跨窗口内容不自动进入每个片段。
 
-```python
-# 用支持 Late Chunking 的模型
-from jina import Client
-c = Client(host="https://api.jina.ai/v1")
-
-resp = c.post(
-    on="/embed",
-    inputs={"text": long_document, "late_chunking": True}
-)
-# 返回多个 chunk 向量，每个都带全文上下文
-```
-
-适用：长文档（论文、技术手册），上下文非常关键的场景。
+具体 API 形状按模型和 SDK 版本核对。本章不提供未经验证的通用调用配方；收益在同文档、查询与预算下比较早切片基线。适用边界与实验见[生产 RAG](307-rag-production.html)。
 
 ## 切片大小怎么选
 

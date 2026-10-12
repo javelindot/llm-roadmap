@@ -5,227 +5,125 @@ title: Function Call · OpenAI 实战
 toc: FC · OpenAI
 ---
 
-OpenAI 是 Function Call 的开创者，**API 设计也是事实标准** —— DeepSeek / Qwen / Moonshot 等国内模型都兼容这套协议。
+本章采用 **Responses API** 演示应用执行的只读工具。模型由环境变量固定到已验收部署，不承诺某个型号在所有账号都可用。接口核对日期：2026-10-12。
 
-## 完整 5 步代码
+## 区分接口契约
 
-任务：让模型查询天气并回答用户问题。
+| 字段 | Responses | Chat Completions |
+|------|-----------|------------------|
+| 工具定义 | name、parameters 直接放在 function 类型工具对象 | 嵌套 tools[].function |
+| 工具请求 | output 中的 function_call | message.tool_calls |
+| 参数 | arguments JSON 字符串 | function.arguments JSON 字符串 |
+| 工具结果 | function_call_output + call_id | role=tool + tool_call_id |
+| 延续状态 | 完整 output 或合法的响应关联 | 按协议保存消息历史 |
 
-### Step 1：定义工具
+部分新模型的工具调用要求 Responses；第三方 OpenAI 兼容接口可能仅支持 Chat Completions。能力要覆盖具体模型、API 和 SDK，不能只替换 base_url。
+
+## 完整只读循环
+
+安装 openai，设置 OPENAI_API_KEY、LLM_MODEL。代码调用真实模型，但天气数据是本地模拟，不能作为真实天气服务。
 
 ```python
-from openai import OpenAI
 import json
+import os
+from openai import OpenAI
 
-client = OpenAI()  # 自动读 OPENAI_API_KEY 环境变量
-
+# 请求重试由应用管理，避免 SDK 与工具层重复重试。
+client = OpenAI(timeout=20, max_retries=0)
+model = os.environ["LLM_MODEL"]
 tools = [{
     "type": "function",
-    "function": {
-        "name": "get_weather",
-        "description": "查询指定城市的当前天气情况",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "city": {
-                    "type": "string",
-                    "description": "城市名称，如「北京」「San Francisco」"
-                },
-                "unit": {
-                    "type": "string",
-                    "enum": ["celsius", "fahrenheit"],
-                    "description": "温度单位",
-                    "default": "celsius"
-                }
-            },
-            "required": ["city"]
+    "name": "get_weather",
+    "description": "只读查询北京模拟天气；其他城市返回无数据。",
+    "strict": True,
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "city": {"type": "string"},
+            "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
         },
-        "strict": True  # 启用严格模式（推荐）
-    }
+        "required": ["city", "unit"],
+        "additionalProperties": False,
+    },
 }]
-```
 
-:::callout 💡
-**strict: True** 是 OpenAI 2024 推出的「**保证 100% 符合 schema**」模式 —— 强烈推荐打开。模型生成的参数不再可能出现拼写错误、漏字段等问题。
-:::
 
-### Step 2：实现真实函数
+def get_weather(arguments):
+    """验证参数并读取模拟事实，不为未知城市编造温度。
 
-```python
-def get_weather(city: str, unit: str = "celsius") -> dict:
-    """这是你真实的业务函数 —— 模型不会执行它"""
-    # 真实实现会调气象 API
-    fake_data = {
-        "北京": {"temp": 32, "condition": "晴"},
-        "San Francisco": {"temp": 18, "condition": "Cloudy"}
-    }
-    result = fake_data.get(city, {"temp": 20, "condition": "未知"})
-    if unit == "fahrenheit":
-        result["temp"] = result["temp"] * 9/5 + 32
-    return result
-```
+    严格输出约束不替代本地验证。
+    真实服务还需来源、新鲜度与资源授权检查。
+    """
+    if not isinstance(arguments, dict) or set(arguments) != {"city", "unit"}:
+        raise ValueError("invalid_arguments")
+    if not isinstance(arguments["city"], str) or arguments["unit"] not in {"celsius", "fahrenheit"}:
+        raise ValueError("invalid_arguments")
+    if arguments["city"] != "北京":
+        return {"status": "not_found"}
+    temperature = 32 if arguments["unit"] == "celsius" else 89.6
+    return {"status": "ok", "temperature": temperature, "unit": arguments["unit"], "source": "demo"}
 
-### Step 3：第一轮 —— 模型决策
 
-```python
-messages = [
-    {"role": "user", "content": "北京今天热吗？建议穿什么？"}
-]
+def weather_reply(question, max_rounds=4):
+    """保留协议项，按 call_id 关联结果，并限制只读工具循环。
 
-resp = client.chat.completions.create(
-    model="gpt-5",
-    messages=messages,
-    tools=tools,
-    tool_choice="auto"  # auto / none / required / {specific}
-)
-
-msg = resp.choices[0].message
-# msg.tool_calls 是个列表（可能并行调多个）
-tool_call = msg.tool_calls[0]
-print(tool_call.function.name)       # "get_weather"
-print(tool_call.function.arguments)  # '{"city": "北京", "unit": "celsius"}'
-```
-
-### Step 4：执行工具
-
-```python
-args = json.loads(tool_call.function.arguments)
-result = get_weather(**args)
-# {"temp": 32, "condition": "晴"}
-```
-
-### Step 5：第二轮 —— 模型综合结果
-
-```python
-# 把工具调用 + 结果都加进消息历史
-messages.append(msg)  # 模型的 tool_calls 消息
-messages.append({
-    "role": "tool",
-    "tool_call_id": tool_call.id,
-    "content": json.dumps(result)
-})
-
-resp2 = client.chat.completions.create(
-    model="gpt-5",
-    messages=messages,
-    tools=tools
-)
-final_answer = resp2.choices[0].message.content
-print(final_answer)
-# "北京今天 32°C 晴天，比较热。建议穿轻薄透气的衣物，记得防晒。"
-```
-
-## 通用调度循环
-
-实际应用中，模型可能**多轮调用工具**（先查天气再查穿搭推荐）。封装成循环：
-
-```python
-def chat_with_tools(user_message: str, tools: list, tool_handlers: dict,
-                    max_iterations: int = 5):
-    """通用调度循环：处理多轮 FC"""
-    messages = [{"role": "user", "content": user_message}]
-
-    for _ in range(max_iterations):
-        resp = client.chat.completions.create(
-            model="gpt-5",
-            messages=messages,
-            tools=tools,
-            tool_choice="auto"
+    写工具应接独立授权与动作执行器。
+    拒绝、不完整和空结果分别停止，不伪装成完成。
+    """
+    items = [{"role": "user", "content": question}]
+    for _ in range(max_rounds):
+        response = client.responses.create(
+            model=model,
+            instructions="天气工具是模拟数据；明确来源，无数据时说明缺失。",
+            input=items, tools=tools,
         )
-        msg = resp.choices[0].message
-        messages.append(msg)
+        if response.status != "completed":
+            raise RuntimeError("model_response_incomplete")
+        refusals = [part for item in response.output if item.type == "message"
+                    for part in item.content if part.type == "refusal"]
+        if refusals:
+            raise RuntimeError("model_refused")
+        # 完整保留工具请求及必要推理项，不能只复制最终文本。
+        items.extend(response.output)
+        calls = [item for item in response.output if item.type == "function_call"]
+        if not calls:
+            if not response.output_text:
+                raise RuntimeError("empty_model_response")
+            return response.output_text
+        if len(calls) > 8:
+            raise RuntimeError("tool_call_budget_exceeded")
+        for call in calls:
+            if call.name != "get_weather":
+                result = {"error": "unknown_tool"}
+            else:
+                try:
+                    result = get_weather(json.loads(call.arguments))
+                except (ValueError, TypeError):
+                    result = {"error": "invalid_arguments"}
+            items.append({"type": "function_call_output", "call_id": call.call_id,
+                          "output": json.dumps(result, ensure_ascii=False)})
+    raise RuntimeError("model_round_budget_exceeded")
 
-        # 没有工具调用 → 模型给出最终答案
-        if not msg.tool_calls:
-            return msg.content
 
-        # 有工具调用 → 执行所有调用
-        for tc in msg.tool_calls:
-            fn = tool_handlers[tc.function.name]
-            args = json.loads(tc.function.arguments)
-            result = fn(**args)
-            messages.append({
-                "role": "tool",
-                "tool_call_id": tc.id,
-                "content": json.dumps(result, ensure_ascii=False)
-            })
-
-    raise RuntimeError(f"超过 {max_iterations} 轮仍未结束")
-
-# 使用
-answer = chat_with_tools(
-    user_message="北京今天热吗？建议穿什么？",
-    tools=tools,
-    tool_handlers={"get_weather": get_weather}
-)
+print(weather_reply("北京的模拟天气是多少摄氏度？"))
 ```
 
-## tool_choice 的 4 种模式
+数据留存、推理项延续及无状态模式按所选模型的官方契约配置并验证，不依赖示例默认值。单次 timeout 与轮数上限不等于完整总时间、token 和费用预算。
 
-| 取值 | 行为 |
-|------|------|
-| `"auto"` （默认）| 模型自主判断要不要调 |
-| `"none"` | 强制不调用，只生成文本 |
-| `"required"` | 强制必须调一个工具 |
-| `{"type":"function","function":{"name":"..."}}` | 强制调指定工具 |
+## 严格模式与授权
 
-实战场景：
-- **客服意图分类**：`tool_choice="required"` + 多个分类工具，强制必须分类
-- **闲聊**：`tool_choice="none"`，不让模型乱调工具
-- **复杂任务**：`tool_choice="auto"`，让模型自由决策
+严格 schema 应符合接口支持的子集。本例全部属性列为 required，禁止额外属性；可缺失语义可用必填的可空字段表达。
 
-## 多工具并行调用
+结构正确不证明参数对应真实需求、资源已授权或业务状态允许执行。拒绝、输出不完整和网络失败仍需处理，执行层校验不可省略。
 
-GPT-4o / GPT-5 默认支持**一次调多个工具**。例如「查北京和上海的天气」 → 模型一次返回 2 个 tool_calls。
+## 工具选择与并行
 
-```python
-# 模型可能一次返回：
-[
-    {name: "get_weather", arguments: '{"city": "北京"}'},
-    {name: "get_weather", arguments: '{"city": "上海"}'}
-]
+auto 允许选择，none 禁止工具，required 要求一个或多个调用，指定函数可限制某个工具。参数形状区分 API，调用次数由应用控制。
 
-# 并行执行
-import asyncio
+多个请求不等于应用已经并行执行。互不依赖的只读工具可限并发；写操作及依赖步骤交给业务运行时，见[并行与错误处理](203-parallel-errors.html)。
 
-async def run_tool(tc):
-    args = json.loads(tc.function.arguments)
-    return await tool_handlers[tc.function.name](**args)
+## 集成验收
 
-results = await asyncio.gather(*[run_tool(tc) for tc in msg.tool_calls])
-```
+覆盖零调用、多调用、非法参数、未知工具、拒绝、不完整输出、故障和结果关联。本章未在认证环境调用真实模型；真实集成应固定 SDK 版本并验证上述契约。
 
-详见 [并行调用与错误处理](#parallel-errors)。
-
-## 国内模型兼容性
-
-OpenAI Function Call 协议是事实标准，以下都兼容：
-
-| 模型 | 兼容性 | 备注 |
-|------|--------|------|
-| DeepSeek-V3 | ⭐⭐⭐⭐⭐ | 完全兼容，价格 1/10 |
-| Qwen3 | ⭐⭐⭐⭐⭐ | 完全兼容 |
-| Moonshot Kimi | ⭐⭐⭐⭐⭐ | 完全兼容，长上下文 |
-| 智谱 GLM-4.5 | ⭐⭐⭐⭐ | 基本兼容，schema 严格度略低 |
-
-切换 base_url 就能直接用 OpenAI SDK 调国内模型：
-
-```python
-client = OpenAI(
-    api_key=os.getenv("DEEPSEEK_API_KEY"),
-    base_url="https://api.deepseek.com/v1"
-)
-# 代码其他都不用改
-```
-
-## 常见坑
-
-| 坑 | 解决方案 |
-|----|---------|
-| arguments 是字符串不是对象 | 始终 `json.loads()` 一下 |
-| 大模型乱传参数 | 开 `strict: True` |
-| 一直循环调用 | 设 `max_iterations` 上限 |
-| 多轮历史太长 | 截断或用 Prompt Caching |
-| description 不够清晰 | 写明用例 + 边界条件 |
-
-下一节：[Anthropic Tool Use](#fc-anthropic) —— Claude 的实现差异。
+参考：[OpenAI Function Calling](https://developers.openai.com/api/docs/guides/function-calling)。下一节：[Claude Tool Use](202-fc-anthropic.html)。

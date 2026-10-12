@@ -5,297 +5,86 @@ title: Function Call · Structured Outputs
 toc: FC · Structured Outputs
 ---
 
-**Structured Outputs**（结构化输出）让模型**100% 按 JSON Schema 输出** —— 不是 prompt 里求模型「请输出 JSON」那种祈祷式编程，而是 API 层面**保证**。
+结构化输出把支持范围内的模型结果约束到 JSON Schema。结构符合契约、内容符合事实和动作被授权，是三个不同的验收条件。
 
-## 为什么需要 Structured Outputs
+## 选择机制
 
-经典痛点：
+| 机制 | 目标 | 仍需检查 |
+|------|------|----------|
+| Prompt 要求 JSON | 影响格式 | 解析、schema 与语义 |
+| JSON 模式 | 合法 JSON | 字段、类型和业务语义 |
+| Structured Outputs | 支持的 schema 契约 | 拒绝、不完整输出、事实与权限 |
+| Strict Function Call | 工具参数结构契约 | 允许的工具、资源与参数语义 |
 
-```python
-# 旧时代：在 prompt 里求 JSON
-prompt = """请返回 JSON 格式: {"name": str, "age": int}
-用户描述: 张三 30 岁"""
+提取或分类使用结构化结果；请求外部动作使用工具。JSON 中出现退款指令不能直接触发退款。
 
-# 模型可能返回:
-# ✅ {"name": "张三", "age": 30}              ← 完美
-# ⚠️ ```json\n{"name": "张三", "age": 30}\n``` ← 多了 markdown
-# ⚠️ {'name': '张三', 'age': 30}              ← 单引号 → json 解析失败
-# ⚠️ {"name": "张三", "age": "30"}            ← 类型错
-# ❌ {"姓名": "张三", "年龄": 30}              ← key 翻译了
-# ❌ 这是张三的信息：{"name": "张三"...        ← 加废话
-```
+## Responses 与 Pydantic
 
-业界统计：纯 prompt 求 JSON，**失败率 5%–15%**。生产环境不可接受。
-
-## OpenAI Structured Outputs
-
-OpenAI 2024 推出，**100% 保证符合 schema**。
-
-### 方式 1: response_format
+安装 openai、pydantic，设置 OPENAI_API_KEY、LLM_MODEL，并选择已验收支持该接口的模型。本例未在认证环境实测。
 
 ```python
+import os
 from openai import OpenAI
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
-client = OpenAI()
 
 class PersonInfo(BaseModel):
+    """定义提取结果，用必填可空字段表达缺失语义。
+
+    禁止额外字段，业务范围在接收后另行检查。
+    此结构不证明信息真实，应与输入证据核对。
+    """
+    model_config = ConfigDict(extra="forbid")
     name: str
     age: int
-    occupation: str | None = None
+    occupation: str | None
 
-resp = client.beta.chat.completions.parse(
-    model="gpt-5",
-    messages=[{"role":"user", "content":"张三 30 岁，是个工程师"}],
-    response_format=PersonInfo  # 直接传 Pydantic 模型
+
+client = OpenAI(timeout=20, max_retries=0)
+response = client.responses.parse(
+    model=os.environ["LLM_MODEL"],
+    input=[{"role": "user", "content": "张三 30 岁，是工程师。请提取信息。"}],
+    text_format=PersonInfo,
 )
-
-person = resp.choices[0].message.parsed  # 直接是 PersonInfo 对象
-print(person.name)         # "张三"
-print(person.age)          # 30
-print(person.occupation)   # "工程师"
+if response.status != "completed":
+    raise RuntimeError("incomplete_output")
+refusals = [part for item in response.output if item.type == "message"
+            for part in item.content if part.type == "refusal"]
+if refusals:
+    raise RuntimeError("model_refused")
+person = response.output_parsed
+if person is None:
+    raise RuntimeError("missing_parsed_result")
+# 类型检查通过后仍验证业务范围，不能直接写入数据库。
+if not person.name.strip() or not 0 <= person.age <= 130:
+    raise ValueError("invalid_person_semantics")
+print(person.model_dump())
 ```
 
-### 方式 2: tools + strict
+Pydantic 是第三方库，不是 Python 标准库。其通用 schema 不一定符合供应商支持的全部子集；使用固定 SDK 的转换能力，检查是否丢失了业务约束。
 
-```python
-tools = [{
-    "type": "function",
-    "function": {
-        "name": "extract_person",
-        "description": "从文本提取人物信息",
-        "parameters": PersonInfo.model_json_schema(),
-        "strict": True  # ← 关键
-    }
-}]
-```
+## schema 设计
 
-启用 `strict: True` 后，模型**绝对不会**返回不符合 schema 的内容。
+对象要有明确 properties、required 和额外字段规则。OpenAI 严格对象 schema 要求属性列为 required、additionalProperties=false；可缺失语义用 null，不能只漏掉字段。
 
-## Anthropic：用 Tool 模拟
+不要泛称“anyOf 完全不支持”。根对象、嵌套组合、深度与字段数等限制按当前官方子集核对，不能固化旧阈值。首次 schema 处理开销也取决于模型与接口。
 
-Claude 没有专门的 `response_format`，但用 **Tool Use** 可以达到同样效果：
+动态字典、日期、金额和复杂验证可拆成供应商支持的结构，配合独立校验。身份和租户不接受模型自填作为可信值；金额须有币种与精度。
 
-```python
-from anthropic import Anthropic
-client = Anthropic()
+## 供应商接口边界
 
-tools = [{
-    "name": "extract_person",
-    "description": "提取人物信息",
-    "input_schema": {
-        "type": "object",
-        "properties": {
-            "name": {"type": "string"},
-            "age": {"type": "integer"},
-            "occupation": {"type": "string"}
-        },
-        "required": ["name", "age"]
-    }
-}]
+OpenAI Responses 使用 text.format 或 SDK 的 text_format，Chat Completions 使用 response_format，不能互换。Claude 当前也提供结构化输出和严格工具调用，字段与支持模型按其接口确认。
 
-resp = client.messages.create(
-    model="claude-sonnet-4-5",
-    max_tokens=1024,
-    tools=tools,
-    tool_choice={"type": "tool", "name": "extract_person"},  # 强制调
-    messages=[{"role":"user", "content":"张三 30 岁，是个工程师"}]
-)
+内容可能包含文本、工具、拒绝或其他块，不能假定 content[0] 必然是目标对象。工具结果必须按类型与 ID 关联。
 
-# 不需要真的执行工具 —— 直接拿模型输出的 input 作为结构化结果
-person = resp.content[0].input
-print(person)  # {"name": "张三", "age": 30, "occupation": "工程师"}
-```
+## 流式与失败
 
-Claude 4.5 的 Tool Use schema 遵守率 **>99%**，实战中可以认为是 100%。
+部分 JSON 可显示生成进度，不能作为确定业务动作。等待完整输出、正确结束状态和独立校验，再进入预览与审批。
 
-## Pydantic 加持
+超时、截断、拒绝、schema 不支持、解析失败和语义无效分别记录。格式失败可有限重试，证据缺失应补问，业务拒绝不能通过重生成绕过。
 
-Pydantic 是 Python 的 schema 标准库。用它定义 → 自动生成 JSON Schema → 验证输出。
+## 验收
 
-```python
-from pydantic import BaseModel, Field
-from typing import Literal
-from datetime import date
+覆盖可空值、额外字段、枚举、拒绝、截断、语义错误与恶意输入。分开统计结构成功、事实支持和业务有效性，不用格式成功率替代任务成功率。
 
-class OrderQuery(BaseModel):
-    """订单查询参数"""
-    user_id: str = Field(description="用户 ID，必填")
-    status: Literal["pending", "paid", "shipped", "refunded"] | None = None
-    date_from: date | None = Field(default=None, description="起始日期 YYYY-MM-DD")
-    limit: int = Field(default=20, ge=1, le=100, description="返回数量 1-100")
-
-# Pydantic 自动生成 JSON Schema
-schema = OrderQuery.model_json_schema()
-# {
-#   "type": "object",
-#   "properties": {
-#     "user_id": {"type": "string", "description": "..."},
-#     "status": {"enum": ["pending","paid","shipped","refunded"], ...},
-#     ...
-#   },
-#   "required": ["user_id"]
-# }
-```
-
-**Pydantic 的好处**：
-- 类型注解 = 自动 schema
-- `Field(description=...)` 让模型理解每个字段
-- `Literal[...]` 限定枚举值
-- `ge` / `le` 加范围约束
-- 输出后自动验证 + 类型转换
-
-## 实战场景
-
-### 场景 1：信息提取
-
-从非结构化文本提取结构化数据。
-
-```python
-class JobPosting(BaseModel):
-    title: str = Field(description="职位名")
-    company: str
-    location: str
-    salary_min: int | None = Field(default=None, description="月薪下限（人民币元）")
-    salary_max: int | None = None
-    requirements: list[str] = Field(description="技能要求列表")
-    experience_years: int = Field(description="所需经验年数")
-
-# 从招聘文本提取
-job_text = "..."  # 一段招聘 JD
-result = extract_with_schema(job_text, JobPosting)
-# 直接入库
-db.insert_job(result.model_dump())
-```
-
-### 场景 2：分类 + 路由
-
-```python
-class Intent(BaseModel):
-    category: Literal["咨询", "投诉", "退款", "物流", "其他"]
-    confidence: float = Field(ge=0, le=1)
-    urgency: Literal["low", "medium", "high"]
-    summary: str = Field(max_length=100)
-
-# 客服消息路由
-intent = classify_intent(user_message, Intent)
-if intent.urgency == "high":
-    route_to_human(intent)
-elif intent.category == "退款":
-    handle_refund(intent)
-```
-
-### 场景 3：复杂嵌套结构
-
-```python
-class Address(BaseModel):
-    province: str
-    city: str
-    street: str
-    postal_code: str | None = None
-
-class Person(BaseModel):
-    name: str
-    age: int
-    addresses: list[Address]  # 嵌套
-    contact: dict[str, str]   # email/phone
-
-# 模型可以输出复杂嵌套
-result = extract(text, Person)
-print(result.addresses[0].city)
-```
-
-## 流式输出 Structured Outputs
-
-边生成边解析：
-
-```python
-# OpenAI 流式
-with client.beta.chat.completions.stream(
-    model="gpt-5",
-    messages=[...],
-    response_format=PersonInfo
-) as stream:
-    for event in stream:
-        if event.type == "content.delta":
-            print(event.parsed, end="\r")  # 实时显示部分解析结果
-    final = stream.get_final_completion().choices[0].message.parsed
-```
-
-## Pydantic Schema 设计技巧
-
-### 1. 详尽的 description
-
-```python
-# ❌ 模糊
-class Order(BaseModel):
-    status: str
-
-# ✅ 明确
-class Order(BaseModel):
-    status: Literal["pending", "paid", "shipped", "refunded"] = Field(
-        description="订单状态: pending=待支付, paid=已支付, shipped=已发货, refunded=已退款"
-    )
-```
-
-### 2. 用 Literal 而非 str
-
-```python
-# ❌ 容易乱传
-priority: str  # 模型可能输出 "高"/"high"/"High"/"P0"/"urgent"
-
-# ✅ 限定
-priority: Literal["P0", "P1", "P2", "P3"]
-```
-
-### 3. 嵌套结构有层次
-
-```python
-class Recipe(BaseModel):
-    name: str
-    servings: int
-    ingredients: list[Ingredient]  # 嵌套类
-    steps: list[str] = Field(description="按顺序列出步骤")
-    cooking_time_minutes: int = Field(ge=1, le=600)
-```
-
-### 4. 可选字段用 None 默认
-
-```python
-class Customer(BaseModel):
-    name: str
-    email: str
-    phone: str | None = None  # 可能缺失
-    notes: str | None = None
-```
-
-## 限制与注意
-
-:::callout ⚠️
-**限制 1**：response_format 的 schema 不能太深（OpenAI 限 5 层嵌套）
-**限制 2**：strict 模式不支持 `oneOf` / `anyOf`（Pydantic 的 Union）
-**限制 3**：strict 模式所有字段都必须 `required`，可选字段要用 `T | None`
-**限制 4**：首次启用 strict 会延迟（schema 预编译），后续正常
-:::
-
-## Function Call vs Structured Outputs 何时用什么
-
-| 场景 | 推荐 |
-|------|------|
-| 真的要执行外部工具 | **Function Call**（多个工具，模型选） |
-| 只想要结构化输出，不执行 | **Structured Outputs**（response_format） |
-| 数据提取 / 分类 | **Structured Outputs** |
-| 复杂 Agent | **Function Call**（多轮决策） |
-
-## 总结
-
-Structured Outputs = **类型安全的 LLM 输出**。
-
-```
-✅ 100% 符合 schema → 无需写 try/except 解析
-✅ Pydantic 类型校验 → 直接进数据库 / 业务逻辑
-✅ 字段缺失 / 类型错 → 模型自动修正
-✅ 比纯 prompt 求 JSON 节省大量代码
-```
-
-下一模块：[RAG 检索增强](#rag-overview) —— 让模型读你的私域知识。
+参考：[OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)、[Claude Structured Outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)。下一节：[能力契约与路由](205-model-routing.html)。

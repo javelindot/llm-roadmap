@@ -5,7 +5,7 @@
 <title>app-dev-guide · LLM Roadmap</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="../img/favicon.svg" />
-<meta name="description" content="从 Context 到 AI App — AI 应用开发完整执行手册。8 阶段路线、8 个核心模块、44 个章节。" />
+<meta name="description" content="大模型应用开发：8 个核心模块、52 章，覆盖上下文、能力路由、RAG、协议、Skills、业务运行时与评测。" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="大模型应用开发 · app-dev-guide" />
 <meta property="og:description" content="从 Context 到 Agent —— 一站式覆盖大模型应用开发全链路。" />
@@ -457,12 +457,12 @@
 
   <section class="hero">
     <div class="hero-top">
-      <div class="kicker">app-dev-guide / v1.0</div>
+      <div class="kicker">app-dev-guide / 2026.10</div>
       <span class="typer" id="typer">8 阶段路线</span>
     </div>
     <h1>大模型应用开发</h1>
     <p class="sub">从 Context Engineering 到 AI Agent —— 一站式覆盖大模型应用开发全链路。先把 MVP 跑起来，再用评测和工程治理精修。</p>
-    <div class="meta"><b>8</b> 阶段路线 · <b>8</b> 核心模块 · <b data-chapter-total>44</b> 章节 · 已读 <b id="readCount">0</b>/<b data-chapter-total>44</b> · 持续更新</div>
+    <div class="meta"><b>8</b> 阶段路线 · <b>8</b> 核心模块 · <b data-chapter-total>52</b> 章节 · 已读 <b id="readCount">0</b>/<b data-chapter-total>52</b> · 持续更新</div>
     <div class="progress-strip"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     <div class="hero-cta">
       <a class="btn btn-continue" id="continueBtn" href="#" style="display:none;">继续 <span id="continueTitle"></span></a>
@@ -546,7 +546,7 @@
     </a>
     <a class="prac dont" href="chapter/104-model-types.html">
       <span class="ic">💰</span><h4>迷信顶级模型</h4>
-      <p>先用小模型、路由和缓存跑通闭环；只有评测证明需要时，再升级到更强模型。</p>
+      <p>先建立满足契约的质量基线，再比较模型、路由和缓存的有效完成成本。</p>
       <div class="prac-link">104 · 指令模型 vs 推理模型</div>
     </a>
     <a class="prac dont" href="chapter/305-hybrid-rerank.html">
@@ -591,31 +591,33 @@
   /* ── Modules data ── */
   const APPDEV_MODULES = [
     { id:'prompt', icon:'✍️', idx:'01', title:'Prompt Engineering',
-      desc:'从「模糊指令」到「结构化提示词」—— 角色、目标、约束、输出四要素让模型输出稳定 3–5 倍。',
-      range:'100-107', difficulty:1, time:90,
+      desc:'任务、约束、证据与输出契约，结合上下文装配、压缩和缓存。',
+      range:'100-108', difficulty:1, time:90,
       chapters:[
         {id:'100-prompt-basics', title:'Prompt · 基础四要素'},
         {id:'101-prompt-principles', title:'Prompt · 5 大设计原则'},
         {id:'102-zero-few-shot', title:'Prompt · Zero-shot vs Few-shot'},
-        {id:'103-cot-reasoning', title:'Prompt · CoT 链式思维'},
+        {id:'103-cot-reasoning', title:'Prompt · CoT 与可验证推理'},
         {id:'104-model-types', title:'Prompt · 指令模型 vs 推理模型'},
         {id:'105-prompt-as-code', title:'Prompt · 工程化'},
         {id:'106-meta-prompting', title:'Prompt · Meta-Prompting'},
         {id:'107-real-cases', title:'Prompt · 6 大实战案例'},
+        {id:'108-context-engineering', title:'Context · 装配、压缩与缓存'},
       ]},
     { id:'fc', icon:'🔧', idx:'02', title:'Function Call',
       desc:'从纯文本输出进化到结构化调用，模型按 JSON Schema 决定何时调用、传什么参数。',
-      range:'200-204', difficulty:2, time:60,
+      range:'200-205', difficulty:2, time:60,
       chapters:[
         {id:'200-fc-concept', title:'Function Call · 工作原理'},
         {id:'201-fc-openai', title:'Function Call · OpenAI 实战'},
         {id:'202-fc-anthropic', title:'Function Call · Anthropic 实战'},
         {id:'203-parallel-errors', title:'Function Call · 并行调用与错误处理'},
         {id:'204-structured-outputs', title:'Function Call · Structured Outputs'},
+        {id:'205-model-routing', title:'模型 API · 能力契约与路由'},
       ]},
     { id:'rag', icon:'📚', idx:'03', title:'RAG 检索增强',
       desc:'把外部知识库的相关片段作为上下文，让模型基于事实回答。覆盖 chunking、Reranker、GraphRAG 等。',
-      range:'300-306', difficulty:2, time:120,
+      range:'300-307', difficulty:2, time:120,
       chapters:[
         {id:'300-rag-overview', title:'RAG · 概览与典型场景'},
         {id:'301-rag-pipeline', title:'RAG · 标准流水线'},
@@ -624,15 +626,17 @@
         {id:'304-vector-db', title:'RAG · 向量数据库'},
         {id:'305-hybrid-rerank', title:'RAG · 混合检索 + Reranker'},
         {id:'306-advanced-rag', title:'RAG · 进阶模式'},
+        {id:'307-rag-production', title:'RAG · 证据生命周期与选型实验'},
       ]},
     { id:'mcp', icon:'🔌', idx:'04', title:'MCP 模型上下文协议',
       desc:'Anthropic 提出的标准协议，统一「大模型 ↔ 工具/数据源」对接，让插件生态可组合、可移植。',
-      range:'400-403', difficulty:2, time:60,
+      range:'400-404', difficulty:2, time:60,
       chapters:[
         {id:'400-mcp-overview', title:'MCP · 协议概览'},
         {id:'401-mcp-spec', title:'MCP · 协议规范'},
         {id:'402-mcp-server', title:'MCP · 编写 Server'},
         {id:'403-mcp-client', title:'MCP · Client 集成与生态'},
+        {id:'404-mcp-security', title:'MCP · 版本迁移、授权与 A2A 边界'},
       ]},
     { id:'skills', icon:'⭐', idx:'05', title:'Skills 技能开发',
       desc:'用开放技能格式沉淀任务步骤与资源，按需加载，配合执行权限、评测和版本发布。',
@@ -644,35 +648,38 @@
         {id:'503-skills-deploy', title:'Skills · 部署与最佳实践'},
       ]},
     { id:'agent', icon:'🤖', idx:'06', title:'AI Agent',
-      desc:'规划、记忆、反思与工具使用 —— LangGraph / Claude Agent SDK 是主流栈。',
-      range:'600-606', difficulty:3, time:150,
+      desc:'模型与 Harness：业务状态、工具执行、等待、审批和故障恢复。',
+      range:'600-607', difficulty:3, time:150,
       chapters:[
-        {id:'600-agent-concept', title:'Agent · 概念与四要素'},
+        {id:'600-agent-concept', title:'Agent · 模型与运行系统'},
         {id:'601-agent-tools', title:'Agent · 工具调用与 MCP 集成'},
         {id:'602-agent-memory', title:'Agent · 记忆机制设计'},
         {id:'603-agent-planning', title:'Agent · 规划与反思循环'},
         {id:'604-projects', title:'Agent · 实战项目'},
         {id:'605-agent-multi', title:'Agent · Multi-Agent 架构与协作'},
         {id:'606-agent-eval', title:'Agent · 评估与部署'},
+        {id:'607-agent-harness', title:'Agent · Harness 与可靠业务执行'},
       ]},
     { id:'governance', icon:'🧪', idx:'07', title:'评测与生产治理',
       desc:'评测数据集、链路观测、权限约束与灰度发布。',
-      range:'700-702', difficulty:3, time:90,
+      range:'700-703', difficulty:3, time:90,
       chapters:[
         {id:'700-evals', title:'Evals · 数据集与发布门槛'},
         {id:'701-observability', title:'Observability · 链路、延迟与成本'},
         {id:'702-safety-release', title:'Guardrails · 权限、恢复与灰度发布'},
+        {id:'703-eval-lab', title:'Evals · 轨迹、故障与对照实验'},
       ]},
     { id:'app', icon:'🧩', idx:'08', title:'全栈 AI App',
-      desc:'流式协议、实时语音、多模态与企业知识助手验收项目。',
-      range:'800-802', difficulty:3, time:120,
+      desc:'流式、语音、多模态，以及知识助手和业务自动化验收。',
+      range:'800-803', difficulty:3, time:120,
       chapters:[
         {id:'800-streaming-ui', title:'AI App · 流式协议与交互状态'},
         {id:'801-realtime-multimodal', title:'AI App · 实时语音与多模态'},
         {id:'802-fullstack-project', title:'AI App · 企业知识助手验收项目'},
+        {id:'803-business-automation', title:'AI App · 业务自动化与非标客服'},
       ]},
   ];
-  const INTRO_CHAPTER_IDS = ['000-overview', '001-roadmap', '002-prerequisites'];
+  const INTRO_CHAPTER_IDS = ['000-overview', '001-roadmap', '002-prerequisites', '003-research-map'];
   const DIFF_LABEL = {1:'入门 ★', 2:'进阶 ★★', 3:'专家 ★★★'};
   const READ_KEY = 'app-dev-read';
   const LAST_KEY = 'app-dev-last';
@@ -680,7 +687,7 @@
   /* 组名 → 模块视觉/难度配置（chapters.json 提供章节，这里提供 meta） */
   const MODULE_META_BY_GROUP = {
     '1. Prompt 工程':    { id:'prompt', icon:'✍️', idx:'01', title:'Prompt Engineering',
-                          desc:'从「模糊指令」到「结构化提示词」—— 角色、目标、约束、输出四要素让模型输出稳定 3–5 倍。',
+                          desc:'任务、约束、证据与输出契约，结合上下文装配、压缩和缓存。',
                           difficulty:1, time:90 },
     '2. Function Call':  { id:'fc', icon:'🔧', idx:'02', title:'Function Call',
                           desc:'从纯文本输出进化到结构化调用，模型按 JSON Schema 决定何时调用、传什么参数。',
@@ -695,13 +702,13 @@
                           desc:'用开放技能格式沉淀任务步骤与资源，按需加载，配合执行权限、评测和版本发布。',
                           difficulty:1, time:45 },
     '6. AI Agent':       { id:'agent', icon:'🤖', idx:'06', title:'AI Agent',
-                          desc:'规划、记忆、反思与工具使用 —— LangGraph / Claude Agent SDK 是主流栈。',
+                          desc:'模型与 Harness：业务状态、工具执行、等待、审批和故障恢复。',
                           difficulty:3, time:150 },
     '7. 评测与生产治理': { id:'governance', icon:'🧪', idx:'07', title:'评测与生产治理',
                           desc:'评测数据集、链路观测、权限约束与灰度发布。',
                           difficulty:3, time:90 },
     '8. 全栈 AI App':    { id:'app', icon:'🧩', idx:'08', title:'全栈 AI App',
-                          desc:'流式协议、实时语音、多模态与企业知识助手验收项目。',
+                          desc:'流式、语音、多模态，以及知识助手和业务自动化验收。',
                           difficulty:3, time:120 },
   };
 
@@ -860,7 +867,10 @@
         const fresh = modulesFromManifest(data);
         if (fresh.length === APPDEV_MODULES.length) {
           // 检查是否真的变化（标题/章节数量）
-          const stale = fresh.some((m, i) => m.chapters.length !== APPDEV_MODULES[i].chapters.length);
+          const stale = fresh.some((m, i) => m.id !== APPDEV_MODULES[i].id ||
+            m.chapters.length !== APPDEV_MODULES[i].chapters.length ||
+            m.chapters.some((c, j) => c.id !== APPDEV_MODULES[i].chapters[j].id ||
+              c.title !== APPDEV_MODULES[i].chapters[j].title));
           if (!stale) return;
         }
         APPDEV_MODULES.length = 0;

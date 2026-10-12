@@ -5,7 +5,7 @@ title: MCP · Client 集成与生态
 toc: MCP · Client
 ---
 
-学完前面 3 章，你能写 Server 了。这一章讲**怎么集成 MCP 到自己的应用**，以及 2026 年的 MCP 生态全景。
+本章保留连接级 ClientSession.initialize 等接入样例，不作为 2026-07-28 的实现证明。固定 SDK 与协议版本，按[版本差异](401-mcp-spec.html)和[授权契约](404-mcp-security.html)验收后使用；供应商 Connector 的 beta 参数单独核对。
 
 ## 三种集成方式
 

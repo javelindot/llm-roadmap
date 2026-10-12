@@ -20,19 +20,9 @@ toc: Agent · 评估部署
 
 ### 1. 任务完成度（Task Success）
 
-最直观的指标：Agent 是否完成了用户请求？
+检查最终业务环境是否符合验收标准，例如工单真实存在、动作只有一次、回执关联正确。模型文字和一个“是/否”裁判都不能单独证明任务成功。
 
-```python
-def evaluate_success(prediction: str, reference: str) -> bool:
-    """用 LLM 判断预测结果是否满足参考标准"""
-    prompt = f"""
-用户请求：{reference}
-Agent 输出：{prediction}
-
-请判断 Agent 是否完成了用户请求。只回答"是"或"否"。
-"""
-    return llm.generate(prompt).strip() == "是"
-```
+先用确定性规则核验权限、参数与回执，再用经过人工校准的模型裁判检查语义。合理人工接管按证据和交接质量评价。完整实验见[轨迹与故障评测](703-eval-lab.html)。
 
 **更精细的指标**：
 - **完全成功**：所有子任务完成，结果正确
@@ -41,7 +31,7 @@ Agent 输出：{prediction}
 
 ### 2. 工具调用正确性
 
-Agent 调了哪些工具、参数对不对、顺序是否合理？
+Agent 调了哪些工具、参数对不对、顺序是否合理？下面的局部匹配只是诊断信号，不等于完整任务评分。多个有效工具路径应允许，必要的授权和依赖顺序单独检查。
 
 ```python
 # 期望的工具调用序列
@@ -68,7 +58,7 @@ def match_score(expected, actual):
 
 | 指标 | 说明 | 目标 |
 |------|------|------|
-| **步数** | 完成任务用了多少轮 thought-action | 越少越好 |
+| **步数** | 完成任务用了多少轮决策与执行 | 正确完成前提下控制无效循环 |
 | **Token 消耗** | 总输入+输出 token 数 | 控制成本 |
 | **延迟** | 端到端响应时间 | 用户可接受 |
 | **工具调用次数** | 外部 API 调用次数 | 越少越省 |
@@ -154,7 +144,9 @@ async def execute_with_guardrails(action, tools, policies):
 
 ### 3. 监控与告警
 
-| 监控项 | 告警阈值 | 响应 |
+以下阈值仅用于说明配置形态，需按任务类型、基线与业务 SLO 重新制定；未知写结果不能自动重试或降级重发。
+
+| 监控项 | 示例阈值 | 响应 |
 |--------|----------|------|
 | 错误率 | > 5% | 自动降级到旧系统 |
 | 平均步数 | > 15 | 排查是否陷入循环 |
@@ -166,13 +158,13 @@ async def execute_with_guardrails(action, tools, policies):
 
 Agent 的 prompt、工具配置、模型参数都是「代码」，要版本化：
 
-```bash
+```yaml
 # prompt-v1.yaml
 system_prompt: "你是一个谨慎的助手..."
 max_steps: 10
-model: gpt-4o
+model_deployment: verified-tools-v1
 
-# 切换版本只需改配置，无需重新部署代码
+# 配置与工具、Skill、策略和知识版本共同固定；变更后重新验收。
 ```
 
 ## 从评估到上线的完整流程

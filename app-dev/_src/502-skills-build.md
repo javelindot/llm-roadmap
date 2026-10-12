@@ -18,7 +18,7 @@ project/
   stats.json
 ```
 
-Agent Skills 的必填字段是 name 和 description。name 使用小写字母、数字和连字符，不含连续连字符，并与技能目录名一致。版本、作者等放在 metadata 中；metadata 值使用字符串。完整长度限制以规范为准。
+Agent Skills 必填 name 和 description。name 为 1-64 字符，使用小写字母、数字和连字符，不以连字符开头/结尾，不含连续连字符，并与目录名一致；description 为 1-1024 字符。版本、作者等放在 metadata，值使用字符串。可选 compatibility 描述环境要求；allowed-tools 是实验性字段，支持依运行时而定。核对来源：[格式规范](https://agentskills.io/specification)，2026-10-12。
 
 下面是一份可作为起点的 SKILL.md：
 

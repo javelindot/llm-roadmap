@@ -5,365 +5,106 @@ title: RAG · 混合检索 + Reranker
 toc: RAG · 混合+Rerank
 ---
 
-**让准确率从 70% 跃升到 90%+ 的两个杀手锏**：混合检索 + Reranker。如果你的 RAG 只用了向量检索，这一章读完就能立刻提升一档。
+混合召回和重排是互补的候选优化：关键词匹配补充精确标识，重排在候选中估计相关性。收益依赖数据、标注与模型，不能承诺固定准确率提升。
 
-## 为什么纯向量检索不够
+## 混合召回解决什么问题
 
-向量检索的盲点：
+| 查询 | 需要保留的条件 | 候选方法 |
+|------|----------------|----------|
+| 查订单 demo-123 | 完整编号、当前用户权限 | 精确查询或关键词检索 |
+| 如何催办异常订单 | 诉求、规则版本、订单类型 | 语义检索与关键词互补 |
+| 某型号的价格 | 精确型号、生效日期与区域 | 型号匹配加有效版本过滤 |
+| 概念的不同表达 | 缩写与全称的关系 | 语义检索、词表或受控改写 |
 
-| 场景 | 向量检索的问题 |
-|------|--------------|
-| **专有名词查询** | "查 GPT-5 的价格" → 向量可能召回 GPT-4 / Claude 的内容（语义相近）|
-| **稀有词** | 训练数据中没见过的词，embedding 不准 |
-| **精确数字** | "型号 ABC-1234"，向量不擅长精确匹配 |
-| **缩写** | "RAG" vs "Retrieval-Augmented Generation"，可能召回不全 |
+BM25 按词项相关性排序，也依赖分词和索引字段，不等于精确 ID 查询。对于订单编号等权威业务对象，优先使用授权业务接口。
 
-**关键词检索（BM25 等）补齐这些短板** —— 精确匹配关键词。
-
-## 1. 混合检索（Hybrid Search）
-
-= **向量检索 + 关键词检索** 结果合并。
-
-```
-用户查询: "GPT-5 的价格"
-   ↓
-   ├─ 向量检索: 召回 10 条（语义相关）
-   │   - "OpenAI 最新模型定价..."
-   │   - "GPT 系列对比..."
-   │
-   └─ BM25 检索: 召回 10 条（关键词匹配）
-       - "GPT-5 input: $5/M, output: $20/M..."
-       - "对比 GPT-5 和 Claude..."
-   ↓
-合并 + 去重 + 重排 → top 5
-   ↓
-丢给 LLM
+```text
+可信身份、原问题与有效版本
+  -> 同一权限范围内的向量召回与关键词召回
+  -> 使用统一文档/版本/chunk ID 融合与去重
+  -> 复核权限和有效期 -> 重排候选
+  -> 按预算装配完整证据与出处 -> 生成与引用检查
 ```
 
-### 用 RRF 融合（最简单的合并算法）
+## RRF：按排名融合
 
-**RRF**（Reciprocal Rank Fusion）= 倒数排名融合，行业最常用。
+Reciprocal Rank Fusion 使用各路的排名，而不是直接相加不可比较的 BM25 分数和向量相似度。以下代码只验证融合算法，不调用模型或检索服务：
 
 ```python
-def reciprocal_rank_fusion(rank_lists, k=60):
+def reciprocal_rank_fusion(rank_lists, smoothing=60):
+    """融合已经排序的统一证据 ID，返回 ID 与融合分数。
+
+    每一路必须先完成权限、版本与检索范围的检查。
+    同一路重复证据只计一次，避免重复记录放大该证据权重。
+    不同路径都命中同一证据时累加其排名贡献。
+    smoothing 是平滑参数，默认值仅作算法演示，应通过实验选择。
+    分数仅用于排序，不是事实可信度或回答正确概率。
     """
-    rank_lists: [[doc_id_1, doc_id_2, ...], [doc_id_3, doc_id_1, ...]]
-    每个列表是一种检索方式的排名
-    """
+    if type(smoothing) is not int or smoothing < 1:
+        raise ValueError("positive smoothing required")
     scores = {}
     for ranks in rank_lists:
-        for rank, doc_id in enumerate(ranks):
-            scores[doc_id] = scores.get(doc_id, 0) + 1 / (k + rank + 1)
+        seen = set()
+        for rank, doc_id in enumerate(ranks, start=1):
+            if not isinstance(doc_id, str) or not doc_id:
+                raise ValueError("stable evidence ID required")
+            # 同一路保留首次出现的排名，不重复累计同一条证据。
+            if doc_id in seen:
+                continue
+            seen.add(doc_id)
+            scores[doc_id] = scores.get(doc_id, 0) + 1 / (smoothing + rank)
+    # 平分时按稳定 ID 排序，避免实验结果依赖输入合并顺序。
+    return sorted(scores.items(), key=lambda item: (-item[1], item[0]))
 
-    # 按融合分数排序
-    return sorted(scores.items(), key=lambda x: -x[1])
 
-# 使用
 vector_hits = ["doc3", "doc1", "doc7", "doc2", "doc5"]
-bm25_hits = ["doc1", "doc4", "doc3", "doc8", "doc7"]
-
-fused = reciprocal_rank_fusion([vector_hits, bm25_hits])
-top_5 = [doc_id for doc_id, _ in fused[:5]]
-# → ["doc1", "doc3", "doc7", "doc2", "doc4"]
+keyword_hits = ["doc1", "doc4", "doc3", "doc8", "doc7"]
+fused = reciprocal_rank_fusion([vector_hits, keyword_hits])
+print([doc_id for doc_id, _ in fused[:5]])
+# ['doc1', 'doc3', 'doc7', 'doc4', 'doc2']
 ```
 
-### BM25 实现（用 rank_bm25 库）
+ID 应包含足够的信息区分版本和片段。关键词索引的数组位置不是向量库的业务 ID；将两者直接转成字符串，不会让它们自动对应同一证据。
 
-```python
-from rank_bm25 import BM25Okapi
-import jieba
+不要先把融合结果放入 set 再截取前若干项，集合会丢失排名。多查询融合应明确各路的候选上限、去重与最终排序规则。
 
-# 构建 BM25 索引（中文要先分词）
-documents = ["GPT-5 的价格...", "Claude 性能...", ...]
-tokenized_docs = [list(jieba.cut(doc)) for doc in documents]
-bm25 = BM25Okapi(tokenized_docs)
+## 重排改善的是候选排序
 
-# 查询
-query = "GPT-5 的价格"
-tokenized_q = list(jieba.cut(query))
-scores = bm25.get_scores(tokenized_q)
-top_k_bm25 = sorted(enumerate(scores), key=lambda x: -x[1])[:10]
-bm25_hits = [documents[idx] for idx, _ in top_k_bm25]
-```
+常见 cross-encoder 联合读取 query 与证据，估计相关性；也有其他重排架构。重排无法恢复从未召回的材料，更不能创造不存在的政策。
 
-### 完整 Hybrid Search 函数
-
-```python
-def hybrid_search(query: str, top_k: int = 10):
-    # 1. 向量检索
-    q_emb = embedder.encode(query).tolist()
-    vector_results = qdrant.search(
-        collection_name="docs", query_vector=q_emb, limit=top_k
-    )
-    vector_ids = [str(h.id) for h in vector_results]
-
-    # 2. BM25 检索
-    bm25_scores = bm25.get_scores(list(jieba.cut(query)))
-    bm25_indices = sorted(enumerate(bm25_scores), key=lambda x: -x[1])[:top_k]
-    bm25_ids = [str(idx) for idx, _ in bm25_indices]
-
-    # 3. RRF 融合
-    fused = reciprocal_rank_fusion([vector_ids, bm25_ids])
-    return [doc_id for doc_id, _ in fused[:top_k]]
-```
-
-### 业界主流向量库的内置混合搜索
-
-很多向量库已经**内置混合搜索**，不用自己实现：
-
-```python
-# Qdrant（用 named vectors + 自定义 score function）
-client.search_batch(...)
-
-# Weaviate（原生支持 hybrid）
-result = weaviate_client.query.get(
-    "Document", ["text", "source"]
-).with_hybrid(
-    query="GPT-5 的价格",
-    alpha=0.5  # 0=纯关键词, 1=纯向量, 0.5=混合
-).with_limit(10).do()
-
-# Elasticsearch（用 dense_vector + match）
-es.search(index="docs", body={
-    "query": {
-        "bool": {
-            "should": [
-                {"match": {"content": "GPT-5 的价格"}},  # BM25
-                {"knn": {"field": "embedding", "query_vector": q_emb, "k": 10}}
-            ]
-        }
-    }
-})
-```
-
-### Hybrid 的效果数据
-
-业界基准数据（MTEB / BEIR）：
-
-| 方法 | 召回率@10 |
+| 选择 | 必须核对 |
 |------|----------|
-| 纯向量 | 75% |
-| 纯 BM25 | 65% |
-| **Hybrid (RRF)** | **85%** |
+| 托管 Rerank API | 当前型号、SDK、输入上限、区域、计费与数据策略 |
+| 自托管重排模型 | 语言与领域质量、硬件、批处理、截断与运维费用 |
+| 不增加重排 | 当前排序是否已满足引用质量和响应时间 |
 
-**+10 个百分点是非常显著的提升**。
+开源权重不代表运行免费。不能根据供应商品牌给出固定速度排名或无日期的价格表，应保存实际部署快照并在同一任务集比较。
 
-## 2. Reranker（重排）
+先确定相关性标注与候选 Recall，再测重排后的 nDCG/MRR、最终证据 Recall 和引用支持率。重排分数通常不是经过校准的正确概率，不能直接用固定阈值决定“可以执行工单”。
 
-混合检索召回 top-K，但**排序不一定对**。Reranker 用更精细的模型重新排序。
+## 查询改写要保留业务限定
 
-```
-Hybrid 召回 50 条（粗排）
-   ↓
-Reranker 精排 → top 5
-   ↓
-喂给 LLM
-```
+| 方法 | 可能的收益 | 需要检查的错误 |
+|------|------------|----------------|
+| Multi-Query | 不同表达覆盖同一诉求 | 丢失型号、日期、国家、否定或对象条件 |
+| HyDE | 用假设文档补充检索表达 | 把虚构答案变成事实，或偏离原意 |
+| Step-back | 搜索更通用的规则 | 泛化后命中不适用的例外或历史条款 |
 
-### 为什么需要 Reranker
+原问题保留为一路查询，生成的改写作为额外候选，并限制数量、长度和总时限。例如“目标型号在某区域的当前价格”不能直接改成“最新模型价格”，否则可能检索到另一型号。
 
-Embedding 模型是**双塔结构** —— query 和 doc 分别编码，速度快但精度有限。
+HyDE 生成的是检索辅助文本，不能作为回答证据。改写前后的身份、授权过滤与有效期约束必须保持一致；原查询本就足够明确时，额外生成可能只增加时间和费用。
 
-Reranker 是**交叉编码器**（cross-encoder）—— query 和 doc 一起输入，精度高但速度慢。
+## 对照实验与故障定位
 
-```
-Embedding:
-  query → [向量 Q]
-  doc   → [向量 D]
-  比较  → 余弦相似度 (粗略)
+固定文档、权限、案例、模型和输入预算，比较纯向量、关键词、RRF、RRF 加重排，以及受限改写。至少报告：
 
-Reranker:
-  (query, doc) → 一起输入 → 相关性分数 (精确)
-  → 但每对都要重新算，所以只能对 top-K 用
-```
+- 授权范围内 Recall@K，注明 K 是召回候选数还是最终装配数。
+- nDCG/MRR、引用支持率、答案正确与正确拒答。
+- 过期材料、撤权后命中、精确型号混淆和跨租户泄露。
+- 整个请求的 P95 时间与有效解决问题的成本。
 
-### 主流 Reranker 模型
+没有召回有效材料时检查解析、切片、索引与查询；召回后被丢弃时检查重排和预算；材料充分但回答错误时检查生成与引用。不要用一个总体平均分决定应该购买更强重排服务。
 
-| 模型 | 多语言 | 价格 | 速度 |
-|------|-------|------|------|
-| **Cohere Rerank 3.5** | ✅ | $0.002/搜索 | 快 |
-| **Jina Reranker v2** | ✅ | $0.018/M tokens | 快 |
-| **BGE-reranker-v2-m3** | ✅ | 免费（自托管）| 中 |
-| **BGE-reranker-large** | 中英 | 免费 | 中 |
-| Voyage Rerank-2 | ✅ | $0.05/M tokens | 快 |
+向量库的内置混合接口按实际 SDK 版本接入；[向量数据库](304-vector-db.html)中的 query_points 示例和本章的纯算法示例属于不同验证范围。
 
-### Cohere Rerank 实战
-
-```python
-import cohere
-co = cohere.Client()
-
-# 上一步检索到的 50 条候选
-candidates = ["文档 1...", "文档 2...", ...]  # 50 个
-
-# 重排，返回 top-5
-results = co.rerank(
-    query="GPT-5 的价格是多少？",
-    documents=candidates,
-    top_n=5,
-    model="rerank-multilingual-v3.0"
-)
-
-for r in results.results:
-    print(f"分数 {r.relevance_score:.3f}: {candidates[r.index][:80]}")
-```
-
-### 自托管 BGE Reranker
-
-不想付费？用 BGE 本地跑。
-
-```python
-from FlagEmbedding import FlagReranker
-
-reranker = FlagReranker("BAAI/bge-reranker-v2-m3", use_fp16=True)
-
-candidates = ["文档1", "文档2", ...]
-pairs = [[query, doc] for doc in candidates]
-scores = reranker.compute_score(pairs)
-
-# 取 top 5
-top_5 = sorted(zip(candidates, scores), key=lambda x: -x[1])[:5]
-```
-
-### Reranker 的效果数据
-
-| 方法 | 召回率@5（实际相关的能进 top5）|
-|------|----------|
-| Hybrid 只 | 70% |
-| Hybrid + Cohere Rerank | **88%** |
-| Hybrid + BGE-reranker | 85% |
-
-**+15-18 个百分点**，巨大提升。
-
-## 3. 完整生产级管道
-
-```python
-def production_rag_search(query: str, top_k: int = 5):
-    # === 阶段 1: 粗排（召回多 → 50 条）===
-
-    # 1.1 Query 改写（可选，但提升效果）
-    expanded_queries = query_expansion(query)  # 见后面
-
-    # 1.2 多 query 各自 Hybrid Search
-    all_candidates = set()
-    for q in expanded_queries:
-        # 向量检索
-        q_emb = embedder.encode(q).tolist()
-        vector_hits = qdrant.search(query_vector=q_emb, limit=30)
-
-        # BM25 检索
-        bm25_hits = bm25_search(q, top_k=30)
-
-        # RRF 融合
-        fused = rrf_merge([vector_hits, bm25_hits])
-        all_candidates.update(fused[:30])
-
-    candidates = list(all_candidates)[:50]  # 去重后取 50 条
-
-    # === 阶段 2: 精排（50 → top 5）===
-    reranked = cohere_rerank(
-        query=query,
-        documents=candidates,
-        top_n=top_k
-    )
-
-    return reranked
-```
-
-## 4. Query 改写：进一步提升召回
-
-用户的 query 可能写得不规范。**改写后再检索**效果更好。
-
-### 方式 1：Multi-Query（一个 query 改成多个）
-
-```python
-def multi_query(original):
-    """让 LLM 生成 3 个改写版本"""
-    prompt = f"""为以下用户问题生成 3 个不同表述的检索查询。
-要求保留核心意图但用词、角度不同。
-
-原问题: {original}
-
-输出 3 行，每行一个改写后的查询，不要其他文字:"""
-
-    resp = client.messages.create(model="claude-haiku-4-5", ...)
-    return [original] + resp.content[0].text.strip().split("\n")
-
-# 原: "GPT-5 价格"
-# 改: ["OpenAI 最新模型定价", "GPT-5 API 收费标准", "GPT-5 token 价格"]
-```
-
-### 方式 2：HyDE（假设性回答）
-
-让 LLM 先**生成一个假设回答**，用回答的 embedding 去检索（比 query embedding 准）。
-
-```python
-def hyde_search(query):
-    # 1. 让 LLM 生成假设答案
-    hypothetical = client.messages.create(
-        messages=[{"role":"user","content":f"假设你知道答案，请直接回答: {query}"}]
-    ).content[0].text
-
-    # 2. 用假设答案的 embedding 检索（而非 query 的）
-    answer_emb = embedder.encode(hypothetical)
-    return qdrant.search(query_vector=answer_emb.tolist(), limit=10)
-```
-
-HyDE 适合：query 短而答案具体的场景（如「python 装饰器怎么用」）。
-
-### 方式 3：Step-back（提取上层概念）
-
-```python
-def step_back(query):
-    """把具体问题抽象成上层概念，扩大召回"""
-    prompt = f"""把以下具体问题改写为一个更上层、更抽象的问题。
-保留核心主题但去掉具体限定。
-
-原问题: {query}
-上层问题: """
-
-    abstract = client.messages.create(...).content[0].text
-    return [query, abstract]
-
-# 原: "在 Python 3.12 中如何用 asyncio 实现并发限流？"
-# 上层: "Python 中如何控制并发量？"
-```
-
-适合：用户问题非常具体，但答案在更通用的文档里。
-
-## 5. 性能 vs 准确率的取舍
-
-| 配置 | 召回率 | 延迟 | 成本 |
-|------|-------|------|------|
-| 纯向量 top-5 | 65% | 30ms | 极低 |
-| Hybrid top-5 | 75% | 50ms | 低 |
-| Hybrid + Rerank | 88% | 200ms | 中（reranker 成本）|
-| Hybrid + Rerank + Multi-Query | 92% | 500ms | 高（多次 LLM 调用）|
-| Hybrid + Rerank + HyDE | 90% | 800ms | 高 |
-
-**实战建议**：
-- 客服 / 实时场景：Hybrid + Rerank（够快、够准）
-- 科研 / 离线场景：加 Multi-Query / HyDE
-- 简单 demo：纯向量就行
-
-## 6. 调参时机
-
-按以下顺序优化：
-
-```
-1. 切片策略对吗？      → 检查 chunking
-   ↓ 如还差
-2. Embedding 选对吗？  → 评测多个模型
-   ↓ 如还差
-3. 加 BM25 → Hybrid    → 通常 +10%
-   ↓ 如还差
-4. 加 Reranker         → 通常 +10-15%
-   ↓ 如还差
-5. Query 改写          → 通常 +3-5%
-   ↓ 如还差
-6. 微调 Embedding      → 垂直领域 +10-20%
-```
-
-**90% 的 RAG 问题在 1-4 步解决**。第 5-6 步是锦上添花。
-
-下一节：[Advanced RAG](#advanced-rag) —— Self-RAG / GraphRAG / Agentic RAG 等前沿模式。
+参考：[Elasticsearch RRF](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/reciprocal-rank-fusion)、[检索架构](https://docs.langchain.com/oss/python/deepagents/retrieval)。继续阅读[Advanced RAG](306-advanced-rag.html)与[证据生命周期](307-rag-production.html)。

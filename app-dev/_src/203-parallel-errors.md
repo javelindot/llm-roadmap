@@ -5,362 +5,86 @@ title: Function Call · 并行调用与错误处理
 toc: FC · 并行+错误
 ---
 
-生产环境的 FC 必须处理 3 类问题：**并行加速、错误恢复、循环防御**。这一章讲清楚。
+模型一次提出多个工具请求，与应用并行执行是两件事。调度需要先验证调用身份、授权、参数和依赖，不能把所有工具直接放进 gather。
 
-## 1. 并行工具调用
+## 可并行的边界
 
-### 模型为什么要并行调
+独立的只读查询可以在限制下并行。查询后提交工单有依赖，必须等待；对同一资源的写操作由业务执行器协调和去重。
 
-任务：「比较北京和上海今天的天气，给我穿搭建议」
+理想情况下等待时间从各工具耗时之和降低到最大耗时，但真实收益受并发上限、速率限制、连接池和聚合处理影响。模型调用次数与工具数没有固定对应关系。
 
-```
-❌ 串行（旧模式）:
-   调 get_weather("北京")  → 等结果 → 调 get_weather("上海")  → 等结果 → 答
-   总耗时 = T1 + T2 + 推理 ≈ 3-5 秒
+## 可运行的只读执行器
 
-✅ 并行（GPT-4o+ / Claude 4.5 默认）:
-   一次返回 [get_weather("北京"), get_weather("上海")] → 并行执行 → 答
-   总耗时 = max(T1, T2) + 推理 ≈ 1.5-2 秒
-```
+仓库 [execute_readonly_calls](../examples/core_patterns.py)先检查重复调用 ID、工具注册与 allowlist，再校验参数，并用 semaphore 和 timeout 控制异步执行。返回结果保留输入调用 ID 与顺序。
 
-### 实现并行执行
+在 app-dev/examples 目录运行以下代码，无需模型账户：
 
 ```python
 import asyncio
-import json
+from core_patterns import Tool, execute_readonly_calls
 
-async def execute_tools_parallel(tool_calls: list, tool_handlers: dict):
-    """并行执行所有工具调用"""
 
-    async def run_one(tc):
-        """基础并发示意；生产执行前还需授权、验参及限流。"""
-        try:
-            args = json.loads(tc.function.arguments)  # OpenAI 格式
-            handler = tool_handlers[tc.function.name]
+def validate_order(arguments):
+    """验证候选参数；身份应由外层可信会话提供。
 
-            # 区分同步 / 异步函数
-            if asyncio.iscoroutinefunction(handler):
-                result = await handler(**args)
-            else:
-                # 同步函数放线程池跑（避免阻塞 event loop）
-                result = await asyncio.to_thread(handler, **args)
+    只接受确定的订单字段，防止任意参数进入处理器。
+    真实服务还需对象级授权，不接受模型自填租户作为身份。
+    """
+    if set(arguments) != {"order_id"} or not isinstance(arguments["order_id"], str):
+        raise ValueError("invalid_order")
 
-            return {
-                "tool_call_id": tc.id,
-                "role": "tool",
-                "content": json.dumps(result, ensure_ascii=False)
-            }
-        except Exception as e:
-            # 单个工具失败不应该让整批 fail
-            return {
-                "tool_call_id": tc.id,
-                "role": "tool",
-                "content": json.dumps({"error": str(e)})
-            }
 
-    return await asyncio.gather(*[run_one(tc) for tc in tool_calls])
+async def read_order(order_id):
+    """返回只读模拟数据，未知订单明确说明不存在。
+
+    本例不连接业务服务，也不证明真实用户已获订单访问权。
+    生产处理器应复核可信身份、对象、新鲜度和数据来源。
+    """
+    if order_id != "demo-order":
+        return {"status": "not_found"}
+    return {"order_id": order_id, "status": "pending", "source": "demo"}
+
+
+registry = {"read_order": Tool(read_order, validate_order, read_only=True)}
+calls = [{"id": "call-1", "name": "read_order", "arguments": {"order_id": "demo-order"}}]
+results = asyncio.run(execute_readonly_calls(calls, registry, {"read_order"},
+                                            concurrency=2, timeout=1))
+print(results)
 ```
 
-### 性能数据
+结果需要由 API 适配层转为 Responses 的 function_call_output 或 Claude 的 tool_result。不要用数组位置替代协议关联 ID。
 
-5 个工具并行 vs 串行（每个工具 1s）：
+## 错误分类
 
-| 模式 | 总耗时 | LLM 调用次数 |
-|------|--------|------------|
-| 串行 | 5s + 推理 | 6 次（每工具 1 次 + 总结）|
-| 并行 | 1s + 推理 | 2 次（决策 + 总结）|
+| 类型 | 动作 | 是否重试 |
+|------|------|----------|
+| 未授权或未知工具 | 拒绝并记录稳定原因 | 不通过模型重试绕过 |
+| 非法参数 | 返回有限错误信息，允许有限纠正 | 受轮数与总预算约束 |
+| 只读临时故障 | 按状态重试或降级 | 退避、抖动及总时限内 |
+| 业务拒绝 | 展示可解释结果或走合法替代路径 | 不盲目重复 |
+| 写请求结果未知 | 查询同一业务动作回执 | 确认后决定，不能当未执行 |
+| 确定不可恢复错误 | 停止并保存状态 | 转人工或明确失败 |
 
-表格是理想化示例：工具彼此独立且耗时相近时可降低等待时间；实际加速、模型调用次数与费用取决于调度、限流和回答长度，应实测。
+内部异常只在脱敏日志中记录，对模型返回稳定错误代码。原始 HTTP 错误可能包含凭证、路径或客户数据，不能直接 str(exception) 后回传。
 
-## 2. 错误处理：让模型知道失败了
+## 超时与取消
 
-### 错误的处理方式
+协程 timeout 可以停止本地等待，但不能保证远程服务或线程中的操作停止。取消后核对已发生副作用，运行状态、动作账本和业务补偿分别记录。
 
-```python
-# ❌ 出错直接抛
-try:
-    result = get_weather(city="火星")
-except Exception as e:
-    raise  # 整个调用链断了，模型无法恢复
+未知写结果不会因为 SDK 自动重试或模型路由而变安全。模型重试预算、工具重试预算和 Case 总预算应统一控制，避免相乘放大请求量。
+
+## 循环控制
+
+设置总轮数、工具调用数、总时间、费用和并发上限。检测相同意图重复调用、没有新增信息的反思与无效查询；对确有时间变化的查询考虑新鲜度后判断。
+
+预算耗尽保留已发生动作和可信状态，明确停止原因。不要通过截断历史把尚未核对的动作回执删掉。
+
+## 验收
+
+```bash
+python -m unittest discover -s app-dev/examples -v
 ```
 
-### 正确做法：把错误返回给模型
-
-```python
-# ✅ 把错误信息当成 tool_result 返回
-try:
-    result = get_weather(city="火星")
-    tool_result = {
-        "tool_use_id": tu.id,
-        "content": json.dumps(result),
-        "is_error": False
-    }
-except CityNotFoundError as e:
-    tool_result = {
-        "tool_use_id": tu.id,
-        "content": json.dumps({
-            "error": "city_not_found",
-            "message": f"找不到城市 '{e.city}'",
-            "suggestion": "请确认城市名拼写，目前只支持地球上的城市"
-        }),
-        "is_error": True  # Anthropic 专有字段
-    }
-except RateLimitError as e:
-    tool_result = {
-        "tool_use_id": tu.id,
-        "content": json.dumps({
-            "error": "rate_limit",
-            "retry_after": e.retry_after
-        }),
-        "is_error": True
-    }
-```
-
-**模型看到错误后会智能处理** —— 比如改用其他工具、给用户解释、推荐 fallback。
-
-### 错误类型设计
-
-给模型可读的错误结构：
-
-```python
-{
-    "error": "machine_readable_code",     # 程序可判断
-    "message": "human readable text",      # 模型可理解并解释给用户
-    "suggestion": "下一步建议",             # 可选，指导模型 retry
-    "retry_after": 30                      # 可选，retry 信号
-}
-```
-
-### 哪些错误应该重试
-
-```python
-RETRYABLE_ERRORS = {
-    "rate_limit",        # 限流，等 retry_after 后重试
-    "timeout",           # 超时
-    "internal_error",    # 5xx
-    "network_error"
-}
-
-NON_RETRYABLE_ERRORS = {
-    "invalid_argument",  # 参数错（模型问题，重试也错）
-    "not_found",         # 资源不存在
-    "permission_denied", # 权限错
-    "validation_failed"
-}
-
-# 重试只在循环外层做，不要在工具内 retry
-async def call_tool_with_retry(handler, args, max_retries=3):
-    for attempt in range(max_retries):
-        try:
-            return await handler(**args)
-        except RateLimitError as e:
-            if attempt < max_retries - 1:
-                await asyncio.sleep(e.retry_after or 2 ** attempt)
-                continue
-            raise
-        except (TimeoutError, NetworkError) as e:
-            if attempt < max_retries - 1:
-                await asyncio.sleep(2 ** attempt)
-                continue
-            raise
-```
-
-## 3. 循环防御：防止无限调用
-
-### 死循环的常见场景
-
-```python
-# 场景 1: 工具一直失败，模型一直 retry
-LLM → "调 search_db" → 失败 → "再调 search_db" → 失败 → ...
-
-# 场景 2: 模型理解错了，反复用错误参数调用
-LLM → "调 get_weather('TBD')" → 错 → "调 get_weather('TBD')" → ...
-
-# 场景 3: 工具返回需要再次调用其他工具
-LLM → A → 返回需要 B → 调 B → 返回需要 A → ...
-```
-
-### 必加：max_iterations 上限
-
-```python
-async def chat_with_tools(user_msg, tools, handlers, max_iterations=10):
-    messages = [{"role": "user", "content": user_msg}]
-
-    for iteration in range(max_iterations):
-        resp = await client.messages.create(...)
-        messages.append({"role": "assistant", "content": resp.content})
-
-        if resp.stop_reason != "tool_use":
-            return extract_text(resp)
-
-        # 执行工具
-        results = await execute_tools_parallel(...)
-        messages.append({"role": "user", "content": results})
-
-    # 触发上限 → 强制让模型给一个总结
-    messages.append({
-        "role": "user",
-        "content": "已达到最大调用次数。请基于当前信息给出最终回答，不要再调用工具。"
-    })
-    final = await client.messages.create(
-        messages=messages,
-        tool_choice={"type": "none"}  # 强制不调用
-    )
-    return extract_text(final)
-```
-
-### 进阶：去重检测
-
-```python
-from collections import Counter
-
-def detect_loop(messages, threshold=3):
-    """检测重复调用同样的工具+参数"""
-    tool_signatures = []
-    for msg in messages:
-        if msg["role"] == "assistant":
-            for block in msg["content"]:
-                if hasattr(block, "type") and block.type == "tool_use":
-                    sig = f"{block.name}({json.dumps(block.input, sort_keys=True)})"
-                    tool_signatures.append(sig)
-
-    if Counter(tool_signatures).most_common(1)[0][1] >= threshold:
-        return True  # 检测到循环
-    return False
-
-# 在循环中检查
-if detect_loop(messages):
-    raise LoopDetectedError("模型陷入工具调用循环")
-```
-
-## 4. 超时控制
-
-每个工具都该有超时：
-
-```python
-async def call_with_timeout(handler, args, timeout=30):
-    try:
-        return await asyncio.wait_for(handler(**args), timeout=timeout)
-    except asyncio.TimeoutError:
-        return {"error": "timeout", "message": f"工具调用超过 {timeout}s"}
-```
-
-不同工具的合理超时参考：
-
-| 工具类型 | 超时 |
-|---------|-----|
-| 内部数据库查询 | 5–10s |
-| 外部 API（同区域）| 10–20s |
-| 跨国 API（如 OpenAI） | 30–60s |
-| 大文件处理 / Embedding | 60–120s |
-| 长流程（写文档）| 300s+ |
-
-## 5. 完整生产级模板
-
-集大成版本：
-
-```python
-import asyncio
-import json
-import time
-from typing import Callable, Any
-
-class ToolExecutor:
-    def __init__(self, tools: list, handlers: dict[str, Callable],
-                 max_iterations: int = 10, timeout: int = 30):
-        self.tools = tools
-        self.handlers = handlers
-        self.max_iterations = max_iterations
-        self.timeout = timeout
-
-    async def _execute_one(self, name, args, tool_use_id):
-        try:
-            handler = self.handlers[name]
-            coro = handler(**args) if asyncio.iscoroutinefunction(handler) \
-                   else asyncio.to_thread(handler, **args)
-            result = await asyncio.wait_for(coro, timeout=self.timeout)
-            return {
-                "type": "tool_result",
-                "tool_use_id": tool_use_id,
-                "content": json.dumps(result, ensure_ascii=False)
-            }
-        except asyncio.TimeoutError:
-            return {
-                "type": "tool_result", "tool_use_id": tool_use_id,
-                "content": json.dumps({"error": "timeout"}),
-                "is_error": True
-            }
-        except Exception as e:
-            return {
-                "type": "tool_result", "tool_use_id": tool_use_id,
-                "content": json.dumps({"error": type(e).__name__, "message": str(e)}),
-                "is_error": True
-            }
-
-    async def chat(self, user_message: str) -> str:
-        messages = [{"role": "user", "content": user_message}]
-        seen_calls = []
-
-        for i in range(self.max_iterations):
-            resp = await client.messages.create(
-                model="claude-sonnet-4-5",
-                max_tokens=2048,
-                tools=self.tools,
-                messages=messages
-            )
-            messages.append({"role": "assistant", "content": resp.content})
-
-            if resp.stop_reason != "tool_use":
-                return "\n".join(b.text for b in resp.content if b.type == "text")
-
-            # 循环检测
-            tool_uses = [b for b in resp.content if b.type == "tool_use"]
-            for tu in tool_uses:
-                sig = f"{tu.name}:{json.dumps(tu.input, sort_keys=True)}"
-                seen_calls.append(sig)
-
-            repeated = next((sig for sig in seen_calls if seen_calls.count(sig) >= 3), None)
-            if repeated is not None:
-                raise RuntimeError(f"Loop detected: {repeated}")
-
-            # 并行执行
-            tool_results = await asyncio.gather(*[
-                self._execute_one(tu.name, tu.input, tu.id) for tu in tool_uses
-            ])
-            messages.append({"role": "user", "content": tool_results})
-
-        # 兜底
-        return "已达到调用上限，请简化问题或拆解为多步"
-```
-
-## 总结：生产 FC 检查清单
-
-```
-☐ 并行工具调用（asyncio.gather）
-☐ 错误返回模型而非抛异常（is_error 字段）
-☐ 区分可重试 / 不可重试错误
-☐ 每个工具有超时
-☐ max_iterations 上限 + 兜底回复
-☐ 循环检测（同参重复调用 ≥3 次报警）
-☐ Trace 接入（Langfuse / Phoenix）
-☐ 工具调用打点（成功率、延迟分布）
-```
-
-## 4. 受控工具执行边界
-
-上面的模型 SDK 示例演示消息流，不能直接作为完整权限层。服务端从认证会话取得允许的工具和资源，使用注册表验证参数，模型不得自行声明工具是“低风险”。
-
-可运行的 [execute_readonly_calls](../examples/core_patterns.py) 示例只处理彼此独立的异步只读调用：验证调用 id 唯一、检查工具白名单与参数、限制并发、设置执行超时，并把稳定错误码按原调用顺序返回。测试覆盖未授权、写操作、非法参数、超时和重复 id。
-
-| 情况 | 处理方式 |
-|------|----------|
-| 同名同参数反复失败 | 停止或重新规划，不无限重试 |
-| 工具存在依赖 | 等上一步结果后调用，不能直接 gather |
-| 网络短暂失败 | 只对允许重试的只读操作限次退避 |
-| 写操作超时 | 先按幂等键查询状态，再决定恢复 |
-| 同步函数在线程中超时 | 超时不终止底层线程；需工具自身时限 |
-| 多步循环 | 除单次超时外还要总步数、总耗时与费用预算 |
-
-写操作另走受控事务流程：授权绑定当前用户与资源，审批绑定确定参数，使用幂等键并记录提交状态。不要对依赖动作或有副作用操作盲目并行。
+现有测试覆盖未授权与写工具拦截、非法参数、重复 ID、超时、并发上限和结果关联。业务账本进一步验证写动作未知结果，见[Harness](607-agent-harness.html)。
 
 下一节：[Structured Outputs](204-structured-outputs.html)。

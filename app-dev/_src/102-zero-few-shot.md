@@ -176,4 +176,4 @@ Claude 推荐的写法：
 
 那是时候考虑**微调（fine-tuning）**或 **prompt caching** 了 —— 这是另外的话题，先去 [`Prompt 工程化`](#prompt-as-code) 看缓存策略。
 
-下一节：[CoT 链式思维](#cot-reasoning) —— 处理推理类任务的杀手锏。
+下一节：[CoT 与可验证推理](103-cot-reasoning.html)：区分历史提示方法、推理模型能力与独立结果验证。

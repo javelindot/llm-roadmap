@@ -2,6 +2,7 @@
 
 - 大模型应用开发
   - [应用开发封面](/app-dev/index.html)
+  - [研究地图与版本方法](/app-dev/chapter/003-research-map.html)
   - [Prompt 工程](/app-dev/chapter/100-prompt-basics.html)
   - [Function Call](/app-dev/chapter/200-fc-concept.html)
   - [RAG 检索增强](/app-dev/chapter/300-rag-overview.html)
@@ -10,6 +11,7 @@
   - [AI Agent](/app-dev/chapter/600-agent-concept.html)
   - [评测与生产治理](/app-dev/chapter/700-evals.html)
   - [全栈 AI App](/app-dev/chapter/800-streaming-ui.html)
+  - [业务自动化与非标客服](/app-dev/chapter/803-business-automation.html)
 
 - Vibe Coding 教程
   - [Vibe Coding 教程](/vibe-coding/README.md)

@@ -20,33 +20,19 @@ Embedding 模型把文本变成向量。**选型直接决定检索质量** —�
 
 好的 Embedding 满足：**语义相近 → 向量距离近**，**语义无关 → 向量距离远**。
 
-## 2026 主流模型对比
+## 建立候选集与选型快照
 
-### 中文场景
+本章保留 BGE、OpenAI、Cohere 等历史接口样例，不作为 2026 型号排名。不同 MTEB 版本、语言和数据的分数不能混排，自托管也有硬件和维护成本。
 
-| 模型 | 维度 | MTEB-zh 分数 | 速度 | 价格 |
-|------|------|------------|------|------|
-| **BGE-large-zh-v1.5** | 1024 | 69.5 | 中 | 免费（本地）|
-| **BGE-M3** | 1024 | 73.2 | 中 | 免费（多语言）|
-| **bge-small-zh-v1.5** | 512 | 65.3 | 快 | 免费 |
-| **gte-Qwen2-7B** | 3584 | 72.0 | 慢 | 免费 |
-| OpenAI `text-embedding-3-large` | 3072 | 71.0 | 中 | $0.13/M tokens |
-| Voyage `voyage-3-large` | 1024 | 72.5 | 中 | $0.18/M |
-| Cohere `embed-multilingual-v3` | 1024 | 69.8 | 中 | $0.10/M |
-| **Jina `jina-embeddings-v3`** | 1024 | 70.5（多语言）| 中 | $0.10/M |
+| 维度 | 记录内容 | 验收方法 |
+|------|----------|----------|
+| 版本与许可 | 模型 revision、SDK 与许可 | 固定制品和来源 |
+| 语言与领域 | 中文、混合语言、业务术语 | 分任务 Recall@K、MRR 与错误分析 |
+| 输入与表征 | 长度、维度、query/doc 模式、归一化 | 截断、前缀与向量空间契约测试 |
+| 服务成本 | 批量、吞吐、延迟、硬件或 API 价格 | 实测并记录价格快照 |
+| 迁移 | 文档重编码、索引与缓存版本 | 新旧索引对照、灰度和回退 |
 
-**推荐**：
-- 入门 / 自托管：**BGE-M3**（中英双语 + 高性能 + 开源）
-- 商业 / 不想运维：**Voyage 3** 或 **Cohere v3**
-
-### 英文场景
-
-| 模型 | 维度 | MTEB-en 分数 | 备注 |
-|------|------|------------|------|
-| OpenAI `text-embedding-3-large` | 3072 | 64.6 | 通用首选 |
-| Voyage `voyage-3-large` | 1024 | 67.2 | 当前 SOTA |
-| `e5-mistral-7b-instruct` | 4096 | 66.6 | 开源最强 |
-| `bge-large-en-v1.5` | 1024 | 64.2 | 开源轻量 |
+候选应在自己的授权文档上比较，不能仅凭榜单决定检索效果。知识生命周期见[生产 RAG](307-rag-production.html)。
 
 ## 4 个核心选型维度
 
@@ -77,11 +63,11 @@ Embedding 模型把文本变成向量。**选型直接决定检索质量** —�
 ### 3. 多语言能力
 
 如果文档是**纯中文**：选 `bge-large-zh-v1.5`
-如果是**中英混合**：必选 `BGE-M3` / `voyage-3` / `Cohere multilingual`
+如果是**中英混合**：建立多语言候选，分别评测同语言和跨语言查询。
 如果是**纯英文**：选 `voyage-3` / `text-embedding-3-large`
 
 :::callout ⚠️
-**坑**：用纯英文模型 embed 中文文本，检索效果会暴跌 30%+
+候选的语言表现可能不同，应分别报告中文、英文与混合任务，不承诺固定降幅。
 :::
 
 ### 4. 微调能力
@@ -90,7 +76,7 @@ Embedding 模型把文本变成向量。**选型直接决定检索质量** —�
 
 ```python
 # 用 sentence-transformers 微调
-from sentence_transformers import SentenceTransformer, losses
+from sentence_transformers import InputExample, SentenceTransformer, losses
 from torch.utils.data import DataLoader
 
 model = SentenceTransformer("BAAI/bge-large-zh-v1.5")
@@ -107,7 +93,7 @@ model.fit(
 model.save("./bge-zh-finetuned")
 ```
 
-效果：垂直领域准确率可提升 10–20%（前提：有 1000+ 高质量训练对）。
+微调需要独立数据分区、代表性负例与通用能力回归，收益和样本需求依任务而定。
 
 ## 实战代码
 
@@ -141,12 +127,12 @@ client = OpenAI()
 resp = client.embeddings.create(
     model="text-embedding-3-large",
     input=["文档 1", "文档 2"],
-    dimensions=1024  # 可降维（OpenAI 独有）
+    dimensions=1024  # 该模型支持的维度选项，接入时核验。
 )
 embs = [d.embedding for d in resp.data]
 ```
 
-`dimensions` 参数允许把 3072 维降到 1024 / 512，**速度更快、效果几乎不降**。
+降维可减少存储，质量和查询性能需要对照验证。查询与文档使用相同向量空间、维度及预处理版本。
 
 ### 用 Cohere
 
@@ -195,7 +181,7 @@ query_emb = model.encode(query)
 | **Dot Product** | 内积（含模长）| 用归一化向量时和 Cosine 等价 |
 | **Euclidean (L2)** | 几何距离 | 图像、坐标 |
 
-**99% 文本场景用 Cosine**。
+距离按训练和输出归一化方式选择，不同度量的分数不能未经校准混合。
 
 ## Embedding 的 7 个最佳实践
 
@@ -209,7 +195,7 @@ embs = model.encode(texts, normalize_embeddings=True)
 
 ### 2. 批量处理
 
-单条 embed 极慢。批量调用快 10-50 倍。
+按服务和硬件支持批量处理，实测吞吐、延迟、重试与限速，不预设加速倍数。
 
 ### 3. 缓存
 
@@ -222,7 +208,8 @@ import diskcache
 cache = diskcache.Cache("./emb_cache")
 
 def cached_encode(text):
-    key = hashlib.md5(text.encode()).hexdigest()
+    """示意版本化向量缓存，真实服务还需租户隔离与撤权失效。"""
+    key = hashlib.sha256(("demo-model-revision|normalize-v1|" + text).encode()).hexdigest()
     if key in cache: return cache[key]
     emb = model.encode(text)
     cache[key] = emb
@@ -236,13 +223,15 @@ BGE 系列需要在 query 前加特定前缀：
 ```python
 # BGE 中文模型
 def encode_query(q):
+    """该 BGE 样例使用查询前缀，具体字符串按模型卡核验。"""
     return model.encode("为这个句子生成表示以用于检索相关文章：" + q)
 
 def encode_doc(d):
+    """文档侧遵循相同模型的预处理契约。"""
     return model.encode(d)  # 文档不加 prefix
 ```
 
-不加 prefix 效果会差 5-10%。
+前缀按精确模型版本确认，不把某个 BGE 样例推广到整个系列。
 
 ### 5. 控制单条长度
 

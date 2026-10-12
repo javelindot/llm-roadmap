@@ -11,17 +11,17 @@ toc: 学习路径
 
 | 阶段 | 模块 | 核心能力 | 建议耗时 | 产出 |
 |------|------|----------|----------|------|
-| 0 | 总览与环境 | 应用架构、API Key、Python/TypeScript 环境、成本意识 | 0.5 天 | 可运行的 Hello World |
-| 1 | Prompt 与 Context Engineering | 任务定义、上下文组织、Few-shot、推理预算、Prompt as Code | 4-6 天 | Prompt/Context 模板库 |
-| 2 | 模型 API 与结构化输出 | Function Call、JSON Schema、并行工具、错误恢复、流式结构化输出 | 3-4 天 | 类型安全的工具调用 demo |
-| 3 | RAG 与数据工程 | 文档解析、切片、Embedding、Hybrid Search、Rerank、RAG 评测 | 7-10 天 | 私域知识问答系统 |
-| 4 | MCP 与能力封装 | MCP Server/Client、权限、工具注册、Skills、能力复用 | 5-7 天 | 可复用的工具/能力平台 |
-| 5 | Agent 运行时 | 状态、规划、记忆、checkpoint、handoff、human-in-the-loop | 7-10 天 | 可恢复的业务 Agent |
-| 6 | 评测与生产治理 | Evals、trace、监控、红队、安全、成本路由、灰度发布 | 4-6 天 | 上线检查清单和评测集 |
-| 7 | 全栈 AI App | Streaming UI、AI SDK、实时语音、多模态、浏览器/电脑操作 | 5-7 天 | 端到端 AI 产品原型 |
+| 0 | 总览与环境 | 架构、来源与版本、环境、基线和业务目标 | 0.5 天 | 运行环境与实验基线 |
+| 1 | Prompt 与 Context Engineering | 任务定义、来源、装配、压缩、缓存与推理预算 | 4-6 天 | 可验收的上下文策略 |
+| 2 | 模型 API 与结构化输出 | 工具协议、schema、错误、能力契约与路由 | 3-4 天 | 工具循环及合法降级实验 |
+| 3 | RAG 与数据工程 | 解析、检索、重排、ACL、版本、撤权与引用 | 7-10 天 | 可追溯的知识查询系统 |
+| 4 | MCP 与能力封装 | 协议版本、授权、工具身份、Skills、A2A 边界 | 5-7 天 | 版本化能力契约与验证 |
+| 5 | Agent 运行时 | Harness、Case/Run/Action、等待、审批与恢复 | 7-10 天 | 可恢复的业务执行闭环 |
+| 6 | 评测与生产治理 | 轨迹、环境状态、故障、对照实验与发布门槛 | 4-6 天 | 评测基线和回归案例 |
+| 7 | 全栈 AI App | 流式交互、确认、停止、回执与人工接管 | 5-7 天 | 业务自动化与非标客服原型 |
 
 :::callout 📌
-当前版本覆盖阶段 0-7：阶段 6 包含独立的评测、观测与权限发布章节；阶段 7 包含流式协议、实时语音与多模态，以及企业知识助手的端到端验收项目。
+当前版本包含 52 章、8 个核心模块。新增工程章节贯穿同一业务案例；本地示例验证控制逻辑，真实模型与外部服务仍需集成验收。资料来源见[研究地图](003-research-map.html)。
 :::
 
 ## 学习节奏建议
@@ -32,7 +32,7 @@ Week 2    模型 API + Function Call + Structured Outputs
 Week 3    RAG 基础：解析、切片、Embedding、向量库
 Week 4    RAG 进阶：Hybrid、Rerank、GraphRAG、评测
 Week 5    MCP + Skills + 工具能力封装
-Week 6    Agent 运行时、规划、记忆、多 Agent
+Week 6    Agent Harness、业务状态、恢复与必要的协作
 Week 7    Evals、观测、安全、成本、灰度发布
 Week 8    全栈 AI App 项目整合
 ```
@@ -42,7 +42,7 @@ Week 8    全栈 AI App 项目整合
 ## 四种典型路径
 
 :::callout 💼
-**企业知识问答 / 客服系统**：Prompt → RAG → Structured Outputs → RAG Evals → MCP。核心是数据质量、召回率、引用溯源、拒答边界。
+**企业知识问答 / 客服系统**：Context → RAG → Structured Outputs → 业务工具 → Harness/Evals。核心是可信证据、问题状态、动作权限与合理人工接管；纯问答可以裁剪执行层。
 :::
 
 :::callout 🤖
@@ -69,14 +69,19 @@ Week 8    全栈 AI App 项目整合
 | 设计 Agent | 能画出 state graph，定义 checkpoint、max steps、人工审批和回滚 |
 | 上线治理 | 能提供 trace、评测集、监控指标、成本预算、红队测试和灰度方案 |
 
-## 后续修改计划
+## 工程深化路线
 
-为了让路线图更贴近最新应用开发实践，后续文档会按这个顺序补强：
+| 专题 | 阅读入口 | 必须证明的性质 |
+|------|----------|----------------|
+| 上下文生命周期 | [Context](108-context-engineering.html) | 压缩后仍保留有效事实与关键约束 |
+| 能力与模型路由 | [API 路由](205-model-routing.html) | 降级不丢失必要能力和数据边界 |
+| 知识生命周期 | [生产 RAG](307-rag-production.html) | 更新、撤权和删除传播到引用与缓存 |
+| 协议与授权 | [MCP/A2A](404-mcp-security.html) | 规范版本、服务身份与业务权限分别验收 |
+| 可靠执行 | [Harness](607-agent-harness.html) | 审批、动作幂等与结果未知的核对 |
+| 对照与故障 | [评测实验](703-eval-lab.html) | 环境状态和执行过程均可独立核验 |
+| 综合项目 | [业务闭环](803-business-automation.html) | 客服交互、流程、工具与人工接管一致 |
 
-1. **总览层**：持续更新模型选型、API 形态、主流框架和成本治理。
-2. **Agent 层**：扩展 OpenAI Agents SDK、LangGraph、LlamaIndex Workflows、Google ADK/A2A 的对比。
-3. **生产层**：已提供本地上下文、工具、权限与 checkpoint 验证样例；继续扩展真实模型评测和故障演练。
-4. **全栈层**：在流式 UI、实时语音和多模态章节基础上补充具体框架实现，并按供应商版本更新集成细节。
+验证入口：python -m unittest discover -s app-dev/examples -v。后续接入真实模型时固定 SDK、能力快照与数据策略，并保存可重复的评测结果。
 
 ## 不在范围内的话题
 

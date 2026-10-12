@@ -5,7 +5,9 @@ title: Prompt · Meta-Prompting
 toc: Prompt · Meta-Prompting
 ---
 
-**让 LLM 帮你写 LLM 的 prompt** —— 这不是噱头，是 2024–2026 业界的真实主流做法。
+Meta-Prompting 用模型生成候选提示词。是否真正改善效果，应由独立保留集与业务验收判断，生成更多模板本身不代表应用进步。
+
+本章的自动优化流程是概念示意，不能把参与调参的评测样本再次当作独立测试集。发布方法见[评测实验](703-eval-lab.html)。
 
 ## 什么是 Meta-Prompting
 
